@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/statistika/feed/index.xml" rel="self"></atom:link><lastBuildDate>Thu, 03 Jan 2013 23:06:00 +0400</lastBuildDate><item><title>5 лет</title><link>https://www.insight-it.ru//misc/2013/5-let/</link><description>&lt;p&gt;Сегодня у &lt;strong&gt;Insight IT&lt;/strong&gt; первый полу-юбилей, 5 лет, в связи с чем я
+решил подвести небольшое резюме прошедшего года, да и всего этого
+довольно значимого как для проекта, так и для меня лично, периода
+времени. А также чуть-чуть пофилософствовать у будущем. &amp;nbsp;Ничего
+технического не будет, читающим мой блог чисто из прагматических
+соображений рекомендую не тратить свое время на нижеизложенное.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Когда я сегодня сообразил, что сегодня как раз 3-е число и
+надо бы что-то по этому поводу написать, то первое, что попытался
+вспомнить: когда и про что я последний раз писал? Не вспомнил... Полез
+смотреть - оказалось всего чуть больше месяца назад, про &lt;a href="https://www.insight-it.ru/event/2012/web-standards-days/"&gt;очередную конференцию&lt;/a&gt;, а &lt;a href="https://www.insight-it.ru/storage/2012/obzor-riak/"&gt;по делу&lt;/a&gt; - полтора месяца, тоже не особо много. При этом оказалось, что за 2012 год я умудрился написать аж 32 поста, когда посчитал - сильно удивился. Хоть среди них и много "левых" постов, у меня никогда не было ощущения, что я публиковал по 2-3 статьи в месяц...&lt;/p&gt;
+&lt;p&gt;Если попытаться найти объяснение обоим вышеизложенным фактам, оно
+окажется на поверхности: &lt;em&gt;моя активность на Insight IT имеет ярко
+выраженную обратную зависимость от моей профессиональной деятельности.&lt;/em&gt;
+С конца весны IT-индустрия "в спячке": написал много статей, наиболее
+стоящей, на мой взгляд, получилась &lt;a href="https://www.insight-it.ru/interactive/"&gt;серия статей про интерактивные сайты&lt;/a&gt;.&amp;nbsp;Осень - пора конференций и, как следствие, &lt;a href="/tag/konferencii/"&gt;отчетов по ним&lt;/a&gt;. В декабре я после очень долгого перерыва устроился на работу "за зарплату", от необходимости каждый будний день кататься в офис организм до сих пор немного в шоке :)&lt;/p&gt;
+&lt;p&gt;По последнему пункту сразу попробую ответить на основные вопросы:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;В &lt;a href="https://www.insight-it.ru/goto/f1105828/" rel="nofollow" target="_blank" title="http://company.yandex.ru/"&gt;Яндекс&lt;/a&gt;;&lt;/li&gt;
+&lt;li&gt;Официально - менеджером проектов;&lt;/li&gt;
+&lt;li&gt;По факту - cкорее просто менеджером с сильно техническим уклоном;&lt;/li&gt;
+&lt;li&gt;Про зарплату рассказывать не положено;&lt;/li&gt;
+&lt;li&gt;Про технические детали - тоже, так что лежащий у меня в черновиках
+    пост с заголовком &lt;strong&gt;"Архитектура Яндекса",&lt;/strong&gt; видимо, надолго там и
+    останется из-за NDA, а жаль, мог бы выйти неплохим...&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Вернемся от лирического отступления обратно к Insight IT. Об итогах года
+обычно говорят в цифрах. Решив в свое время публиковать полные посты в
+&lt;a href="/feed/"&gt;RSS&lt;/a&gt; я обрек Insight IT на минимальную посещаемость, но циферка
+в 16000+ подписчиков на счетчике FeedBurner мне по-прежнему греет душу,
+&lt;em&gt;очень рад, что вы со мной&lt;/em&gt; :)&lt;/p&gt;
+&lt;p&gt;Хотя на самом деле с посещаемостью тоже не все так плохо, как кажется, в
+основном благодаря поисковым системам и разным другим блогам и форумам.
+Раньше я всегда умалчивал цифры о посещаемости, но что-то не припомню
+из-за чего именно, так что раз такое дело - опубликую данные из Google
+Analytics за весь 2012 год, а если вдруг вспомню почему раньше этого не
+делал - удалю:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;116k уникальных посетителей&lt;/li&gt;
+&lt;li&gt;231k заходов &lt;em&gt;(visits)&lt;/em&gt;:&lt;ul&gt;
+&lt;li&gt;36% с поисковых систем&lt;/li&gt;
+&lt;li&gt;33% с других сайтов&lt;/li&gt;
+&lt;li&gt;23% напрямую&lt;/li&gt;
+&lt;li&gt;8% с других источников&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;490k просмотров страниц&lt;/li&gt;
+&lt;li&gt;58% - Россия, 25% - Украина, 5% - Беларусь, 12% - остальные страны&lt;/li&gt;
+&lt;li&gt;Всего 2% посетителей используют Internet Explorer, лидирует Chrome с
+    49%&lt;/li&gt;
+&lt;li&gt;65% - Windows, 21% - Linux, 9% - Mac OS X, 2% - Android, 2% - iOS,
+    0,2% - FreeBSD, 0.8% - остальные операционные системы&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Если говорить об итогах пяти лет, я, к сожалению, не могу похвастаться
+стабильным ростом... Insight IT стал &lt;em&gt;"популярным в узких кругах"&lt;/em&gt;
+довольно быстро, буквально в первый же месяц я написал &lt;a href="https://www.insight-it.ru/highload/2008/arkhitektura-google/"&gt;первую успешную статью про Google&lt;/a&gt;,
+которая "выстрелила" 4 февраля 2008г., потом еще несколько и
+пошло-поехало. &lt;a href="https://www.insight-it.ru/highload/"&gt;Серия статей про архитектуру высоконагруженных проектов&lt;/a&gt; до сих пор вне конкуренции по спросу среди всего доступного у меня контента; она, как говорится, к прочтению обязательна.
+Но быстро выйдя на уровень 1-10 тысяч читателей в день выше я
+подняться, увы, до сих пор не смог. Практически единственным
+исключением был, пожалуй, сезон 2010-2011, когда была написана &lt;a href="https://www.insight-it.ru/highload/2010/arkhitektura-vkontakte/"&gt;самая популярная моя статья, про Вконтакте&lt;/a&gt;.
+Были и "ямы" - без притока новых постов у Insight IT остаются только
+"пассивные" источники новых читателей, поисковые системы да старые
+входящие ссылки. Динамику спада активности уже обсуждали чуть выше,
+повторяться не буду.&lt;/p&gt;
+&lt;p&gt;Если Вы &lt;a href="https://www.insight-it.ru/goto/a1390f6d/" rel="nofollow" target="_blank" title="https://twitter.com/blinkov"&gt;следите за моим Twitter&lt;/a&gt;, то Вы
+уже, вероятно, в курсе, что осенью у меня возникло желание отказаться от
+WordPress, в основном так как мне очень стыдно от того месива в
+HTML/JavaScript/CSS коде, которое он генерирует. Еще ко всему прочему
+это все очень медленно грузится, а плагины, призванные исправить данную
+ситуацию, в 99% случаев ломают или функциональность, или внешний вид,
+или и то и другое. К слову, стабильность и совместимость плагинов
+WordPress - отдельная история, думаю многие из вас наблюдали в
+октябре-ноябре сообщения о недоступности Insight IT, которые как
+оказалось в ходе разбора полетов были вызваны эпизодической
+несовместимостью пары плагинов с (возможно излишне) свежей версией PHP.
+Статус этой истории с переездом пока на паузе, так как устраивающего
+меня из коробки решения я не нашел, пока ограничился временными
+полу-мерами. Но желание по-прежнему осталось - как будет возможность
+постараюсь снова заняться этим вопросом.&lt;/p&gt;
+&lt;p&gt;Кстати, во вступлении я обещал затронуть тему будущего Insight IT - у
+меня уже далеко не раз было желание сделать из него что-то большее, чем
+просто технический блог. И, возможно, переход с WordPress на какую-то
+другую платформу сможет этому поспособствовать, но пока за проектом стою
+только я - врядли что-то кардинально изменится. Но так или иначе будущее
+Insight IT с самых первых дней всегда определял не я, а вы,
+&lt;strong&gt;читатели&lt;/strong&gt;, без вас я бы давно забросил это дело.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Так что хочу посоветоваться, каким бы вы хотели видеть Insight IT в
+следующем году или даже через еще 5 лет, в 2018м? Было бы интересно
+обсудить в комментариях как просто темы для новых статей, так и
+возможные направления кардинальных перемен.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="/feed/"&gt;До новых встреч!&lt;/a&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Thu, 03 Jan 2013 23:06:00 +0400</pubDate><guid>tag:www.insight-it.ru,2013-01-03:misc/2013/5-let/</guid><category>5 лет</category><category>Insight IT</category><category>обзор</category><category>работа</category><category>статистика</category></item><item><title>Как дела у Plenty of Fish</title><link>https://www.insight-it.ru//highload/2012/kak-dela-u-plenty-of-fish/</link><description>&lt;p&gt;Напомню, что &lt;a href="https://www.insight-it.ru/goto/2f6c1d33/" rel="nofollow" target="_blank" title="http://www.pof.com/"&gt;Plenty of Fish&lt;/a&gt; - один из самых
+популярных в мире сайтов знакомств, созданный одним человеком и
+работающий на всего нескольких серверах и коммерческих технологиях. На
+&lt;strong class="trebuchet"&gt;Insight IT&lt;/strong&gt; два года назад уже была &lt;a href="https://www.insight-it.ru/highload/2010/arkhitektura-plenty-of-fish/"&gt;подробная статья о технической реализации проекта&lt;/a&gt;, сегодня же я хочу поделиться свежей информацией о том, как проект развивается.
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;h2 id="o-proekte"&gt;О проекте&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Долгое время, около 7 лет, проект полностью разрабатывался и
+    поддерживался исключительно Маркусом, его создателем&lt;/li&gt;
+&lt;li&gt;Первый архитектор баз данных был нанят в июле 2011 года&lt;/li&gt;
+&lt;li&gt;На сегодняшний день команда составляет около 5 сотрудников&lt;/li&gt;
+&lt;li&gt;Используется стек технологий от Microsoft, а также Akamai в роли CDN&lt;/li&gt;
+&lt;li&gt;Расходы на техническое обеспечение проекта составляют порядка 70
+    тысяч долларов в месяц&lt;/li&gt;
+&lt;li&gt;Ежегодные доходы от рекламы измеряются миллионами долларов&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="statistika-na-noiabr-2011"&gt;Статистика на ноябрь 2011&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;6 миллиардов просмотров страниц&lt;/li&gt;
+&lt;li&gt;32 миллиарда просмотров изображений, пики до 22 тыс. в секунду, по
+    ночам около 7 тыс.&lt;/li&gt;
+&lt;li&gt;30 миллиардов обращений к серверам мгновенного обмена сообщениями&lt;/li&gt;
+&lt;li&gt;Более 6 миллионов пользователей заходят на сайт каждое воскресенье&lt;/li&gt;
+&lt;li&gt;Количество веб-серверов увеличилось с 2 до 11, что обеспечивает
+    практически двухкратный запас по используемым ресурсам&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="vyvody"&gt;Выводы&lt;/h2&gt;
+&lt;p&gt;Чтобы проект был очень прибыльным для своих создателей, не всегда стоит
+торопиться стать большой компанией. Быть маленьким тоже выгодно:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;минимальные расходы на зарплаты, офис и техническое обеспечение,&lt;/li&gt;
+&lt;li&gt;востребованный продукт благодаря способности быстро подстраиваться
+    под потребности рынка,&lt;/li&gt;
+&lt;li&gt;отсутствие необходимости делиться существенной частью прибыли с
+    инвесторами,&lt;/li&gt;
+&lt;li&gt;достаточно простая архитектура и техническая реализация,&lt;/li&gt;
+&lt;li&gt;отсутствие потерь времени на бюрократию и совещания.&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sun, 12 Feb 2012 18:04:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-02-12:highload/2012/kak-dela-u-plenty-of-fish/</guid><category>Akamai</category><category>Microsoft</category><category>Plenty of Fish</category><category>POF</category><category>статистика</category></item><item><title>Google в цифрах</title><link>https://www.insight-it.ru//highload/2011/google-v-cifrakh/</link><description>&lt;p&gt;Я уже давно ищу информацию для новой версии &lt;a href="https://www.insight-it.ru/highload/2008/arkhitektura-google/"&gt;статьи про Google&lt;/a&gt;, которая была первым
+успешным постом на &lt;strong class="trebuchet"&gt;Insight IT&lt;/strong&gt; - скачок в посещаемости был примерно в 50 раз. Не смотря на устаревшую статистику она по-прежнему представляет собой большую практическую пользу, рекомендую прочитать или перечитать.&lt;/p&gt;
+&lt;p&gt;В процессе перерывания зарубежной части интернета в поисках более свежей
+информации о том, как устроен Google, наткнулся на любопытную
+инфографику с цифрами, которой и решил с Вами поделиться, чтобы скрасить
+ожидание нового поста :).&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Google в цифрах" class="responsive-img" src="https://www.insight-it.ru/images/google-by-the-numbers.jpg" title="Google в цифрах"/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/efb4cd33/" rel="nofollow" target="_blank" title="http://www.infographicsshowcase.com/google-by-the-numbers-infographic/"&gt;Оригинал&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Не забываем подписываться на &lt;a href="/feed/"&gt;RSS&lt;/a&gt; :)&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sun, 03 Apr 2011 21:59:00 +0400</pubDate><guid>tag:www.insight-it.ru,2011-04-03:highload/2011/google-v-cifrakh/</guid><category>Google</category><category>инфографика</category><category>статистика</category><category>цифры</category></item><item><title>Facebook за 20 минут</title><link>https://www.insight-it.ru//highload/2011/facebook-za-20-minut/</link><description>&lt;p&gt;Facebook&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/ddb55695/" rel="nofollow" target="_blank" title="http://www.facebook.com/notes/democracy-uk-on-facebook/a-snapshot-of-facebook-in-2010/172769082761603"&gt;поделились новыми цифрами&lt;/a&gt; в конце прошлого года.&lt;/p&gt;
+&lt;h2 id="chto-obychno-proiskhodit-za-20-minut-na-facebook"&gt;Что обычно происходит за 20 минут на Facebook?&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Люди делятся миллионом ссылок&lt;/li&gt;
+&lt;li&gt;Отмечают друзей на 1323 тысячах фотографий&lt;/li&gt;
+&lt;li&gt;Приглашают 1 484 000 знакомых на мероприятиях&lt;/li&gt;
+&lt;li&gt;Отправляют 1 587 000 сообщений на стену&lt;/li&gt;
+&lt;li&gt;Пишут 1 851 000 новых статусов&lt;/li&gt;
+&lt;li&gt;2 миллиона пар людей становятся друзьями&lt;/li&gt;
+&lt;li&gt;Загружается 2.7 миллиона фотографий&lt;/li&gt;
+&lt;li&gt;Появляется 10.2 миллиона комментариев 10,208,000&lt;/li&gt;
+&lt;li&gt;Отправляется 4 632 000 личных сообщения&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="za-2010-god"&gt;За 2010 год:&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;43 869 800 изменили свой статус на "не женат / не замужем"&lt;/li&gt;
+&lt;li&gt;3 025 791 изменили свой статус на "все сложно"&lt;/li&gt;
+&lt;li&gt;28 460 516 изменили свой статус на "есть парень / девушка"&lt;/li&gt;
+&lt;li&gt;5 974 574 изменили свой статус на "помолвлен"&lt;/li&gt;
+&lt;li&gt;36 774 801 изменили свой статус на "женат /замужем"&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Хочется узнать больше? &lt;a href="https://www.insight-it.ru/highload/2010/arkhitektura-facebook/"&gt;Прочитайте статью про архитектуру Facebook&lt;/a&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sun, 20 Feb 2011 07:37:00 +0300</pubDate><guid>tag:www.insight-it.ru,2011-02-20:highload/2011/facebook-za-20-minut/</guid><category>Facebook</category><category>статистика</category></item></channel></rss>

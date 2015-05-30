@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/opisanie-dannykh/feed/index.xml" rel="self"></atom:link><lastBuildDate>Sun, 06 Jan 2008 21:53:00 +0300</lastBuildDate><item><title>9 основных правил написания XML</title><link>https://www.insight-it.ru//theory/2008/9-osnovnyx-pravil-napisaniya-xml/</link><description>&lt;p&gt;Правила написания XML являются в равной степени простыми и строгими, что
+делает как ручное составление XML документов, так и написание программ,
+умеющих анализировать и генерировать XML документы, достаточно
+несложными задачами. Помимо этого, правильно написанный документ в этом
+формате говорит сам за себя - прочитав его не трудно понять о чем речь.&lt;/p&gt;
+&lt;p&gt;В этой записи я планирую перечислить и объяснить все 9 правил, с
+использованием примеров.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;В качестве примера будет использован следующий XML документ, описывающий
+книгу:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?xml version="1.0" encoding="UTF-8" ?&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;book&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;title&lt;/span&gt; &lt;span class="na"&gt;subtitle=&lt;/span&gt;&lt;span class="s"&gt;"The Dark Elf Trilogy"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;Sojourn&lt;span class="nt"&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;author&amp;gt;&lt;/span&gt;R. A. Salvatore&lt;span class="nt"&gt;&amp;lt;/author&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;chapter&amp;gt;&lt;/span&gt;Well met&lt;span class="nt"&gt;&amp;lt;/chapter&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/book&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Не правда ли легко понять, что речь идет именно о книге?&lt;/p&gt;
+&lt;h4&gt;Теперь самое подходящее время перейти непосредственно к правилам оформления документов.&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Документ должен начинаться с определения типа документа,&lt;/strong&gt;
+    содержащее указание версии XML (в нашем случае - 1.0) и кодировку
+    символов (соответственно - UTF-8)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Должен содержать ровно один корневой элемент&lt;/strong&gt; - в нашем пимере
+    это &lt;code&gt;&amp;lt;book&amp;gt; &amp;lt;/book&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Каждому открывающему тэгу должен соответствовать один
+    закрывающий.&lt;/strong&gt; Как не трудно заметить это правило соблюдается в
+    примере, если Вы привыкли в HTML оставлять тэги открытыми примерно
+    следующим образом: &lt;code&gt;&amp;lt;p&amp;gt;Какой-то текст&lt;/code&gt;, то изучение XML может стать неплохим поводом отучиться от этой
+    вредной привычки.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;XML тэги чувствительны к регистру символов.&lt;/strong&gt; Тэги &lt;code&gt;&amp;lt;Book&amp;gt;&lt;/code&gt; и
+    &lt;code&gt;&amp;lt;book&amp;gt;&lt;/code&gt; считаются разными, запись &lt;code&gt;&amp;lt;Book&amp;gt; &amp;lt;/book&amp;gt;&lt;/code&gt; будет
+    считаться ошибочной.&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Тэги должны быть расположены строго друг внутри друга.&lt;/strong&gt;
+    Продемонстрирую на отдельном примере: &lt;code&gt;&amp;lt;foo&amp;gt;ВЕ&amp;lt;bar&amp;gt;РНО&amp;lt;/bar&amp;gt;&amp;lt;/foo&amp;gt;&lt;/code&gt;, а так &lt;code&gt;&amp;lt;foo&amp;gt;НЕВЕ&amp;lt;bar&amp;gt;РНО&amp;lt;/foo&amp;gt;&amp;lt;/bar&amp;gt;&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Значения всех атрибутов всегда должны быть заключены в кавычки.&lt;/strong&gt;
+    Например: &lt;code&gt;&amp;lt;title subtitle="The Dark Elf Trilogy"&amp;gt;Sojourn&amp;lt;/title&amp;gt;&lt;/code&gt; - верно, а &lt;code&gt;&amp;lt;title subtitle=The Dark Elf Trilogy&amp;gt;Sojourn&amp;lt;/title&amp;gt;&lt;/code&gt; - нет.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Последовательно расположенные пробелы не объединяются в один.&lt;/strong&gt;
+    Имейте это ввиду, если вы привыкли к HTML.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Конец строки обозначается просто переводом на новою строку, без возврата каретки.&lt;/strong&gt; Во многих приложениях для обозначения конца
+    строки используется возврат каретки совместно с переводом на новую
+    строку (&lt;code&gt;/r/n&lt;/code&gt;), в XML же принято для
+    этих целей использовать просто перевод на новую строку
+    (&lt;code&gt;/n&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Комментарии обозначаются так же как и в HTML:&lt;/strong&gt;
+&lt;code&gt;&amp;lt;!--комментарий--&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Как Вы могли уже убедиться этот формат оформления данных представляет
+собой всего лишь текст, разбавленный некоторым количеством тэгов и
+следующий простым правилам. Не стоит ожидать от него чего-то большего.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sun, 06 Jan 2008 21:53:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-01-06:theory/2008/9-osnovnyx-pravil-napisaniya-xml/</guid><category>markup</category><category>XML</category><category>описание данных</category><category>хранение данных</category></item><item><title>Что такое XML?</title><link>https://www.insight-it.ru//theory/2008/chto-takoe-xml/</link><description>&lt;p&gt;Если Вам интересен ответ на этот вопрос, то Вам сюда!&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Ответ на вопрос, заявленный в теме прост до безобразия. Сама
+аббревиатура XML расшифровывается как e&lt;strong&gt;X&lt;/strong&gt;tensible &lt;strong&gt;M&lt;/strong&gt;arkup
+&lt;strong&gt;L&lt;/strong&gt;anguage, из чего логически вытекает все остальное.&lt;/p&gt;
+&lt;p&gt;Как и HTML он является &lt;em&gt;языком разметки&lt;/em&gt;, но в отличии от HTML, XML
+предназначен для других целей: он был разработан для &lt;em&gt;описания и
+хранения данных&lt;/em&gt;, когда HTML в основном сосредоточен на определении
+того, как данные будут отображаться на экране. Еще одним основным
+отличием является тот факт, XML нет предопределенных тэгов, Вы должны
+сами определять какие тэги будете использовать.&lt;/p&gt;
+&lt;p&gt;XML может использоваться для хранения практически любых типов данных, а
+его расширяемость позволяет ограничивать варианты его использования лишь
+фантазией разработчиков. Вот некоторые из них:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;В совокупности с технологией XSL или CSS данные, хранящиеся в XML
+    могут быть представлены как простая веб-страница&lt;/li&gt;
+&lt;li&gt;XML являться форматом обмена данными между несовместимыми системами,
+    так как он не зависит ни от программного обеспечения, ни от
+    оборудования, на котором хранятся данные&lt;/li&gt;
+&lt;li&gt;XML может не просто хранить данные, но и дать понять что же эти
+    данные значат&lt;/li&gt;
+&lt;li&gt;На базе XML может быть построено множество других технологии, из уже
+    получивших широкое распространение можно назвать RSS, WAP и WML.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Одними из самых наглядных способов увидеть что же из себя представляет
+XML - являются &lt;a href="/feed"&gt;RSS лента&lt;/a&gt; и &lt;a href="/sitemap.xml"&gt;карта сайта в XML&lt;/a&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sun, 06 Jan 2008 20:18:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-01-06:theory/2008/chto-takoe-xml/</guid><category>markup</category><category>XML</category><category>описание данных</category><category>разметка</category><category>хранение данных</category></item></channel></rss>

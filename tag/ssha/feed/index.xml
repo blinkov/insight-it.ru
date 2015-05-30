@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/ssha/feed/index.xml" rel="self"></atom:link><lastBuildDate>Sun, 20 Dec 2009 21:39:00 +0300</lastBuildDate><item><title>Переезд + реконструкция</title><link>https://www.insight-it.ru//misc/2009/pereezd-rekonstrukciya/</link><description>&lt;div class="card orange darken-3"&gt;
+&lt;p&gt;&lt;div class="card-content white-text center"&gt;
+&lt;strong&gt;По большей части написанное ниже уже не актуально&lt;/strong&gt;
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Уважаемые читатели, у меня для вас есть ряд замечательных новостей:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Блог переехал на новый хостинг, теперь живем в США&lt;/li&gt;
+&lt;li&gt;Блог по прежнему работает на WordPress, от идеи трансфера на GAE я
+    отказался из-за нехватки сил и времени&lt;/li&gt;
+&lt;li&gt;Оформление было переверстано на HTML5, пока все еще далеко от
+    идеала, возможно буду переделывать (пользователей IE и прочего
+    антиквариата просьба не кидаться камнями - сами виноваты)&lt;/li&gt;
+&lt;li&gt;Ради эксперимента добавлена поддержка &lt;a href="https://www.insight-it.ru/goto/ede8ea14/" rel="nofollow" target="_blank" title="http://code.google.com/chrome/chromeframe/"&gt;Google Chrome Frame&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Все плагины и сам движок были обновлены и доведены до ума - раньше
+    все работало на устаревших версиях&lt;/li&gt;
+&lt;li&gt;Я вспомнил, что у меня был аккаунт на твиттере: &lt;a href="https://www.insight-it.ru/goto/a1390f6d/" rel="nofollow" target="_blank" title="https://twitter.com/blinkov"&gt;follow me&lt;/a&gt;!&lt;/li&gt;
+&lt;li&gt;Решил попробовать вернуть AdSense в том виде, в котором он был
+    когда-то давно, может быть на хлеб с маслом хватит, пока работу не
+    найду :)&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sun, 20 Dec 2009 21:39:00 +0300</pubDate><guid>tag:www.insight-it.ru,2009-12-20:misc/2009/pereezd-rekonstrukciya/</guid><category>Google Chrome Frame</category><category>html5</category><category>USA</category><category>WordPress</category><category>США</category></item></channel></rss>

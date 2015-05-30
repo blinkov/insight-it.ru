@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/beyond-compare-3/feed/index.xml" rel="self"></atom:link><lastBuildDate>Thu, 31 Mar 2011 16:05:00 +0400</lastBuildDate><item><title>Архитектура Stack Exchange Network</title><link>https://www.insight-it.ru//highload/2011/arkhitektura-stack-exchange-network/</link><description>&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/8d9e30a4/" rel="nofollow" target="_blank" title="http://stackexchange.com/"&gt;Stack Exchange Network&lt;/a&gt; представляет собой
+сеть из 46 сайтов вопросов-ответов на совершенно разные темы от
+программирования до кулинарии. Проект вырос из известной в узких кругах
+тусовки программистов &lt;a href="https://www.insight-it.ru/goto/dd7cd9bb/" rel="nofollow" target="_blank" title="http://stackoverflow.com/"&gt;Stack Overflow&lt;/a&gt;, об
+архитектуре которой &lt;a href="https://www.insight-it.ru/highload/2010/arkhitektura-stack-overflow/"&gt;я уже рассказывал&lt;/a&gt; чуть больше года назад. Проект активно развивается и уже появилось приличное количество новой информации, которой я и спешу с Вами поделиться.
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;h2 id="statistika"&gt;Статистика&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;95 миллионов просмотров страниц в месяц&lt;/li&gt;
+&lt;li&gt;800 HTTP запросов в секунду&lt;/li&gt;
+&lt;li&gt;180 DNS запросов в секунду&lt;/li&gt;
+&lt;li&gt;Загруженность интернет-канала в 55 Мбит/с&lt;/li&gt;
+&lt;li&gt;16 миллионов уникальных пользователей в месяц&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="tekhnologii"&gt;Технологии&lt;/h2&gt;
+&lt;h3 id="razrabotka"&gt;Разработка&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/c/"&gt;C#&lt;/a&gt; - основной язык программирования&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/visual-studio/"&gt;Visual Studio 2010 Team Suite&lt;/a&gt; -&amp;nbsp;IDE&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/asp-net/"&gt;Microsoft ASP.NET 4.0&lt;/a&gt; - framework&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/asp-net-mvc/"&gt;ASP.NET MVC 3&lt;/a&gt; -&amp;nbsp;web Framework&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/razor/"&gt;Razor&lt;/a&gt; - генератор шаблонов&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/jquery/"&gt;jQuery 1.4.2&lt;/a&gt; - JavaScript framework&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/linq-to-sql/"&gt;LINQ to SQL&lt;/a&gt; и немного чистого SQL - доступ к
+    данным&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/mercurial/"&gt;Mercurial&lt;/a&gt; и &lt;a href="/tag/kiln/"&gt;Kiln&lt;/a&gt; - контроль версий
+    исходного кода&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/beyond-compare/"&gt;Beyond Compare 3&lt;/a&gt; - инструмент для сравнения&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="programmnoe-obespechenie"&gt;Программное обеспечение&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/886b3540/" rel="nofollow" target="_blank" title="http://stackoverflow.com/questions/177901/what-does-wisc-stack-mean"&gt;WISC&lt;/a&gt;
+    стек получен условно-бесплатно с
+    помощью&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/b478b941/" rel="nofollow" target="_blank" title="http://blog.stackoverflow.com/2009/03/stack-overflow-and-bizspark/"&gt;BizSpark&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/windows-server/"&gt;Windows Server&lt;/a&gt;&lt;a href="/tag/windows-server-2008/"&gt;2008 R2
+    x64&lt;/a&gt; - основная операционная система&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/ms-sql-server-2008/"&gt;MS SQL Server 2008 R2&lt;/a&gt; на&amp;nbsp;&lt;a href="/tag/windows-server-2008/"&gt;Windows Server
+    2008 Enterprise Edition x64&lt;/a&gt; - база
+    данных&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/ubuntu-server/"&gt;Ubuntu Server&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/centos/"&gt;CentOS&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/iis/"&gt;IIS 7.0&lt;/a&gt; - веб-сервер&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/haproxy/"&gt;HAProxy&lt;/a&gt; - балансировка нагрузки&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/redis/"&gt;Redis&lt;/a&gt; - используется как распределенная система
+    кэширования&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/cruisecontrol-net/"&gt;CruiseControl.NET&lt;/a&gt; - сборки и
+    автоматическая система развертывания кода&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/lucene/"&gt;Lucene.NET&lt;/a&gt; - полнотекстовый поиск&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/bacula/"&gt;Bacula&lt;/a&gt; - резервное копирование&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/nagios/"&gt;Nagios&lt;/a&gt; (с
+    плагинами&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/d576a9fc/" rel="nofollow" target="_blank" title="http://n2rrd.diglinks.com/cgi-bin/trac.fcgi"&gt;n2rrd&lt;/a&gt; и
+    &lt;a href="https://www.insight-it.ru/goto/9b00fbb3/" rel="nofollow" target="_blank" title="http://web.taranis.org/drraw/"&gt;drraw&lt;/a&gt;) для мониторинга&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/splunk/"&gt;Splunk&lt;/a&gt; - сбор и агрегация логов&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/sql-monitor/"&gt;SQL Monitor&lt;/a&gt; от&amp;nbsp;Red Gate - мониторинг SQL Server&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/bind/"&gt;Bind&lt;/a&gt; -&amp;nbsp;DNS&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/dotnetopenid/"&gt;DotNetOpenId&lt;/a&gt; - реализация OpenID на .NET&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/wmd/"&gt;WMD&lt;/a&gt; - текстовый редактор&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/prettify/"&gt;Prettify&lt;/a&gt; - подсветка синтаксиса&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/markdownsharp/"&gt;MarkdownSharp&lt;/a&gt; - обработчик разметки Markdown
+    на C#&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/flot/"&gt;Flot&lt;/a&gt; - построение графиков на JavaScript&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="vneshnie-servisy"&gt;Внешние сервисы&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/recaptcha/"&gt;reCAPTCHA&lt;/a&gt; - защита от спама&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/google-analytics/"&gt;Google Analytics&lt;/a&gt; - веб-аналитика&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/kiln/"&gt;Kiln&lt;/a&gt; - Mercurial хостинг&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/pingdom/"&gt;Pingdom&lt;/a&gt; - внешний мониторинг и уведомления&lt;/li&gt;
+&lt;li&gt;CDN не используется, его роль выполняет&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/a5057c7b/" rel="nofollow" target="_blank" title="http://sstatic.net/"&gt;sstatic.net&lt;/a&gt;, отдельный домен для статичных файлов SEN без cookie&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="oborudovanie_1"&gt;Оборудование&lt;/h2&gt;
+&lt;h3 id="datatsentry"&gt;Датацентры&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;1 стойка в Peak Internet, штат Орегон (чат и обнаружение данных)&lt;/li&gt;
+&lt;li&gt;2 стойки в Peer 1, Нью-Йорк (остальная часть SEN)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="servery"&gt;Серверы&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;10 веб-серверов:&lt;ul&gt;
+&lt;li&gt;Dell R610&lt;/li&gt;
+&lt;li&gt;1x Intel Xeon Processor E5640 @ 2.66 GHz&lt;/li&gt;
+&lt;li&gt;16 GB RAM&lt;/li&gt;
+&lt;li&gt;Windows Server 2008 R2&lt;/li&gt;
+&lt;li&gt;IIS&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;2 сервера баз данных:&lt;ul&gt;
+&lt;li&gt;Dell R710&lt;/li&gt;
+&lt;li&gt;2x Intel Xeon Processor X5680 @ 3.33 GHz&lt;/li&gt;
+&lt;li&gt;64 GB RAM&lt;/li&gt;
+&lt;li&gt;8 жестких дисков&lt;/li&gt;
+&lt;li&gt;MS SQL Server 2008 R2&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;2 виртуальных сервера для балансировки нагрузки:&lt;ul&gt;
+&lt;li&gt;1x Intel Xeon Processor E5640 @ 2.66 GHz&lt;/li&gt;
+&lt;li&gt;4 GB RAM&lt;/li&gt;
+&lt;li&gt;Ubuntu Server&lt;/li&gt;
+&lt;li&gt;HAProxy&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;2 сервера для кэша:&lt;ul&gt;
+&lt;li&gt;Dell R610&lt;/li&gt;
+&lt;li&gt;2x Intel Xeon Processor E5640 @ 2.66 GHz&lt;/li&gt;
+&lt;li&gt;16 GB RAM&lt;/li&gt;
+&lt;li&gt;CentOS&lt;/li&gt;
+&lt;li&gt;Redis&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;1 сервер для резервного копирования:&lt;ul&gt;
+&lt;li&gt;Dell R610&lt;/li&gt;
+&lt;li&gt;1x Intel Xeon Processor E5640 @ 2.66 GHz&lt;/li&gt;
+&lt;li&gt;32 GB RAM&lt;/li&gt;
+&lt;li&gt;Linux&lt;/li&gt;
+&lt;li&gt;Bacula&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;1 сервер для мониторинга, управления и сбора логов:&lt;ul&gt;
+&lt;li&gt;Dell R610&lt;/li&gt;
+&lt;li&gt;1x Intel Xeon Processor E5640 @ 2.66 GHz&lt;/li&gt;
+&lt;li&gt;32 GB RAM&lt;/li&gt;
+&lt;li&gt;Linux&lt;/li&gt;
+&lt;li&gt;Nagios&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;2 сервера для виртуализации:&lt;ul&gt;
+&lt;li&gt;Dell R610&lt;/li&gt;
+&lt;li&gt;1x Intel Xeon Processor E5640 @ 2.66 GHz&lt;/li&gt;
+&lt;li&gt;16 GB RAM&lt;/li&gt;
+&lt;li&gt;VMWare ESXi&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="setevoe-oborudovanie"&gt;Сетевое оборудование&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2 маршрутизатора на Linux&lt;/li&gt;
+&lt;li&gt;5 свитчей &amp;nbsp;Dell PowerConnect&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="prochee"&gt;Прочее&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/aa5532bf/" rel="nofollow" target="_blank" title="http://www.wowwee.com/en/products/tech/telepresence/rovio/rovio"&gt;Rovio&lt;/a&gt; -
+    маленький робот, позволяющий удаленным разработчиком посетить офис
+    "виртуально"&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="komanda_1"&gt;Команда&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;14 разработчиков&lt;/li&gt;
+&lt;li&gt;2 системных администратора&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="chto-novogo"&gt;Что нового?&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;HAProxy стал использоваться вместо Windows NLB так как HAProxy
+    является быстрым, нересурсоемким, бесплатным решением, которое
+    работает. Полностью прозрачен для серверов, легче обслуживать по
+    сравнению со старым решением, располагается на виртуальных машинах.&lt;/li&gt;
+&lt;li&gt;CDN не используется, так как даже "недорогие" решения обходятся в
+    очень приличную сумму по сравнению с тем трафиком, который входит в
+    тарифный план хостинг-провайдера. Самое дешевой решение CDN от
+    Amazon обошлось бы как минимум на тысячу долларов в месяц дороже при
+    текущем уровне использования трафика.&lt;/li&gt;
+&lt;li&gt;Резервное копирование на диски для быстрого восстановления и на
+    кассеты для "истории".&lt;/li&gt;
+&lt;li&gt;Полнотекстный поиск в SQL Server плохо интегрируется, нестабилен и
+    обладает низким качеством результатов, так что они перешли на
+    Lucene.&lt;/li&gt;
+&lt;li&gt;Все сайты в SEN теперь работают на общей платформе: используется
+    общее оборудование и программное обеспечение.&lt;/li&gt;
+&lt;li&gt;Проект разделен на разные сайты для разных ниш, чтобы полностью
+    изолировать группы аудитории, специализирующиеся в каждой конкретной
+    области.&lt;/li&gt;
+&lt;li&gt;Используется агрессивное кэширование, большинство страниц кэшируются
+    в виде HTML для анонимных пользователей средствами IIS.&lt;/li&gt;
+&lt;li&gt;Используется три уровня кэширования: локальный, относящийся к
+    каждому сайту и глобальный.&lt;/li&gt;
+&lt;li&gt;Локальный кэш доступен только для каждой пары сайт/сервер:&lt;ul&gt;
+&lt;li&gt;Используется для уменьшения сетевых задержек, по сути просто
+    через&amp;nbsp;HttpRuntime.Cache.&lt;/li&gt;
+&lt;li&gt;Содержит такие вещи как пользовательские сессии, будущие
+    обновления счетчиков просмотров страниц.&lt;/li&gt;
+&lt;li&gt;Располагается полностью в оперативной памяти веб-сервера.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Кэш сайта доступен для каждого сервера, обрабатывающий запрос к
+    конкретному сайту:&lt;ul&gt;
+&lt;li&gt;Большинство кэшируемых данных располагаются здесь.&lt;/li&gt;
+&lt;li&gt;Располагается в Redis.&lt;/li&gt;
+&lt;li&gt;Redis настолько быстр, что большую часть времени доступа к кэшу
+    занимает передача данных по сети.&lt;/li&gt;
+&lt;li&gt;Данные сжимаются перед отправкой в Redis, так как большинство
+    данных являются строками и у них есть масса свободных
+    вычислительных ресурсов.&lt;/li&gt;
+&lt;li&gt;Использование процессорных ресурсов на серверах с Redis
+    стремится к нулю.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Глобальный кэш является общим для всех серверов и сайтов:&lt;ul&gt;
+&lt;li&gt;Личные сообщения, квоты по API и несколько других по-настоящему
+    глобальных вещей располагаются здесь.&lt;/li&gt;
+&lt;li&gt;Также используется Redis.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Большинство данных в кэше удаляются через заданный период времени
+    (обычно в районе нескольких минут) и практически никогда явно не
+    удаляются.&lt;/li&gt;
+&lt;li&gt;Когда требуется инвалидация кэша на уровне готовых страниц,
+    используется система подписки внутри Redis для отправки сообщений в
+    соответствующую часть системы кэширования.&lt;/li&gt;
+&lt;li&gt;Для системы ввода-вывода они выбрали Intel X25 SSD в RAID10. RAID
+    решил многие вопросы с надежностью, а SSD показывают отличную
+    производительностью по сравнению с&amp;nbsp;FusionIO при существенно более
+    низкой цене.&lt;/li&gt;
+&lt;li&gt;Стоимость лицензий используемых продуктов Microsoft составила бы 242
+    тысячи долларов. Но так как они используют программу BizSpark, им не
+    пришлось платить большую часть этой суммы.&lt;/li&gt;
+&lt;li&gt;Сетевые карты от Broadcom заменяются на сетевые карты от Intel на
+    основных production серверах. Это решило большинство проблем с
+    потерями соединений, пакетов и таблицами ARP.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="istochniki-informatsii"&gt;Источники информации&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/8a78f426/" rel="nofollow" target="_blank" title="http://highscalability.com/blog/2011/3/3/stack-overflow-architecture-update-now-at-95-million-page-vi.html"&gt;Stack Overflow Architecture Update - Now At 95 Million Page Views
+    A&amp;nbsp;Month&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/ac2efccd/" rel="nofollow" target="_blank" title="http://blog.stackoverflow.com/"&gt;Stack Overflow Blog&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/83742213/" rel="nofollow" target="_blank" title="http://blog.serverfault.com/post/1432571770/"&gt;Stack Overflow&amp;rsquo;s New York Data
+    Center&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/7241f829/" rel="nofollow" target="_blank" title="http://blog.serverfault.com/post/1097492931/"&gt;Designing For Scalability of Management and Fault
+    Tolerance&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/955af379/" rel="nofollow" target="_blank" title="http://blog.stackoverflow.com/2011/01/stack-overflow-search-now-81-less-crappy/"&gt;Stack Overflow Search &amp;mdash; Now 81% Less
+    Crappy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/7ab0ab00/" rel="nofollow" target="_blank" title="http://blog.stackoverflow.com/2011/01/state-of-the-stack-2010-a-message-from-your-ceo/"&gt;State of the Stack 2010 (a message from your
+    CEO)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/f4755d56/" rel="nofollow" target="_blank" title="http://blog.stackoverflow.com/2010/01/stack-overflow-network-configuration/"&gt;Stack Overflow Network
+    Configuration&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/d29680fc/" rel="nofollow" target="_blank" title="http://meta.stackoverflow.com/questions/69164/does-stackoverflow-use-caching-and-if-so-how"&gt;Does StackOverflow use caching and if so,
+    how?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/a1f157a/" rel="nofollow" target="_blank" title="http://meta.stackoverflow.com/questions/6435/how-does-stackoverflow-handle-cache-invalidation"&gt;How does StackOverflow handle cache
+    invalidation?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/4812040a/" rel="nofollow" target="_blank" title="http://meta.stackoverflow.com/questions/10369/which-tools-and-technologies-build-the-stack-exchange-network"&gt;Which tools and technologies build the Stack Exchange
+    Network?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/d1cfeccf/" rel="nofollow" target="_blank" title="http://meta.stackoverflow.com/questions/2765/how-does-stack-overflow-handle-spam"&gt;How does Stack Overflow handle
+    spam?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/58e28ee2/" rel="nofollow" target="_blank" title="http://blog.serverfault.com/post/our-storage-decision/"&gt;Our Storage
+    Decision&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/6a63689c/" rel="nofollow" target="_blank" title="http://meta.stackoverflow.com/questions/4766/how-are-hot-questions-selected"&gt;How are &amp;ldquo;Hot&amp;rdquo; Questions
+    Selected?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/90fef20/" rel="nofollow" target="_blank" title="http://blog.stackoverflow.com/2010/04/stack-overflow-and-dvcs/"&gt;Stack Overflow and
+    DVCS&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/fe105178/" rel="nofollow" target="_blank" title="http://chat.stackexchange.com/rooms/127/the-comms-room"&gt;Server Fault Chat
+    Room&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Спасибо за внимание! Для оперативного получения свежей информации о
+&lt;a href="https://www.insight-it.ru/highload/"&gt;высоконагруженных интернет-проектах&lt;/a&gt; рекомендую &lt;a href="/feed/"&gt;подписаться на RSS&lt;/a&gt;.&lt;/strong&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Thu, 31 Mar 2011 16:05:00 +0400</pubDate><guid>tag:www.insight-it.ru,2011-03-31:highload/2011/arkhitektura-stack-exchange-network/</guid><category>ASP .NET</category><category>ASP .NET MVC</category><category>Bacula</category><category>Beyond Compare 3</category><category>Bind</category><category>C++</category><category>CentOS</category><category>CruiseControl.NET</category><category>DotNetOpenId</category><category>Flot</category><category>Google Analytics</category><category>HAProxy</category><category>IIS</category><category>JQuery</category><category>Kiln</category><category>LINQ to SQL</category><category>Lucene</category><category>MarkdownSharp</category><category>Mercurial</category><category>MS SQL Server 2008</category><category>Nagios</category><category>Pingdom</category><category>Prettify</category><category>Razor</category><category>reCAPTCHA</category><category>Redis</category><category>Splunk</category><category>SQL Monitor</category><category>Ubuntu Server</category><category>Visual Studio</category><category>Windows Server</category><category>Windows Server 2008</category><category>WMD</category></item><item><title>Архитектура Stack Overflow</title><link>https://www.insight-it.ru//highload/2010/arkhitektura-stack-overflow/</link><description>&lt;p&gt;&lt;img alt="Stack Overflow" class="right" src="https://www.insight-it.ru/images/stack-overflow-logo.png" title="Stack Overflow"/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/33fc61d9/" rel="nofollow" target="_blank" title="https://stackoverflow.com/"&gt;Stack Overflow&lt;/a&gt; является любимым многими
+программистами сайтом, где можно задать профессиональный вопрос и
+получить ответы от коллег. Этот проект был написан двумя никому не
+известными парнями, о которых никто никогда раньше не слышал. Хорошо, не
+совсем так. Stack Overflow был создан топовыми программистами и звездами
+блогосферы:&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/374a081/" rel="nofollow" target="_blank" title="http://www.codinghorror.com/blog/"&gt;Jeff Atwood&lt;/a&gt; и&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/31657700/" rel="nofollow" target="_blank" title="http://www.joelonsoftware.com/"&gt;Joel Spolsky&lt;/a&gt;. В этом отношении Stack
+Overflow похож на ресторан, владельцами которого являются знаменитости.
+По оценкам Joel'а около 1/3 программистов всего мира использовали этот
+интернет-ресурс, так что должно быть он представляет собой что-то
+достаточно полезное и интересное.&lt;/p&gt;
+&lt;p&gt;Одним из ключевых моментов в истории Stack Overflow является
+использование вертикального масштабирования, как достаточно
+работоспособного решения достаточного большого класса проблем. Не смотря
+на то, что публика на сегодняшний день больше склоняется к подходу с
+использованием горизонтальным масштабирования и&amp;nbsp;не-SQL баз данных.&lt;/p&gt;
+&lt;p&gt;Если Вы стремитесь к масштабу Google, у Вас нет другого выхода, как
+двигаться в направлении не-SQL. Но Stack Overflow - это не Google, ровно
+как и подавляющее большинство других сайтов. Когда Вы задумываетесь о
+возможных вариантов дизайна Вашего проекта, попробуйте учесть и историю
+Stack Overflow, она тоже имеет право на жизнь. В этот век многоядерных
+машин с большим объемом оперативной памяти и невероятными темпами
+развития методов параллельного программирования, вертикальное
+масштабирование все еще является жизнеспособной стратегией и не должна
+сразу же отбрасываться в сторону просто так как это теперь больше не
+модно. Возможно в один прекрасный день мы получим лучшее из обоих миров,
+но на сегодняшний момент перед нами лежит большой болезненный выбор
+стратегии масштабирования, от которого определенно зависит судьба Вашего
+проекта.&lt;/p&gt;
+&lt;p&gt;Joel любит похвастаться тем, что они достигли производительности,
+сравнимой с другими сайтами аналогичных размеров, используя в 10 раз
+меньше оборудования. Он удивляется, работали над этими сайтами
+по-настоящему хорошие программисты. Давайте взглянем на то, как им это
+удалось, и дадим Вам возможность побыть судьей.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;&lt;em&gt;Перевод &lt;a href="https://www.insight-it.ru/goto/98b904e0/" rel="nofollow" target="_blank" title="http://highscalability.com/blog/2009/8/5/stack-overflow-architecture.html"&gt;статьи&lt;/a&gt;, автор оригинала - Todd Hoff. Возможно будет еще один пост с менее формальной информацией на ту же тему.&lt;/em&gt;&lt;/p&gt;
+&lt;h2 id="statistika"&gt;Статистика&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;16 миллионов просмотров страниц в месяц&lt;/li&gt;
+&lt;li&gt;3 миллионов уникальных пользователей в месяц (для сравнения: Facebook
+насчитывает около 77 миллионов уникальных пользователей в месяц)&lt;/li&gt;
+&lt;li&gt;6 миллионов посещений в месяц&lt;/li&gt;
+&lt;li&gt;86% трафика приходит с Google&lt;/li&gt;
+&lt;li&gt;9 миллионов активных программистов во всем мире и 30% пользуются Stack
+Overflow&lt;/li&gt;
+&lt;li&gt;Более дешевые лицензии были получены через программу
+Microsoft&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/205088ae/" rel="nofollow" target="_blank" title="http://www.microsoft.com/BizSpark"&gt;BizSpark&lt;/a&gt;. Скорее всего
+они заплатили около 11000\$ за лицензии на ОС и MSSQL.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Стратегия монетизации: ненавязчивая реклама, вакансии, конференции
+DevDays, достижения других смежных ниш (Server Fault, Super User),
+разработка&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/631e88c2/" rel="nofollow" target="_blank" title="https://stackexchange.com/"&gt;StackExchange&lt;/a&gt; и возможно
+каких-то других систем рейтингов для программистов.&lt;/p&gt;
+&lt;h2 id="platforma"&gt;Платформа&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Microsoft ASP.NET MVC&lt;/li&gt;
+&lt;li&gt;SQL Server 2008&lt;/li&gt;
+&lt;li&gt;C#&lt;/li&gt;
+&lt;li&gt;Visual Studio 2008 Team Suite&lt;/li&gt;
+&lt;li&gt;jQuery&lt;/li&gt;
+&lt;li&gt;LINQ to SQL&lt;/li&gt;
+&lt;li&gt;Subversion&lt;/li&gt;
+&lt;li&gt;Beyond Compare 3&lt;/li&gt;
+&lt;li&gt;VisualSVN 1.5&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Веб уровень:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;2 x Lenovo ThinkServer RS110 1U&lt;/li&gt;
+&lt;li&gt;4 ядра, 2.83 Ghz, 12 MB L2 cache&lt;/li&gt;
+&lt;li&gt;500 GB жесткие диски, зеркалирование RAID1&lt;/li&gt;
+&lt;li&gt;8 GB RAM&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Уровень базы данных:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;1 x Lenovo ThinkServer RD120 2U&lt;/li&gt;
+&lt;li&gt;8 ядер, 2.5 Ghz, 24 MB L2 cache&lt;/li&gt;
+&lt;li&gt;48 GB RAM&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Четвертый сервер был добавлен для запуска
+&lt;a href="https://www.insight-it.ru/goto/d3829019/" rel="nofollow" target="_blank" title="https://superuser.com/"&gt;superuser.com&lt;/a&gt;. Все сервера вместе обеспечивают
+работу &lt;a href="https://www.insight-it.ru/goto/33fc61d9/" rel="nofollow" target="_blank" title="https://stackoverflow.com/"&gt;Stack Overflow&lt;/a&gt;,&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/9b0a2d16/" rel="nofollow" target="_blank" title="https://serverfault.com/"&gt;Server
+Fault&lt;/a&gt;, и&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/d3829019/" rel="nofollow" target="_blank" title="https://superuser.com/"&gt;Super User&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;QNAP TS-409U NAS для резервного копирования данных. Было принято решение
+не использовать "облачные" решения, так как вызванные ими дополнительные
+5GB трафика ежедневно были бы накладными.&lt;/li&gt;
+&lt;li&gt;Сервера располагаются у&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/4f3f2e08/" rel="nofollow" target="_blank" title="http://www.peakinternet.com/"&gt;Peak Internet&lt;/a&gt;. В
+основном из-за впечатляющей детализации технических ответов и разумных
+расценок.&lt;/li&gt;
+&lt;li&gt;Полнотекстный поиск в SQL Server активно используется для реализации
+поиска по сайту и выявления повторных вопросов. Lucene .NET
+рассматривается как достаточно заманчивая альтернатива.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="podvodim-itogi"&gt;Подводим итоги&lt;/h2&gt;
+&lt;p&gt;Данный список является сборником уроков от Jeff и Joel, а также из
+комментариев к их записям:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Если Вы комфортно себя чувствуете в деле управления серверами - не
+бойтесь покупать их. Две основных проблемы с издержками аренды
+оборудования:&lt;ol&gt;
+&lt;li&gt;невероятные цены на дополнительную оперативную память и
+жесткие диски;&lt;/li&gt;
+&lt;li&gt;хостинг-провайдеры на самом деле не могут управлять
+чем-либо за Вас.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;Делайте одноразовые более крупные инвестиции в оборудование, чтобы
+избежать быстро растущих ежемесячных издержек по аренде, которые
+окажутся более высокими в долгосрочном периоде.&lt;/li&gt;
+&lt;li&gt;Обновляйте сетевые драйвера. Производительность запросто может
+удвоиться.&lt;/li&gt;
+&lt;li&gt;Использование 48GB RAM требует обновления до MS Enterprise edition.&lt;/li&gt;
+&lt;li&gt;Оперативная память невероятно дешевая. Используйте возможности по её
+расширению по максимуму для получения практически бесплатной
+производительности. У Dell, например, переход от 4GB памяти до 128GB
+стоит всего 4378\$.&lt;/li&gt;
+&lt;li&gt;Stack Overflow скопировали ключевую часть структуры базы данных у
+Wikipedia. Это обернулось огромной ошибкой, для исправления которой
+потребуется большой и болезненный рефакторинг базы данных. Основным
+направлением изменений будет избавление от излишних операций по
+объединению данных в большом количестве ключевых запросов. Это ключевой
+урок, который стоит усвоить у гигантских много-терабайтных схем (вроде
+Google BigTable), которые полностью избавлены от операций объединения
+данных. Этот вопрос был достаточно важен для Stack Overflow, так как их
+база данных практически полностью располагается в оперативной памяти и
+операции join по прежнему требуют относительно много вычислительных
+ресурсов.&lt;/li&gt;
+&lt;li&gt;Производительность CPU оказывается на удивление важным фактором для
+серверов баз данных. Переход от 1.86 GHz, к 2.5 GHz, и к 3.5 GHz
+процессорам дает практически линейный прирост к времени выполнения
+типичных запросов. Исключение: запросы, которые затрагивают не только
+оперативную память.&lt;/li&gt;
+&lt;li&gt;Когда оборудование арендуется, обычно никто не платит за дополнительную
+оперативную память, если только вы не на помесячном контракте.&lt;/li&gt;
+&lt;li&gt;В 90% случаев наиболее узким местом является база данных.&lt;/li&gt;
+&lt;li&gt;При небольшом количестве серверов, &amp;nbsp;ключевым компонентом издержек
+становится не место в стойках, электроэнергия, интернет-канал, сервера
+или программное обеспечение, а СЕТЕВОЕ ОБОРУДОВАНИЕ. Вам потребуется как
+минимум гигабитное соединение между уровнями веб-серверов и баз данных.
+Между интернетом и веб-серверами потребуется firewall, маршрутизатор и
+VPN. К моменту добавления второго веб-сервера понадобится решение для
+балансировки нагрузки. Суммарная стоимость такого оборудования может
+запросто вдвое превосходить стоимость пяти серверов.&lt;/li&gt;
+&lt;li&gt;EC2 предназначен для горизонтального масштабирования, для того чтобы
+нагрузка могла быть распределена между большим количеством машин
+(достаточно хорошая идея, если Вы планируете расширяться). Еще больше
+смысла в таком подходе появляется, если вы планируете масштабироваться
+по необходимости (то есть добавлять и убирать машины в зависимости от
+уровня нагрузки).&lt;/li&gt;
+&lt;li&gt;Горизонтальное масштабирование может проходить относительно
+безболезненно только при использовании open source программного
+обеспечения. В противном случае вертикальное масштабирование значит
+сокращение издержек, связанных с лицензиями, в ущерб стоимости
+оборудования, а горизонтальное масштабирование - наоборот: экономия на
+оборудовании, но требуется существенно больше лицензий на программное
+обеспечение.&lt;/li&gt;
+&lt;li&gt;RAID-10 отлично работает для баз данных с высокой нагрузкой операций
+чтения и записи.&lt;/li&gt;
+&lt;li&gt;Разделяйте работу приложений и баз данных таким образом, чтобы они могли
+масштабироваться независимо друг от друга. Например, базы данных могут
+масштабироваться вертикально, а сервера приложений - горизонтально.&lt;/li&gt;
+&lt;li&gt;Приложения должны хранить все информацию о своем состоянии в базе данных
+для обеспечения возможности роста путем простого добавления серверов
+приложений в кластер.&lt;/li&gt;
+&lt;li&gt;Одна из основных проблем со стратегией вертикального масштабирования -
+недостаток избыточности. Кластеризация добавляет надежности, но когда
+стоимость каждого сервера высока - это не так просто реализовать.&lt;/li&gt;
+&lt;li&gt;Некоторые приложения могут масштабироваться линейно относительно числа
+процессоров. Но зачастую будут использоваться механизмы блокировки, что
+приведет к сериализации вычислений и в итоге к существенному уменьшению
+эффективности приложения.&lt;/li&gt;
+&lt;li&gt;С более крупными серверами, занимающими от 7U в стойке, электроэнергия и охлаждение становятся критичными вопросами. Возможно использование
+чего-то среднего между 1U и 7U может облегчить Ваши взаимоотношения с
+датацентром.&lt;/li&gt;
+&lt;li&gt;С добавлением все новых и новых серверов баз данных издержки на лицензии SQL Server могут стать очень существенными. Если Вы начнете с
+вертикального масштабирования и постепенно начнете переходить к
+горизонтальному с использованием не open source продуктов, возможно это
+сильно ударит по Вашему финансовому состоянию. Это справедливо, что в
+этой заметке речь идет не совсем об архитектуре проекта. Мы знаем об их
+серверах, об используемом наборе инструментов, об их двухуровневой
+схеме, где база данных используется напрямую из кода веб-серверов. Но мы
+не знаем практически ничего о самой реализации, например таких мелочей
+как теги. Если Вам интересен этот вопрос, возможно Вам удастся получить
+интересующую Вас информацию из &lt;a href="https://www.insight-it.ru/goto/61237733/" rel="nofollow" target="_blank" title="http://sqlserverpedia.com/wiki/Understanding_the_StackOverflow_Database_Schema"&gt;описания их схемы базы данных&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Fri, 08 Jan 2010 00:31:00 +0300</pubDate><guid>tag:www.insight-it.ru,2010-01-08:highload/2010/arkhitektura-stack-overflow/</guid><category>ASP</category><category>ASP .NET</category><category>Beyond Compare 3</category><category>C++</category><category>highload</category><category>JQuery</category><category>Lenovo</category><category>Lenovo ThinkServer</category><category>LINQ</category><category>Microsoft</category><category>MSSQL</category><category>MVC</category><category>Server Fault</category><category>SQL Server 2008</category><category>Stack Overflow</category><category>Subversion</category><category>Super User</category><category>Visual Studio 2008 Team Suite</category><category>VisualSVN</category><category>архитектура</category><category>архитектура Stack Overflow</category><category>архитектура высоконагруженных сайтов</category><category>Масштабируемость</category></item></channel></rss>

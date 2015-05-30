@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/sass/feed/index.xml" rel="self"></atom:link><lastBuildDate>Fri, 08 Feb 2013 10:20:00 +0400</lastBuildDate><item><title>Вакансии: команда Python разработчиков в EVAplacer</title><link>https://www.insight-it.ru//vacancy/2013/vakansii-komanda-python-razrabotchikov-v-evaplacer/</link><description>&lt;div class="card orange darken-3"&gt;
+&lt;p&gt;&lt;div class="card-content white-text center"&gt;
+&lt;strong&gt;Вакансии более не актуальны&lt;/strong&gt;
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Новая &lt;em&gt;международная геоинформационная социальная сеть&lt;/em&gt; EVAplacer
+набирает команду разработчиков.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h2 id="vedushchii-razrabotchik-servernoi-chasti-na-python"&gt;Ведущий разработчик серверной части на Python&lt;/h2&gt;
+&lt;h3 id="zadachi"&gt;Задачи&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Разработка серверной части проекта на Python&lt;/li&gt;
+&lt;li&gt;Проектирование архитектуры системы и схемы базы данных&lt;/li&gt;
+&lt;li&gt;Организация взаимодействия серверной части проекта с клиентской&lt;/li&gt;
+&lt;li&gt;Принятие технических решений&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="trebovaniia"&gt;Требования&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Свежий опыт веб-разработки на Python &lt;em&gt;без использования Django&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Суммарный опыт веб-разработки от 5 лет&lt;/li&gt;
+&lt;li&gt;Самостоятельность и заинтересованность в качестве результата своей
+    работы&lt;/li&gt;
+&lt;li&gt;Умение делегировать часть работы коллегам&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="tekhnologii"&gt;Технологии&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Предстоит работать со следующими технологиями:&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/2e568974/" rel="nofollow" target="_blank" title="http://flask.pocoo.org/"&gt;Flask&lt;/a&gt; +
+    &lt;a href="https://www.insight-it.ru/goto/35c21496/" rel="nofollow" target="_blank" title="http://jinja.pocoo.org/"&gt;Jinja2&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/bf2b1e00/" rel="nofollow" target="_blank" title="http://www.mongodb.org/"&gt;MongoDB&lt;/a&gt; +
+    &lt;a href="https://www.insight-it.ru/goto/a6920afe/" rel="nofollow" target="_blank" title="http://lucene.apache.org/solr/"&gt;Solr&lt;/a&gt; +
+    &lt;a href="https://www.insight-it.ru/goto/9ecaff4c/" rel="nofollow" target="_blank" title="http://memcached.org/"&gt;memcached&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/39ecae7b/" rel="nofollow" target="_blank" title="http://www.zeromq.org/"&gt;ZeroMQ&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Опыт работы именно с ними очень желателен, но не обязателен&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="zarplata"&gt;Зарплата&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;В диапазоне 100-150 тысяч рублей в месяц в зависимости от опыта&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="klientskii-razrabotchik_1"&gt;Клиентский разработчик&lt;/h2&gt;
+&lt;h3 id="zadachi_1"&gt;Задачи&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Разработка клиентской части проекта&lt;/li&gt;
+&lt;li&gt;Работа на стыке с серверной частью (Python), создание HTML и других
+    шаблонов на Jinja2&lt;/li&gt;
+&lt;li&gt;Оптимизация скорости загрузки страниц&lt;/li&gt;
+&lt;li&gt;Принятие технических решений по клиентской части&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="trebovaniia_1"&gt;Требования&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Опыт разработки на JavaScript/CoffeeScript и валидной верстки на
+    HTML5&lt;/li&gt;
+&lt;li&gt;Понимание основных принципов клиентской оптимизации&lt;/li&gt;
+&lt;li&gt;Суммарный опыт веб-разработки от 3 лет&lt;/li&gt;
+&lt;li&gt;Усидчивость, самостоятельность и заинтересованность в качестве
+    результата своей работы&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="tekhnologii_1"&gt;Технологии&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Предстоит работать со следующими технологиями:&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/35c21496/" rel="nofollow" target="_blank" title="http://jinja.pocoo.org/"&gt;Jinja2&lt;/a&gt; +
+    &lt;a href="https://www.insight-it.ru/goto/312f4825/" rel="nofollow" target="_blank" title="http://elsdoerfer.name/docs/webassets/"&gt;webassets&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/834fa52/" rel="nofollow" target="_blank" title="http://coffeescript.org/"&gt;CoffeeScript&lt;/a&gt; +
+    &lt;a href="https://www.insight-it.ru/goto/dca1748a/" rel="nofollow" target="_blank" title="http://sass-lang.com/"&gt;SASS&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/f573c764/" rel="nofollow" target="_blank" title="http://twitter.github.com/bootstrap/"&gt;Twitter Bootstrap&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/3b02d98c/" rel="nofollow" target="_blank" title="http://jquery.com/"&gt;jQuery&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/96340c7c/" rel="nofollow" target="_blank" title="http://leafletjs.com/"&gt;Leaflet&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Опыт работы именно с ними очень желателен, но не обязателен&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="zarplata_1"&gt;Зарплата&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;В диапазоне 60-100 тысяч рублей в месяц в зависимости от опыта&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="spetsialist-po-testirovaniiu_1"&gt;Специалист по тестированию&lt;/h2&gt;
+&lt;h3 id="zadachi_2"&gt;Задачи&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Основные:&lt;ul&gt;
+&lt;li&gt;Разработка автоматических тестов для серверной части проекта на
+    Python&lt;/li&gt;
+&lt;li&gt;Регрессионное тестирование сайта с помощью
+    &lt;a href="https://www.insight-it.ru/goto/561c2b8c/" rel="nofollow" target="_blank" title="http://seleniumhq.org/"&gt;Selenium&lt;/a&gt; или альтернатив&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Дополнительные:&lt;ul&gt;
+&lt;li&gt;Нагрузочное тестирование с использованием
+    &lt;a href="https://www.insight-it.ru/goto/52bdc53f/" rel="nofollow" target="_blank" title="http://jmeter.apache.org/"&gt;JMeter&lt;/a&gt; или альтернатив&lt;/li&gt;
+&lt;li&gt;Ручное визуальное тестирование, в т.ч. на кроссбраузерность&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="trebovaniia_2"&gt;Требования&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Свежий опыт тестирования интернет-проектов, желательно на Python&lt;/li&gt;
+&lt;li&gt;Суммарный опыт в тестировании от 3 лет&lt;/li&gt;
+&lt;li&gt;Внимательность, самостоятельность и заинтересованность в качестве
+    результата работы команды&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="zarplata_2"&gt;Зарплата&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;В диапазоне 50-100 тысяч рублей в месяц в зависимости от опыта&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="usloviia_1"&gt;Условия&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Премии по достижении ключевых вех проекта&lt;/li&gt;
+&lt;li&gt;Офис в центре Москвы (м. Охотный ряд, меньше 5 минут пешком)&lt;/li&gt;
+&lt;li&gt;Работа на MacBook Pro&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="card orange darken-3"&gt;
+&lt;p&gt;&lt;div class="card-content white-text center"&gt;
+&lt;strong&gt;Вакансии более не актуальны&lt;/strong&gt;
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Fri, 08 Feb 2013 10:20:00 +0400</pubDate><guid>tag:www.insight-it.ru,2013-02-08:vacancy/2013/vakansii-komanda-python-razrabotchikov-v-evaplacer/</guid><category>CoffeeScript</category><category>EVAplacer</category><category>Flask</category><category>html5</category><category>JavaScript</category><category>Jinja2</category><category>JMeter</category><category>JQuery</category><category>Leaflet</category><category>MacBook Pro</category><category>Memcached</category><category>MongoDB</category><category>Python</category><category>sass</category><category>Selenium</category><category>Solr</category><category>Twitter Bootstrap</category><category>webassets</category><category>ZeroMQ</category><category>вакансии</category><category>разработчик</category><category>тестировщик</category></item><item><title>Jinja2</title><link>https://www.insight-it.ru//python/2012/jinja2/</link><description>&lt;p&gt;Я уже много раз упоминал в комментариях и других постах, что когда мне
+приходится программировать, последние пару лет я чаще всего использую
+&lt;a href="/tag/python/"&gt;Python&lt;/a&gt;.&amp;nbsp;При этом так забавно получилось, что в рубрике "Программирование" об этом языке практически ни слова, даже подрубрики не было. Сегодня я попробую потихоньку начать исправлять данную ситуацию, речь пойдет об одном из самых продвинутых шаблонизаторов под Python - &lt;strong&gt;Jinja2&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Встречаем!&lt;!--more--&gt;&lt;/p&gt;
+&lt;h2 id="vvedenie"&gt;Введение&lt;/h2&gt;
+&lt;p&gt;Я хочу рассказать о том, что можно интересного сделать с помощью Jinja2,
+по вопросам как именно - лучше обратиться к &lt;a href="https://www.insight-it.ru/goto/221c343/" rel="nofollow" target="_blank" title="http://jinja.pocoo.org/docs"&gt;официальной документации&lt;/a&gt;. Хотя на конкретные вопросы
+по реализации в комментариях с удовольствием отвечу.&lt;/p&gt;
+&lt;p&gt;Прежде чем перейти к делу, хочу напомнить что имеется ввиду под словом
+&lt;em&gt;шаблонизатор&lt;/em&gt;: механизм для создания HTML-страниц путем заполнения
+HTML-шаблонов динамическими данными, получаемыми из СУБД или внешних
+источников. Шаблонизатор предоставляет некую надстройку над синтаксисом
+HTML для создания шаблонов и API для их использования.&lt;/p&gt;
+&lt;h2 id="bazovyi-funktsional"&gt;Базовый функционал&lt;/h2&gt;
+&lt;p&gt;Многое из этого можно увидеть и в альтернативных реализациях
+шаблонизаторов, так что ничего особенного:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;{{ ... }}&lt;/code&gt; позволяет распечатать значение переменной или какого-то
+выражения, синтаксис достаточно свободный - можно обращаться к элементам
+коллекций, методам/атрибутам объектов и.т.п.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;{% ... %}&lt;/code&gt;&amp;nbsp;позволяет вызвать дополнительные теги, среди которых
+условные выражения, различные варианты циклов и многое другое.&lt;/li&gt;
+&lt;li&gt;Присутствиет концепция
+&lt;a href="https://www.insight-it.ru/goto/fcce65d3/" rel="nofollow" target="_blank" title="http://jinja.pocoo.org/docs/templates/#builtin-filters"&gt;&lt;strong&gt;фильтров&lt;/strong&gt;&lt;/a&gt;,
+сильно напоминающих UNIX pipes: начинается все с переменной или
+выражения, после чего можно через символ &lt;code&gt;|&lt;/code&gt; указать как её обработать
+перед выводом в итоговый документ. Например, &lt;code&gt;{{ foo|lower }}&lt;/code&gt; выведет
+содержимое строки foo в нижнем регистре. Как и в pipes, из фильтров
+можно делать цепочки.&lt;/li&gt;
+&lt;li&gt;Механизм &lt;a href="https://www.insight-it.ru/goto/45907dba/" rel="nofollow" target="_blank" title="http://jinja.pocoo.org/docs/templates/#template-inheritance"&gt;&lt;strong&gt;наследования&lt;/strong&gt;&lt;/a&gt;
+позволяет избежать избыточности в коде. В коде шаблона выделяются
+именованные блоки тегом &lt;code&gt;{% block ... %}&lt;/code&gt;, после чего шаблон-потомок может переопределить содержимое блоков шаблона-родителя произвольным образом. Типичный пример использования:&lt;ul&gt;
+&lt;li&gt;Создается базовый шаблон страницы, состоящий из основного каркаса
+страницы &amp;nbsp;и всех общих для всего сайта элементов (ссылки на файлы
+стилей, общие &lt;a href="/tag/javascript/"&gt;JavaScript&lt;/a&gt; файлы и библиотеки,
+какие-то мета теги, title по-умолчанию)&lt;/li&gt;
+&lt;li&gt;В базовом шаблоне содержимое каждой части выделяется в именованный
+блок (как минимум шапка, место под контент, 1-2 сайдбара и подвал),
+иногда рядом со стилями и скриптами оставляют по пустому блоку на
+случай, если шаблонам-наследникам потребуется что-то специфичное.&lt;/li&gt;
+&lt;li&gt;Если какой-то блок будет содержать одну и ту же информацию на
+большинстве страниц сайта, то её тоже обычно помещают в базовый
+шаблон.&lt;/li&gt;
+&lt;li&gt;Создается по шаблону-потомку на каждый тип используемых на сайте
+страниц, в которых переопределяется как правило &amp;nbsp;(но далеко не
+всегда) только блок с конткентом и заголовок страницы. Из
+шаблонов-потомков также можно составить иерархию в случае, если у
+них есть много общей информации.&lt;/li&gt;
+&lt;li&gt;Стоит упомянуть, что есть альтернативный механизм включения
+(include) шаблонов по-аналогии с &lt;a href="/tag/php/"&gt;PHP&lt;/a&gt;-файлами, но я
+достойных применений ему не нашел.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Очень много внимания уделено &lt;strong&gt;экранированию символов&lt;/strong&gt;, хотя особо на
+него надеяться не стоит - с точки зрения безопасности намного важнее
+фильтровать попадающие на сайт данные, а не выводимые в шаблонах. Хотя
+как дополнительная подстраховка не помешает.&lt;/li&gt;
+&lt;li&gt;Простая &lt;a href="https://www.insight-it.ru/goto/c0aeaa06/" rel="nofollow" target="_blank" title="http://jinja.pocoo.org/docs/extensions/#i18n-extension"&gt;&lt;strong&gt;интеграция с gettext&lt;/strong&gt;&lt;/a&gt;&amp;nbsp;придется кстати интернациональным проектам.&lt;/li&gt;
+&lt;li&gt;Опциональное &lt;strong&gt;считывание шаблонов с диска&lt;/strong&gt; при каждом запросе страницы незаменимо при разработке.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="proizvoditelnost"&gt;Производительность&lt;/h2&gt;
+&lt;p&gt;Сравнительные тесты производительности шаблонизаторов под Python
+довольно условны, очень многое зависит от конкретных шаблонов и
+динамических данных. Тем не менее, во всех из них &lt;strong&gt;Jinja2&lt;/strong&gt; определенно
+не в аутсайдерах, в топ5 вполне стабильно.&lt;/p&gt;
+&lt;p&gt;Шаблоны компилируются в байткод для последующего использования, с этой
+особенностью связаны два момента, которые спользовать:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Байткод можно &lt;a href="https://www.insight-it.ru/goto/873c9444/" rel="nofollow" target="_blank" title="http://jinja.pocoo.org/docs/api/#bytecode-cache"&gt;хранить&lt;/a&gt; в &lt;a href="/tag/memcached/"&gt;memcached&lt;/a&gt; или любом другом внешним хранилище, достаточно лишь реализовать минимальный get/set интерфейс.&lt;/li&gt;
+&lt;li&gt;Доступен опциональный &lt;a href="https://www.insight-it.ru/goto/cd6194bd/" rel="nofollow" target="_blank" title="http://jinja.pocoo.org/docs/intro/#more-speed-with-markupsafe"&gt;модуль&lt;/a&gt; на &lt;a href="/tag/c/"&gt;C&lt;/a&gt;, который берет на себя часть работы по заполнению шаблонов, что делает этот процесс несколько быстрее.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="rasshiriaemost"&gt;Расширяемость&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Jinja2&lt;/strong&gt; предоставляет широкие возможности по подключению
+дополнительных модулей и самостоятельной реализации и использованию
+аналогов любых компонентов системы. Можно разрабатывать и подключать
+свои фильтры, проверки, глобальные функции, загрузчики шаблонов,
+расширения и пр. Пройдемся по потенциальным вариантам использования этих
+возможностей на благо проекта, в основном в целях клиентской
+оптимизации.&lt;/p&gt;
+&lt;h3 id="webassets"&gt;Webassets&lt;/h3&gt;
+&lt;p&gt;Этот &lt;a href="https://www.insight-it.ru/goto/5908cea6/" rel="nofollow" target="_blank" title="https://github.com/miracle2k/webassets"&gt;проект&lt;/a&gt;&amp;nbsp;позволяет делать с
+подключаемыми внешними Javascript и CSS файлами практически все, что
+угодно. В типичном варианте использования используется тег &lt;strong&gt;{% assets
+%}&lt;/strong&gt;&amp;nbsp;для:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Указания списка изначальных CSS/JS файлов, для конкатенации и
+    последующей обработки.&lt;/li&gt;
+&lt;li&gt;Указания окружения ссылки на итоговый файл, т.е. как именно должен
+    выглядеть тег &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt; или &lt;code&gt;&amp;lt;style&amp;gt;&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Списка фильтров, для минимизации или других преобразований кода.&lt;/li&gt;
+&lt;li&gt;Возможно использование &lt;a href="https://www.insight-it.ru/goto/9d74fdb3/" rel="nofollow" target="_blank" title="http://sass-lang.com"&gt;sass&lt;/a&gt;&amp;nbsp;или
+    &lt;a href="https://www.insight-it.ru/goto/48ae8bc7/" rel="nofollow" target="_blank" title="http://lesscss.org"&gt;less&lt;/a&gt;&amp;nbsp;файлов вместо чистого CSS.&lt;/li&gt;
+&lt;li&gt;Отключение конкатенации и минимизации при разработке доступно
+    изменением одного флага.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;В итоге вопрос с подготовкой минимизированных статических файлов
+становится полностью автоматическим.&lt;/p&gt;
+&lt;p&gt;Доступна интегрирация и с другими Python шаблонизаторами, в Jinja2 он
+подключается просто как расширение.&lt;/p&gt;
+&lt;h3 id="minimizatsiia-html"&gt;Минимизация HTML&lt;/h3&gt;
+&lt;p&gt;Этот вопрос решается путем наследования от поставляемого вместе с
+шаблонизатором загрузчика шаблонов. API позволяет делать между чтением
+шаблона и генерацией байткода что угодно с текстом шаблона, например
+можно пропустить все через примитивную регулярку (вернее через
+несколько) и свернуть тем самым весь HTML в одну строку. Хочется
+обратить внимание, что осуществляется этот процесс очень редко (особенно
+при использовании кэша байт кода), так что можно делать на этом этапе
+даже сильно ресурсоемкие преобразования текста.&lt;/p&gt;
+&lt;h3 id="drugoi-format-dannykh"&gt;Другой формат данных&lt;/h3&gt;
+&lt;p&gt;В одном из моих проектов при первом заходе на сайт или при отключенном
+JS сервер полностью отрисовывал страницу, а при переходах по ссылкам
+внутри сайта делался AJAX-запрос и сервер выдавал какие блоки нужно
+обновить и каким содержимым в формате JSON. Про клиентскую часть всего
+этого дела можно легко написать отдельную здоровую статью, так что в
+подробности не вдаюсь.&lt;/p&gt;
+&lt;p&gt;Да, наверняка многие скажут, что в этой ситуации надо было использовать
+универсальные шаблоны для JS и серверной части, но на Jinja2 такое тожно
+можно реализовать, с той лишь разницей, что пришлось гонять по сети не
+только сами данные, но и часть HTML-разметки (что, порой, тоже не
+плохо). Реализуется как и минимизация HTML посредством переопределения
+загрузчика страниц, который использовался вместо стандартного, если
+запрос пришел через AJAX.&lt;/p&gt;
+&lt;h3 id="sekonomim-eshche-paru-bait"&gt;Сэкономим еще пару байт&lt;/h3&gt;
+&lt;p&gt;С подобного рода оптимизацией не заборачивается, наверное и 0.01%
+интернет-проектов, но я в свое время как-то увлекся и написал штуку для
+"выжимания" десятка-другого байт с большинства страниц и CSS/JS файлов.
+"Проблема" состоит в следующем: &lt;strong&gt;классы и идентификаторы&lt;/strong&gt;,
+использующиеся в HTML, в "культурных" проектах &lt;strong&gt;имеют&lt;/strong&gt; хотя бы
+отдаленно &lt;strong&gt;человекочитаемые названия&lt;/strong&gt;, что почти всегда означает их
+длинность, что, учитывая их частую повторяемость в коде, в свою очередь
+негативно влияет на &lt;em&gt;итоговый&amp;nbsp;размер HTML/JS/CSS документов&lt;/em&gt;.
+Теоретическое решение лежит на поверхности: использовать "длинные"
+идентификаторы и классы в HTML при разработке, а при развертывании на
+публику&amp;nbsp;&lt;strong&gt;переименовывать их в "короткие"&lt;/strong&gt;: &lt;em&gt;a, b, c, ..., aa, ab, ac,
+...&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;На практике же все несколько сложнее: есть масса проблем с префиксностью
+и суффиксностью, в JS классы иногда неотличимы от других строк с точками
+(зависят от контекста), некоторые классы и идентификаторы генерируются
+динамически - на них прийдется либо забивать, либо обрабатывать
+индивидуально, и это далеко не все...&lt;/p&gt;
+&lt;p&gt;Если у кого-то возникнет желание тоже сделать что-то подобное средствами
+&lt;em&gt;Jinja2&lt;/em&gt;, то советую "вмешиваться" в обработку JS/CSS посредством
+дополнительного фильтра в &lt;em&gt;Webassets&lt;/em&gt;, а сами шаблоны редактировать как
+и в предыдущих разделах при считывании их с диска.&lt;/p&gt;
+&lt;h3 id="spraity-i-obrabotka-izobrazhenii"&gt;Спрайты и обработка изображений&lt;/h3&gt;
+&lt;p&gt;Создание &lt;a href="https://www.insight-it.ru/goto/a3d1c475/" rel="nofollow" target="_blank" title="http://ru.wikipedia.org/wiki/%D0%A1%D0%BF%D1%80%D0%B0%D0%B9%D1%82_(%D0%BA%D0%BE%D0%BC%D0%BF%D1%8C%D1%8E%D1%82%D0%B5%D1%80%D0%BD%D0%B0%D1%8F_%D0%B3%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0)"&gt;спрайтов&lt;/a&gt;&amp;nbsp;как таковых не предусмотрено, так как по сути это не по части шаблонизатора. Но есть вариант подключить их к Webassets, например через интеграцию&amp;nbsp;&lt;a href="/tag/ruby/"&gt;Ruby&lt;/a&gt;-проектом
+&lt;a href="https://www.insight-it.ru/goto/3998bac3/" rel="nofollow" target="_blank" title="https://github.com/chriseppstein/compass"&gt;compass&lt;/a&gt; (у которого есть
+плагин-генератор спрайтов).&lt;/p&gt;
+&lt;p&gt;Если говорить просто о уменьшении размеров изображений, то это легко
+делается средствами самого &lt;a href="/tag/python/"&gt;Python&lt;/a&gt; и с шаблонизатором
+практически не взаимодействует: достаточно обрабатывать изображения при
+загрузке их пользователями и держать статические изображения "в форме".&lt;/p&gt;
+&lt;h3 id="idei-dlia-filtrov-i-globalnykh-funktsii"&gt;Идеи для фильтров и глобальных функций&lt;/h3&gt;
+&lt;p&gt;Список встроенных в Jinja2 фильтров, функций и проверок, хоть и обширен,
+но того, что нужно, там зачастую не оказывается. Вот несколько примеров,
+чего в нем нет:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Форматирования даты/времени по шаблону&lt;/li&gt;
+&lt;li&gt;Фильтрации HTML с белым списком тегов&lt;/li&gt;
+&lt;li&gt;Получения атрибута объекта с неизвестным заранее именем (getattr)&lt;/li&gt;
+&lt;li&gt;Вывода строки в режиме "первая - заглавная, остальные - прописные&lt;/li&gt;
+&lt;li&gt;Генерации часто используемых HTML-тегов, например &lt;code&gt;&amp;lt;a href="..."&amp;gt;&amp;lt;/a&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Не смотря на то, что реализация каждого из вышеизложенных пунктов
+занимает буквально чуть-чуть строк кода, меня всегда удивляло отсутствие
+подобных достаточно примитивных вещей "в комплекте".&lt;/p&gt;
+&lt;h2 id="podvodim-itogi_1"&gt;Подводим итоги&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Jinja2&lt;/strong&gt; - отличный инструмент для тех проектов, которым важно не
+просто донести какую-то информацию до пользователей, а сделать это
+приятно и быстро, как для себя, так и для пользователя. Гибкость и
+расширяемость этого движка шаблонов позволяет адаптировать его под нужды
+любого проекта, а также воспользоваться в полной мере всеми
+возможностями современной &lt;em&gt;клиентской оптимизации&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;С удовольствием бы опубликовал упоминавшиеся в статье куски кода в
+opensource, но для этого нужно взять себя в руки и состряпать из них
+что-то "отчуждаемое" от тех проектов, для которых оно писалось.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;В комментариях предлагаю обсудить Jinja2 в сравнении с другими
+шаблонизаторами: кто какими альтернативами пользуется, в чем видит
+сильные и слабые стороны, какой фактор оказывается решающим при выборе
+движка для конкретного проекта?&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Спасибо за внимание, &lt;a href="/feed/"&gt;подписавшись на Insight IT&lt;/a&gt; можно
+узнавать о новых материалах одним из первых :)&lt;/strong&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sun, 19 Feb 2012 18:39:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-02-19:python/2012/jinja2/</guid><category>compass</category><category>html</category><category>Jinja2</category><category>less</category><category>Memcached</category><category>Python</category><category>sass</category><category>webassets</category><category>клиентская оптимизация</category><category>шаблон</category><category>шаблонизация</category></item></channel></rss>

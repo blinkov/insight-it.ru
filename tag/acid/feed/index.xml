@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/acid/feed/index.xml" rel="self"></atom:link><lastBuildDate>Tue, 22 Feb 2011 20:18:00 +0300</lastBuildDate><item><title>Google Megastore</title><link>https://www.insight-it.ru//storage/2011/google-megastore/</link><description>&lt;p&gt;Гигантский шаг в сторону распределенного будущего был предпринят
+командой &lt;a href="https://www.insight-it.ru/goto/536fbea0/" rel="nofollow" target="_blank" title="http://www.appspot.com"&gt;Google App Engine&lt;/a&gt; в момент их релиза
+системы хранения данных с повышенным уровнем репликации. Она направленна
+на критичные для бизнеса приложения, которые требуют расположения копий
+данных как минимум в трех датацентрах, полной семантики ACID для групп
+сущностей и ограниченных гарантий консистентности между группами
+сущностей.
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;Это было большим достижением, ведь всего несколько компаний во всем мире
+способны на реализацию по-настоящему меж-датацентровой системы хранения
+данных. Помимо SimpleDB, как много других публично-доступных сервисов
+баз данных могут хранить информацию в нескольких датацентрах
+одновременно? Теперь эта возможность доступна каждому. Но всему есть
+цена: так как Megastore использует втрое больше ресурсов, чем обычное
+Master-Slave хранилище в GAE, стоимость так же увеличивается в три раза.
+Помимо этого стоит учитывать, что с ростом надежности и издержек,
+понижается производительность. Именно из-за этого, новая система
+хранения является альтернативой обычному хранилищу GAE для критичных
+задач, а не полной заменой.&lt;/p&gt;
+&lt;h2 id="osnovnye-osobennosti-megastore"&gt;Основные особенности Megastore&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Megastore совмещает масштабируемость NoSQL систем хранения данных с
+    удобством традиционных СУБД. Оно использовалось для внутренних
+    проектов Google на протяжении нескольких лет. Более 100 приложений,
+    3 миллиардов транзакций на запись и 20 миллиардов на чтение, более
+    петабайта данных распределены по множеству датацентров по всему
+    миру.&lt;/li&gt;
+&lt;li&gt;Megastore - хранилище, разработанное для удовлетворения требований
+    современных интерактивных онлайн сервисов. Используется синхронная
+    репликация для достижения высокого уровня доступности и
+    консистентности. Вкратце, оно предоставляет полную ACID семантику
+    для удаленных реплик с достаточно низкой задержкой, чтобы
+    использоваться в интерактивных приложениях. Хранилище
+    партиционируется и каждая часть реплицируется отдельно, позволяя
+    достичь полного соответствия ACID внутри партиции, но
+    консистентность между ними гарантируется лишь ограниченно.
+    Предоставляются некоторый функционал традиционных СУБД, такой как
+    вторичные индексы, но только те из них, которые масштабируются без
+    сильного негативного влияния на задержки и которые укладываются в
+    семантику используемой схемы партиционирования.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/9003689b/" rel="nofollow" target="_blank" title="http://labs.google.com/papers/paxos_made_live.html"&gt;Paxos&lt;/a&gt;
+    используется для управлением синхронной репликацией между
+    датацентрами. Это позволяет достичь очень высокого уровня надежности
+    ценой повышения времени выполнения операций записи. Обычно Paxos
+    используется только для координации, но в Megastore он также
+    используются и для управления записью данных.&lt;/li&gt;
+&lt;li&gt;Поддерживается три уровня консистентности при чтении: текущий,
+    снимок и неконсистентный.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/e52d8d3e/" rel="nofollow" target="_blank" title="http://code.google.com/appengine/docs/python/datastore/entities.html"&gt;Группы сущностей&lt;/a&gt;
+    являются&amp;nbsp;единицей&amp;nbsp;консистентности и транзакционности. Они
+    рассматриваются как маленькие независимые базы данных. Сами же
+    данные внутри каждого датацентра хранятся в масштабируемом NoSQL
+    хранилище.&lt;/li&gt;
+&lt;li&gt;Megastore, как и обычное хранилище в GAE, не поддерживает транзакции
+    с использованием нескольких групп сущностей, это существенно
+    повысило бы время их выполнения.&lt;/li&gt;
+&lt;li&gt;Группы сущностей - основной механизм группировки данных для быстрого
+    осуществления операций. Их размер и композиция должны быть
+    сбалансированы. В каждом приложении должен найтись способ
+    естественным образом очертить границы групп сущностей. При
+    оптимальном выборе групп сущностей ресурсоемкие кросс-групповые
+    операции будут сведены к минимуму. По сути этот процесс чем-то
+    напоминает нормализацию в реляционных СУБД.&lt;/li&gt;
+&lt;li&gt;Запросы с высокими требованиями по консистентности должны быть
+    ограничены одной группой сущностей. Кросс-групповые запросу могут
+    вернуть устаревшие результаты. Это является серьезным отличием в
+    поведении от обычного хранилища GAE, где по-умолчанию используется
+    высокий уровень консистентности для всех запросов, так как операции
+    записи и чтения по-умолчанию происходят с мастера.&lt;/li&gt;
+&lt;li&gt;В обычном хранилище GAE иногда отключается в связи с
+    запланированными техническими работами, а также вовремя
+    непредвиденных проблем с инфраструктурой. Megastore в большинстве
+    случаев не страдает этими проблемами.&lt;/li&gt;
+&lt;li&gt;Резервирование данных и избыточность достигаются посредством
+    синхронной репликации, снимков и инкрементального лога транзакций.&lt;/li&gt;
+&lt;li&gt;API для доступа к данным остался прежним.&lt;/li&gt;
+&lt;li&gt;Операции записи могут достигать секунды для каждой группы сущностей,
+    так что для приложений с высокой нагрузкой на запись оно подходит не
+    так хорошо.&lt;/li&gt;
+&lt;li&gt;Только новые приложения могут воспользоваться опцией Megastore,
+    существующие приложения необходимо пересоздать, чтобы использовать
+    эту возможность. Впоследствии изменить тип хранилища невозможно.&lt;/li&gt;
+&lt;li&gt;Одно приложение не может использовать одновременно обычное хранилище
+    и Megastore. Напрашивается использование одного приложения с Google
+    Megastore для критически важных данных, а другое приложение с
+    обычным хранилищем для всего остального, но такая схема противоречит
+    правилам использования сервиса.&lt;/li&gt;
+&lt;li&gt;Автоматической миграции данных между Master/Slave хранилищем и
+    Megastore не существует, разработчики приложения должны сами
+    позаботиться об этом. Google предоставляют лишь набор инструментов и
+    примеров кода, чтобы облегчить процесс миграции.&lt;/li&gt;
+&lt;li&gt;В приложениях, использующих Megastore, еще большее &amp;nbsp;значение
+    приобретает эффективное кэширование данных.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="materialy-po-teme"&gt;Материалы по теме&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/7b4d766b/" rel="nofollow" target="_blank" title="http://highscalability.com/blog/2011/1/11/google-megastore-3-billion-writes-and-20-billion-read-transa.html"&gt;Google Megastore - 3 Billion Writes And 20 Billion Read
+    Transactions
+    Daily&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/aceb53b5/" rel="nofollow" target="_blank" title="http://www.cidrdb.org/cidr2011/Papers/CIDR11_Paper32.pdf"&gt;Megastore: Providing Scalable, Highly Available Storage for
+    Interactive
+    Services&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/79ab1d81/" rel="nofollow" target="_blank" title="https://groups.google.com/group/google-appengine-downtime-notify/msg/e9414ee6493da6fb?pli=1"&gt;May 25th Datastore Outage
+    Post-mortem&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/9003689b/" rel="nofollow" target="_blank" title="http://labs.google.com/papers/paxos_made_live.html"&gt;Paxos Made Live &amp;ndash; An Engineering
+    Perspective&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/3e2c1159/" rel="nofollow" target="_blank" title="http://code.google.com/appengine/docs/python/datastore/hr/"&gt;Choosing a
+    Datastore&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/a24a0860/" rel="nofollow" target="_blank" title="http://code.google.com/appengine/docs/python/datastore/hr/overview.html"&gt;Using the High Replication
+    Datastore&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/8667b351/" rel="nofollow" target="_blank" title="http://labs.google.com/papers/bigtable.html"&gt;Bigtable: A Distributed Storage System for Structured
+    Data&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/28e767f5/" rel="nofollow" target="_blank" title="http://highscalability.com/blog/2009/8/24/how-google-serves-data-from-multiple-datacenters.html"&gt;How Google Serves Data From Multiple
+    Datacenters&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/6b995f76/" rel="nofollow" target="_blank" title="http://highscalability.com/blog/2009/3/10/paper-consensus-protocols-paxos.html"&gt;Consensus Protocols:
+    Paxos&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/83657c8b/" rel="nofollow" target="_blank" title="http://groups.google.com/group/google-appengine/browse_thread/thread/5fc3b6a4366de62f/4b4d23e924b7b136?lnk=gst&amp;amp;q=High+Replication+Datastore+for+App+Engine#"&gt;Performance
+    comparison&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr/&gt;
+&lt;p&gt;Еще не все возможности Google Megastore полностью доступны пользователям
+App Engine в виде High Replication Storage, но я думаю это вопрос
+времени. Хотелось бы пообсуждать в комментариях области применения
+новинки на практике: какие приложения, критичные к доступности и
+сохранности данных, можно позволить себе отдать в PaaS, пускай даже от
+Google?&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;P.S.: По традиции хочу напомнить, что читать Insight IT удобнее всего
+&lt;a href="/feed/"&gt;через RSS-reader&lt;/a&gt;.&lt;/strong&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Tue, 22 Feb 2011 20:18:00 +0300</pubDate><guid>tag:www.insight-it.ru,2011-02-22:storage/2011/google-megastore/</guid><category>ACID</category><category>Google</category><category>google app engine</category><category>Google Megastore</category><category>консистентность</category><category>репликация</category></item></channel></rss>

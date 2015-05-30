@@ -1,0 +1,952 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/koding/feed/index.xml" rel="self"></atom:link><lastBuildDate>Fri, 15 Feb 2008 13:17:00 +0300</lastBuildDate><item><title>Модификация алгоритма хэширования</title><link>https://www.insight-it.ru//php/2008/modifikaciya-algoritma-khehshirovaniya/</link><description>&lt;p&gt;Если Вы уже успели прочитать &lt;a href="https://www.insight-it.ru/security/2008/obratnogo-puti-net/"&gt;одну из моих предыдущих записей о
+хэшировании&lt;/a&gt;, то Вы уже
+имеете базовое представление о теме сегодняшнего разговора.
+Одним из возможных способов применения хэшей является хранение
+аутентификационных данных пользователей интернет-приложения, об
+особенностях реализации формирования и проверки хэшей при регистрации и
+авторизации пользователей средствами &lt;a href="/tag/php/"&gt;PHP&lt;/a&gt; я и хотел бы с Вами
+поговорить.
+&lt;!--more--&gt;
+Сомневаюсь, что Вы услышите что-то новое, если я скажу, что в
+&lt;a href="/tag/php/"&gt;PHP&lt;/a&gt; даже в "стандартной комплектации" реализована масса
+алгоритмов хэширования, начиная с широкораспространенных &lt;strong&gt;md5();&lt;/strong&gt; и
+&lt;strong&gt;sha1();&lt;/strong&gt; и заканчивая модулями &lt;strong&gt;hash&lt;/strong&gt; и &lt;strong&gt;mhash&lt;/strong&gt;, в которых
+реализована еще целая масса алгоритмов. Все они давно уже
+стандартизованы и доступны для изучения всем желающим получить о них
+какую-либо информацию.&lt;/p&gt;
+&lt;p&gt;Допустим мы храним пароли пользователей в виде какого-то стандартного
+хэша, для примера - &lt;strong&gt;md5&lt;/strong&gt;, в базе данных. Все было отлично, но в один
+прекрасный момент нашелся подлый злоумышленник, который неким хитрым
+способом получил доступ к базе данных логинов и паролей. Перед ним стоит
+цель - узнать изначальный пароль у максимального числа пользователей.
+Посмотрим на ситуацию с его стороны:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Первым делом он бы попытался определить, какой именно хэш перед ним
+    находится - чаще всего это делается либо просто взглянув на длину
+    хэша, либо если приложение широко распространено (популярная CMS
+    скажем) - покопавшись в ее исходниках, еще есть вариант найти свой
+    собственный аккаунт - и зная пароль попробовать на нем разные
+    алгоритмы, способов можно придумать множество - все ограничивается
+    лишь воображением. Узнав ответ на свой вопрос ему лишь останется
+    набрать в &lt;a href="/tag/google/"&gt;Google&lt;/a&gt; фразу вроде &lt;em&gt;"md5 decrypt"&lt;/em&gt;, а
+    дальше уже дело техники.&lt;/li&gt;
+&lt;li&gt;Еще один вариант решения задачи - взглянуть на список хэшей на
+    предмет наличия совпадений. С очень высокой степенью вероятности за
+    значительной группой одинаковых хэшей будет скрываться какой-либо
+    банальный пароль вроде &lt;em&gt;123456&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Задача же разработчика приложения максимально обезопасить систему от
+подобных ситуаций. Конечно же можно просто стараться минимизировать
+возможности реализации методов получения информации из базы данных, но
+предугадать все варианты невозможно: в любом из используемых компонентов
+системы может оказаться уязвимость в коде, на которую наверняка найдется
+умник, который напишет &lt;em&gt;exploit&lt;/em&gt;, а значит полностью исключить такую
+вероятность не получится, в лучшем случае выйдет просто ее
+минимизировать.&lt;/p&gt;
+&lt;p&gt;Именно по этим причинам и стоит задуматься об усложнении задачи
+злоумышленника в случае возникновения описанной выше ситуации. Для
+исключения возможности просто расшифровывания хэшей по словарю (то есть
+первый случай, когда определяется тип хэша и соответствующий ему словарь
+&lt;em&gt;хэш =&amp;gt; исходное значение&lt;/em&gt;) достаточно исключить возможность
+идентификации алгоритма хэширования или наличия к нему заранее
+подготовленного словаря. Для этого достаточно лишь сделать шаг в сторону
+от стандартного алгоритма любым пришедшим в голову способом, например:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;хранить хэш не от самого пароля, а от &lt;em&gt;пароль + какая-либо
+    фиксированная строка&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;поменять местами группы символов в получившемся стандартном хэше&lt;/li&gt;
+&lt;li&gt;сделать сдвиг символов в стандартном хэше (или можно даже не сами
+    символы двигать, а с помощью битовых операций их значения)&lt;/li&gt;
+&lt;li&gt;комбинировать два стандартных алгоритма хэширования, или алгоритм
+    хэширования с алгоритмом обратимого шифрования, которых доступно
+    также множество&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Список этот можно было бы продолжать достаточно долго, это было лишь
+первое, что пришло мне в голову. Но ни один из приведенных способов не
+избавит от возможности второго варианта раскрывания исходного пароля.
+Основывается он на однозначности стандартных алгоритмов - одним и тем же
+исходным данным соответствует один и тот же хэш. Для отказа от этого
+свойства стандартных алгоритмов придется выполнить более сложную
+модификацию используемой для генерации хэша функции (которая конечно же
+тоже поможет и для борьбы с первым вариантом). Сразу приведу пример
+&lt;a href="/tag/kod/"&gt;кода&lt;/a&gt;, реализующего этот механизм, а дальше попытаюсь его
+объяснить:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;generateHash&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$input&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$salt&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;false&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="nv"&gt;$salt&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nv"&gt;$salt&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nx"&gt;randomString&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="nv"&gt;$hash&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;md5&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$input&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nv"&gt;$salt&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nv"&gt;$salt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;substr&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$hash&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Как не трудно заметить - используется самодельная функция
+&lt;strong&gt;randomString();&lt;/strong&gt;, которая возвращает случайную строку, состоящую из
+указанного количества шестнадцатеричных цифр (надеюсь Вы в состоянии
+написать ее своими силами). Именно этот момент и гарантирует элемент
+случайности при каждой новой генерации хэша. В том месте, где я прочитал
+про этот механизм (ссылку, к сожалению, привести не могу - в bookmark'ах
+не нашел), этот случайный компонент назывался словом &lt;strong&gt;salt&lt;/strong&gt;, смысл его
+заключается в том, что он приписывается ко входным данным, передаваемым
+стандартной функции хэширования, а затем им же подменяется какая-либо
+фиксированная часть полученного хэша.
+Наверняка у Вас возник вопрос: а как же потом понять, что пользователь
+ввел верные данные, ведь для тех же исходных данных получится другой хэш
+и возможности их сравнить не будет? Ответ достаточно прост, его можно
+было увидеть даже в коде: при повторной инициализации хэша из &lt;a href="/tag/bd/"&gt;базы
+данных&lt;/a&gt; достается заранее известная часть хранящегося там хэша,
+соответствующего конкретному пользователю - тот самый &lt;strong&gt;salt&lt;/strong&gt;, и
+передается нашей функции. В этом случае в механизме будет использоваться
+именно он, а не новое случайное значение, и, как следствие, в случае
+правильности введенных данных на выходе получатся совпадающие хэши. Вот
+такой вот простенький, но иногда достаточно полезный трюк.&lt;/p&gt;
+&lt;p&gt;Если Вам понравился этот пост - возможно Вам придутся по душе и
+&lt;a href="https://www.insight-it.ru/dzhentelmenskij-nabor-php-programmista/"&gt;остальные записи из этой серии статей&lt;/a&gt;, а не пропустить
+публикацию новых записей Вам может помочь &lt;a href="/feed/"&gt;RSS feed&lt;/a&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Fri, 15 Feb 2008 13:17:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-02-15:php/2008/modifikaciya-algoritma-khehshirovaniya/</guid><category>hash</category><category>md5</category><category>PHP</category><category>sha1</category><category>код</category><category>кодинг</category><category>Программирование</category><category>технология</category><category>хранение данных</category><category>хэш</category><category>хэширование</category><category>шифрование</category></item><item><title>На пути к идеалу</title><link>https://www.insight-it.ru//php/2008/na-puti-k-idealu/</link><description>&lt;blockquote&gt;
+&lt;p&gt;...или 15 привычек, которые помогут ускорить PHP-приложение&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Практически каждый программист стремится в своих приложениях не только
+максимально точно реализовать требуемый функционал, но и сделать это как
+можно более эффективным методом. Для этого конечно же необходимо
+проектирование, подходящий выбор используемых технологий, возможно
+некоторый опыт в предметной области, этот список можно продолжать
+достаточно долго, но я позволю себе этого не делать, так как речь
+сегодня пойдет не об этом. Вместо этого хочу обратить Ваше внимание на
+более простые и "приземленные" методы &lt;a href="/tag/optimizaciya/"&gt;оптимизации&lt;/a&gt;
+PHP-кода, которые может быть и не так эффективны по сравнению с
+указанными выше, но зато не требуют каких-либо усилий со стороны кодера
+и/или программиста, достаточно лишь воспринимать их как "не вредные"
+привычки.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Прочитав достаточно солидный объем разного рода документации по
+&lt;a href="/tag/php/"&gt;PHP&lt;/a&gt;, я часто натыкался на статьи и тексты, так или иначе
+связанные с &lt;a href="/tag/proizvoditelnost/"&gt;производительностью&lt;/a&gt; PHP-скриптов.
+Порой в такого рода источниках информации удавалось найти достаточно
+интересные и неочевидные факты об этом языке программирования, которые
+не смотря на свою простоту могли дать вполне заметный прирост к
+&lt;a href="/tag/proizvoditelnost/"&gt;производительности&lt;/a&gt; итогового приложения. Я
+почему-то очень серьезно стал относиться к производительности написанных
+мной скриптов, и довольно часто стал испытывать на практике спорные
+моменты в реализации, о которых узнавал из Сети или каких-либо
+других источников, с помощью самописных или
+&lt;a href="/tag/opensource/"&gt;opensource&lt;/a&gt; benchmark'ов, хотя порой и просто внедряя
+в реальные приложения. Как ни странно, в большинстве случаев практика
+подтверждала теорию, и я стал постоянно пользоваться этими простыми
+правилами, о которых я и хочу Вам рассказать.&lt;/p&gt;
+&lt;h4&gt;Повышения значения индекса с помощью ++\$i;&lt;/h4&gt;
+&lt;p&gt;Этот факт был наверное одним из самых удивительных для меня, когда я
+впервые о нем услышал, но действительно операция &lt;strong&gt;++&lt;span style="color: blue"&gt;\$i&lt;/span&gt;&lt;/strong&gt;; выполняется несколько быстрее, чем
+&lt;strong&gt;&lt;span style="color: blue"&gt;\$i&lt;/span&gt;++;&lt;/strong&gt;. или другие вариации на ту
+же тему вроде &lt;strong&gt;&lt;span style="color: blue"&gt;\$i&lt;/span&gt;+=&lt;span style="color: blue"&gt;1&lt;/span&gt;;&lt;/strong&gt;. Привычка использовать в качестве
+индекса цикла переменную под названием i, казалось бы стара как Мир, мне
+она досталась в наследство от &lt;strong&gt;C&lt;/strong&gt;, а в месте с ней "в комплекте" шла
+привычка писать выражение &lt;strong&gt;i++&lt;/strong&gt; в заголовках циклов. Разница в
+скорости обработки этих выражений, насколько мне известно, обусловлена
+разным количеством элементарных машинных операций, которые необходимо
+выполнить процессору (в точных цифрах не уверен, пишу по памяти, но
+&lt;strong&gt;++&lt;span style="color: blue"&gt;\$i&lt;/span&gt;;&lt;/strong&gt; требует трех элементарных
+операций, а &lt;strong&gt;&lt;span style="color: blue"&gt;\$i&lt;/span&gt;++;&lt;/strong&gt; &amp;ndash; четырех). В
+справедливости этого факта не трудно убедиться, достаточно написать
+простенький скрипт, состоящий из цикла с достаточно большим количеством
+итераций, и замерить любым способом точное время его выполнения при
+использовании разных способов инкрементации индекса цикла.&lt;/p&gt;
+&lt;h4&gt;Вывод статического контента без помощи PHP&lt;/h4&gt;
+&lt;p&gt;Сейчас тот факт, что использование интерпретатора PHP для вывода
+статического контента сильно замедляет этот процесс, кажется мне
+очевидным, но поначалу я использовал &lt;strong&gt;&lt;span style="color: #17349c"&gt;echo&lt;/span&gt;&lt;/strong&gt; там, где он был необходим, ничуть
+не чаще, чем там, где он лишь замедляет работу скрипта. От использования
+еще менее эффективного способа - &lt;strong&gt;&lt;span style="color: #17349c"&gt;print&lt;/span&gt;&lt;/strong&gt;, меня избавила моя лень: писать
+каждый раз на одну букву больше дико не хотелось (в отличии от &lt;strong&gt;&lt;span style="color: #17349c"&gt;echo&lt;/span&gt;&lt;/strong&gt;, &lt;strong&gt;&lt;span style="color: #17349c"&gt;print&lt;/span&gt;&lt;/strong&gt; возвращает информацию об
+успешности выполнения своей работы, что в большинстве случаев
+просто-напросто не нужно). Проверить опять же не трудно - нужен лишь
+объемистый текстовый файл, который достаточно вывести в browser разными
+способами и засечь уходящее на это время.&lt;/p&gt;
+&lt;h4&gt;Вывод статического контента из отдельного файла&lt;/h4&gt;
+&lt;p&gt;Частенько при желании выполнить указанное в заголовке действие по
+привычке используют &lt;strong&gt;&lt;span style="color: #a3a423"&gt;include&lt;/span&gt;&lt;/strong&gt;,
+&lt;strong&gt;&lt;span style="color: #a3a423"&gt;require&lt;/span&gt;&lt;/strong&gt; или их &lt;strong&gt;&lt;span style="color: #a3a423"&gt;_once&lt;/span&gt;&lt;/strong&gt; версии, что является далеко не
+самой лучшей идеей с точки зрения производительности. Самым быстрыми
+быстрыми и экономичными поотношению к оперативной памяти являются
+функции &lt;strong&gt;&lt;span style="color: #17349c"&gt;readfile&lt;/span&gt;&lt;/strong&gt; и &lt;strong&gt;&lt;span style="color: #17349c"&gt;fpassthru&lt;/span&gt;&lt;/strong&gt;. В качестве доказательства
+этого факта приведу таблицу, демонстрирующую статистику выполнения этой
+операции различными методами и позаимствованную с &lt;a href="https://www.insight-it.ru/goto/f18fa5ab/" rel="nofollow" target="_blank" title="http://www.raditha.com/wiki/Readfile_vs_include"&gt;одного англоязычного
+сайта&lt;/a&gt;:&lt;/p&gt;
+&lt;table align="center" border="1" cellspacing="0" width="100%"&gt;
+&lt;tr&gt;
+&lt;th align="center" rowspan="2" style="background: #fcfcc0 none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial" valign="center"&gt;
+Функция
+
+&lt;/th&gt;
+&lt;th align="center" colspan="2" style="background: #fcfcc0 none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial"&gt;
+Время (сек.)
+
+&lt;/th&gt;
+&lt;th align="center" colspan="2" style="background: #fcfcc0 none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial"&gt;
+Оперативная память (байт)
+
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="center" style="background: #fcfcc0 none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial"&gt;
+32Kb файл
+
+&lt;/td&gt;
+&lt;td align="center" style="background: #fcfcc0 none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial"&gt;
+1Mb файл
+
+&lt;/td&gt;
+&lt;td align="center" style="background: #fcfcc0 none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial"&gt;
+32Kb файл
+
+&lt;/td&gt;
+&lt;td align="center" style="background: #fcfcc0 none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial"&gt;
+1Mb файл
+
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+file\_get\_contents
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+0.00152
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+0.00564
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+52480
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+1067856
+
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+fpassthru
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+**0.00117**
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+0.00184
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+20016
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+20032
+
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+fgets
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+0.00195
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+0.07190
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+30760
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+30768
+
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+file
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+0.00157
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+0.06464
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+87344
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+2185624
+
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+require\_once
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+0.00225
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+0.08065
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+67992
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+2067696
+
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+readfile
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+**0.00117**
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+0.00191
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+**19192**
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+19208
+
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;h4&gt;Вывод переменных&lt;/h4&gt;
+&lt;p&gt;Наверняка вам известно, что переменные можно выводить с помощью
+конструкции вроде &lt;strong&gt;&lt;span style="color: #17349c"&gt;echo&lt;/span&gt; &lt;span style="color: red"&gt;"&lt;/span&gt;&lt;span style="color: blue"&gt;\$var&lt;/span&gt; &lt;span style="color: red"&gt;text"&lt;/span&gt;;&lt;/strong&gt;, что является одним из самых удобных
+вариантов решения этой задачи благодаря минимальному количеству
+символов, которые необходимо набрать, но с точки зрения быстродействия
+этот вариант далек от идеала, так как влечет за собой достаточно
+серьезные преобразования в памяти сервера, эффект которых порой бывает
+заметен невооруженным глазом. Частично ущерб производительности можно
+сгладить заменой этой конструкции на &lt;strong&gt;&lt;span style="color: #17349c"&gt;echo&lt;/span&gt; &lt;span style="color: blue"&gt;\$var&lt;/span&gt;.&lt;span style="color: red"&gt;"
+text"&lt;/span&gt;;&lt;/strong&gt;, что приводит к несколькому усложнению внешнего вида
+кода и несколько поправляет ситуацию со скоростью выполнения. Но как
+известно знак . обозначает конкатенацию двух строк, что тоже требует
+некоторых вычислений и затрат памяти, но и от нее можно избавиться,
+заменив на запятую. Выражение &lt;strong&gt;&lt;span style="color: #17349c"&gt;echo&lt;/span&gt;
+&lt;span style="color: blue"&gt;\$var&lt;/span&gt;,&lt;span style="color: red"&gt;"
+text"&lt;/span&gt;;&lt;/strong&gt; ничем по своему эффекту не отличается от предложенных
+ранее вариантов, за исключением максимального быстрого выполнения,
+обусловленного отсутствием дополнительных преобразований в процессе
+передачи просто последовательности из константы и переменной.&lt;/p&gt;
+&lt;h4&gt;Избегайте выполнения лишних действий&lt;/h4&gt;
+&lt;p&gt;Достаточно абстрактное утверждение, но тем не мение постоянное
+напоминание себе о нем может избавить Вас от совершения массы ошибок.
+Самой широкораспространенной является наверное вызов какой-либо функции
+(чаще всего &lt;strong&gt;&lt;span style="color: #17349c"&gt;count&lt;/span&gt;();&lt;/strong&gt; или &lt;strong&gt;&lt;span style="color: #17349c"&gt;strlen&lt;/span&gt;();&lt;/strong&gt;) в проверке условия выхода из
+цикла. Когда-нибудь доводилось писать видеть в собственном или чужом
+коде выражение вида &lt;strong&gt;&lt;span style="color: #a3a423"&gt;for&lt;/span&gt;(&lt;span style="color: blue"&gt;\$i&lt;/span&gt; = &lt;span style="color: #a3a423"&gt;0&lt;/span&gt;;
+&lt;span style="color: blue"&gt;\$i&lt;/span&gt; \&amp;lt; &lt;span style="color: #17349c"&gt;count&lt;/span&gt;(&lt;span style="color: blue"&gt;\$array&lt;/span&gt;); ++&lt;span style="color: blue"&gt;\$i&lt;/span&gt;) { ... }&lt;/strong&gt;? А задумываться о
+последовательности выполнения действий при его обработке? Стоит только
+немного начать размышлять и ошибка становится очевидной: &lt;strong&gt;&lt;span style="color: #17349c"&gt;count&lt;/span&gt;();&lt;/strong&gt; выполняется при каждой итерации
+цикла, что приводит к подсчету количества элементов массива при каждой
+проверки условия выхода из цикла - почему бы не посчитать это значение
+заранее и сравнивать значения индекса с переменной, а не с результатом
+выполнения функции?&lt;/p&gt;
+&lt;h4&gt;@&lt;/h4&gt;
+&lt;p&gt;Использование этого оператора стоит избегать при каждой возможности.
+Казалось бы такое простое действие, как сокрытие вывода возможного
+сообщения об ошибке, влечет за собой достаточно трудоемкую
+последовательность действий: устанавливает значение параметра
+PHP-интерпретатора &lt;strong&gt;error_reporting = 0&lt;/strong&gt;, выполняет указанное за этим
+оператором действие, возвращает значение &lt;strong&gt;error_reporting&lt;/strong&gt; в исходное
+состояние.&lt;/p&gt;
+&lt;h4&gt;Маленькие мелочи&lt;/h4&gt;
+&lt;p&gt;Развивая тему предыдущего подраздела, хочется обратить внимания, что
+даже на еще более элементарных вещах можно сэкономить драгоценное
+процессорное время:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Вместо условия &lt;strong&gt;&lt;span style="color: #a3a423"&gt;if&lt;/span&gt;(&lt;span style="color: blue"&gt;\$variableOne&lt;/span&gt; == &lt;span style="color: blue"&gt;\$variableTwo&lt;/span&gt;) { ... }&lt;/strong&gt; можно написать
+    &lt;strong&gt;&lt;span style="color: #a3a423"&gt;if&lt;/span&gt;(&lt;span style="color: blue"&gt;\$variableOne&lt;/span&gt; === &lt;span style="color: blue"&gt;\$variableTwo&lt;/span&gt;) { ... }&lt;/strong&gt;, что избавит от
+    проверки на соответствие типов данных и приведения их друг к другу,
+    в некоторых случаях эти действия эти случаях эти действия конечно же
+    и бывают необходимы, но бывает это далеко не часто.&lt;/li&gt;
+&lt;li&gt;Глядя на выражения вроде &lt;strong&gt;&lt;span style="color: #a3a423"&gt;if&lt;/span&gt;(&lt;span style="color: blue"&gt;\$boolean&lt;/span&gt; == true) { ... }&lt;/strong&gt;, я чаще
+    всего вспоминаю цитату из одного малоизвестного интернет-ресурса:
+    &lt;strong&gt;if (b.ToString().length \&amp;lt; 5) { ... }&lt;/strong&gt;. Хоть и не имет никакого
+    отношения к PHP, но суть проблемы отражает очень ярко.&lt;/li&gt;
+&lt;li&gt;Самым очевидным способом проверить попадает ли длина строки в
+    какой-либо диапазон является использование функции &lt;strong&gt;&lt;span style="color: #17349c"&gt;strlen&lt;/span&gt;();&lt;/strong&gt; и сравнение полученного
+    результата с фиксированными значениями, но зачем выполнять лишний
+    вызов функции, если можно воспользоваться услугами конструкцией
+    языка PHP &lt;strong&gt;&lt;span style="color: #17349c"&gt;isset&lt;/span&gt;();&lt;/strong&gt; для
+    определения наличия в строке определенных символов. &lt;strong&gt;&lt;span style="color: #a3a423"&gt;if&lt;/span&gt;(&lt;span style="color: #17349c"&gt;isset&lt;/span&gt;(&lt;span style="color: blue"&gt;\$str&lt;/span&gt;{&lt;span style="color: blue"&gt;5&lt;/span&gt;})) { ... }&lt;/strong&gt; приведет к абсолютно тем
+    же результатам, что и &lt;strong&gt;&lt;span style="color: #a3a423"&gt;if&lt;/span&gt;(&lt;span style="color: #17349c"&gt;strlen&lt;/span&gt;(\$str)&amp;gt;4){ ... }&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Битовые операции выполняются намного быстрее относительно обычных
+    арифметических действий. Об этом факте редко вспоминают, да и
+    работать с ними умеет далеко не каждый, но порой они бывают очень
+    актуальны, особенно при частой работе с числами кратными двойке.&lt;/li&gt;
+&lt;li&gt;Угадайте, что делает интерпретатор при виде надписи &lt;strong&gt;&lt;span style="color: blue"&gt;1&lt;/span&gt;/&lt;span style="color: blue"&gt;2&lt;/span&gt;&lt;/strong&gt;?
+    Правильно: делит &lt;strong&gt;&lt;span style="color: blue"&gt;1&lt;/span&gt;&lt;/strong&gt; на &lt;strong&gt;&lt;span style="color: blue"&gt;2&lt;/span&gt;&lt;/strong&gt;. Зачем лишний раз утруждать его,
+    когда можно написать просто половину - &lt;strong&gt;&lt;span style="color: blue"&gt;0.5&lt;/span&gt;&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;При возвращении значения переменной из функции при помощи &lt;strong&gt;&lt;span style="color: #17349c"&gt;global&lt;/span&gt;&lt;/strong&gt; выполняется на порядок больше
+    действий, чем при классическом &lt;strong&gt;&lt;span style="color: #17349c"&gt;return&lt;/span&gt;&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Конечно же фраза &lt;strong&gt;&lt;span style="color: blue"&gt;\$array&lt;/span&gt;[text];&lt;/strong&gt;
+    интерпритируется практически точно так же, как и &lt;strong&gt;&lt;span style="color: blue"&gt;\$array&lt;/span&gt;[&lt;span style="color: red"&gt;'text'&lt;/span&gt;];&lt;/strong&gt;, но зачем выполнять лишнее
+    преобразование из необъявленной константы в строку, проверять, что
+    такой константы все же не существует, выводить сообщение типа
+    &lt;strong&gt;E_NOTICE&lt;/strong&gt;, если можно всего этого не делать?&lt;/li&gt;
+&lt;li&gt;По возможности не используйте &lt;strong&gt;&lt;span style="color: #17349c"&gt;require_once&lt;/span&gt;();&lt;/strong&gt; или &lt;strong&gt;&lt;span style="color: #17349c"&gt;include_once&lt;/span&gt;();&lt;/strong&gt; неоднократно по
+    отношению к одному и тому же файлу. При отсутствии какого-либо
+    эффекта, попусту тратится время на обработку повторного запроса.&lt;/li&gt;
+&lt;li&gt;Даже "безобидных" ошибок стоит избегать, лишняя проаерка потратит не
+    так много процессорного времени, как генерирование достаточно
+    длинного сообщения об ошибке и вывод его в &lt;em&gt;stdout&lt;/em&gt;, &lt;em&gt;stderr&lt;/em&gt; или
+    &lt;em&gt;лог-файл&lt;/em&gt;, а также не стоит забывать, что даже "безобидные" ошибки
+    могут стать потенциальной угрозой безопасности приложения вцелом.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;В заключении...&lt;/h4&gt;
+&lt;p&gt;...хотелось бы упомянуть одну из первых статей по
+&lt;a href="/tag/optimizaciya/"&gt;оптимизации&lt;/a&gt; &lt;a href="/tag/php/"&gt;PHP&lt;/a&gt;, которые мне доводилось
+читать, до сих пор храню ссылку на нее в bookmark'ах, именно она и
+выступала в роли &lt;em&gt;&lt;a href="https://www.insight-it.ru/goto/ce3d47c9/" rel="nofollow" target="_blank" title="http://mgccl.com/php-speed-freaks"&gt;одного из основных источников
+информации&lt;/a&gt;&lt;/em&gt; для этого текста. В
+качестве возможных вариантов продолжения чтения про &lt;a href="/tag/php/"&gt;PHP&lt;/a&gt;
+хотелось бы предложить Вам соответствующие &lt;a href="/category/php/"&gt;раздел сайта&lt;/a&gt;, &lt;a href="https://www.insight-it.ru/dzhentelmenskij-nabor-php-programmista/"&gt;серию
+статей&lt;/a&gt;, &lt;a href="/tag/php/"&gt;тэг&lt;/a&gt; и
+&lt;a href="/feed/"&gt;RSS-ленту&lt;/a&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Thu, 07 Feb 2008 15:39:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-02-07:php/2008/na-puti-k-idealu/</guid><category>online</category><category>PHP</category><category>интернет</category><category>информационные технологии</category><category>код</category><category>кодинг</category><category>оптимизация</category><category>Программирование</category><category>производительность</category></item><item><title>Общаемся с базой данных</title><link>https://www.insight-it.ru//php/2008/obshhaemsya-s-bazojj-dannykh/</link><description>&lt;p&gt;На этот раз хочется обсудить такой одновременно важный и несложный
+момент в реализации работы любого интернет-проекта, как координации
+работы Ваших скриптов с СУБД.&lt;/p&gt;
+&lt;p&gt;Если подойти к этому вопросу "в лоб", то код станет очень неудобен как
+для понимания, так и для использования: код станет переполнен различными
+функциями соединения с БД, отправки запросов, преобразования результатов
+запросов в массивы PHP, подсчета строк, которые затронул запрос, а также
+многие и многие другие.&lt;/p&gt;
+&lt;p&gt;Для желающих минимизировать подобного рода издержки в процессе написания
+кода, хочу предложить один из, на мой взгляд, самых эффективных способов
+решения этой проблемы.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Этим способом будет являться написание класса, реализующего интерфейс
+между СУБД и PHP-скриптами. Для начала стоит определиться с
+ассортиментом функций, которые будет призван выполнять наш класс:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;установка соединения&lt;/em&gt;, а также проверка успешности выполнения этого
+    действия;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;отправка запросов&lt;/em&gt;, как заданных извне так и, возможно, из
+    какого-либо ассортимента заранее написанных запросов;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;обработка результатов запросов&lt;/em&gt;, не ограничивающаяся одним SELECT,
+    должны быть предоставлены методы обработки результатов любых видов
+    запросов (или хотябы большинства).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Вполне очевидным является тот факт, что методы этого класса будут
+использоваться практически повсеместно в большинстве проектов.
+Вследствии чего становится нецелесообразным создание объекта нашего
+класса и передача его по всем функциям и методам всех скриптов, в таких
+случае намного предпочтительнее делать владельцем методов и переменных
+сам класс, а не экземпляр класса, с помощью ключевого слова &lt;strong&gt;static&lt;/strong&gt;.
+Это позволит пользоваться услугами нашего класса из любого места кода.
+Приступим-с собственно к кодингу, начать стоит с заготовки пустого
+класса:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;SQL&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;В зависимости от предпочитаемой Вами СУБД набор конкретных функций,
+используемых в реализации нашего класса, будет вариироваться. В
+большинстве случаев предпочитаю пользоваться PostgreSQL, на это причин у
+меня несколько, но это тема для отдельного разговора. Благодаря этому
+факту приводимый в качестве примера код будет использовать функции для
+работы именно с этой СУБД. Для поклонников же других этот систем вопрос
+в подавляющем большинстве случаев заключается лишь в замене этих функций
+на аналогичные из других модулей PHP, например для популярной и
+широкораспространенной MySQL достаточно будет всеголишь пройтись
+автозаменой &lt;strong&gt;pg_ =&amp;gt; mysql_&lt;/strong&gt; и слегка подредактировать параметры
+некоторых функций.&lt;/p&gt;
+&lt;p&gt;Перейдем к реализации установления соединения с СУБД, не стоит ожидать
+увидеть здесь ничего необычного:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;connect&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;  &lt;span class="c1"&gt;// установка соединения&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="nx"&gt;self&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nv"&gt;$connection&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;pg_pconnect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"host=localhost dbname=pgsql user=pgsql password=MyPassword"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="c1"&gt;// не забываем менять указанные данные для авторизации на правильные&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="nb"&gt;isset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;self&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nv"&gt;$connection&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+  &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"Сайт не работает по техническим причинам.&lt;/span&gt;
+&lt;span class="s2"&gt;Просим прощения за доставленные неудобства."&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;exit&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;   &lt;span class="c1"&gt;// ни в коем случае не выводим более информативных сообщений об ошибке, чем это&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;А вот с отправкой и обработкой результатов запросов ситуация далеко не
+так однозначна. Помимо простой передачи самого текста запроса в СУБД,
+необходимо правильно определить тип запроса и в соответствии с этим
+обработать результат. Можно конечно попытаться сделать это автоматически
+на основе вытаскивания первого слова из текста запроса, но мне всетаки
+кажется более предпочтительным определение "вручную" желаемого вида
+представление результата. Выполнение произвольных запросов может
+выглядеть, например, следующим образом:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;query&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$str&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$bool&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;false&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;// произвольный запрос&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="c1"&gt;//echo $str."&lt;/span&gt;
+&lt;span class="s2"&gt;"; // очень удобно на стадии разработки в процессе поиска ошибок&lt;/span&gt;
+&lt;span class="s2"&gt;  &lt;/span&gt;&lt;span class="si"&gt;$result&lt;/span&gt;&lt;span class="s2"&gt;=@pg_query(self::&lt;/span&gt;&lt;span class="si"&gt;$connection&lt;/span&gt;&lt;span class="s2"&gt;,&lt;/span&gt;&lt;span class="si"&gt;$str&lt;/span&gt;&lt;span class="s2"&gt;); // @ - для сокрытия теоретически возможных ошибок&lt;/span&gt;
+&lt;span class="s2"&gt;  // or die('Query failed: '.pg_last_error());&lt;/span&gt;
+&lt;span class="s2"&gt;  // не забываем убирать в комментарий в финальном варианте проекта&lt;/span&gt;
+&lt;span class="s2"&gt;  // или совсем удалять&lt;/span&gt;
+&lt;span class="s2"&gt;  if(&lt;/span&gt;&lt;span class="si"&gt;$result&lt;/span&gt;&lt;span class="s2"&gt;)  // Если получен результат, отличный от false&lt;/span&gt;
+&lt;span class="s2"&gt;  {&lt;/span&gt;
+&lt;span class="s2"&gt;    if(&lt;/span&gt;&lt;span class="si"&gt;$bool&lt;/span&gt;&lt;span class="s2"&gt;)  // Если выбран результат в виде boolean&lt;/span&gt;
+&lt;span class="s2"&gt;    {&lt;/span&gt;
+&lt;span class="s2"&gt;      return true;&lt;/span&gt;
+&lt;span class="s2"&gt;    }&lt;/span&gt;
+&lt;span class="s2"&gt;    else  // Если выбран результат в виде массива&lt;/span&gt;
+&lt;span class="s2"&gt;    {&lt;/span&gt;
+&lt;span class="s2"&gt;      &lt;/span&gt;&lt;span class="si"&gt;$n&lt;/span&gt;&lt;span class="s2"&gt;=pg_num_rows(&lt;/span&gt;&lt;span class="si"&gt;$result&lt;/span&gt;&lt;span class="s2"&gt;);  // для создания универсального формата массива&lt;/span&gt;
+&lt;span class="s2"&gt;      if(&lt;/span&gt;&lt;span class="si"&gt;$n&lt;/span&gt;&lt;span class="s2"&gt;==1)return pg_fetch_array(&lt;/span&gt;&lt;span class="si"&gt;$result&lt;/span&gt;&lt;span class="s2"&gt;,0,PGSQL_ASSOC);&lt;/span&gt;
+&lt;span class="s2"&gt;      else  // даже когда результат содержит только одну строку&lt;/span&gt;
+&lt;span class="s2"&gt;      {&lt;/span&gt;
+&lt;span class="s2"&gt;        &lt;/span&gt;&lt;span class="si"&gt;$j&lt;/span&gt;&lt;span class="s2"&gt;=pg_num_rows(&lt;/span&gt;&lt;span class="si"&gt;$result&lt;/span&gt;&lt;span class="s2"&gt;);&lt;/span&gt;
+&lt;span class="s2"&gt;        &lt;/span&gt;&lt;span class="si"&gt;$list&lt;/span&gt;&lt;span class="s2"&gt;=array();&lt;/span&gt;
+&lt;span class="s2"&gt;        for(&lt;/span&gt;&lt;span class="si"&gt;$i&lt;/span&gt;&lt;span class="s2"&gt;=0;&lt;/span&gt;&lt;span class="si"&gt;$i&lt;/span&gt;&lt;span class="s2"&gt;&amp;lt;&lt;/span&gt;&lt;span class="si"&gt;$j&lt;/span&gt;&lt;span class="s2"&gt;;&lt;/span&gt;&lt;span class="si"&gt;$i&lt;/span&gt;&lt;span class="s2"&gt;++)&lt;/span&gt;
+&lt;span class="s2"&gt;        &lt;/span&gt;&lt;span class="si"&gt;$list&lt;/span&gt;&lt;span class="s2"&gt;[]=pg_fetch_array(&lt;/span&gt;&lt;span class="si"&gt;$result&lt;/span&gt;&lt;span class="s2"&gt;,&lt;/span&gt;&lt;span class="si"&gt;$i&lt;/span&gt;&lt;span class="s2"&gt;,PGSQL_ASSOC);&lt;/span&gt;
+&lt;span class="s2"&gt;        return &lt;/span&gt;&lt;span class="si"&gt;$list&lt;/span&gt;&lt;span class="s2"&gt;;&lt;/span&gt;
+&lt;span class="s2"&gt;      }&lt;/span&gt;
+&lt;span class="s2"&gt;    }&lt;/span&gt;
+&lt;span class="s2"&gt;  }else return false;&lt;/span&gt;
+&lt;span class="s2"&gt;}&lt;/span&gt;
+&lt;span class="s2"&gt;?&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Помимо базовой отправки запросов, в некоторых случаях имеет смысл
+написать несколько методов, отправляющих частоиспользуемые запросы, что
+в некоторых случаях позволяет сократить объем и уменьшить
+нагроможденность кода. Хоть я и предпочитаю не пользоваться такими
+вещами, но привести пример такого рода метода все же стоит:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;selectAll&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$table&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="c1"&gt;// пример метода отправки чаcтоиспользуемых запросов&lt;/span&gt;
+  &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;self&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="na"&gt;query&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"select * from "&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nv"&gt;$table&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="s2"&gt;";"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Если чувствуете необходимость в подобных функциях, можно написать
+огромное количество, все ограничивается лишь Вашим воображением и
+знаниями SQL.&lt;/p&gt;
+&lt;p&gt;Что ж, осталось лишь собрать весь код в единый листинг:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;SQL&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="nv"&gt;$connection&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// соединение с СУБД&lt;/span&gt;
+  &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;connect&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;  &lt;span class="c1"&gt;// установка соединения&lt;/span&gt;
+  &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nx"&gt;self&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nv"&gt;$connection&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;pg_pconnect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"host=localhost dbname=pgsql user=pgsql password=MyPassword"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="c1"&gt;// не забываем менять указанные данные для авторизации на правильные&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="nb"&gt;isset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;self&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nv"&gt;$connection&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="k"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"Сайт не работает по техническим причинам.&amp;lt;br /&amp;gt;Просим прощения за доставленные неудобства."&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+      &lt;span class="k"&gt;exit&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// ни в коем случае не выводим более информативных сообщений об ошибке, чем это&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;query&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$str&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$bool&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;false&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;// произвольный запрос&lt;/span&gt;
+  &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="c1"&gt;//echo $str."&amp;lt;br&amp;gt;"; // очень удобно на стадии разработки в процессе поиска ошибок&lt;/span&gt;
+    &lt;span class="nv"&gt;$result&lt;/span&gt;&lt;span class="o"&gt;=@&lt;/span&gt;&lt;span class="nb"&gt;pg_query&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;self&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nv"&gt;$connection&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$str&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="c1"&gt;// @ - для сокрытия теоретически возможных ошибок&lt;/span&gt;
+    &lt;span class="c1"&gt;// or die('Query failed: '.pg_last_error());&lt;/span&gt;
+    &lt;span class="c1"&gt;// не забываем убирать в комментарий в финальном варианте проекта&lt;/span&gt;
+    &lt;span class="c1"&gt;// или совсем удалять&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$result&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;// Если получен результат, отличный от false&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$bool&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;// Если выбран результат в виде boolean&lt;/span&gt;
+      &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="k"&gt;true&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+      &lt;span class="p"&gt;}&lt;/span&gt;
+      &lt;span class="k"&gt;else&lt;/span&gt;  &lt;span class="c1"&gt;// Если выбран результат в виде массива&lt;/span&gt;
+      &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="nv"&gt;$n&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;pg_num_rows&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$result&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;  &lt;span class="c1"&gt;// для создания универсального формата массива&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$n&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;pg_fetch_array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$result&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;PGSQL_ASSOC&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="k"&gt;else&lt;/span&gt;  &lt;span class="c1"&gt;// даже когда результат содержит только одну строку&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt;
+          &lt;span class="nv"&gt;$j&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;pg_num_rows&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$result&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+          &lt;span class="nv"&gt;$list&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;array&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+          &lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nv"&gt;$j&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+          &lt;span class="nv"&gt;$list&lt;/span&gt;&lt;span class="p"&gt;[]&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;pg_fetch_array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$result&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;PGSQL_ASSOC&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+          &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nv"&gt;$list&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+      &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="k"&gt;false&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+  &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;selectAll&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$table&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="c1"&gt;// пример метода отправки чаcтоиспользуемых запросов&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;self&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="na"&gt;query&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"select * from "&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nv"&gt;$table&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="s2"&gt;";"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;```&lt;/p&gt;
+&lt;p&gt;Вот так вот оно и выглядит в простейшем варианте, дорабатывать под
+собственные нужды код можно до бесконечности естественно, но в
+большинстве случаев даже такой реализации вполне должно хватать.&lt;/p&gt;
+&lt;p&gt;Эта статья является частью &lt;a href="https://www.insight-it.ru/dzhentelmenskij-nabor-php-programmista/"&gt;серии статей "Джентельменский набор PHP программиста"&lt;/a&gt;, если Вам
+понравилась эта статья то очень вероятно, что Вам придутся по душе и
+остальные статьи.&lt;/p&gt;
+&lt;p&gt;Не забываем &lt;a href="/feed/"&gt;подписываться на RSS блога&lt;/a&gt;!&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Wed, 16 Jan 2008 22:04:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-01-16:php/2008/obshhaemsya-s-bazojj-dannykh/</guid><category>MySQL</category><category>PHP</category><category>PostgreSQL</category><category>SQL</category><category>БД</category><category>интерфейс</category><category>кодинг</category><category>ООП</category><category>СУБД</category><category>технология</category><category>хранение данных</category></item><item><title>Защита интернет-ресурсов в картинках</title><link>https://www.insight-it.ru//php/2008/zashhita-internet-resursov-v-kartinkax/</link><description>&lt;p&gt;Этой статьей мне хотелось бы открыть мою первую &lt;a href="https://www.insight-it.ru/dzhentelmenskij-nabor-php-programmista/"&gt;серию статей "Джентельменский набор PHP программиста"&lt;/a&gt;. Как и во всей остальной серии здесь пойдет речь о программировании на PHP для интернет-проектов, но в каждой статье я буду выбирать один узкий аспект
+и на протяжении всей статьи буду стараться показать возможные варианты
+его реализации и применения.&lt;/p&gt;
+&lt;p&gt;Сегодня таким аспектом станет защита интернет-ресурса от возможного
+возникновения нежелательного контента со стороны пользователей с помощью
+технологии captcha (точнее о "графическом" варианте ее реализации), о
+которой уже &lt;a href="https://www.insight-it.ru/security/2008/otkuda-voznikaet-spam-i-kak-s-nim-borotsya/"&gt;неоднократно шла речь&lt;/a&gt;.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Начать имеет смысл с небольшого напоминания о принципе работы этой
+технологии: перед потенциальным посетителем ставится некое препятствие,
+которое ему необходимо преодолеть для продолжения работы с
+интернет-ресурсом. Существует множество &lt;a href="https://www.insight-it.ru/security/2008/7-sposobov-zashhitit-svoj-internet-resurs-ot-nezhelatelnoj-informacii/"&gt;вариантов такого рода
+препятствий&lt;/a&gt;.
+Как уже упоминалось, сегодня мы будем реализовывать только один наиболее
+распространенный тип - "графический". В простейшем случае он
+представляет собой просьбу переписать с изображения некий набор
+символов. В процессе генерирования изображения, символы сильно
+искажаются с целью предотвращения возможности их распознавания любой
+программой с помощью технологии OCR.&lt;/p&gt;
+&lt;h3 id="podgotovka"&gt;Подготовка&lt;/h3&gt;
+&lt;p&gt;Прежде чем начать писать код стоит более детально осознать какая же цель
+перед нами стоит: нам необходимо написать скрипт, генерирующий
+искаженное изображение некоторого набора символов и незаметно для
+пользователя передающее этот набор какому-либо другому скрипту, который
+нас пока мало интересует, но ясно лишь, что собственно проверкой будет
+заниматься именно он на основе данных полученных от пользователя и
+нашего скрипта. Способов исказить текст существует огромное количество,
+в ходе написания статьи постараюсь упомянуть несколько самых эффективных
+и широкоиспользуемых из них.&lt;/p&gt;
+&lt;p&gt;В первую очередь стоит подготовить некий каркас кода, который мы будем
+впоследствии заполнять. Он будет состоять из двух частей:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Описание класса, генерирующего изображение&lt;/li&gt;
+&lt;li&gt;Файл, который будет вызываться browser'ом. В нем будет подключено
+    описание нашего класса, выбор настроек данного конкретного
+    изображения и выполнено создание объекта класса, в соответствии с
+    выбранными настройками.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Для начала давайте определимся со списком параметров, которые будет
+иметь наш класс. Во-первых, нужно решить какой текст будет
+генерироваться, самый простой и распространенный вариант - просто четыре
+цифры, я в примере на нем и остановлюсь, а реально же можно использовать
+абсолютно любые приходящие в голову варианты. Во-вторых, размеры
+изображения и текста - их лучше подобрать фиксированными так, чтобы было
+максимально читабельно, при минимальных размерах изображения, но при
+желании можно сделать и возможность изменения их извне. Последним в
+списке параметров будет цвет фона и текста - их как раз лучше задавать
+вне класса, так как основным действием, необходимым при переносе этого
+скрипта с одного сайт на другой - подбор используемых цветов таким
+образом, чтобы изображение смотрелось не очень ужасно при текущем
+варианте дизайна, изменения в других параметрах требуются на порядок
+реже.&lt;/p&gt;
+&lt;p&gt;Итак, создание объекта будем производить максимально простым способом,
+параметрами укажем белый и черный цвета. Заготовка для самого класса будет выглядеть примерно следующим образом
+(предположим, что он хранится в файле &lt;em&gt;captcha.class.php&lt;/em&gt;):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Captcha&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+   &lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="nv"&gt;$string&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// генерируемый текст&lt;/span&gt;
+   &lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="nv"&gt;$bgcol&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;  &lt;span class="c1"&gt;// основной цвет фона&lt;/span&gt;
+   &lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="nv"&gt;$fgcol&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;  &lt;span class="c1"&gt;// основной цвет текста&lt;/span&gt;
+   &lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="nv"&gt;$height&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// высота изображения&lt;/span&gt;
+   &lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="nv"&gt;$width&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;  &lt;span class="c1"&gt;// ширина изображения&lt;/span&gt;
+   &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;__construct&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$bgcol&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$fgcol&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;// конструктор, вызывается при создании экземпляра класса&lt;/span&gt;
+   &lt;span class="p"&gt;{&lt;/span&gt;
+   &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id="zadaem-parametry"&gt;Задаем параметры&lt;/h3&gt;
+&lt;p&gt;Первым делом при создании объекта необходимо задать остальные параметры,
+размеры изображения можно указать прямо в конструкторе, а для генерации
+текста лучше написать отдельную функцию:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;generateImage&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;  &lt;span class="c1"&gt;// генерация изображения&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;width&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;250&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+  &lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;height&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;80&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+  &lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;fgcol&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$fgcol&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+  &lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;bgcol&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$bgcol&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+  &lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;generateSymbols&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+ &lt;span class="p"&gt;}&lt;/span&gt;
+ &lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;generateSymbols&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;   &lt;span class="c1"&gt;// генерация четырех цифр&lt;/span&gt;
+ &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;string&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;leadingZero&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;10000&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+ &lt;span class="p"&gt;}&lt;/span&gt;
+ &lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;leadingZero&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$num&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$length&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;// дополнения числа num лидирующими нулями&lt;/span&gt;
+ &lt;span class="p"&gt;{&lt;/span&gt;                        &lt;span class="c1"&gt;// до длины length&lt;/span&gt;
+  &lt;span class="nv"&gt;$str&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;strrev&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$num&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;strlen&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$str&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nv"&gt;$length&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nv"&gt;$str&lt;/span&gt;&lt;span class="o"&gt;.=&lt;/span&gt;&lt;span class="s2"&gt;"0"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+  &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;strrev&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$str&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+ &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Этих данных нам должно хватить для написания функции, генерирующей
+изображение.&lt;/p&gt;
+&lt;h3 id="generiruem-izobrazhenie"&gt;Генерируем изображение&lt;/h3&gt;
+&lt;p&gt;Если забыть, что текст необходимо искажать, то функция, генерирующая
+изображение выглядела бы просто как:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;generateImage&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;  &lt;span class="c1"&gt;// генерация изображения&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+   &lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="o"&gt;=@&lt;/span&gt;&lt;span class="nb"&gt;imagecreatetruecolor&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;width&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;height&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+   &lt;span class="nv"&gt;$bcol&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;imagecolorallocate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;bgcol&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;bgcol&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;bgcol&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
+   &lt;span class="nv"&gt;$fcol&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;imagecolorallocate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;fgcol&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;fgcol&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;fgcol&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
+   &lt;span class="nb"&gt;imagefill&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$bcol&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+   &lt;span class="nb"&gt;imagettftext&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;40&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;25&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$fcol&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s2"&gt;"./font/font_name.ttf"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;string&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+   &lt;span class="nb"&gt;header&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'Content-Type: image/png'&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+   &lt;span class="nb"&gt;imagepng&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+   &lt;span class="nb"&gt;imagedestroy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="card yellow lighten-4"&gt;&lt;div class="card-content"&gt;
+В данном методе используются
+функции модуля PHP под названием GD, основывающегося на одноименной
+библиотеке, убедитесь, что на Вашем хостинге этот модуль
+установлен.
+&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Реально же ей пользоваться не стоит - такое изображение с легкостью
+поддается OCR. Полученный текст необходимо тем или иным образом
+исказить. Для вывода изображения используется формат PNG, но никто не
+мешает воспользоваться JPEG или GIF, для этого достаточно заменить везде
+png на название соответствующего формата.&lt;/p&gt;
+&lt;h3 id="iskazhaem-tekst"&gt;Искажаем текст&lt;/h3&gt;
+&lt;p&gt;Вот списочек тех, способов искажения текста, которыми я буду
+пользоваться в примере, пользоваться всеми сразу естественно никто не
+заставляет, да и включив воображение можно придумать много модификаций
+приведенных мной способов или абсолютно других:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;использование нестандартных шрифтов&lt;/em&gt; - функция imagettftext
+    позволяет использовать произвольный шрифт в формате Truetype, чем и
+    необходимо воспользоваться. В Сети можно найти огромное количество
+    бесплатных шрифтов в этом формате. По возможности стоит выбирать
+    шрифты, максимально не похожие на любой стандартный, но при этом
+    легко читающиеся.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;использование нескольких шрифтов&lt;/em&gt; - сделав подборку подходящих
+    шрифтов, можно не останавливаться на каком-то одном, а сделать выбор
+    текущего шрифта случайным из списка.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;случайный выбор цветов&lt;/em&gt; - усложняет работу OCR и в большинстве
+    случаев не сильно мешает восприятию человеком.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;случайное расположение символов&lt;/em&gt; - еще один способ усложнить работу
+    программам, пытающимся прочитать текст.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;неравномерный фон&lt;/em&gt; - изобразив на фоне какой-либо абстрактный набор
+    любых фигур, можно заставить программу-посетителя подумать что
+    какая-то часть из них является символом. Например, пересечение двух
+    прямых линий часто распознается как буква T или L. Неплохим
+    вариантом является написание на фоне других символов другим цветом,
+    сильно отличающимся от основного и близким к цвету фона.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Для начала этого вполне хватит, перейдем к реализации, в комментариях
+постараюсь указывать все особенности:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;generateImage&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="c1"&gt;// генерация изображения&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+   &lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="o"&gt;=@&lt;/span&gt;&lt;span class="nb"&gt;imagecreatetruecolor&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;width&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;height&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;  &lt;span class="c1"&gt;// создаем пустое изображение&lt;/span&gt;
+   &lt;span class="nv"&gt;$mcol&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;imagecolorallocate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;fgcol&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;80&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;fgcol&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;30&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;150&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;fgcol&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;55&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="c1"&gt;// выбираем случайным образом&lt;/span&gt;
+   &lt;span class="nv"&gt;$kcol&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;imagecolorallocate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;fgcol&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;80&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;fgcol&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;30&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;150&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;fgcol&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="c1"&gt;// несколько цветов&lt;/span&gt;
+   &lt;span class="nv"&gt;$lcol&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;imagecolorallocate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;bgcol&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;bgcol&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;bgcol&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+   &lt;span class="nv"&gt;$bcol&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;imagecolorallocate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;bgcol&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;bgcol&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;bgcol&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
+   &lt;span class="nv"&gt;$fcol&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;imagecolorallocate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;fgcol&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;fgcol&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;fgcol&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
+   &lt;span class="nb"&gt;imagefill&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$bcol&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;  &lt;span class="c1"&gt;// заполняем изображение фоном&lt;/span&gt;
+   &lt;span class="nv"&gt;$array&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;25&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;26&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;31&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;32&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;37&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;39&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;41&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="c1"&gt;// список названий подходящих шрифтов&lt;/span&gt;
+   &lt;span class="nv"&gt;$n&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$array&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="nb"&gt;count&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$array&lt;/span&gt;&lt;span class="p"&gt;)];&lt;/span&gt;  &lt;span class="c1"&gt;// наугад выбираем из них один&lt;/span&gt;
+   &lt;span class="nv"&gt;$m&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;50&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+   &lt;span class="nv"&gt;$k&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;50&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+   &lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nv"&gt;$m&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+   &lt;span class="nb"&gt;imageline&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;height&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;width&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;height&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$lcol&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="c1"&gt;// создаем на фоне несколько линий&lt;/span&gt;
+   &lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nv"&gt;$k&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+   &lt;span class="nb"&gt;imageline&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;width&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;width&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;height&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$lcol&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="c1"&gt;// и еще несколько&lt;/span&gt;
+   &lt;span class="cm"&gt;/*&lt;/span&gt;
+&lt;span class="cm"&gt;   Генерируем текст: две строки на фон, а также интересующие нас символы по одному.&lt;/span&gt;
+&lt;span class="cm"&gt;   */&lt;/span&gt;
+   &lt;span class="nb"&gt;imagettftext&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;40&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;50&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;height&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mf"&gt;0.8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;50&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;25&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$kcol&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s2"&gt;"./font/"&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nv"&gt;$k&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="s2"&gt;".ttf"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;randomString&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;15&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+   &lt;span class="nb"&gt;imagettftext&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;40&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;35&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;70&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;35&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;height&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mf"&gt;0.8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;25&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;25&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$mcol&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s2"&gt;"./font/"&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nv"&gt;$m&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="s2"&gt;".ttf"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;randomString&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+   &lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nv"&gt;$istring&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+   &lt;span class="nb"&gt;imagettftext&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;33&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;70&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;35&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;15&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;width&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mf"&gt;1.1&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;height&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mf"&gt;0.73&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$fcol&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s2"&gt;"./font/"&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nv"&gt;$n&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="s2"&gt;".ttf"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;string&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
+   &lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nv"&gt;$m&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+   &lt;span class="nb"&gt;imageline&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;height&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;width&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;height&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$mcol&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="c1"&gt;// еще линии&lt;/span&gt;
+   &lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nv"&gt;$k&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+   &lt;span class="nb"&gt;imageline&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;width&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;width&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;height&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$mcol&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;  &lt;span class="c1"&gt;// и еще немного&lt;/span&gt;
+   &lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nv"&gt;$k&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+   &lt;span class="nb"&gt;imageline&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;width&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;width&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;height&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$fcol&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;  &lt;span class="c1"&gt;// и еще чуть-чуть&lt;/span&gt;
+   &lt;span class="nb"&gt;header&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'Content-Type: image/png'&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+   &lt;span class="nb"&gt;imagepng&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+   &lt;span class="nb"&gt;imagedestroy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;randomString&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$length&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;// генерируем случайный набор символов заданной длины&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="nv"&gt;$list&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVXYZ!@#$%^&amp;amp;**()-=_+.,&amp;lt;&amp;gt;/\|;:"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+  &lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$str&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;""&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nv"&gt;$length&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nv"&gt;$str&lt;/span&gt;&lt;span class="o"&gt;.=&lt;/span&gt;&lt;span class="nb"&gt;substr&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$list&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;mt_rand&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;strlen&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$list&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nv"&gt;$str&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Стоит заметить, что конкретные цифры необходимо подбирать индивидуально,
+в примере они указаны абсолютно произвольно. Использование конкретно
+этих же цифр приведет к далеко не самым лучшим результатам.&lt;/p&gt;
+&lt;h3 id="sborka"&gt;Сборка&lt;/h3&gt;
+&lt;p&gt;Не стоит забывать, что помимо генерации самого изображения, необходимо
+передать написанный текст другому скрипту, который будет сверять данные.
+Удобнее всего это делать через глобальный массив &lt;code&gt;$_SESSION&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Собрав все написанное выше, и учтя передачу текста, можно получить
+следующий класс:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Captcha&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+   &lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="nv"&gt;$string&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// генерируемый текст&lt;/span&gt;
+   &lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="nv"&gt;$bgcol&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;  &lt;span class="c1"&gt;// основной цвет фона&lt;/span&gt;
+   &lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="nv"&gt;$fgcol&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;  &lt;span class="c1"&gt;// основной цвет текста&lt;/span&gt;
+   &lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="nv"&gt;$height&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// высота изображения&lt;/span&gt;
+   &lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="nv"&gt;$width&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;  &lt;span class="c1"&gt;// ширина изображения&lt;/span&gt;
+   &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;__construct&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$bgcol&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$fgcol&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;// конструктор, вызывается при создании экземпляра класса&lt;/span&gt;
+   &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;width&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;250&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+      &lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;height&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;80&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+      &lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;fgcol&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$fgcol&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+      &lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;bgcol&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$bgcol&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+      &lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;generateSymbols&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+      &lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;generateImage&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+   &lt;span class="p"&gt;}&lt;/span&gt;
+   &lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;generateImage&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="c1"&gt;// генерация изображения&lt;/span&gt;
+   &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="o"&gt;=@&lt;/span&gt;&lt;span class="nb"&gt;imagecreatetruecolor&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;width&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;height&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;  &lt;span class="c1"&gt;// создаем пустое изображение&lt;/span&gt;
+      &lt;span class="nv"&gt;$mcol&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;imagecolorallocate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;fgcol&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;80&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;fgcol&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;30&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;150&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;fgcol&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;55&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="c1"&gt;// выбираем случайным образом&lt;/span&gt;
+      &lt;span class="nv"&gt;$kcol&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;imagecolorallocate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;fgcol&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;80&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;fgcol&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;30&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;150&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;fgcol&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="c1"&gt;// несколько цветов&lt;/span&gt;
+      &lt;span class="nv"&gt;$lcol&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;imagecolorallocate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;bgcol&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;bgcol&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;bgcol&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+      &lt;span class="nv"&gt;$bcol&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;imagecolorallocate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;bgcol&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;bgcol&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;bgcol&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
+      &lt;span class="nv"&gt;$fcol&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;imagecolorallocate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;fgcol&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;fgcol&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;fgcol&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
+      &lt;span class="nb"&gt;imagefill&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$bcol&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;  &lt;span class="c1"&gt;// заполняем изображение фоном&lt;/span&gt;
+      &lt;span class="nv"&gt;$array&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;25&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;26&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;31&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;32&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;37&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;39&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;41&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="c1"&gt;// список названий подходящих шрифтов&lt;/span&gt;
+      &lt;span class="nv"&gt;$n&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$array&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="nb"&gt;count&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$array&lt;/span&gt;&lt;span class="p"&gt;)];&lt;/span&gt;  &lt;span class="c1"&gt;// наугад выбираем из них один&lt;/span&gt;
+      &lt;span class="nv"&gt;$m&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;50&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+      &lt;span class="nv"&gt;$k&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;50&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+      &lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nv"&gt;$m&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="nb"&gt;imageline&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;height&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;width&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;height&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$lcol&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="c1"&gt;// создаем на фоне несколько линий&lt;/span&gt;
+      &lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nv"&gt;$k&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="nb"&gt;imageline&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;width&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;width&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;height&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$lcol&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="c1"&gt;// и еще несколько&lt;/span&gt;
+      &lt;span class="cm"&gt;/*&lt;/span&gt;
+&lt;span class="cm"&gt;      Генерируем текст: две строки на фон, а также интересующие нас символы по одному.&lt;/span&gt;
+&lt;span class="cm"&gt;      */&lt;/span&gt;
+      &lt;span class="nb"&gt;imagettftext&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;40&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;50&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;height&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mf"&gt;0.8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;50&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;25&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$kcol&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s2"&gt;"./font/"&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nv"&gt;$k&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="s2"&gt;".ttf"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;randomString&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;15&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+      &lt;span class="nb"&gt;imagettftext&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;40&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;35&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;70&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;35&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;height&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mf"&gt;0.8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;25&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;25&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$mcol&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s2"&gt;"./font/"&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nv"&gt;$m&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="s2"&gt;".ttf"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;randomString&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+      &lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nv"&gt;$istring&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="nb"&gt;imagettftext&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;33&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;70&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;35&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;15&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;width&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mf"&gt;1.1&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;height&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mf"&gt;0.73&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$fcol&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s2"&gt;"./font/"&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nv"&gt;$n&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="s2"&gt;".ttf"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;string&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
+      &lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nv"&gt;$m&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="nb"&gt;imageline&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;height&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;width&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;height&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$mcol&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="c1"&gt;// еще линии&lt;/span&gt;
+      &lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nv"&gt;$k&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="nb"&gt;imageline&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;width&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;width&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;height&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$mcol&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;  &lt;span class="c1"&gt;// и еще немного&lt;/span&gt;
+      &lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nv"&gt;$k&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="nb"&gt;imageline&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;width&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;width&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;height&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$fcol&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;  &lt;span class="c1"&gt;// и еще чуть-чуть&lt;/span&gt;
+      &lt;span class="nb"&gt;header&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'Content-Type: image/png'&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+      &lt;span class="nb"&gt;imagepng&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+      &lt;span class="nb"&gt;imagedestroy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$im&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+   &lt;span class="p"&gt;}&lt;/span&gt;
+   &lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;generateSymbols&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;   &lt;span class="c1"&gt;// генерация четырех цифр&lt;/span&gt;
+   &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;string&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;leadingZero&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;10000&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+   &lt;span class="p"&gt;}&lt;/span&gt;
+   &lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;leadingZero&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$num&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$length&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;// дополнения числа num лидирующими нулями&lt;/span&gt;
+   &lt;span class="p"&gt;{&lt;/span&gt;                        &lt;span class="c1"&gt;// до длины length&lt;/span&gt;
+      &lt;span class="nv"&gt;$str&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;strrev&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$num&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+      &lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;strlen&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$str&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nv"&gt;$length&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nv"&gt;$str&lt;/span&gt;&lt;span class="o"&gt;.=&lt;/span&gt;&lt;span class="s2"&gt;"0"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+      &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;strrev&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$str&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+   &lt;span class="p"&gt;}&lt;/span&gt;
+   &lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;randomString&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$length&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;// генерируем случайный набор символов заданной длины&lt;/span&gt;
+   &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="nv"&gt;$list&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVXYZ!@#$%^&amp;amp;**()-=_+.,&amp;lt;&amp;gt;/\|;:"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+      &lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$str&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;""&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nv"&gt;$length&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nv"&gt;$str&lt;/span&gt;&lt;span class="o"&gt;.=&lt;/span&gt;&lt;span class="nb"&gt;substr&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$list&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;mt_rand&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;strlen&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$list&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+      &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nv"&gt;$str&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+   &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Слегка доработав его и приведя в более подходящий вид, можно добиться
+генерации изображений, выглядящих например вот так:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="CAPTCHA Sample" class="responsive-img" src="https://www.insight-it.ru/images/captcha-sample.png" title="Пример получающегося изображения"/&gt;&lt;/p&gt;
+&lt;p&gt;Специально не выкладываю уже доведенный до ума класс, чтобы у читателей
+не возникало желания просто взять и воспользоваться им, это приведет
+лишь к очередной серии captcha-клонов.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sun, 13 Jan 2008 22:30:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-01-13:php/2008/zashhita-internet-resursov-v-kartinkax/</guid><category>captcha</category><category>OCR</category><category>online</category><category>PHP</category><category>защита интернет-ресурсов</category><category>интернет</category><category>класс</category><category>код</category><category>кодинг</category><category>ООП</category></item><item><title>Пара простых способов повысить эффективность написания кода</title><link>https://www.insight-it.ru//theory/2008/para-prostyx-sposobov-povysit-effektivnost-napisaniya-koda/</link><description>&lt;p&gt;Начнем, пожалуй, издалека: если рассматривать процесс программирования
+чуть более глобально, чем просто как дальний синоним слова
+&lt;em&gt;&lt;a href="/tag/koding/"&gt;coding&lt;/a&gt;&lt;/em&gt;, то нетрудно прийти к выводу, что реализация
+хоть сколько-нибудь большого проекта невозможна просто с помощью
+следования банальному алгоритму: сесть за компьютер, бросить взгляд на
+ТЗ, открыть любимый текстовый редактор, взять в зубы клавиатуру и
+написать. Если говорить о проектах уровня "Hello, world!" такой алгоритм
+вполне пригоден для реального использования, но как только речь заходит
+о чем-либо более серьезном и полномасштабным, такой подход сразу
+начинает порождать несметное количество проблем.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Основными причинами этого явления я бы назвал ограниченность ресурсов
+одного человека и отсутствие какой-либо стандартизации. Количество строк
+кода, которые кодер в состоянии писать в единицу времени ограниченно не
+только скоростью набора символов на клавиатуре, но и аналитическими
+способностями: начиная с какого-то момента человек тупо начинает
+забывать где у него находилась, например, та или иная функция или что
+значит та или иная переменная / константа.&lt;/p&gt;
+&lt;p&gt;Временным спасением от подобного рода проблем может послужить привычка
+грамотно оформлять код:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Размещение строго по одному выражению на строке в комбинации с
+    поддающимся хоть какой-либо логике расставления отступов в начале
+    строки позволяет избежать потерянных выражений и четко понимать: а
+    где же заканчивает вон то-о-от цикл?&lt;/li&gt;
+&lt;li&gt;Осмысленные названия переменных резко сокращают время, необходимое
+    для осознавания ответа на вопрос "а что же она значила?" Мне
+    доводилось не раз сталкивался с кодом, написанным с использованием в
+    качестве абсолютно всех переменных разнообразных букв латинского
+    алфавита - мало того что изменить их на что-либо другое как
+    автозаменой, так и RegExp'ами проблематично, так и на разобраться
+    что к чему ушло очень продолжительный период времени. Существует
+    большое количество более адекватных способов названия переменных и
+    функций, перечислять их все смысла не вижу, по-этому кратенько
+    расскажу о том, которым предпочитаю пользоваться сам: алгоритм прост
+    как три копейки - название соответствует переведенному на английский
+    смыслу (переменную, содержащую чье-либо имя называем name), в случае
+    если слов требуется более одного слова - пишем их слитно, начиная
+    все кроме первого с заглавной буквы (например: veryLongName), и по
+    старинной традиции делаем исключение для индексов циклов, которые
+    называем буквами латинского алфавита начиная с &lt;em&gt;i&lt;/em&gt; и далее по
+    списку. Вот собственно говоря банальный способ, позволяющий в очень
+    сжатые сроки вспомнить как называлась переменная, содержащее имя :)&lt;/li&gt;
+&lt;li&gt;Подавляющее большинство языков программирования поддерживает
+    &lt;em&gt;разбавление&lt;/em&gt; кода комментариями, что существенно упрощает
+    ориентирование в &lt;em&gt;объемистых&lt;/em&gt; листингах как самим автором, так и
+    всеми остальными персонами, которым по тем или иным причинам
+    доведется в последствии читать &lt;em&gt;произведение.&lt;/em&gt; Особенно этот способ
+    актуален для низкоуровневых языков программирования, так как с
+    первого взгляда на код даже его автору порой проблематично
+    определить его значение.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Все вышесказанное хоть и упрощает процесс программирования (хотя в этом
+предложении более подходящим является слово &lt;em&gt;&lt;a href="/tag/koding/"&gt;кодинг&lt;/a&gt;&lt;/em&gt;), но
+не позволяет избежать большей части потенциальных проблем, связанных с
+крупномасштабными проектами. Существует множество способов борьбы с
+издержками от масштаба проекта, такие как компонентно-ориентированное и
+объектно-ориентированное программирование, различные формы анализа и
+проектирования.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Thu, 03 Jan 2008 20:52:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-01-03:theory/2008/para-prostyx-sposobov-povysit-effektivnost-napisaniya-koda/</guid><category>код</category><category>кодинг</category><category>название переменных</category><category>Программирование</category><category>реализация</category><category>форматирование текста</category></item></channel></rss>

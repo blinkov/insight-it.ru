@@ -1,0 +1,789 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/zookeeper/feed/index.xml" rel="self"></atom:link><lastBuildDate>Sat, 31 Mar 2012 00:08:00 +0400</lastBuildDate><item><title>Twitter Storm</title><link>https://www.insight-it.ru//highload/2012/twitter-storm/</link><description>&lt;p&gt;&lt;em&gt;&lt;a href="https://www.insight-it.ru/goto/964382fd/" rel="nofollow" target="_blank" title="https://github.com/nathanmarz/storm/"&gt;Storm&lt;/a&gt; является распределенной
+системой для выполнения вычислений в реальном времени.&lt;/em&gt; Она родилась в
+рамках проекта Backtype, который специализировался на аналитике твитов и
+который в июле 2011 был приобретен &lt;a href="/tag/twitter/"&gt;Twitter&lt;/a&gt;. Так же как
+&lt;a href="/tag/apache/"&gt;Apache&lt;/a&gt; &lt;a href="/tag/hadoop/"&gt;Hadoop&lt;/a&gt; предоставляет набор
+базовых абстракций, инструментов и механизмов для пакетной обработки
+данных, &lt;strong&gt;Twitter Storm&lt;/strong&gt; делает это для задачи обработки данных &lt;em&gt;в
+режиме реального времени&lt;/em&gt;. Хотите узнать в чем их отличие?&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h2 id="otlichie"&gt;Отличие&lt;/h2&gt;
+&lt;p&gt;Не смотря на то, что &lt;em&gt;Storm&lt;/em&gt; изначально появился на свет в процессе
+неудачных попыток приспособить &lt;em&gt;Hadoop&lt;/em&gt; к задаче обработки данных в
+реальном времени, сравнивать их некорректно. Никакой хак или патч не
+сможет заставить Hadoop работать по-настоящему в режиме реального
+времени, так как в его основе лежит фундаментально другая концепция и
+набор принципов, которые актуальны лишь в контексте задачи пакетной
+обработки данных. &lt;strong&gt;Storm&lt;/strong&gt; можно представить как &lt;strong&gt;"Hadoop для
+вычислений в реальном времени"&lt;/strong&gt;, но по факту между ними нет практически
+ничего общего, кроме изначально-распределенной природы, слегка похожей
+архитектуры, работы внутри JVM и публичной доступности. Для понимания
+задачи, которая стоит перед Storm, лучше взглянуть на то, как она обычно
+решается.&lt;/p&gt;
+&lt;p&gt;Традиционно, если перед проектом или бизнесом вставала задача обработки
+какой-то информации в реальном времени, то она в итоге сводилась к
+цепочке преобразований данных и распределялась по серверам, которые их
+выполняют и передают результаты друг другу посредством сообщений и
+очередей-посредников. При таком подходе &lt;em&gt;существенная&lt;/em&gt; часть времени
+уходила на маршрутизацию сообщений, настройку и развертывание новых
+промежуточных очередей и обработчиков, обеспечение отказоустойчивости и
+надежности. По сути &lt;strong&gt;Storm&lt;/strong&gt; берет все вышеперечисленное на себя,
+позволяя разработчикам сосредоточиться на реализации логики обработки
+сообщений.&lt;/p&gt;
+&lt;h2 id="osobennosti"&gt;Особенности&lt;/h2&gt;
+&lt;p&gt;Итак, основные особенности Storm, вытекающие из требований к подобным
+системам:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Три основных варианта использования, но ими он не ограничивается:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Обработка потоков сообщений&lt;/strong&gt; &lt;em&gt;(stream processing)&lt;/em&gt; в реальном
+времени, с возможностью внесения изменений во внешние базы данных;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Постоянные вычисления&lt;/strong&gt;&amp;nbsp;&lt;em&gt;(continuous computation)&lt;/em&gt; на основе
+источников данных с публикацией результатов произвольным клиентам в
+реальном времени;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Распределенные удаленные вызовы&lt;/strong&gt; &lt;em&gt;(distributed RPC)&lt;/em&gt; с
+выполнением комплексных вычислений параллельно во время запроса.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Масштабируемость:&lt;/strong&gt; Storm может обрабатывать огромное количество
+сообщений в секунду. Для масштабирование необходимо лишь добавить
+сервера в кластер и увеличить параллельность в настройках топологии. В
+одном из первых приложений для Storm обрабатывался 1 миллион сообщений в
+секунду на кластере из 10 серверов, при этом выполнялось несколько сотен
+запросов в секунду к внешней базе данных.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Гарантия отсутствия потерь данных:&lt;/strong&gt;&amp;nbsp;в отличии от других систем
+обработки сообщений в реальном времени (например
+&lt;a href="https://www.insight-it.ru/goto/9cb3bfa0/" rel="nofollow" target="_blank" title="http://incubator.apache.org/s4"&gt;S4&lt;/a&gt; от Yahoo!) это свойство изначально
+является частью архитектуры Storm.&amp;nbsp;Для этого используется механизм
+подтверждения&amp;nbsp;&lt;em&gt;(acknowledgement)&lt;/em&gt;&amp;nbsp;успешной обработки каждого конкретного
+сообщения.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Стабильность:&lt;/strong&gt;&amp;nbsp;в то время как &lt;a href="/tag/hadoop/"&gt;Hadoop&lt;/a&gt; позволительны
+простои по несколько часов, так как он априори не является системой
+реального времени, одной из основных целей Storm является стабильная
+бесперебойная работа кластера, с максимально безболезненным его
+управлением.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Защита от сбоев:&lt;/strong&gt;&amp;nbsp;если что-то пошло не так во время выполнения
+вычисления, Storm переназначит задачи и попробует снова. В его задачи
+входит обеспечение бесконечной работы вычислений (или до момента
+запланированной или ручной остановки).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Независимость от языка программирования:&lt;/strong&gt; в то время как большая
+часть системы написана на &lt;a href="/tag/clojure/"&gt;Clojure&lt;/a&gt; и работает в
+&lt;a href="/tag/jvm/"&gt;JVM&lt;/a&gt;, сами компоненты системы могут быть реализованы на
+любом языке, что удобно для проектов, использующих в основном другие
+технологии.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;У Вас уже могло сложиться общее представление, о том что собой
+представляет &lt;strong&gt;Twitter Storm&lt;/strong&gt; и насколько он актуален лично для Вас или
+Вашего проекта. Если интерес все еще не погас, предлагаю перейти к
+концепции, предлагаемой Storm для разработки приложений под эту
+платформу.&lt;/p&gt;
+&lt;h2 id="kontseptsiia"&gt;Концепция&lt;/h2&gt;
+&lt;p&gt;Для начала пройдемся по основным абстракциям, которые используются в
+Storm:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Поток&lt;/strong&gt; &lt;em&gt;(Stream)&lt;/em&gt;: неограниченный поток сообщений, представленных в
+виде кортежей (произвольных именованный список значений). При этом все
+кортежи в одном потоке должны иметь одинаковую схему: элемент на каждой
+позиции должен иметь один и тот же тип данных и значение.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Струя воды из крана&lt;/strong&gt;&amp;nbsp;&lt;em&gt;(Spout)&lt;/em&gt;: источник потоков, который берет их из какой-то внешней системы.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Cтруя состояния&lt;/strong&gt;&amp;nbsp;&lt;em&gt;(state spout)&lt;/em&gt;: предоставляет распределенный доступ к некому общему состоянию, которое кэшируется в памяти на исполнителях и синхронно обновляется при внешних изменениях. Таким образом возможно избежать обращений к внешней базе данных при обработке каждого сообщения. В случае с Twitter этим общим состоянием является сам
+социальный граф.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Молния&lt;/strong&gt; &lt;em&gt;(Bolt)&lt;/em&gt;: обрабатывает входящие потоки и создает исходящие
+потоки, производя какую-либо обработку данных (по сути здесь реализуется
+основная бизнес-логика). Помимо этого никто не запрещает использовать
+при обработке какие угодно внешние сервисы вроде &lt;a href="/tag/subd/"&gt;СУБД&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Топология&lt;/strong&gt; &lt;em&gt;(Topology)&lt;/em&gt;: произвольная связанная сеть из "молний" и
+"струй". При создании топологии можно указать:&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;уровень параллелизма&lt;/em&gt; для каждого компонента, что создаст
+необходимое количество его потоков исполнения в кластере.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;группировку потоков&lt;/em&gt;, то есть как именно сообщения будут
+распределяться между созданными потоками исполнения каждого
+компонента, есть четыре основных варианта - случайно &lt;em&gt;(shuffle)&lt;/em&gt;,
+каждый получит по копии &lt;em&gt;(all)&lt;/em&gt;, хэш по определенным полям сообщения
+&lt;em&gt;(fields)&lt;/em&gt;, один поток получает все сообщения &amp;nbsp;&lt;em&gt;(global)&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Таким образом, для создания приложения для обработки данных в реальном
+времени с использованием &lt;strong&gt;Storm&lt;/strong&gt;, необходимо:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Определить схему(ы) потока(ов) сообщений.&lt;/li&gt;
+&lt;li&gt;Реализовать источник(и) сообщений, основанные на парсинге каких-то
+    внешних данных (для Backtype это был Twitter firehose, поток всех
+    твитов) или реакции на события (допустим действия пользователей в
+    виде HTTP-запросов).&lt;/li&gt;
+&lt;li&gt;Реализовать обработчик(и) сообщений, которые преобразуют входящие
+    сообщения и либо создают новые потоки сообщений, либо как-то влияют
+    на внешний мир, например изменяя что-то в базе данных (они
+    используют &lt;a href="/tag/cassandra/"&gt;Cassandra&lt;/a&gt; для этого).&lt;/li&gt;
+&lt;li&gt;Объединить реализованные компоненты в топологию и запустить её на
+    кластере.&lt;/li&gt;
+&lt;li&gt;При необходимости оптимизировать систему, включив общее состояние в
+    топологию.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;С точки зрения разработчика приложения большего знать и не нужно, но
+самое интересное происходит как раз дальше. Что собой представляет
+Storm-кластер и как с его помощью исполняется реализованное описанным
+выше способом приложение?&lt;/p&gt;
+&lt;h2 id="arkhitektura"&gt;Архитектура&lt;/h2&gt;
+&lt;p&gt;Проект очень сильно завязан на &lt;a href="/tag/zookeeper/"&gt;Zookeeper&lt;/a&gt; для
+координации работы кластера, с чем он очень неплохо справляется. Все
+остальные компоненты системы системы не содержат в себе состояния, что
+обеспечивает их быстрый запуск, даже после &lt;code&gt;kill -9&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Storm Cluster" class="responsive-img" src="https://www.insight-it.ru/images/storm-cluster.png" title="Storm Cluster"/&gt;&lt;/p&gt;
+&lt;p&gt;В остальном все достаточно просто:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Мастер-сервер &lt;em&gt;(Nimbus)&lt;/em&gt; отвечает за распространение кода,
+    распределение задач и мониторинг сбоев.&lt;/li&gt;
+&lt;li&gt;На каждом сервере в кластере запускается процесс-надсмотрщик
+    &lt;em&gt;(Supervisor)&lt;/em&gt;, который запускает локально потоки исполнения,
+    отвечающие за выполнение назначенных ему компонентов топологий.&lt;/li&gt;
+&lt;li&gt;Передача сообщений между компонентами топологий осуществляется
+    напрямую, посредством &lt;a href="/tag/zeromq/"&gt;ZeroMQ&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Топологии являются &lt;a href="/tag/thrift/"&gt;Thrift&lt;/a&gt;-структурами, а
+    мастер-сервер - &lt;a href="/tag/thrift/"&gt;Thrift&lt;/a&gt;-сервисом, что позволяет
+    осуществлять регистрацию топологий и другие операции программно из
+    любого языка программирования.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Присутствующий в единственном экземпляре мастер-сервер является
+единственной точкой отказа лишь на первый взгляд. По факту он
+используется лишь для внесение изменений в кластер и топологии, так что
+его непродолжительное отсутствие не повлияет на функционирование
+запущенных вычислений. А так как состояние кластера хранится в
+&lt;em&gt;Zookeeper&lt;/em&gt;, то запуск мастера на другой машине в случае аппаратного
+сбоя - вопрос лишь грамотно настроенного мониторинга и максимум одной
+минуты.&lt;/p&gt;
+&lt;p&gt;Используемый механизм подтверждений успешной обработки сообщения
+&lt;em&gt;(acknowledgement)&lt;/em&gt; гарантирует, что все сообщения, попавшие в систему,
+рано или поздно будут обработаны, даже при локальных сбоях оборудования.
+Хотя более глобальные катаклизмы вроде "потери" стойки все же могут
+нарушить функционирование системы, про работу в нескольких датацентрах
+речь также не идет.&lt;/p&gt;
+&lt;h2 id="plany-na-budushchee"&gt;Планы на будущее&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Использование &lt;a href="https://www.insight-it.ru/goto/6984b642/" rel="nofollow" target="_blank" title="http://incubator.apache.org/mesos"&gt;Mesos&lt;/a&gt; для
+    распределения и изоляции вычислительных ресурсов.&lt;/li&gt;
+&lt;li&gt;Изменение кода "на лету", сейчас для этого нужно остановить старую
+    топологию и запустить новую, что может означать простой в пару
+    минут.&lt;/li&gt;
+&lt;li&gt;Автоматическое определения необходимого уровня параллельности и
+    адаптация под изменения в интенсивности входящего потока сообщений.&lt;/li&gt;
+&lt;li&gt;Еще более высокоуровневые абстракции.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="podvodim-itogi"&gt;Подводим итоги&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;На самом деле подход, лежащий в основе Storm, не является чем-то
+кардинально-новым. Помимо упоминавшегося выше S4 можно найти еще
+несколько альтернатив, пускай и менее близких по идеологии. Подробнее
+про эту тему можно узнать погуглив &lt;strong&gt;&lt;a href="https://www.insight-it.ru/goto/c81ea66c/" rel="nofollow" target="_blank" title="http://www.google.com/search?q=complex+event+processing"&gt;complex event processing&lt;/a&gt;&lt;/strong&gt;
+или &lt;strong&gt;&lt;a href="https://www.insight-it.ru/goto/14ea9c79/" rel="nofollow" target="_blank" title="http://www.google.com/search?q=real-time+stream+processing"&gt;real-time stream processing&lt;/a&gt;&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Storm&lt;/strong&gt; выделяет из их числа простота, гибкость, масштабируемость и
+отказоустойчивость в одном флаконе. Обеспечивает это в первую очередь
+простая и понятная архитектура, основанная на (уже) проверенном временем
+и многими проектами распределенном координаторе в виде &lt;strong&gt;Zookeeper&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Хоть за проектом и стоит крупный интернет-проект в лице
+&lt;a href="https://www.insight-it.ru/highload/2011/arkhitektura-twitter-dva-goda-spustya/"&gt;Twitter&lt;/a&gt;,
+он достаточно молод и нужно быть морально готовым к возможным сбоям и
+неудачным моментам. Плюс не забывайте, что существенная часть написана
+на &lt;strong&gt;Clojure&lt;/strong&gt; - для, пожалуй, большинства разработчиков изучение
+исходников проекта будет капитальным "выносом мозга". Мое первое
+знакомство с &lt;strong&gt;Lisp&lt;/strong&gt; &lt;em&gt;(Clojure - его диалект, работающий в
+JVM)&lt;/em&gt;&amp;nbsp;надолго засело в памяти из-за обилия скобочек за каждым углом :)&lt;/li&gt;
+&lt;li&gt;В любом случае из доступных &lt;a href="/tag/opensource/"&gt;opensource&lt;/a&gt; реализаций
+систем для распределенных вычислений в реальном времени &lt;strong&gt;Storm&lt;/strong&gt;&amp;nbsp;на мой
+взгляд является наиболее перспективным для применения в
+интернет-проектах.&lt;/li&gt;
+&lt;li&gt;Если Вашему проекту нужна лишь одна-две топологии и особо большого
+кластера не планируется, то подобную схему достаточно не сложно
+реализовать и просто посредством &lt;strong&gt;Zookeeper&lt;/strong&gt; + &lt;strong&gt;ZeroMQ&lt;/strong&gt; или
+альтернативных технологий. Это избавит проект от возможных заморочек с
+Clojure и другими "особенностями" Storm, ценой вероятно существенно
+большей собственной кодовой базы, которую придется самостоятельно
+тестировать и поддерживать. Какой путь ближе - команда каждого проекта
+решает для себя сама.&lt;/li&gt;
+&lt;li&gt;Помимо различных вариаций&amp;nbsp;&lt;strong&gt;веб-аналитики&lt;/strong&gt; заманчивыми применениями
+подобной системы в Интернете может стать:&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;построение индекса для поисковых систем&lt;/strong&gt;, на сколько я знаю от
+&lt;a href="/tag/mapreduce/"&gt;MapReduce&lt;/a&gt; здесь отказался только
+&lt;a href="https://www.insight-it.ru/highload/2011/arkhitektura-google-2011/"&gt;Google&lt;/a&gt;;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;поведенческий таргетинг для рекламы&lt;/strong&gt; - собираем действия
+пользователей и делаем на их основе выводы в реальном времени;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ведение рейтингов чего-либо в реальном времени&lt;/strong&gt; - в зависимости
+от специфики проекта можно определять и показывать лучшие, самые
+просматриваемые или самые комментируемые
+статьи/фото/видео/музыку/товары/комментарии/что-нибудь-еще;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;предлагаем свои варианты в комментариях&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Удачи в построении приложений для вычислений в реальном времени и &lt;a href="/feed/"&gt;до встречи на страницах &lt;strong&gt;Insight IT&lt;/strong&gt;&lt;/a&gt;!&lt;/p&gt;
+&lt;h2 id="istochniki-informatsii"&gt;Источники информации&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/6f56bb97/" rel="nofollow" target="_blank" title="http://www.infoq.com/presentations/Storm"&gt;Видео презентации проекта&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/fbfa7e01/" rel="nofollow" target="_blank" title="http://www.slideshare.net/nathanmarz/storm-distributed-and-faulttolerant-realtime-computation"&gt;Слайды с презентации проекта&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/a027c9d7/" rel="nofollow" target="_blank" title="https://github.com/nathanmarz/storm"&gt;Репозиторий проекта&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sat, 31 Mar 2012 00:08:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-03-31:highload/2012/twitter-storm/</guid><category>Clojure</category><category>JVM</category><category>opensource</category><category>real time</category><category>Storm</category><category>Thrift</category><category>Twitter</category><category>Twitter Storm</category><category>ZeroMQ</category><category>ZooKeeper</category></item><item><title>Архитектура YouTube 2012</title><link>https://www.insight-it.ru//highload/2012/arkhitektura-youtube-2012/</link><description>&lt;blockquote&gt;
+&lt;p&gt;Выбирайте самое простое решение с наиболее общими гарантиями, которые
+практически полезны.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;- Дао YouTube&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;YouTube&lt;/strong&gt; практически на протяжении всех 7 лет своего существования
+является мировым лидером в сфере интернет-видео. С точки зрения
+технической реализации проект оказался достаточно консервативным -
+команда придерживается того же курса и стека технологий, с которых все
+начиналось еще до приобретения проекта &lt;strong&gt;Google&lt;/strong&gt;. Но с 2008 года, когда
+я написал первый обзор&amp;nbsp;&lt;a href="https://www.insight-it.ru/highload/2008/arkhitektura-youtube/"&gt;архитектуры YouTube&lt;/a&gt;, все же произошли интересные изменения, о которых я и хотел бы сегодня вкратце рассказать.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h2 id="statistika"&gt;Статистика&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;4 млрд. просмотров страниц в день&lt;/li&gt;
+&lt;li&gt;60 часов видео загружается каждую минуту&lt;/li&gt;
+&lt;li&gt;350 миллионов устройств подключено к YouTube&lt;/li&gt;
+&lt;li&gt;На февраль 2012 года в США по данным comScore:&lt;ul&gt;
+&lt;li&gt;147,4 млн. уникальных зрителей&lt;/li&gt;
+&lt;li&gt;16,7 млрд. просмотров видео (в октябре 2011 было больше 20 млрд.)&lt;/li&gt;
+&lt;li&gt;Каждый зритель посмотрел в среднем 7 часов видео за месяц&lt;/li&gt;
+&lt;li&gt;1.1 млрд. просмотров видео рекламы, суммарной длительностью в 10.8
+млн. часов&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="tekhnologii"&gt;Технологии&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/linux/"&gt;Linux&lt;/a&gt; - операционная система&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/apache/"&gt;Apache&lt;/a&gt; - основной HTTP-сервер&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/lighttpd/"&gt;lighttpd&lt;/a&gt; - отдача видео из YouTube CDN&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/zookeeper/"&gt;Zookeeper&lt;/a&gt; - распределенные блокировки, хранение
+конфигураций&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="/tag/python/"&gt;Python&lt;/a&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/wiseguy/"&gt;wiseguy&lt;/a&gt; - FastCGI-прослойка между Apache и Python&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/pycurl/"&gt;pycurl&lt;/a&gt; - лучшая доступная реализация HTTP-клиента,
+но в итоге все равно заменили на самописное низкоуровневое решение,
+выиграв 8% в потреблении вычислительных ресурсов.&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/spitfire/"&gt;spitfire&lt;/a&gt; - высокопроизводительный шаблонизатор на
+основе абстрактного синтаксического дерева с регулируемым уровнем
+оптимизации (как в gcc)&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/bson/"&gt;bson&lt;/a&gt; в качестве формата сериализации&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="/tag/bigtable/"&gt;BigTable&lt;/a&gt; - хранение изображений&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt; - используется просто как хранилище данных, версия
+5.1.52 с InnoDB&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/vitess/"&gt;Vitess&lt;/a&gt; - система для масштабирования MySQL-кластера&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="vitess"&gt;Vitess&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Основная цель проекта - предоставление всех необходимых инструментов и
+серверов для горизонтального масштабирования баз данных на основе MySQL,
+с учетом потребностей современных интернет-проектов.&lt;/li&gt;
+&lt;li&gt;Реализован на &lt;a href="/tag/go/"&gt;Go&lt;/a&gt; - все еще экзотическом языке
+программирования, также родившемся в стенах &lt;a href="/tag/google/"&gt;Google&lt;/a&gt;.
+Сравним по производительности с &lt;a href="/tag/c/"&gt;C++&lt;/a&gt; и &lt;a href="/tag/java/"&gt;Java&lt;/a&gt;, но
+несколько более "выразителен".&lt;/li&gt;
+&lt;li&gt;Опубликован в opensource 24 февраля 2012 года, совсем недавно, так что
+&lt;a href="/tag/youtube/"&gt;YouTube&lt;/a&gt; - по-прежнему единственный пример его
+использования на практике в крупном проекте.&lt;/li&gt;
+&lt;li&gt;Готовые клиентские библиотеки пока только для&amp;nbsp;&lt;strong&gt;Python&lt;/strong&gt;&amp;nbsp;и&amp;nbsp;&lt;strong&gt;Go&lt;/strong&gt;, что
+не удивительно, но есть и универсальные интерфейсы на основе HTTP и
+просто TCP-сокетов.&lt;/li&gt;
+&lt;li&gt;Основной формат данных - &lt;strong&gt;bson&lt;/strong&gt;, как и в &lt;a href="/tag/mongodb/"&gt;MongoDB&lt;/a&gt;, но
+по словам разработчиков &lt;em&gt;Vitess&lt;/em&gt;&amp;ensp;&lt;a href="https://www.insight-it.ru/goto/b807d615/" rel="nofollow" target="_blank" title="http://code.google.com/p/vitess/source/browse/#hg%2Fgo%2Fbson"&gt;их
+реализация&lt;/a&gt;
+выполняет (де)сериализацию в 10-15 раз быстрее.&lt;/li&gt;
+&lt;li&gt;Ядром проекта выступает &lt;strong&gt;Vtocc&lt;/strong&gt;, &amp;nbsp;SQL-прокси с RPC интерфейсом,
+позволяющий перераспределять запросы от большого количества (более 10
+тыс.) одновременно подключенных клиентов в сравнительно небольшое
+количество соединений с базами данных. Пропускная способность порядка 10
+тыс. запросов в секунду.&lt;/li&gt;
+&lt;li&gt;Встроенные возможности &lt;strong&gt;Vtocc&lt;/strong&gt;:&lt;ul&gt;
+&lt;li&gt;парсер и анализатор SQL-запросов для оптимизации их выполнения;&lt;/li&gt;
+&lt;li&gt;заполнение типичных запросов переменными с поддержкой кэширования
+результатов;&lt;/li&gt;
+&lt;li&gt;управление транзакциями и сроками их выполнения ("убивает"
+затянувшиеся);&lt;/li&gt;
+&lt;li&gt;для каждого пространства ключей (логической таблицы) можно указать
+фактор репликации, что создаст необходимое количество второстепенных
+баз данных в дополнение к мастеру;&lt;/li&gt;
+&lt;li&gt;можно явно указать, что чтение необходимо произвести с мастера
+(важно когда пользователь только что выполнил какое-то действие и
+должен сразу же увидеть его результат);&lt;/li&gt;
+&lt;li&gt;отдельные пулы соединений для выполнения операций чтения и записи;&lt;/li&gt;
+&lt;li&gt;исключение "зависших" соединений из пулов;&lt;/li&gt;
+&lt;li&gt;перезапуск без простоя системы;&lt;/li&gt;
+&lt;li&gt;поддержка DML.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Партиционирование&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Во всех таблицах должна быть колонка с уникальным ключем, на основе
+которого данные будут распределяться по кластеру.&lt;/li&gt;
+&lt;li&gt;Партиционирование основано на диапазонах ключей, что позволяет держать
+"карту" партиций в памяти и очень быстро определять где располагаются те
+или иные данные, но обратной стороной медали является вероятное
+возникновение "горячих" узлов в кластере, особенно при монотонно
+увеличивающихся значениях ключей (рекомендуется использовать случайные).&lt;/li&gt;
+&lt;li&gt;Поддерживаются ключи в виде натуральных чисел или произвольных бинарных
+данных.&lt;/li&gt;
+&lt;li&gt;При высокой нагрузке на одну партицию она может быть распределена на две
+путем фильтрованной репликации; в дальнейшем планируется реализовать и
+обратный процесс.&lt;/li&gt;
+&lt;li&gt;Еще в планах:&lt;ul&gt;
+&lt;li&gt;Поэтапное внесение изменений в схему данных без видимого простоя
+системы;&lt;/li&gt;
+&lt;li&gt;Поддержка работы в нескольких датацентрах с концентрацией
+мастер-серверов в одном датацентре и использования остальных в
+режиме только для чтения.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="podvodim-itogi"&gt;Подводим итоги&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;YouTube&lt;/strong&gt; - еще один проект мирового масштаба, который с самого начала
+использовал MySQL и оказался не в силах от него отказаться, не смотря на
+трудности с горизонтальным масштабированием.&lt;/li&gt;
+&lt;li&gt;По аналогичному пути пошли и другие проекты, схожие с &lt;strong&gt;Vitess&lt;/strong&gt;
+надстройки над MySQL используются в &lt;a href="https://www.insight-it.ru/highload/2010/arkhitektura-facebook/"&gt;Facebook&lt;/a&gt; и &lt;a href="https://www.insight-it.ru/highload/2011/arkhitektura-twitter-dva-goda-spustya/"&gt;Twitter&lt;/a&gt;:&lt;ul&gt;
+&lt;li&gt;В &lt;a href="/tag/facebook/"&gt;Facebook&lt;/a&gt; она дополнена сильной интеграцией с
+&lt;a href="/tag/memcached/"&gt;memcached&lt;/a&gt;&amp;nbsp;и сильно ограниченным интерфейсом, не
+имеющим практически ничего общего с SQL.&amp;nbsp;Планы о публикации в
+opensource, кажется, были, но я не слышал чтобы они воплотились в
+жизнь. &lt;em&gt;// Уже почти дописав статью случайно заметил в коде, а потом
+и мелким шрифтом в документации, что в Vitess тоже используется
+memcached для кэширования из-за проблем со сборщиком мусора Go.&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/twitter/"&gt;Twitter&lt;/a&gt;&amp;nbsp;по-прежнему использует свою связку
+&lt;a href="https://www.insight-it.ru/goto/4fe0530b/" rel="nofollow" target="_blank" title="https://github.com/twitter/flockdb"&gt;FlockDB&lt;/a&gt; +
+&lt;a href="https://www.insight-it.ru/goto/c4275cdf/" rel="nofollow" target="_blank" title="https://github.com/twitter/gizzard"&gt;Gizzard&lt;/a&gt;&amp;nbsp;на
+&lt;a href="/tag/scala/"&gt;Scala&lt;/a&gt;, которые уже пару лет публично доступны. В
+отличии от Vitess она заточена на хранение информации о социальных
+графах, по-этому сфера её применения как в Twitter, так и за его
+пределами ограничена.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Vitess - пожалуй первая относительно успешная попытка построить
+распределенную горизонтально масштабируемую СУБД на основе реляционной
+базы данных, сохранив при этом SQL-интерфейс, пускай и с некоторыми
+ограничениями.&lt;/li&gt;
+&lt;li&gt;Выбирайте подходящее хранилище для каждого типа данных в системе - если
+Vitess стал подходящим решением для структурированных данных вроде
+информации о пользователях, метаданных видео и комментариев, это не
+значит, что он хорошо (или плохо) справится, например, с медиа-файлами
+вроде изображений и видео (для них в
+&lt;a href="/tag/youtube/"&gt;YouTube&lt;/a&gt;&amp;nbsp;по-прежнему используют стек технологий
+&lt;a href="/tag/google/"&gt;Google&lt;/a&gt;, подробности не публикуются).&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/python/"&gt;Python&lt;/a&gt; - вполне пригодный инструмент для реализации
+бизнес-логики интернет-проектов, свет клином на &lt;a href="/tag/php/"&gt;PHP&lt;/a&gt; не
+сошелся. Python предлагает широкий ассортимент инструментов для решения
+любых типичных для интернет-проектов задач, хотя субъективно выбор
+некоторых из них разработчиками YouTube мне кажется странным.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="card light-blue lighten-5"&gt;
+&lt;div class="card-content"&gt;
+        В комментариях предлагаю обсудить слабые и сильные стороны использования
+        надстроек над реляционными базами данных, скажем по сравнению с
+        использованием изначально-распределенных СУБД, таких как Riak, Cassandra
+        и многих других. Может быть кто-то уже успел прикрутить к своему проекту
+        Vitess или хотя бы FlockDB и готов поделиться впечатлениями?
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;h2 id="istochniki-informatsii"&gt;Источники информации&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/fb446b63/" rel="nofollow" target="_blank" title="https://www.youtube.com/watch?v=G-lGCC4KKok"&gt;Mike Solomon на PyCon'12&lt;/a&gt; (один из первых
+    разработчиков проекта)&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/29524853/" rel="nofollow" target="_blank" title="http://code.google.com/p/vitess"&gt;О проекте Vitess&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/652a935e/" rel="nofollow" target="_blank" title="http://www.comscore.com/Press_Events/Press_Releases/2012/3/comScore_Releases_February_2012_U.S._Online_Video_Rankings"&gt;Статистика comScore на февраль '12&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sat, 24 Mar 2012 16:50:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-03-24:highload/2012/arkhitektura-youtube-2012/</guid><category>bson</category><category>Go</category><category>Google</category><category>lighttpd</category><category>Linux</category><category>MySQL</category><category>pycurl</category><category>Python</category><category>spitfire</category><category>Vitess</category><category>wiseguy</category><category>YouTube</category><category>ZooKeeper</category></item><item><title>Архитектура Tumblr</title><link>https://www.insight-it.ru//highload/2012/arkhitektura-tumblr/</link><description>&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/e90ae6ea/" rel="nofollow" target="_blank" title="http://www.tumblr.com"&gt;&lt;strong&gt;Tumblr&lt;/strong&gt;&lt;/a&gt; - одна из самых популярных в мире
+платформ для блоггинга, которая делает ставку на привлекательный внешний
+вид, юзабилити и дружелюбное сообщество. Хоть проект и не особо на слуху
+в России, цифры говорят сами за себя: 24й по посещаемости сайт в США
+с&amp;nbsp;15 миллиардами просмотров страниц в месяц. Хотите познакомиться с
+историей этого проекта, выросшего из простого стартапа?
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;h2 id="vvedenie"&gt;Введение&lt;/h2&gt;
+&lt;p&gt;Как и всем успешным стартапам, Tumblr удалось преодолеть опасную пропать
+между начинающим проектом и широко известной компанией. Поиск правильных
+людей, эволюция инфраструктуры, поддержка старых решений, паника по
+поводу значительного роста посещаемости от месяца к месяцу, при этом в
+команде только 4 технических специалиста - все это заставляло
+руководство Tumblr принимать тяжелые решения о том над чем стоит
+работать, а над чем - нет. Сейчас же технический персонал расширился до
+20 человек и у них достаточно энергии для преодоления всех текущих
+проблем и разработки новых интересных технических решений.&lt;/p&gt;
+&lt;p&gt;Поначалу Tumblr был вполне типичным большим &lt;a href="/tag/lamp/"&gt;LAMP&lt;/a&gt;
+приложением. Сейчас же они двигаются в направлении модели распределенных
+сервисов, построенных вокруг существенно менее распространенных
+технологий. Основные усилия сейчас вкладываются в постепенный уход от
+&lt;a href="/tag/php/"&gt;PHP&lt;/a&gt; в пользу более "правильных" и "современных" решений,
+оформленных в виде сервисов. Параллельно с переходом к новым технологиям
+идут изменения и в команде проекта: от небольшой группы энтузиастов к
+полноценной команде разработчиков, имеющей четкую структуру и сферы
+ответственности, но тем не менее жаждущей реализовывать новый функционал
+и обустраивать совершенно новую инфраструктуру проекта.&lt;/p&gt;
+&lt;h2 id="platforma"&gt;Платформа&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/centos/"&gt;CentOS&lt;/a&gt; на серверах, &lt;a href="/tag/mac-os-x/"&gt;Mac OS X&lt;/a&gt; для
+    разработки&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/apache/"&gt;Apache&lt;/a&gt; - основной веб-сервер&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/php/"&gt;PHP&lt;/a&gt;, &lt;a href="/tag/scala/"&gt;Scala&lt;/a&gt;, &lt;a href="/tag/ruby/"&gt;Ruby&lt;/a&gt; - языки
+    программирования&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/finagle/"&gt;Finagle&lt;/a&gt;&amp;nbsp;- асинхронный RPC сервер и клиент&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt;, &lt;a href="/tag/hbase/"&gt;HBase&lt;/a&gt;&amp;nbsp;- СУБД&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/memcached/"&gt;memcached&lt;/a&gt;,&amp;nbsp;&lt;a href="/tag/redis/"&gt;Redis&lt;/a&gt;&amp;nbsp;- кэширование&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/varnish/"&gt;Varnish&lt;/a&gt;, &lt;a href="/tag/nginx/"&gt;nginx&lt;/a&gt; - отдача статики&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/haproxy/"&gt;HAProxy&lt;/a&gt; - балансировка нагрузки&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/kestrel/"&gt;kestrel&lt;/a&gt;, &lt;a href="/tag/gearman/"&gt;gearman&lt;/a&gt; - очередь задач&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/thrift/"&gt;Thrift&lt;/a&gt; - сериализация&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/kafka/"&gt;Kafka&lt;/a&gt; - распределенная шина сообщений&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/hadoop/"&gt;Hadoop&lt;/a&gt; - обработка статистики&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/zookeeper/"&gt;ZooKeeper&lt;/a&gt; - хранение конфигурации и состояний
+    системы&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/git/"&gt;git&lt;/a&gt; - система контроля версий&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/jenkins/"&gt;Jenkins&lt;/a&gt; - непрерывное тестирование&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="statistika"&gt;Статистика&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Около 500 миллионов просмотров страниц в день&lt;/li&gt;
+&lt;li&gt;Более 15 миллиардов просмотров страниц в месяц&lt;/li&gt;
+&lt;li&gt;Посещаемость растет примерно на 30% в месяц&lt;/li&gt;
+&lt;li&gt;Пиковые нагрузки порядка 40 тысяч запросов в секунду&lt;/li&gt;
+&lt;li&gt;Около 20 технических специалистов в команде&lt;/li&gt;
+&lt;li&gt;Каждый день создается около 50Гб новых постов и 2.7Тб обновлений списков
+последователей&lt;/li&gt;
+&lt;li&gt;Более 1Тб статистики обрабатывается в &lt;a href="/tag/hadoop/"&gt;Hadoop&lt;/a&gt; ежедневно&lt;/li&gt;
+&lt;li&gt;Используется порядка 1000 серверов:&lt;ul&gt;
+&lt;li&gt;500 веб-серверов c Apache и PHP-приложением&lt;/li&gt;
+&lt;li&gt;200 серверов баз данных (существенная их часть - резервные)&lt;ul&gt;
+&lt;li&gt;47 пулов&lt;/li&gt;
+&lt;li&gt;30 партиций (шардов)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;30 серверов &lt;a href="/tag/memcached/"&gt;memcached&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;25 серверов Redis&lt;/li&gt;
+&lt;li&gt;15 серверов Varnish&lt;/li&gt;
+&lt;li&gt;25 серверов HAProxy&lt;/li&gt;
+&lt;li&gt;8 серверов nginx&lt;/li&gt;
+&lt;li&gt;14 серверов для очередей задач&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="tipichnoe-ispolzovanie"&gt;Типичное использование&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Tumblr&lt;/strong&gt; используется несколько по-другому, чем другие социальные
+сети:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;При более чем 50 миллионах постов в день, каждый из них попадает в
+среднем к нескольким сотням читателей. Это и не несколько
+пользователей с миллионами читателей (например, популярные личности
+в Twitter) и не миллиарды личных сообщений.&lt;/li&gt;
+&lt;li&gt;Ориентированность на длинные публичные сообщения, полные интересной
+информацией и картинками/видео, заставляет пользователей проводить
+долгие часы каждый день за чтением Tumblr.&lt;/li&gt;
+&lt;li&gt;Большинство активных пользователей подписывается на сотни других
+блоггеров, что практически гарантирует много страниц нового контента
+при каждом заходе на сайт. В других социальных сетях поток новых
+сообщений переполнен ненужным контентом и толком не читается.&lt;/li&gt;
+&lt;li&gt;Как следствие, при сложившемся количестве пользователей, средней
+аудиторией каждого и высокой активностью написания постов, системе
+приходится обрабатывать и доставлять огромное количество информации.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Публичные блоги называют Tumblelog'ами, они не так динамичны и легко
+кэшируются.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;Сложнее всего масштабировать Dashboard, страницу, где пользователи в
+реальном времени читают что нового у блоггеров, на которых они
+подписаны:&lt;ul&gt;
+&lt;li&gt;Кэширование практически бесполезно, так как для активных
+пользователей запросы редко повторяются.&lt;/li&gt;
+&lt;li&gt;Информация должна отображаться в реальном времени, быть целостной и
+не "задерживаться".&lt;/li&gt;
+&lt;li&gt;Около 70% просмотров страниц приходится именно на Dashboard, почти
+все пользователи им пользуются.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="staraia-arkhitektura"&gt;Старая архитектура&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Когда проект только начинался, Tumblr размещался в Rackspace и последние выдавали каждому блогу с собственным доменом A-запись. Когда они переросли Rackspace, они не смогли полноценно мигрировать в новый
+датацентр, в том числе из-за количества пользователей. Это было в 2007
+году, но у них по-прежнему часть доменов ведут на Rackspace и
+перенаправляются в новый датацентр с помощью HAProxy и Varnish. Подобных
+"унаследованных" проблем у проекта очень много.&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;С технической точки зрения проект прошел по пути типичной эволюции
+&lt;strong&gt;LAMP&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Исторически разработан на &lt;strong&gt;PHP&lt;/strong&gt;, все началось с веб-сервера,
+сервера баз данных и начало потихоньку развиваться.&lt;/li&gt;
+&lt;li&gt;Чтобы справляться с нагрузкой они начали использовать memcache,
+затем добавили кэширование целых страниц и статических файлов, потом
+поставили HAProxy перед кэшами, после чего сделали партиционирование
+на уровне &lt;strong&gt;MySQL&lt;/strong&gt;, что сильно облегчило им жизнь.&lt;/li&gt;
+&lt;li&gt;Они делали все, чтобы выжать максимум из каждого сервера.&lt;/li&gt;
+&lt;li&gt;Было разработано два сервиса на C: генератор уникальных
+идентификаторов на основе HTTP и libevent, а также
+&lt;a href="https://www.insight-it.ru/goto/533d5aae/" rel="nofollow" target="_blank" title="http://engineering.tumblr.com/post/7819252942/staircar-redis-powered-notifications"&gt;Staircar&lt;/a&gt;,
+использующий Redis для обеспечения уведомлений в реальном времени на
+Dashboard.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Dashboard использует подход
+&lt;a href="https://www.insight-it.ru/goto/f4d9020c/" rel="nofollow" target="_blank" title="http://www2.parc.com/istl/projects/ia/papers/sg-sigir92/sigir92.html"&gt;"разбрасывать-собирать"&lt;/a&gt;,
+так как из-за отсортировонности данных по времени традиционные схемы
+партиционирования работали не очень хорошо. По их прогнозам текущая
+реализация позволит им рости еще в течении полугода.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="novaia-arkhitektura"&gt;Новая архитектура&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Приоритетным направлением стали технологии, основанные на JVM, по
+причине более быстрой разработки и доступности квалифицированных
+кадров. Мотивация несколько спорная, особенно если учесть, что речь
+идет в первую очередь о &lt;a href="/tag/scala/"&gt;Scala&lt;/a&gt;, а не
+о&amp;nbsp;&lt;a href="/tag/scala/"&gt;Java&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Основная цель - вынести все из PHP приложения в отдельные сервисы, что
+сделает его лишь тонким клиентом к внутреннему API.&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Почему выбор пал именно на &lt;strong&gt;Scala&lt;/strong&gt; и &lt;strong&gt;Finagle&lt;/strong&gt;?&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Многие разработчики имели опыт с Ruby и PHP, так что Scala был
+привлекательным (цитата, логики мало)&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/d7e3c54e/" rel="nofollow" target="_blank" title="https://github.com/twitter/finagle"&gt;Finagle&lt;/a&gt; был одним из основных
+факторов в пользу JVM: это библиотека, разработанная в Twitter,
+которая решает большинство распределенных задач вроде маршрутизации
+запросов и обнаружение/регистрацию сервисов - не пришлось
+реализовывать это все с нуля.&lt;/li&gt;
+&lt;li&gt;В Scala не принято использовать общие состояния, что избавляет
+разработчиков от забот с потоками выполнения и блокировками.&lt;/li&gt;
+&lt;li&gt;Им очень нравится Thrift в роли программного интерфейса из-за его
+высокой производительности (он кроссплатформенный и к JVM никак не
+относится)&lt;/li&gt;
+&lt;li&gt;Нравится &lt;a href="/tag/netty/"&gt;Netty&lt;/a&gt;, но не хочется связываться с Java, еще
+один аргумент в пользу Scala.&lt;/li&gt;
+&lt;li&gt;Рассматривали &lt;a href="/tag/node-js/"&gt;Node.js&lt;/a&gt;, но отказались так как под
+JVM проще найти разработчиков, а также из-за отсутствия стандартов,
+"лучших практик" и большого количества качественно протестированного
+кода.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Старые внутренние сервисы также переписываются с C + libevent на Scala + Fingle.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;Был создан общий каркас для построения внутренних сервисов:&lt;ul&gt;
+&lt;li&gt;Много усилий было приложено для автоматизации управления
+распределенной системой.&lt;/li&gt;
+&lt;li&gt;Создан аналог скаффолдинга - используется некий шаблон для создания
+каждого нового сервиса.&lt;/li&gt;
+&lt;li&gt;Все сервисы выглядят одинаково с точки зрения системного
+администратора: получение статистики, мониторинг, запуск и остановка
+реализованы одинаково для всех сервисов.&lt;/li&gt;
+&lt;li&gt;Созданы простые инструменты для сборки сервисов без вникания в
+детали используемых стандартных решений.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Используется 6 внутренних сервисов, над которыми работает отдельная
+команд. На запуск сервиса с нуля уходит около 2-3 недель.&lt;/li&gt;
+&lt;li&gt;Новые, нереляционные СУБД, такие как HBase и Redis, вводятся в
+эксплуатацию, но основным хранилищем по-прежнему остается сильно
+партиционированный MySQL.&lt;/li&gt;
+&lt;li&gt;HBase используется для сервиса сокращенных ссылок для постов, а также
+всех исторических данных и аналитики. HBase хорошо справляется с
+ситуациями, где необходимы миллионы операций записи в секунду, но он не
+достаточно стабилен, чтобы полностью заменить проверенное временем
+решение на MySQL в критичных для бизнеса задачах.&lt;/li&gt;
+&lt;li&gt;Партиционированный MySQL плохо справляется с отсортированными по времени данными, так как один из серверов всегда оказывается существенно более "горячим", чем остальными. Также сталкивались с значительными задержками в репликации из-за большого количества параллельных операций добавления данных.&lt;/li&gt;
+&lt;li&gt;Используется 25 серверов Redis с 8-32 процессами на каждом, что означает
+порядка 300-400 экземпляров Redis в сумме.&lt;ul&gt;
+&lt;li&gt;Используется для уведомлений в реальном времени на Dashboard (о
+событиях вроде "кому-то понравился Ваш пост").&lt;/li&gt;
+&lt;li&gt;Высокое соотношений операций записи к операциям чтения сделало MySQL
+не очень подходящим кандидатом.&lt;/li&gt;
+&lt;li&gt;Уведомления не так критичны, их потеря допустима, что позволило
+отключить персистентность Redis.&lt;/li&gt;
+&lt;li&gt;Был создан интерфейс между Redis и отложенными задачами в Finagle.&lt;/li&gt;
+&lt;li&gt;Сервис коротких ссылок также использует Redis как кэш, а HBase для
+постоянного хранения.&lt;/li&gt;
+&lt;li&gt;Вторичный индекс Dashboard также построен вокруг Redis.&lt;/li&gt;
+&lt;li&gt;Redis также используется для хранения задач Gearman, для чего был
+написан memcache proxy на основе Finale.&lt;/li&gt;
+&lt;li&gt;Постепенно отказываются от memcached в пользу Redis в роли основного
+кэша. Производительность у них сопоставима.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Внутренним сервисам необходим доступ к потоку всех событий в системе
+(создание, редактирование и удаление постов, нравится или не нравится и
+т.п.), для чего была созданна внутренняя шина сообщений &lt;em&gt;(англ.
+firehose, пожарный шланг)&lt;/em&gt;:&lt;ul&gt;
+&lt;li&gt;Пробовали использовать в этой роли Scribe, но так как оно по сути
+свелось к пропусканию логов через grep в реальном времени - нагрузки
+оно не выдержало.&lt;/li&gt;
+&lt;li&gt;Текущая реализация основана на Kafka, решению аналогичной задачи от
+LinkedIn на Scala.&lt;/li&gt;
+&lt;li&gt;MySQL также не рассматривался из-за большой доли операций записи.&lt;/li&gt;
+&lt;li&gt;Внутри сервисы используют HTTP потоки для чтения данных, хотя Thrift
+интерфейс также используется.&lt;/li&gt;
+&lt;li&gt;Поток сообщений хранит события за последнюю неделю с возможностью
+указать момент времени с которого считывать данные при открытии
+соединения.&lt;/li&gt;
+&lt;li&gt;Поддерживается абстракция "группы потребителей", которая позволяет
+группе клиентов вместе обрабатывать один поток данных вместе и
+независимо, то есть одно и то же сообщение не попадет дважды к
+клиентам из одной группы.&lt;/li&gt;
+&lt;li&gt;ZooKeeper используется для периодического сохранения текущей позиции
+каждого клиента в потоке.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Новая архитектура Dashboard основана на принципе ячеек или ящиков
+входящих сообщений:&lt;ul&gt;
+&lt;li&gt;Каждая "ячейка" отвечает за группу пользователей и читает новые события
+с шины сообщений, если один из её пользователей-подопечных подписан на
+автора только что опубликованного поста, то пост добавляется в "почтовый
+ящик" подписанного пользователя.&lt;/li&gt;
+&lt;li&gt;Когда пользователь заходит в Dashboard его запрос попадает в его ячейку,
+которая возвращает ему нужную часть непрочитанных постов.&lt;/li&gt;
+&lt;li&gt;Каждая ячейка состоит из трех групп серверов:&lt;ul&gt;
+&lt;li&gt;HBase для постоянного хранения копий постов и почтовых ящиков;&lt;/li&gt;
+&lt;li&gt;Redis для кэширование свежих данных;&lt;/li&gt;
+&lt;li&gt;Сервис, читающий данные из шины и предоставляющий доступ к ящикам
+посредством Thrift.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;В HBase используется две таблицы:&lt;ul&gt;
+&lt;li&gt;Отсортированный &lt;strong&gt;список идентификаторов постов&lt;/strong&gt; для каждого
+пользователя в ячейке, именно в том виде, как они будут отображены в
+итоге.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Копии всех постов&lt;/strong&gt; по идентификаторам, что позволяет выдать все
+данные для отрисовки Dashboard без обращений к серверам вне одной
+ячейки.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Ячейки представляют собой независимые единицы, что позволяет легко
+масштабировать систему при росте числа пользователей.&lt;/li&gt;
+&lt;li&gt;Платой за относительно безболезненность масштабирования является
+чрезвычайная избыточность данных: при том что ежедневно создается лишь
+50Гб постов, суммарный объем данных в ячейках растет на 2.7Тб в день.&lt;/li&gt;
+&lt;li&gt;Альтернативой было бы использование общего кластера со всеми постами, но
+тогда он бы стал единственной точкой отказа и потребовалось бы делать
+дополнительные удаленные запросы. Помимо этого выигрыш по объему был бы
+не велик - списки идентификаторов занимают значительно больше места, чем
+сами посты.&lt;/li&gt;
+&lt;li&gt;Пользователи, которые подписаны или на которых подписаны миллионы других
+пользователей, обрабатываются отдельно - страницы с их постами
+генерируются не заранее (как описывалось выше), а при поступлении
+запроса - это позволяет не тратить впустую много ресурсов (этот подход
+называется выборочная материализация,
+&lt;a href="https://www.insight-it.ru/goto/ab0d48a1/" rel="nofollow" target="_blank" title="http://research.yahoo.com/pub/3203"&gt;подробнее&lt;/a&gt;).&lt;/li&gt;
+&lt;li&gt;Количество пользователей в одной ячейке позволяет управлять балансом
+между уровнем надежности и стоимостью содержания этой подсистемы.&lt;/li&gt;
+&lt;li&gt;Параллельное чтение их шины сообщений оказывает серьезную нагрузку на
+сеть, в дальнейшем из ячеек можно будет составить иерархию: только часть
+будет читать напрямую из шины сообщений, а остальным сообщения будут
+ретранслироваться.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Tumblr географически по-прежнему находится в одном датацентре (если не
+считать незначительное присутствие в Rackspace), распределение по
+нескольким лишь в планах.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="razvertyvanie"&gt;Развертывание&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Начиналось как несколько rsync-скриптов для распространения
+    PHP-приложения. Как только машин стало больше 200 такой подход стал
+    занимать слишком много времени.&lt;/li&gt;
+&lt;li&gt;Следующий вариант был основан на &lt;a href="/tag/capistrano/"&gt;Capistrano&lt;/a&gt;:
+    были созданы три стадии процесса развертывания (разработка,
+    тестирование, боевой). Неплохо справлялся с десятками серверов, но
+    на сотнях также был слишком медленным, так как основывался на SSH.&lt;/li&gt;
+&lt;li&gt;Итоговый вариант основан на &lt;strong&gt;Func&lt;/strong&gt;, решении от
+    &lt;a href="/tag/redhat/"&gt;RedHat&lt;/a&gt;, позволившим заменить &lt;a href="/tag/ssh/"&gt;SSH&lt;/a&gt; на
+    более легковесный протокол.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="razrabotka"&gt;Разработка&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Поначалу философия была такова, что каждый мог использовать любые
+технологии, которые считал уместным. Но довольно скоро пришлось
+стандартизировать стек технологий, чтобы было легче нанимать и вводить в
+работу новых сотрудников, а также для более оперативного решения
+технических проблем.&lt;/li&gt;
+&lt;li&gt;Каждый разработчик имеет одинаковую заранее настроенную рабочую станцию,
+которая обновляется посредством &lt;a href="/tag/puppet/"&gt;Puppet&lt;/a&gt;:&lt;ul&gt;
+&lt;li&gt;Настроена публикация изменений, тестирование и развертывание новых
+версий.&lt;/li&gt;
+&lt;li&gt;Разработчики используют vim и Textmate.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Новый PHP код систематически инспектируется другими разработчиками.&lt;/li&gt;
+&lt;li&gt;Внутренние сервисы подвергаются непрерывному тестированию посредством
+Jenkins.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="struktura-komand"&gt;Структура команд&lt;/h2&gt;
+&lt;p&gt;Проект разбит на 6 команд:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Инфраструктура:&lt;/strong&gt;&amp;nbsp;все, что ниже 5 уровня по модели OSI -
+    маршрутизация, TCP/IP, DNS, оборудование и.т.п.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Платформа:&lt;/strong&gt;&amp;nbsp;разработка основного приложения, партиционирование
+    SQL, взаимодействие сервисов.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Надежность (SRE):&lt;/strong&gt;&amp;nbsp;сфокусирована на текущие потребности с точки
+    зрения надежности и масштабируемости.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Сервисы:&lt;/strong&gt;&amp;nbsp;занимается более стратегической разработкой того, что
+    понадобится через один-два месяца.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Эксплуатация:&lt;/strong&gt;&amp;nbsp;отвечает за обнаружение и реагирование на
+    проблемы, плюс тонкая настройка.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="naim"&gt;Найм&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;На интервью они обычно избегают математики и головоломок, основной
+    упор идет в основном именно на те вещи, которым придется заниматься
+    кандидату.&lt;/li&gt;
+&lt;li&gt;Основной вопрос: будет ли он успешно решать поставленные задачи?
+    Цель в том, чтобы найти отличных людей, а не в том, чтобы никого не
+    брать.&lt;/li&gt;
+&lt;li&gt;Разработчиков обязательно просят привести пример своего кода, даже
+    во время телефонных интервью.&lt;/li&gt;
+&lt;li&gt;Во время интервью кандидатов не ограничивают в наборе инструментов,
+    можно даже гуглить.&lt;/li&gt;
+&lt;li&gt;Поиск людей с опытом в крупных проектах достаточно сложен, так как
+    всего нескольких компаниях по всему миру решают подобные проблемы.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="podvodim-itogi"&gt;Подводим итоги&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Автоматизация - ключ к успеху крупного проекта.&lt;/li&gt;
+&lt;li&gt;При партиционировании MySQL может масштабироваться, но лишь при
+    преобладании операций чтения.&lt;/li&gt;
+&lt;li&gt;Redis с отключенной персистентностью легко может заменить memcached.&lt;/li&gt;
+&lt;li&gt;Scala достойно себя проявляет в роли языка программирования для
+    внутренних сервисов, во многом благодаря обширной Java-экосистеме.&lt;/li&gt;
+&lt;li&gt;Внедряйте новые технологии постепенно, поначалу работать с HBase и
+    Redis было очень болезненно, они были включены в основной стек
+    технологий только после испытаний в некритичных сервисах и
+    подпроектах, где цена ошибки не так велика.&lt;/li&gt;
+&lt;li&gt;Проект должен строиться вокруг навыков его команды, а не наоборот.&lt;/li&gt;
+&lt;li&gt;Нужно нанимать людей только если они вписываются в команду и в
+    состоянии довести работу до результата.&lt;/li&gt;
+&lt;li&gt;При выборе технологического стека одну из ключевых ролей играет
+    доступность соответствующих специалистов на кадровом рынке.&lt;/li&gt;
+&lt;li&gt;Читайте публикации и статьи в блогах. Ключевые аспекты архитектуры,
+    включая "ячейки" и частичную материализацию были позаимствованы из
+    внешних источников.&lt;/li&gt;
+&lt;li&gt;Поспрашивайте своих коллег, кто-то из них мог общаться с
+    специалистами из
+    &lt;a href="https://www.insight-it.ru/highload/2010/arkhitektura-facebook/"&gt;Facebook&lt;/a&gt;,
+    &lt;a href="https://www.insight-it.ru/highload/2011/arkhitektura-twitter-dva-goda-spustya/"&gt;Twitter&lt;/a&gt;,
+    &lt;a href="https://www.insight-it.ru/highload/2011/arkhitektura-google-2011/"&gt;Google&lt;/a&gt;
+    или
+    &lt;a href="https://www.insight-it.ru/highload/2008/arkhitektura-linkedin/"&gt;LinkedIn&lt;/a&gt; -
+    если нет прямого доступа, всегда можно получить нужную информацию
+    через одно-два "рукопожатия".&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Статья написана на основе &lt;a href="https://www.insight-it.ru/goto/1444dc9b/" rel="nofollow" target="_blank" title="http://highscalability.com/blog/2012/2/13/tumblr-architecture-15-billion-page-views-a-month-and-harder.html"&gt;интервью&lt;/a&gt;&amp;emsp;&lt;a href="https://www.insight-it.ru/goto/d7daa0cd/" rel="nofollow" target="_blank" title="http://www.linkedin.com/in/bmatheny"&gt;Blake Matheny&lt;/a&gt;, директора по разработке платформы Tumblr.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Tue, 21 Feb 2012 16:29:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-02-21:highload/2012/arkhitektura-tumblr/</guid><category>Apache</category><category>Capistrano</category><category>CentOS</category><category>Finagle</category><category>Func</category><category>gearman</category><category>Git</category><category>Hadoop</category><category>HAProxy</category><category>HBase</category><category>jenkins</category><category>kafka</category><category>Kestrel</category><category>LAMP</category><category>Mac OS X</category><category>Memcached</category><category>MySQL</category><category>nginx</category><category>PHP</category><category>puppet</category><category>Redis</category><category>Ruby</category><category>Scala</category><category>Thrift</category><category>Tumblr</category><category>Varnish</category><category>ZooKeeper</category></item></channel></rss>

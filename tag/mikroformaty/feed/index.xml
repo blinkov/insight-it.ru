@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/mikroformaty/feed/index.xml" rel="self"></atom:link><lastBuildDate>Sun, 13 Apr 2008 22:51:00 +0400</lastBuildDate><item><title>hCard</title><link>https://www.insight-it.ru//theory/2008/hcard/</link><description>&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/7ed2e6a8/" rel="nofollow" target="_blank" title="http://microformats.org/wiki/hcard"&gt;hCard&lt;/a&gt; представляет собой
+реализацию спецификации &lt;a href="https://www.insight-it.ru/goto/9d8165cb/" rel="nofollow" target="_blank" title="http://www.ietf.org/rfc/rfc2426.txt"&gt;RFC 2426&lt;/a&gt;
+(более известной как vCard) в виде микроформата. Основной его целью
+является предоставление стандарта оформления персональных данных на
+просторах Сети, но помимо этого имеется возможность указания информации
+об компаниях, организациях или местах.
+&lt;!--more--&gt;
+Как и любой другой микроформат, hCard реализуется без нарушения
+стандартов XHTML с помощью атрибутов тэга &lt;code&gt;class&lt;/code&gt;, причем какие именно
+тэги используются - не важно. Для оформления данных используя этот
+микроформат достаточно лишь объявить какой-либо тэг hCard объектом с
+помощью &lt;code&gt;class="vcard"&lt;/code&gt; и разместить внутри него все тэги,
+обозначающие какое-либо свойство объекта. Большая часть информации,
+предоставляемой в соответствии с этим микроформатом является
+опциональной, единственным обязательным свойством является имя объекта -
+&lt;code&gt;class="fn"&lt;/code&gt;. Помимо этого в атрибуте &lt;strong&gt;profile&lt;/strong&gt; тэга &lt;code&gt;&amp;lt;head&amp;gt;&lt;/code&gt;
+принято указывать адрес &lt;code&gt;http://www.w3.org/2006/03/hcard&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;В целом все свойства объектов hCard можно поделить на семь групп:&lt;/p&gt;
+&lt;dl&gt;
+&lt;dt&gt;&lt;strong&gt;идентификационные&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;&amp;ndash; различные варианты имен объекта.&lt;/dd&gt;
+&lt;dt&gt;&lt;strong&gt;адресные&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;&amp;ndash; указания различных адресов, каким-либо образом ассоциирующихся с
+объектом: место жительство, работы и тому подобные.&lt;/dd&gt;
+&lt;dt&gt;&lt;strong&gt;телекоммуникационные&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;&amp;ndash; любые формы контактной информации: номера телефонов, факс, адреса
+электронной почты и так далее.&lt;/dd&gt;
+&lt;dt&gt;&lt;strong&gt;географические&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;&amp;ndash; месторасположение объекта.&lt;/dd&gt;
+&lt;dt&gt;&lt;strong&gt;организационные&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;&amp;ndash; информация о должности и компании или организации, в которой
+работает объект.&lt;/dd&gt;
+&lt;dt&gt;&lt;strong&gt;уточняющие&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;&amp;ndash; любая дополнительная информация об объекте.&lt;/dd&gt;
+&lt;dt&gt;&lt;strong&gt;безопасность&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;&amp;ndash; ограничение доступа к информации в hCard.&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;p&gt;Значением каждого свойства является видимый пользователю текст,
+получающийся в результате обработки документа браузером (или другим
+парсером данных). Но стоит несколько остановиться на свойстве photo, так
+как для него действуют несколько другие правила размещения значения:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;при использовании свойства photo в тэге &lt;code&gt;&amp;lt;a&amp;gt;&lt;/code&gt;, значением
+    является адрес из атрибута &lt;code&gt;href&lt;/code&gt;;&lt;/li&gt;
+&lt;li&gt;в тэге &lt;code&gt;&amp;lt;img&amp;gt;&lt;/code&gt;, значением является само изображение, то есть
+    значение атрибута &lt;code&gt;src&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;в &lt;code&gt;&amp;lt;object&amp;gt;&lt;/code&gt;, значением является атрибут &lt;code&gt;`data&lt;/code&gt;, то есть его
+    источник данных.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Раз уж зашла речь об размещении значений свойств, то сразу хочется
+сказать об небольшом исключении в виде тэга &lt;code&gt;&amp;lt;abbr&amp;gt;&lt;/code&gt;, где оно
+задается в атрибуте &lt;code&gt;title&lt;/code&gt;, а внутри самого тэга - некое более
+удобное для чтения людьми его представление.&lt;/p&gt;
+&lt;p&gt;Если тэг, обозначенный любым свойством, содержит какую-либо информацию
+помимо самого значения свойства, то для отделения релевантного контента
+от лишней информации можно разместить внутри тэга свойства дочерние
+объекты, обозначив их атрибутом &lt;code&gt;class="value"&lt;/code&gt;. Это даст понять
+парсеру микроформата, что собрав воедино (методом конкатенации) все
+значения помеченных таким образом объектов он сможет получить значение
+исходного свойства. Описание получилось несколько запутанным, так что
+лучше продемонстрировать этот принцип на примере, в котором значению
+свойства &lt;strong&gt;fn&lt;/strong&gt; будет присвоено значение "Иван Блинков":&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;"vcard"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;"fn"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;span&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;"value"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;Иван &lt;span class="nt"&gt;&amp;lt;/span&amp;gt;&lt;/span&gt;подпрыгнул три раза на месте,
+    обернулся и увидел написанную на стене
+    свою фамилию: &lt;span class="nt"&gt;&amp;lt;span&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;"value"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;Блинков&lt;span class="nt"&gt;&amp;lt;/span&amp;gt;&lt;/span&gt;.
+  &lt;span class="nt"&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Как не трудно заметить, значение свойства разбавлено массой ненужной
+информации, но с помощью тэгов с атрибутом &lt;code&gt;class="value"&lt;/code&gt; мне удалось
+выделить лишь важную информацию, не поменяв при этом внешний вид
+документа. Парсер микроформатов, читая этот документ, соединит обе части
+и получит в итоге как раз "Иван Блинков", что и будет соответствовать
+желаемому имени объекта.&lt;/p&gt;
+&lt;p&gt;Вы заметили в предыдущем примере пробел после моего имени? Он был
+поставлен для того, чтобы при конкатенации составные части значения не
+слились в одно слово "ИванБлинков", не самый удобный подход к решению
+проблемы, но у него есть альтернатива в виде тэга &lt;code&gt;&amp;lt;abbr&amp;gt;&lt;/code&gt; (не
+забываем про упомянутое чуть выше исключение):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;"vcard"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;abbr&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;"fn"&lt;/span&gt; &lt;span class="na"&gt;title=&lt;/span&gt;&lt;span class="s"&gt;"Иван Блинков"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    Иван
+  &lt;span class="nt"&gt;&amp;lt;/abbr&amp;gt;&lt;/span&gt;
+  подпрыгнул три раза на месте,
+  обернулся и увидел написанную на стене
+  свою фамилию: Блинков.
+&lt;span class="nt"&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Общей информации на сегодня хватит, так что перейду к деталям
+реализации.&lt;/p&gt;
+&lt;h4&gt;Идентификационные свойства&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;strong&gt;Свойство&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;Описание&lt;/strong&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;fn&lt;/td&gt;
+&lt;td&gt;полное имя объекта &lt;em&gt;(formatted name)&lt;/em&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;n&lt;/td&gt;
+&lt;td&gt;имя, используется для идентификации составных частей fn &lt;em&gt;(name)&lt;/em&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;nickname&lt;/td&gt;
+&lt;td&gt;прозвище&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;bday&lt;/td&gt;
+&lt;td&gt;день рождения в формате &lt;strong&gt;YYYY-MM-DD&lt;/strong&gt; &lt;em&gt;(birthday)&lt;/em&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;photo&lt;/td&gt;
+&lt;td&gt;фотография&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Свойство &lt;strong&gt;fn&lt;/strong&gt; уже успели слегка обсудить, так что перейдем сразу к
+&lt;strong&gt;n&lt;/strong&gt;. Как уже было сказано, используется он для детализации составных
+частей полного имени объекта, для чего оно имеет ряд подсвойств,
+используемых в дочерних элементах:&lt;/p&gt;
+&lt;dl&gt;
+&lt;dt&gt;&lt;strong&gt;given-name&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;&amp;ndash; имя.&lt;/dd&gt;
+&lt;dt&gt;&lt;strong&gt;additional-name&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;&amp;ndash; отчество.&lt;/dd&gt;
+&lt;dt&gt;&lt;strong&gt;family-name&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;&amp;ndash; фамилия.&lt;/dd&gt;
+&lt;dt&gt;&lt;strong&gt;honorific-preffix&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;&amp;ndash; какой-либо префикс к имени, отображающий социальный статус
+человек.&lt;/dd&gt;
+&lt;dt&gt;&lt;strong&gt;honorific-suffix&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;&amp;ndash; суффикс с тем же смыслом.&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;p&gt;Выглядит это все примерно так, ничего сложного:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;"vcard"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;"n"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;span&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;"given-name"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;Иван&lt;span class="nt"&gt;&amp;lt;/span&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;span&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;"additional-name"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;Иванович&lt;span class="nt"&gt;&amp;lt;/span&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;span&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;"family-name"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;Блинков&lt;span class="nt"&gt;&amp;lt;/span&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;h4&gt;Адресные свойства&lt;/h4&gt;
+&lt;p&gt;Адрес может быть указан в двух формах:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;adr&lt;/strong&gt; - структурированной (с указанием составных частей);&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;label&lt;/strong&gt; - не структурированной.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Для структурированного адреса используются подсвойства по аналогии с
+&lt;strong&gt;n&lt;/strong&gt;:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;strong&gt;Свойство&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;Описание&lt;/strong&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;post-office-box&lt;/td&gt;
+&lt;td&gt;почтовый адрес&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;extended-address&lt;/td&gt;
+&lt;td&gt;полный адрес (с номером подъезда, квартиры и т.д.)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;street-address&lt;/td&gt;
+&lt;td&gt;улица&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;locality&lt;/td&gt;
+&lt;td&gt;город&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;region&lt;/td&gt;
+&lt;td&gt;регион, штат или провинция&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;postal-code&lt;/td&gt;
+&lt;td&gt;индекс&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;type&lt;/td&gt;
+&lt;td&gt;тип адреса, то есть то, как он связан с исходным идивидом, должен принимать одно из значений: dom, parcel, home, work, pref&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;label&lt;/strong&gt; же используется просто для написания адреса по тому же
+принципу, как если бы Вы писали его, например, на конверте традиционного
+письма. Возможно использование подсвойства &lt;strong&gt;type&lt;/strong&gt; как и в &lt;strong&gt;adr&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;С телекоммуникационными свойствами все проще:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;телефон - &lt;strong&gt;tel&lt;/strong&gt;;&lt;/li&gt;
+&lt;li&gt;адрес электронной почты - &lt;strong&gt;email&lt;/strong&gt;;&lt;/li&gt;
+&lt;li&gt;почтовый клиент - &lt;strong&gt;mailer&lt;/strong&gt; (не понятно - и зачем он тут сдался?).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Телефонный номер может иметь тип (&lt;strong&gt;type&lt;/strong&gt;):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;home&lt;/strong&gt; - домашний&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;msg&lt;/strong&gt; - имеется автоответчик&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;work&lt;/strong&gt; - рабочий&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;pref&lt;/strong&gt; - предпочтительный&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;voice&lt;/strong&gt; - голосовой&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;fax&lt;/strong&gt; - факс&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;cell&lt;/strong&gt; - мобильный aka сотовый&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;video&lt;/strong&gt; - для видеоконференций&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;pager&lt;/strong&gt; - пэйджер&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;bbs&lt;/strong&gt; - bulletin board system&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;modem&lt;/strong&gt; - возможно использование модема&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;isdn&lt;/strong&gt; - integrated services digital network&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;pcs&lt;/strong&gt; - personal communication service&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Географические свойства также не отличаются особой сложностью:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;tz&lt;/strong&gt; - временная зона&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;long&lt;/strong&gt; - широта&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;lat&lt;/strong&gt; - долгота&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;С ручным заполнением этих свойств могут возникнуть некоторые проблемы,
+но при интеграции веб-приложения с сервисом вроде Google Earth - должно
+быть вполне удобно.&lt;/p&gt;
+&lt;p&gt;Свойства, описывающие индивида с точки зрения работы, немногочисленны:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;title&lt;/strong&gt; - должность&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;role&lt;/strong&gt; - роль&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;logo&lt;/strong&gt; - ссылка на логотип компании&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;agent&lt;/strong&gt; - указание представителя индивида, например секретаря,
+    например в виде ссылки на его hCard&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;org&lt;/strong&gt; - название компании&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Дополнительные свойства:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;category&lt;/strong&gt; - категория, то есть чем по сути является данный hCard,
+    например - визитка&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;note&lt;/strong&gt; - какие-либо замечания к остальным свойствам&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;rev&lt;/strong&gt; - время последнего редактирования hCard, то есть время на
+    которое данная информация является актуальной&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;sort-string&lt;/strong&gt; - отмечает какая часть hCard (обычно часть имени),
+    которая будет использована при сортировке списка из нескольких hCard&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;sound&lt;/strong&gt; - адрес, указывающий на звуковой файл с правильным
+    произношением имени индивида&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;url&lt;/strong&gt; - адрес персонального или корпоративного сайта&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;uid&lt;/strong&gt; - уникальный идентификационный номер в каком-либо
+    специфицированном IANA формате (подсвойство &lt;strong&gt;type&lt;/strong&gt; указывает в
+    каком именно)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Для обеспечения ограничения доступа к данным из &lt;a href="/tag/hcard/"&gt;hCard&lt;/a&gt;
+используется два свойства - &lt;strong&gt;class&lt;/strong&gt; и &lt;strong&gt;key&lt;/strong&gt;. &lt;strong&gt;class&lt;/strong&gt; определяет
+уровень доступа по примерно тому же принципу, что и в &lt;a href="/tag/oop/"&gt;ООП&lt;/a&gt;:
+&lt;em&gt;public&lt;/em&gt; или &lt;em&gt;confidentional&lt;/em&gt;. А свойство &lt;strong&gt;key&lt;/strong&gt; предоставляет
+публичный ключ, для расшифровки данных с закрытым доступом.&lt;/p&gt;
+&lt;p&gt;Хочется добавить, что благодаря своей структурированной архитектуре
+данный микроформат может использоваться в более широком спектре случаев,
+чем просто предоставление персональных данных, например, можно описывать
+и просто организацию или какое-либо место. Те же самые принципы могут
+быть использованы и при оформление персональных данных в формате
+&lt;a href="/tag/xml/"&gt;XML&lt;/a&gt; - достаточно лишь использовать те же самые атрибуты
+hCard для произвольных тэгов &lt;a href="/tag/xml/"&gt;XML&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;В заключение хочу сказать, что в качестве источников информации для
+данной статьи были использованы &lt;a href="https://www.insight-it.ru/goto/7ed2e6a8/" rel="nofollow" target="_blank" title="http://microformats.org/wiki/hcard"&gt;официальная вики&lt;/a&gt; и &lt;a href="https://www.insight-it.ru/goto/1161c09e/" rel="nofollow" target="_blank" title="http://www.xfront.com/microformats/hCard.html"&gt;презентация от Robert Costello&lt;/a&gt;, а подписаться на &lt;a href="/feed/"&gt;&lt;strong&gt;RSS&lt;/strong&gt;&lt;/a&gt; можно вот &lt;a href="/feed/"&gt;&lt;strong&gt;ТУТ&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sun, 13 Apr 2008 22:51:00 +0400</pubDate><guid>tag:www.insight-it.ru,2008-04-13:theory/2008/hcard/</guid><category>hcard</category><category>online</category><category>XHTML</category><category>интернет</category><category>Микроформаты</category><category>персональная информация</category></item><item><title>nofollow: за и против</title><link>https://www.insight-it.ru//theory/2008/nofollow-za-i-protiv/</link><description>&lt;p&gt;Наверняка каждый владелец любого интернет-ресурса хоть раз сталкивался с
+этим микроформатом, &lt;a href="https://www.insight-it.ru/goto/a9b68873/" rel="nofollow" target="_blank" title="http://microformats.org/wiki/rel-nofollow"&gt;rel-nofollow&lt;/a&gt;. Изначально он был введен для обозначения ссылок, оставленных кем-либо, кроме создателя самой веб-страницы, и, как следствие. для снятие с него ответственности
+за эту ссылку. Активнее всего этот микроформат влияет на работу
+большинства поисковых систем, оказывая влияние на учет ссылок в
+определении тех или иных параметров, присваиваемых страницам (Google
+PageRank, например). В общем случае ссылки, помеченные атрибутом
+&lt;code&gt;rel="nofollow"&lt;/code&gt;, из этого процесса исключаются.
+&lt;!--more--&gt;
+Но не все так однозначно, насчет этого микроформата сложилось масса
+мнений, так как несмотря на свое, казалось бы, предназначение бороться
+со спамом на форумах / блогах / социальных сетях / новостных порталах
+(нужное подчеркнуть), направленным на создание входящих ссылок на тот
+или иной ресурс, порой им злоупотребляют и используют там, где это было
+бы излишним.&lt;/p&gt;
+&lt;h3 id="protiv"&gt;Против&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;nofollow не в состоянии полностью предотвратить спам в ресурсах
+    указанных выше типов;&lt;/li&gt;
+&lt;li&gt;название "nofollow" лишь сбивает с толку, &lt;a href="/tag/crawler/"&gt;crawler&lt;/a&gt;'ы
+    все равно следуют по таким ссылкам;&lt;/li&gt;
+&lt;li&gt;nofollow порой вредит &lt;em&gt;естественным&lt;/em&gt; ссылкам на сайты, которые
+    вполне заслуженно могли бы и получить свою входящую ссылку при
+    расчете того же, например, PageRank;&lt;/li&gt;
+&lt;li&gt;для использования простыми пользователями, этот микроформат
+    абсолютно бесполезен;&lt;/li&gt;
+&lt;li&gt;благодаря nofollow поисковые системы порой не в состоянии отличить
+    ссылки на сайты добросовестных читателей ресурса от ссылок
+    спаммеров;&lt;/li&gt;
+&lt;li&gt;он препятствует возможности людей, оставляющих комментарии, привлечь
+    внимание к какой-либо странице;&lt;/li&gt;
+&lt;li&gt;если взглянуть со стороны поисковых систем, nofollow препятствует
+    Сети выглядеть как сеть, в прямом смысле этого слова;&lt;/li&gt;
+&lt;li&gt;единственные кто получают какую-либо пользу от этого микроформата -
+    поисковые системы.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="za"&gt;За&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;но тем не менее, если ссылка размещается посетителем только ради
+    влияния на позицию своего ресурса в поисковых системах, наличие
+    &lt;code&gt;nofollow&lt;/code&gt; заставит его как минимум задуматься: а стоит ли?&lt;/li&gt;
+&lt;li&gt;помимо поисковых систем, данный микроформат может служить
+    инструментом вебмастера для организации более эффективной
+    перелинковки страниц в рамках одного сайта;&lt;/li&gt;
+&lt;li&gt;в недалеком будущем, возможно, движки сайтов смогут ставить атрибут
+    &lt;code&gt;nofollow&lt;/code&gt; не на всех подряд ссылках, оставленных посетителями, а
+    только на подозрительных с их точки зрения (которая могла бы
+    определяться, допустим, средствами эвристического анализа);&lt;/li&gt;
+&lt;li&gt;так как oформлен он в виде &lt;a href="/tag/mikroformaty/"&gt;микроформата&lt;/a&gt;, он не
+    противоречит стандартам &lt;a href="/tag/xhtml/"&gt;XHTML&lt;/a&gt; и &lt;a href="/tag/html/"&gt;HTML&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Не смотря на множество спорных моментов, этот микроформат определенно
+имеет свою скромную роль в жизни Сети. Использовать его или нет - дело
+каждого, но по-моему если применять его в меру и только по прямому
+назначению, то он только несомненно помогает развитию как Сети в целом,
+так и конкретного ресурса в отдельности, особенно с точки зрения
+эффективности взаимодействия с поисковыми системами.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sun, 24 Feb 2008 16:51:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-02-24:theory/2008/nofollow-za-i-protiv/</guid><category>crawler</category><category>nofollow</category><category>rel-nofollow</category><category>SEO</category><category>spider</category><category>Микроформаты</category><category>поисковые системы</category><category>принцип работы поисковых систем</category></item><item><title>Отношения online</title><link>https://www.insight-it.ru//theory/2008/otnosheniya-online/</link><description>&lt;p&gt;Допустим, у Вас появилось желание оставить на своем интернет-ресурсе
+ссылку на сайт своего старого друга. Объяснить этот факт простому
+читателю достаточно просто:
+&lt;code&gt;&amp;lt;a&amp;nbsp;href="www.site.ru"&amp;gt;Сайт&amp;nbsp;моего&amp;nbsp;друга&amp;lt;/a&amp;gt;&lt;/code&gt;, но поймет ли такую
+надпись очередной раз инспектирующий Ваш сайт &lt;a href="/tag/crawler/"&gt;crawler&lt;/a&gt;
+какой-нибудь поисковой системы? Может быть Вы просто злостно торгуете
+ссылками со своего сайта?
+&lt;!--more--&gt;
+Как Вы могли уже догадаться, для решения этой достаточно
+узкоспециализированной задачи - выражение отношений с владельцем сайта,
+на который указывает ссылка - существует специальный
+&lt;a href="/tag/mikroformaty/"&gt;микроформат&lt;/a&gt; под названием &lt;a href="/tag/xfn/"&gt;&lt;strong&gt;XFN&lt;/strong&gt;&lt;/a&gt;, что расшифровывается как &lt;em&gt;XHTML Friends Network&lt;/em&gt;. С
+его помощью любой человек, у которого есть сайт может продемонстрировать
+всем желающим в каких отношениях он находится с владельцем сайта, на
+который он ссылается.&lt;/p&gt;
+&lt;p&gt;Реализуется этот микроформат с помощью атрибута &lt;code&gt;rel&lt;/code&gt; тэга &lt;code&gt;&amp;lt;a&amp;gt;&lt;/code&gt;,
+возможные варианты значения (имеется возможность их комбинировать):&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;strong&gt;Категории значений&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;Значения XFN&lt;/strong&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;дружба:&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;friend&lt;/code&gt;(кто-либо, кого Вы считаете другом),  &lt;code&gt;acquaintance&lt;/code&gt; (знакомый, просто пару раз здоровались или недолго общались), &lt;code&gt;contact&lt;/code&gt; (кто-либо, с кем Вы знаете как связаться в случае необходимости)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;физические:&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;met&lt;/code&gt; (кто-либо, с кем вы когда-то лично встречались)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;профессиональные:&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;co-worker&lt;/code&gt; (коллега по работе),&lt;code&gt;colleague&lt;/code&gt; (коллега по учебе или иной форме активности)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;географические:&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;co-resident&lt;/code&gt; (живете на одной улице),&lt;code&gt;neighbor&lt;/code&gt; (сосед)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;семейные:&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;child&lt;/code&gt; (ребенок, в том числе и приемный),&lt;code&gt;parent&lt;/code&gt; (родители, в том числе и приемные),&lt;code&gt;sibling&lt;/code&gt; (все братья и сетры),&lt;code&gt;spouse&lt;/code&gt; (муж/жена), &lt;code&gt;kin&lt;/code&gt; (дальний родственник)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;романтические:&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;muse&lt;/code&gt; (муза, источник вдохновения), &lt;code&gt;crush&lt;/code&gt; (кто-либо, к кому у Вас страстное увлечение), &lt;code&gt;date&lt;/code&gt; (кто-либо, с кем Вы встречаетесь), &lt;code&gt;sweetheart&lt;/code&gt; (кто-либо, в кого Вы влюбились"}&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;личность:&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;me&lt;/code&gt; (ссылка на самого себя на другом сайте. Обязательно должна быть симметрична; отношение 'me' неявно подразумевается между поддиректорией и всем ее содержимым)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Как не трудно заметить, практически все возможные варианты отношений
+могут быть описаны одним из значений или их комбинацией. Наш пример из
+начала этого поста с использованием XFN выглядел бы:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;a&lt;/span&gt; &lt;span class="na"&gt;href=&lt;/span&gt;&lt;span class="s"&gt;"www.site.ru"&lt;/span&gt; &lt;span class="na"&gt;rel=&lt;/span&gt;&lt;span class="s"&gt;"friend&amp;nbsp;met"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    Сайт&amp;nbsp;моего&amp;nbsp;друга
+&lt;span class="nt"&gt;&amp;lt;/a&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Помимо этого есть еще один маленький нюанс, необходимый для того, чтобы
+browser'ы и поисковые системы знали, что данная страница оффциально
+поддерживает этот микроформат, для этого необходимо указать следующий
+атрибут тэгу &lt;code&gt;&amp;lt;head&amp;gt;&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;head&lt;/span&gt; &lt;span class="na"&gt;profile=&lt;/span&gt;&lt;span class="s"&gt;"http://gmpg.org/xfn/11"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Этот пост был написан по мотивам &lt;a href="https://www.insight-it.ru/goto/faee6117/" rel="nofollow" target="_blank" title="http://www.gmpg.org/xfn/"&gt;официального сайта XFN&lt;/a&gt;, если Вас заинтересовал этот микроформат,
+возможно имеет смысл посетить и его: там можно найти FAQ, утилиты для
+автоматической генерации кода, а также всю остальную информацию по
+данному микроформату (на английском естественно).&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sat, 16 Feb 2008 13:07:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-02-16:theory/2008/otnosheniya-online/</guid><category>online</category><category>xfn</category><category>XHTML</category><category>интернет</category><category>Микроформаты</category><category>семантика</category><category>Сеть</category><category>технология</category></item><item><title>Микроформаты</title><link>https://www.insight-it.ru//theory/2008/mikroformaty/</link><description>&lt;p&gt;&lt;img alt="Microformats" class="left" src="https://www.insight-it.ru/images/microformats.png" title="Microformats"/&gt;&lt;/p&gt;
+&lt;p&gt;Не смотря на тот факт, что эта технология еще только начинает получать
+широкое распространение и применение на просторах Сети, слов о ней уже
+написано немало, не вижу ни одной причины почему бы мне тоже не написать
+несколько слов о &lt;a href="https://www.insight-it.ru/goto/b960d7c/" rel="nofollow" target="_blank" title="http://microformats.org"&gt;микроформатах.&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Основной идеей микроформатов является попытка дополнить смыслом
+существующие элементы стандартов разметки - XHTML и HTML, такого рода
+смысл нынче модно назвать словом &lt;em&gt;семантика&lt;/em&gt;, что так или иначе влияет
+как на людей, пользующихся услугами Сети, так и на программы,
+обслуживающие ее функционирование.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h3 id="chto-predstavliaiut-soboi-mikroformaty"&gt;Что представляют собой микроформаты?&lt;/h3&gt;
+&lt;p&gt;Строго говоря, микроформаты являются набором форматов данных,
+основывающихся на существующих широкораспространенных стандартах
+представления данных (в частности XHTML), каждый из них предназначен для
+решения конкретной узкоспециализированной задачи, то есть для
+обеспечения конкретной семантикой конкретной части стандарта.&lt;/p&gt;
+&lt;p&gt;Как не трудно догадаться, измение существующих и добавление новых тэгов
+к стандарту XHTML в микроформатах недопустимо, ведь иначе документ
+перестанет соответствовать исходному стандарту. Именно по-этому для
+реализации микроформатов используются атрибуты тэгов XHTML, в которых
+допускаются некоторые вольности - &lt;strong&gt;rel&lt;/strong&gt; и &lt;strong&gt;class&lt;/strong&gt;.&lt;/p&gt;
+&lt;h3 id="chto-zhe-mozhet-dat-osmyslennost-razmetki"&gt;Что же может дать осмысленность разметки?&lt;/h3&gt;
+&lt;p&gt;В перспективе вся эта затея направлена на повышение качества сервисов,
+предоставляемых в Сети. На данный момент большая часть сервисов,
+основанных на анализе данных расположенных в Сети, способна лишь на
+частичное использование разметки документа для уточнения смысла той или
+иной информации. Показать это лучше всего на примере: тэги &lt;code&gt;&amp;lt;em&amp;gt;&lt;/code&gt; и
+&lt;code&gt;&amp;lt;strong&amp;gt;&lt;/code&gt; говорят о том, что содержащаяся внутри них информация
+имеет некий смысловой акцент, но в то же время многие другие тэги не
+несут за собой никакой дополнительной смысловой информации, помимо
+содержащегося внутри них текста. Одним из таких тэгов является
+&lt;code&gt;&amp;lt;a&amp;gt;&lt;/code&gt;, который говорит о наличии ссылки на некоторую
+интернет-страницу, как-то связанную с текстом между открывающим и
+закрывающим тэгами, а также расположенную по URL, указанному в атрибуте
+&lt;code&gt;href&lt;/code&gt;, можно конечно к этому прибавить атрибут &lt;code&gt;title&lt;/code&gt;, но так или
+иначе на этом информация о ресурсе, на который ссылается автор
+документа, заканчивается. Один из микроформатов, позволяющих расширить
+возможности простых ссылок, называется &lt;a href="https://www.insight-it.ru/goto/faee6117/" rel="nofollow" target="_blank" title="http://www.gmpg.org/xfn/"&gt;XFN&lt;/a&gt; и
+предоставляет авторам документов возможность описать свое отношение к
+другим авторам, на работы которых они ссылаются, выглядит это примерно
+следующим образом:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;a&lt;/span&gt; &lt;span class="na"&gt;href=&lt;/span&gt;&lt;span class="s"&gt;"http://www.my-friend.ru"&lt;/span&gt; &lt;span class="na"&gt;rel=&lt;/span&gt;&lt;span class="s"&gt;"friend"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    Сайт моего друга
+&lt;span class="nt"&gt;&amp;lt;/a&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Теперь понять, что сайт, на который происходит ссылка, является сайтом
+друга автора текущего документа, может не только читатель, но и
+программа, занимающаяся индексированием страниц Сети для какого-либо
+сервиса, например этот микроформат полезен для повышения качества работы
+социальных сетей. Это была лишь небольшая часть возможностей
+микроформата XFN, подробнее останавливаться на нем не буду - ведь каждый
+из них явно заслуживает отдельной записи.&lt;/p&gt;
+&lt;h3 id="klassifikatsiia"&gt;Классификация&lt;/h3&gt;
+&lt;p&gt;Наверняка к Вам в голову приходила мысль: а почему необходимо
+пользоваться именно вот этими микроформатами? Если в XHTML допускаются
+любые значения тэгов &lt;code&gt;rel&lt;/code&gt; и &lt;code&gt;class&lt;/code&gt;, почему я не могу придумать
+свои микроформаты и пользоваться ими? Ответ прост: микроформаты призваны
+повысить качество Сети вцелом, а не какого-то конкретного сайта
+отдельно. Только часть микроформатов получила широкое распространение, и
+именно ими приходится пользоваться всем остальным сайтам под влиянием
+&lt;em&gt;сетевого эффекта&lt;/em&gt; (т.е. того факта, что ценность технологии прямо
+пропорциональна обширности ее применения, в нашем случае в рамках Сети),
+просто чтобы быть совместимыми с остальной частью Интернета.&lt;/p&gt;
+&lt;p&gt;Но не смотря на это - количество и разнообразие распространенных
+микроформатов велико, и как-либо классифицировать их достаточно сложно.
+Самым простым и точным вариантом можно назвать разделение по структуре
+формата:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;элементарные&lt;/em&gt; - применимые только к одному конкретному типу тэгов.
+    В эту группу попадают упомянутый выше &lt;strong&gt;XFN&lt;/strong&gt;, а также множество
+    других, например &lt;em&gt;rel-tag&lt;strong&gt;, &lt;/strong&gt;rel-nofollow&lt;/em&gt;*, и так далее;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;композитные (или составные)&lt;/em&gt; - имеют более сложную структуру, и для
+    своей реализации требуют модификации нескольких тэгов одного
+    элемента. Микроформаты из этой категории предназначены для описания
+    более сложной структуры, например &lt;strong&gt;hCard&lt;/strong&gt;, используемый для
+    описания людей или организаций (можно посмотреть на пример его
+    использования &lt;a href="https://www.insight-it.ru/author/"&gt;на моей странице "О себе"&lt;/a&gt;).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Это пожалуй единственный общепринятый тип классификации микроформатов,
+можно конечно попытаться провести границы по типам используемых
+атрибутов или модифицируемых тэгов, но такого рода классификации
+несущественны и не являются широко распространенными.&lt;/p&gt;
+&lt;h3 id="primenenie-na-praktike"&gt;Применение на практике&lt;/h3&gt;
+&lt;p&gt;Вариантов их применения на сегодняшний день не так уж и много. Как я уже
+упоминал, эта технология еще находится лишь на пути к получению
+повсеместной распространенности на просторах Сети, но уже сейчас они
+проявили себя достаточно, чтобы оказывать влияние на многие аспекты сети
+Интернет:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Многие поисковые системы активно используют при составлении своего
+    индекса микроформат &lt;strong&gt;rel-nofollow&lt;/strong&gt;, об этом мне уже &lt;a href="https://www.insight-it.ru/theory/2008/putevoditel-dlya-robotov/"&gt;доводилось
+    упоминать в одной из предыдущих
+    записей&lt;/a&gt;;&lt;/li&gt;
+&lt;li&gt;Plug-in для Firefox под названием
+    &lt;a href="https://www.insight-it.ru/goto/c84adfbb/" rel="nofollow" target="_blank" title="https://addons.mozilla.org/en-US/firefox/addon/4106"&gt;&lt;em&gt;Operator&lt;/em&gt;&lt;/a&gt; -
+    позволяет просматривать используемые на текущей странице
+    микроформаты, а также предлагает небольшой ассортимент действий, с
+    ними связанных. Например, &lt;strong&gt;hCard&lt;/strong&gt; предлагается экспортировать в
+    адресную книгу, а для &lt;strong&gt;rel-tag&lt;/strong&gt; - осуществить поиск по скромному
+    списку интернет-сервисов. &lt;img alt="Operator screenshot" class="right" src="https://www.insight-it.ru/images/firefox-operator.png" title="Operator menu"/&gt;
+    Лично я уже достаточно его себе установил и всегда держу включенным,
+    не для того, чтобы реально им пользоваться, а просто чтобы быть в
+    курсе, что тот или иной ресурс вдруг начал поддерживать эту
+    замечательную технологию;&lt;/li&gt;
+&lt;li&gt;Появляется все больше и больше CMS, поддерживающих различные
+    микроформаты "из коробки" или с помощью plug-in'ов, что ведет к все
+    более активному расширению списка сайтов, следующих этим стандартам
+    представления данных. &lt;a href="https://www.insight-it.ru/goto/92e8fc22/" rel="nofollow" target="_blank" title="http://wordpress.org"&gt;WordPress&lt;/a&gt;, &lt;del&gt;на которой работает этот блог&lt;/del&gt;, тоже относится к категории CMS, поддерживающих
+    микроформаты, в чем вы можете убедиться, установив упомянутый в
+    предыдущем пункте &lt;em&gt;Operator&lt;/em&gt;. Сам по себе этот факт какой-либо
+    полезности не несет, но является лишним стимулом для разработчиков
+    программного обеспечения и интернет-ресурсов, поддерживающих
+    микроформаты.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Этот список можно было бы продолжать еще достаточно долго, так что
+позволю себе остановиться, ограничившись лишь перечислением наиболее
+актуальных с моей точки зрения аспектов применения микроформатов.&lt;/p&gt;
+&lt;h3 id="podvodim-itogi"&gt;Подводим итоги&lt;/h3&gt;
+&lt;p&gt;По сути являясь своеобразной "надстройкой" над XHTML, микроформаты
+создаются по принципу "чем проще - тем лучше", но в то же время
+благодаря своей узкой специализации и простоте, каждый из них способен
+быть составной частью модульной структуры форматов данных, способной
+поднять Сеть на качественно новый уровень развития.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sun, 27 Jan 2008 19:31:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-01-27:theory/2008/mikroformaty/</guid><category>hcard</category><category>hreview</category><category>html</category><category>xfn</category><category>XHTML</category><category>интернет</category><category>Микроформаты</category><category>семантика</category><category>смысл</category><category>технология</category></item></channel></rss>

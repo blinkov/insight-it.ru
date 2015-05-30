@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/saity/feed/index.xml" rel="self"></atom:link><lastBuildDate>Sun, 01 Apr 2012 17:43:00 +0400</lastBuildDate><item><title>Анонс серии статей: интерактивные сайты</title><link>https://www.insight-it.ru//interactive/2012/anons-serii-statejj-interaktivnye-sajjty/</link><description>&lt;p&gt;Интернет развивается огромными темпами. В борьбе за аудиторию крупные
+интернет-компании поднимают стандарты качества веб-приложений на все
+более и более высокий уровень. Одним из важнейших качеств современных
+сайтов является &lt;strong&gt;интерактивность&lt;/strong&gt;, если раньше все они поголовно
+представляли собой коллекцию статичных страниц, где можно что-то
+почитать или посмотреть, то сегодня они - почти живой организм.&lt;/p&gt;
+&lt;p&gt;Пользователи все больше привыкают узнавать о событиях и видеть реакцию
+на свои действия мгновенно, не дожидаясь загрузок страниц и прочих
+задержек. Раньше это было возможно только для обычных приложений, но с
+сегодняшним уровнем технологий общаться с пользователем в реальном
+времени можно и &lt;strong&gt;посредством браузера&lt;/strong&gt;, причем доступно это не только
+интернет-гигантам, а практически любому интернет-проекту.&lt;/p&gt;
+&lt;p&gt;За последний год &lt;em&gt;привнесение интерактивности в интернет-проекты&lt;/em&gt; -
+пожалуй, одна из самых популярных тем, с которой ко мне &lt;a href="https://www.insight-it.ru/consulting/"&gt;обращаются за консультацией&lt;/a&gt;. В итоге я решил
+не жадничать и поделиться с общественностью своими знаниями в этой
+области, что в итоге должно вылиться в серию связанных статей
+&lt;strong&gt;"Интерактивные сайты"&lt;/strong&gt;. В ней я хочу отразить практически пошаговую
+инструкцию от А до Я для создания интерактивного интернет-приложения с
+нуля или основываясь на существующем статичном проекте. Соответственно,
+по ходу дела сделаю легко доступное оглавление по аналогии с
+&lt;a href="https://www.insight-it.ru/highload/"&gt;архитектурой высоконагруженных интернет-проектов&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id="orientirovochnye-temy-statei"&gt;Ориентировочные темы статей&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/interactive/2012/arkhitektura-interaktivnykh-sajjtov/"&gt;Общая архитектура&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/interactive/2012/klientskaya-chast-interaktivnogo-sajjta/"&gt;Организация клиентской части&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/interactive/2012/postoyannoe-soedinenie-mezhdu-brauzerom-i-serverom/"&gt;Постоянное соединение между браузером и сервером&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/interactive/2012/povtornoe-ispolzovanie-shablonov/"&gt;Повторное использование шаблонов&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/interactive/2012/servernaya-chast-interaktivnogo-sajjta-i-potoki-soobshhenijj/"&gt;Серверная часть интерактивного сайта и потоки сообщений&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/interactive/2012/optimizaciya-interaktivnykh-sajjtov/"&gt;Оптимизация&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Основной упор будет сделан именно на общую концепцию и сведение всех
+компонентов воедино, как на серверной стороне, так и на клиентской.
+Количество изобретаемых велосипедов постараюсь свести к минимуму: где-то
+будут просто рекомендации по использованию публично доступных
+технологий, где-то - сравнительные обзоры. Специфики каких-либо
+определенных типов проектов постараюсь избегать.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Пожелания, предложения, советы и вопросы в комментариях к этому посту
+очень приветствуются :)&lt;/strong&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sun, 01 Apr 2012 17:43:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-04-01:interactive/2012/anons-serii-statejj-interaktivnye-sajjty/</guid><category>JavaScript</category><category>архитектура</category><category>интерактив</category><category>интернет-приложения</category><category>клиентская оптимизация</category><category>Масштабируемость</category><category>сайты</category><category>технологии</category></item></channel></rss>

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/bson/feed/index.xml" rel="self"></atom:link><lastBuildDate>Sat, 24 Mar 2012 16:50:00 +0400</lastBuildDate><item><title>Архитектура YouTube 2012</title><link>https://www.insight-it.ru//highload/2012/arkhitektura-youtube-2012/</link><description>&lt;blockquote&gt;
+&lt;p&gt;Выбирайте самое простое решение с наиболее общими гарантиями, которые
+практически полезны.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;- Дао YouTube&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;YouTube&lt;/strong&gt; практически на протяжении всех 7 лет своего существования
+является мировым лидером в сфере интернет-видео. С точки зрения
+технической реализации проект оказался достаточно консервативным -
+команда придерживается того же курса и стека технологий, с которых все
+начиналось еще до приобретения проекта &lt;strong&gt;Google&lt;/strong&gt;. Но с 2008 года, когда
+я написал первый обзор&amp;nbsp;&lt;a href="https://www.insight-it.ru/highload/2008/arkhitektura-youtube/"&gt;архитектуры YouTube&lt;/a&gt;, все же произошли интересные изменения, о которых я и хотел бы сегодня вкратце рассказать.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h2 id="statistika"&gt;Статистика&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;4 млрд. просмотров страниц в день&lt;/li&gt;
+&lt;li&gt;60 часов видео загружается каждую минуту&lt;/li&gt;
+&lt;li&gt;350 миллионов устройств подключено к YouTube&lt;/li&gt;
+&lt;li&gt;На февраль 2012 года в США по данным comScore:&lt;ul&gt;
+&lt;li&gt;147,4 млн. уникальных зрителей&lt;/li&gt;
+&lt;li&gt;16,7 млрд. просмотров видео (в октябре 2011 было больше 20 млрд.)&lt;/li&gt;
+&lt;li&gt;Каждый зритель посмотрел в среднем 7 часов видео за месяц&lt;/li&gt;
+&lt;li&gt;1.1 млрд. просмотров видео рекламы, суммарной длительностью в 10.8
+млн. часов&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="tekhnologii"&gt;Технологии&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/linux/"&gt;Linux&lt;/a&gt; - операционная система&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/apache/"&gt;Apache&lt;/a&gt; - основной HTTP-сервер&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/lighttpd/"&gt;lighttpd&lt;/a&gt; - отдача видео из YouTube CDN&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/zookeeper/"&gt;Zookeeper&lt;/a&gt; - распределенные блокировки, хранение
+конфигураций&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="/tag/python/"&gt;Python&lt;/a&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/wiseguy/"&gt;wiseguy&lt;/a&gt; - FastCGI-прослойка между Apache и Python&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/pycurl/"&gt;pycurl&lt;/a&gt; - лучшая доступная реализация HTTP-клиента,
+но в итоге все равно заменили на самописное низкоуровневое решение,
+выиграв 8% в потреблении вычислительных ресурсов.&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/spitfire/"&gt;spitfire&lt;/a&gt; - высокопроизводительный шаблонизатор на
+основе абстрактного синтаксического дерева с регулируемым уровнем
+оптимизации (как в gcc)&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/bson/"&gt;bson&lt;/a&gt; в качестве формата сериализации&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="/tag/bigtable/"&gt;BigTable&lt;/a&gt; - хранение изображений&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt; - используется просто как хранилище данных, версия
+5.1.52 с InnoDB&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/vitess/"&gt;Vitess&lt;/a&gt; - система для масштабирования MySQL-кластера&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="vitess"&gt;Vitess&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Основная цель проекта - предоставление всех необходимых инструментов и
+серверов для горизонтального масштабирования баз данных на основе MySQL,
+с учетом потребностей современных интернет-проектов.&lt;/li&gt;
+&lt;li&gt;Реализован на &lt;a href="/tag/go/"&gt;Go&lt;/a&gt; - все еще экзотическом языке
+программирования, также родившемся в стенах &lt;a href="/tag/google/"&gt;Google&lt;/a&gt;.
+Сравним по производительности с &lt;a href="/tag/c/"&gt;C++&lt;/a&gt; и &lt;a href="/tag/java/"&gt;Java&lt;/a&gt;, но
+несколько более "выразителен".&lt;/li&gt;
+&lt;li&gt;Опубликован в opensource 24 февраля 2012 года, совсем недавно, так что
+&lt;a href="/tag/youtube/"&gt;YouTube&lt;/a&gt; - по-прежнему единственный пример его
+использования на практике в крупном проекте.&lt;/li&gt;
+&lt;li&gt;Готовые клиентские библиотеки пока только для&amp;nbsp;&lt;strong&gt;Python&lt;/strong&gt;&amp;nbsp;и&amp;nbsp;&lt;strong&gt;Go&lt;/strong&gt;, что
+не удивительно, но есть и универсальные интерфейсы на основе HTTP и
+просто TCP-сокетов.&lt;/li&gt;
+&lt;li&gt;Основной формат данных - &lt;strong&gt;bson&lt;/strong&gt;, как и в &lt;a href="/tag/mongodb/"&gt;MongoDB&lt;/a&gt;, но
+по словам разработчиков &lt;em&gt;Vitess&lt;/em&gt;&amp;ensp;&lt;a href="https://www.insight-it.ru/goto/b807d615/" rel="nofollow" target="_blank" title="http://code.google.com/p/vitess/source/browse/#hg%2Fgo%2Fbson"&gt;их
+реализация&lt;/a&gt;
+выполняет (де)сериализацию в 10-15 раз быстрее.&lt;/li&gt;
+&lt;li&gt;Ядром проекта выступает &lt;strong&gt;Vtocc&lt;/strong&gt;, &amp;nbsp;SQL-прокси с RPC интерфейсом,
+позволяющий перераспределять запросы от большого количества (более 10
+тыс.) одновременно подключенных клиентов в сравнительно небольшое
+количество соединений с базами данных. Пропускная способность порядка 10
+тыс. запросов в секунду.&lt;/li&gt;
+&lt;li&gt;Встроенные возможности &lt;strong&gt;Vtocc&lt;/strong&gt;:&lt;ul&gt;
+&lt;li&gt;парсер и анализатор SQL-запросов для оптимизации их выполнения;&lt;/li&gt;
+&lt;li&gt;заполнение типичных запросов переменными с поддержкой кэширования
+результатов;&lt;/li&gt;
+&lt;li&gt;управление транзакциями и сроками их выполнения ("убивает"
+затянувшиеся);&lt;/li&gt;
+&lt;li&gt;для каждого пространства ключей (логической таблицы) можно указать
+фактор репликации, что создаст необходимое количество второстепенных
+баз данных в дополнение к мастеру;&lt;/li&gt;
+&lt;li&gt;можно явно указать, что чтение необходимо произвести с мастера
+(важно когда пользователь только что выполнил какое-то действие и
+должен сразу же увидеть его результат);&lt;/li&gt;
+&lt;li&gt;отдельные пулы соединений для выполнения операций чтения и записи;&lt;/li&gt;
+&lt;li&gt;исключение "зависших" соединений из пулов;&lt;/li&gt;
+&lt;li&gt;перезапуск без простоя системы;&lt;/li&gt;
+&lt;li&gt;поддержка DML.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Партиционирование&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Во всех таблицах должна быть колонка с уникальным ключем, на основе
+которого данные будут распределяться по кластеру.&lt;/li&gt;
+&lt;li&gt;Партиционирование основано на диапазонах ключей, что позволяет держать
+"карту" партиций в памяти и очень быстро определять где располагаются те
+или иные данные, но обратной стороной медали является вероятное
+возникновение "горячих" узлов в кластере, особенно при монотонно
+увеличивающихся значениях ключей (рекомендуется использовать случайные).&lt;/li&gt;
+&lt;li&gt;Поддерживаются ключи в виде натуральных чисел или произвольных бинарных
+данных.&lt;/li&gt;
+&lt;li&gt;При высокой нагрузке на одну партицию она может быть распределена на две
+путем фильтрованной репликации; в дальнейшем планируется реализовать и
+обратный процесс.&lt;/li&gt;
+&lt;li&gt;Еще в планах:&lt;ul&gt;
+&lt;li&gt;Поэтапное внесение изменений в схему данных без видимого простоя
+системы;&lt;/li&gt;
+&lt;li&gt;Поддержка работы в нескольких датацентрах с концентрацией
+мастер-серверов в одном датацентре и использования остальных в
+режиме только для чтения.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="podvodim-itogi"&gt;Подводим итоги&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;YouTube&lt;/strong&gt; - еще один проект мирового масштаба, который с самого начала
+использовал MySQL и оказался не в силах от него отказаться, не смотря на
+трудности с горизонтальным масштабированием.&lt;/li&gt;
+&lt;li&gt;По аналогичному пути пошли и другие проекты, схожие с &lt;strong&gt;Vitess&lt;/strong&gt;
+надстройки над MySQL используются в &lt;a href="https://www.insight-it.ru/highload/2010/arkhitektura-facebook/"&gt;Facebook&lt;/a&gt; и &lt;a href="https://www.insight-it.ru/highload/2011/arkhitektura-twitter-dva-goda-spustya/"&gt;Twitter&lt;/a&gt;:&lt;ul&gt;
+&lt;li&gt;В &lt;a href="/tag/facebook/"&gt;Facebook&lt;/a&gt; она дополнена сильной интеграцией с
+&lt;a href="/tag/memcached/"&gt;memcached&lt;/a&gt;&amp;nbsp;и сильно ограниченным интерфейсом, не
+имеющим практически ничего общего с SQL.&amp;nbsp;Планы о публикации в
+opensource, кажется, были, но я не слышал чтобы они воплотились в
+жизнь. &lt;em&gt;// Уже почти дописав статью случайно заметил в коде, а потом
+и мелким шрифтом в документации, что в Vitess тоже используется
+memcached для кэширования из-за проблем со сборщиком мусора Go.&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/twitter/"&gt;Twitter&lt;/a&gt;&amp;nbsp;по-прежнему использует свою связку
+&lt;a href="https://www.insight-it.ru/goto/4fe0530b/" rel="nofollow" target="_blank" title="https://github.com/twitter/flockdb"&gt;FlockDB&lt;/a&gt; +
+&lt;a href="https://www.insight-it.ru/goto/c4275cdf/" rel="nofollow" target="_blank" title="https://github.com/twitter/gizzard"&gt;Gizzard&lt;/a&gt;&amp;nbsp;на
+&lt;a href="/tag/scala/"&gt;Scala&lt;/a&gt;, которые уже пару лет публично доступны. В
+отличии от Vitess она заточена на хранение информации о социальных
+графах, по-этому сфера её применения как в Twitter, так и за его
+пределами ограничена.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Vitess - пожалуй первая относительно успешная попытка построить
+распределенную горизонтально масштабируемую СУБД на основе реляционной
+базы данных, сохранив при этом SQL-интерфейс, пускай и с некоторыми
+ограничениями.&lt;/li&gt;
+&lt;li&gt;Выбирайте подходящее хранилище для каждого типа данных в системе - если
+Vitess стал подходящим решением для структурированных данных вроде
+информации о пользователях, метаданных видео и комментариев, это не
+значит, что он хорошо (или плохо) справится, например, с медиа-файлами
+вроде изображений и видео (для них в
+&lt;a href="/tag/youtube/"&gt;YouTube&lt;/a&gt;&amp;nbsp;по-прежнему используют стек технологий
+&lt;a href="/tag/google/"&gt;Google&lt;/a&gt;, подробности не публикуются).&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/python/"&gt;Python&lt;/a&gt; - вполне пригодный инструмент для реализации
+бизнес-логики интернет-проектов, свет клином на &lt;a href="/tag/php/"&gt;PHP&lt;/a&gt; не
+сошелся. Python предлагает широкий ассортимент инструментов для решения
+любых типичных для интернет-проектов задач, хотя субъективно выбор
+некоторых из них разработчиками YouTube мне кажется странным.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="card light-blue lighten-5"&gt;
+&lt;div class="card-content"&gt;
+        В комментариях предлагаю обсудить слабые и сильные стороны использования
+        надстроек над реляционными базами данных, скажем по сравнению с
+        использованием изначально-распределенных СУБД, таких как Riak, Cassandra
+        и многих других. Может быть кто-то уже успел прикрутить к своему проекту
+        Vitess или хотя бы FlockDB и готов поделиться впечатлениями?
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;h2 id="istochniki-informatsii"&gt;Источники информации&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/fb446b63/" rel="nofollow" target="_blank" title="https://www.youtube.com/watch?v=G-lGCC4KKok"&gt;Mike Solomon на PyCon'12&lt;/a&gt; (один из первых
+    разработчиков проекта)&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/29524853/" rel="nofollow" target="_blank" title="http://code.google.com/p/vitess"&gt;О проекте Vitess&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/652a935e/" rel="nofollow" target="_blank" title="http://www.comscore.com/Press_Events/Press_Releases/2012/3/comScore_Releases_February_2012_U.S._Online_Video_Rankings"&gt;Статистика comScore на февраль '12&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sat, 24 Mar 2012 16:50:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-03-24:highload/2012/arkhitektura-youtube-2012/</guid><category>bson</category><category>Go</category><category>Google</category><category>lighttpd</category><category>Linux</category><category>MySQL</category><category>pycurl</category><category>Python</category><category>spitfire</category><category>Vitess</category><category>wiseguy</category><category>YouTube</category><category>ZooKeeper</category></item></channel></rss>

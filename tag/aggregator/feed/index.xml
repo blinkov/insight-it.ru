@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/aggregator/feed/index.xml" rel="self"></atom:link><lastBuildDate>Mon, 07 Jan 2008 23:42:00 +0300</lastBuildDate><item><title>Мы делаем новости!</title><link>https://www.insight-it.ru//theory/2008/my-delaem-novosti/</link><description>&lt;p&gt;&lt;a href="/feed/"&gt;&lt;img alt="RSS Logo." class="right" src="https://www.insight-it.ru/images/rss.png" title="Логотип RSS"/&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Ярко-рыжий логотип, который можно увидеть на практически любом сайте,
+наверняка не раз привлекал Ваше внимание. Если Ваше любопытство хоть раз
+заставляло Вас перейти по ссылке, которая чаще всего стоит за таким
+логотипом, то Вы наверняка уже успели представить себе о чем пойдет
+речь.&lt;/p&gt;
+&lt;p&gt;Такая ссылка в подавляющем большинстве случаев ведет на новости сайта,
+на котором она расположена, представленные в формате представления
+данных под названием RSS (хотя это даже не обязательно должны быть
+новости в обычном понимании этого слова, с помощью этого формата можно
+публиковать любой контент). Этот формат предоставляет пользователям
+возможность подписываться на &lt;em&gt;каналы&lt;/em&gt; новостей с помощью специально
+предназначенных для этого программ - &lt;em&gt;аггрегаторов&lt;/em&gt;, позволяя иметь
+быстрый и удобный доступ ко всем интересующим его/ее информационным
+ресурсам, без необходимости собственно посещать все эти сайты.&lt;/p&gt;
+&lt;p&gt;О процессе создания такого канала я и хочу Вам рассказать.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Конечно же многие CMS поддерживают автоматическую генерацию RSS-каналов,
+и &lt;a href="https://www.insight-it.ru/goto/f4bdda87/" rel="nofollow" target="_blank" title="http://www.wordpress.org"&gt;WordPress&lt;/a&gt;, &lt;del&gt;на которой работает этот
+блог&lt;/del&gt;, к ним относится. &lt;a href="/feed/"&gt;RSS-канал этого блога&lt;/a&gt;, хоть и
+не является новостным по сути, но также прекрасно генерируется из постов
+блога. Но для того, чтобы работать с технологией обычно бывает не лишним
+понимать как она работает, по-этому в этой записи я поведаю Вам о ручном
+составлении RSS-канала, а в одной из последующих - об автоматической
+генерации.&lt;/p&gt;
+&lt;p&gt;Прежде всего стоит сказать, что RSS является методом, основанным на XML
+и предназначенным для оперативного распространения новостей и контента
+сайта как среди потенциальных читателей, так и среди других сайтов.&lt;/p&gt;
+&lt;p&gt;Как следствие, на RSS распространяются все &lt;a href="https://www.insight-it.ru/theory/2008/9-osnovnyx-pravil-napisaniya-xml/"&gt;правила написания XML-документов&lt;/a&gt;, с которыми имеет смысл ознакомиться перед тем, как продолжить чтение этой записи. Помимо них, для RSS существует отдельный стандарт и соответственно набор не менее простых правил.&lt;/p&gt;
+&lt;p&gt;В качестве примера можно использовать любой понравившийся канал,
+например мой. Для того, чтобы увидеть сам текст документа, необходимо
+нажать правой кнопкой мыши на открытый в браузере документ и выбрать
+пункт, называющийся как-нибудь вроде "Просмотр исходного кода страницы"
+или "View Page Source".&lt;/p&gt;
+&lt;p&gt;По сравнению с XML, RSS-документ должен обладать четко определенной
+структурой:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;За стандартным XML-заголовком открывается корневой элемент &lt;code&gt;&amp;lt;rss&amp;gt;&lt;/code&gt;,
+    содержащий указание версии RSS&lt;/li&gt;
+&lt;li&gt;В корневой элементе должен должен содержаться ровно один элемент
+    &lt;code&gt;&amp;lt;channel&amp;gt;&lt;/code&gt;, символизирующий наш канал&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Внутри &lt;code&gt;&amp;lt;channel&amp;gt;&lt;/code&gt; обязательно должны содержаться три элемента:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;title&amp;gt;&lt;/code&gt; - заголовок канала&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;link&amp;gt;&lt;/code&gt; - ссылка на сам сайт&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;description&amp;gt;&lt;/code&gt; - описание канала&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Помимо них он должен содержать один или несколько элементов
+    &lt;code&gt;&amp;lt;item&amp;gt;&lt;/code&gt;, которые будут обозначать одну конкретную новость,
+    запись, пост, статью, заметку, не важно какое из этих слов больше
+    подходит к каждому конкретному случаю - суть от этого не меняется.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;Элементы между парой тэгов &lt;code&gt;&amp;lt;item&amp;gt;&lt;/code&gt;, как ни странно, тоже должны
+    в себя включать в себя волшебно-обязательные элементы, разница лишь
+    в значении, которое им придается:&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;title&amp;gt;&lt;/code&gt; - заголовок новости-записи-поста-статьи-заметки&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;link&amp;gt;&lt;/code&gt; - ссылка на нее же, обычно на страницу внутри сайта&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;description&amp;gt;&lt;/code&gt; - собственно говоря сам текст&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Пример:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?xml version="1.0" encoding="UTF-8" ?&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;rss&lt;/span&gt; &lt;span class="na"&gt;version=&lt;/span&gt;&lt;span class="s"&gt;"2.0"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;channel&amp;gt;&lt;/span&gt;
+ &lt;span class="nt"&gt;&amp;lt;title&amp;gt;&lt;/span&gt;Insight IT&lt;span class="nt"&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
+ &lt;span class="nt"&gt;&amp;lt;description&amp;gt;&lt;/span&gt;Блог об информационных технологиях&lt;span class="nt"&gt;&amp;lt;/description&amp;gt;&lt;/span&gt;
+ &lt;span class="nt"&gt;&amp;lt;link&amp;gt;&lt;/span&gt;https://www.insight-it.ru&lt;span class="nt"&gt;&amp;lt;/link&amp;gt;&lt;/span&gt;
+ &lt;span class="nt"&gt;&amp;lt;lastBuildDate&amp;gt;&lt;/span&gt;Sun, 07 Jan 2008 23:42:01 +0000&lt;span class="nt"&gt;&amp;lt;/lastBuildDate&amp;gt;&lt;/span&gt;
+ &lt;span class="nt"&gt;&amp;lt;pubDate&amp;gt;&lt;/span&gt;Sun, 07 Jan 2008 23:42:01 +0000&lt;span class="nt"&gt;&amp;lt;/pubDate&amp;gt;&lt;/span&gt;
+ &lt;span class="nt"&gt;&amp;lt;ttl&amp;gt;&lt;/span&gt;1800&lt;span class="nt"&gt;&amp;lt;/ttl&amp;gt;&lt;/span&gt;
+
+ &lt;span class="nt"&gt;&amp;lt;item&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;title&amp;gt;&lt;/span&gt;Мы делаем новости!&lt;span class="nt"&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;description&amp;gt;&lt;/span&gt;Ярко-рыжий логотип, который можно увидеть на практически любом сайте, наверняка не раз привлекал Ваше внимание.&lt;span class="nt"&gt;&amp;lt;/description&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;link&amp;gt;&lt;/span&gt;http://www.insight-it.ru/?p=18&lt;span class="nt"&gt;&amp;lt;/link&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;guid&lt;/span&gt; &lt;span class="na"&gt;isPermaLink=&lt;/span&gt;&lt;span class="s"&gt;"true"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;7bd204c6-1655-4c27-aeee-53f933c5395f&lt;span class="nt"&gt;&amp;lt;/guid&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;pubDate&amp;gt;&lt;/span&gt;Sun, 07 Jan 2008 23:42:01 +0000&lt;span class="nt"&gt;&amp;lt;/pubDate&amp;gt;&lt;/span&gt;
+ &lt;span class="nt"&gt;&amp;lt;/item&amp;gt;&lt;/span&gt;
+
+&lt;span class="nt"&gt;&amp;lt;/channel&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/rss&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Перечисленного выше вполне достаточно для написания простейшего
+RSS-канала, но возможности RSS далеко выходят за рамки просто размещения
+в Сети текстовых сообщений. Для их реализации стандартом предусмотрен
+еще целый ряд тэгов,&amp;nbsp; доступных для использования. Позволю себе привести
+краткую справку по основным из них (для полноты картины повторю
+обязательные):&lt;/p&gt;
+&lt;h4&gt;Дочерние элементы &lt;channel&gt;&lt;/channel&gt;&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;strong&gt;Элемент&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;Описание&lt;/strong&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;category&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Не обязателен, определяет одну или несколько категорий для канала, позволяет &lt;em&gt;аггрегаторам&lt;/em&gt; группировать записи по этому параметру&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;cloud&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Не обязателен, используется для осуществления об обновлении канала с помощью технологии RPC&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;copyright&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Опционально, предназначен для предупреждения о необходимости соблюдения авторских прав&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;description&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Обязательное описание канала&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;docs&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Необязательная ссылка на описания формата, использованного в данном канале&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;generator&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Указание программы, сгенерировавшей канал, обычно они сами заполняют этот тэг. В случае заполнения вручную он вообще не нужен&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;image&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Опциональное отображение логотипа канала в &lt;em&gt;аггрегаторе&lt;/em&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;language&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Определяет язык, на котором написано содержимое канала. Не обязательно, но желательно&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;lastBuildDate&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Время последнего обновления содержимого канала. Опционально.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;link&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Обязательная ссылка канала&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;managingEditor&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Адрес электронной почты редактора канала, не обязателен.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;pubDate&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Опциональная дата последней публикации на канале&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;rating&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Опциональный PICS рейтинг канала&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;skipDays&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Количество дней, которые аггрегатор должен пропускать между проверкой обновлений канала&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;skipHours&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;По аналогии с предыдущим, только в часах&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;textInput&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Определяет текстовое поле, которое может отображаться рядом с каналом. Не обязательно.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;title&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Обязательная тема канала&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;ttl&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Время в минутах, в течении которого канал может отображаться из кэша &lt;em&gt;аггрегатора&lt;/em&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;webMaster&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Адрес электронной почты веб-мастера, не обязательно.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4&gt;Дочерние элементы &lt;item&gt;&lt;/item&gt;&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;strong&gt;Элемент&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;Описание&lt;/strong&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;author&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Название говорит само за себя - автор, указывать не обязательно&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;category&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Категория или категории, куда можно отнести запись. Опционально&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;comments&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Ссылка на комментарии к записи. Опционально.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;description&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Обязательное описние записи, то есть само ее содержание&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;enclosure&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Существует возможность по желанию сопровождать запись ссылкой на меда-файл так или иначе с ней связанный&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;guid&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Уникальный идентификатор элемента&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;link&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Обязательная ссылка записи&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;pubDate&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Дата публкации. Не обязательно.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;source&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Опциональная ссылка на внешний источник записи&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;title&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Обязательный заголовок записи&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Более подробно о каждом из них можно узнать, ознакомившись со
+&lt;a href="https://www.insight-it.ru/goto/aa3956d6/" rel="nofollow" target="_blank" title="http://cyber.law.harvard.edu/rss/rss.html"&gt;спецификацией на английском&lt;/a&gt;. Напоследок хочу напомнить, что вся эта запись представлена лишь для общего понимания принципов организации RSS-документа. На практике в большинстве случаев такие документы генерируются автоматически, о чем и пойдет речь в одной из последующих записей.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Mon, 07 Jan 2008 23:42:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-01-07:theory/2008/my-delaem-novosti/</guid><category>RSS</category><category>XML</category><category>аггрегатор</category><category>новости</category><category>Сеть</category><category>технология</category><category>хранение данных</category></item></channel></rss>

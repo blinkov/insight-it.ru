@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/xfs/feed/index.xml" rel="self"></atom:link><lastBuildDate>Fri, 13 Apr 2012 20:11:00 +0400</lastBuildDate><item><title>Архитектура Instagram</title><link>https://www.insight-it.ru//highload/2012/arkhitektura-instagram/</link><description>&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/a8e562b3/" rel="nofollow" target="_blank" title="https://instagram.com/"&gt;Instagram&lt;/a&gt; - всего лишь &lt;a href="/tag/ios/"&gt;iOS&lt;/a&gt;, а теперь
+и &lt;a href="/tag/android/"&gt;Android&lt;/a&gt;, приложение для обмена фотографиями с
+друзьями. Последнее время находится на слуху благодаря новости о покупке
+проекта &lt;a href="/tag/facebook/"&gt;Facebook&lt;/a&gt;'ом за кругленькую сумму. Недавно один
+из основателей проекта, Mike Krieger, выступил на конференции с докладом
+о техническом аспекте проекта, который я и хотел бы вкратце пересказать.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h2 id="statistika"&gt;Статистика&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Начало:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;1 сервер слабее Macbook Pro&lt;/li&gt;
+&lt;li&gt;25к регистраций в первый день&lt;/li&gt;
+&lt;li&gt;2 разработчика&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Сегодня:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;40+ миллионов пользователей&lt;/li&gt;
+&lt;li&gt;100+ виртуальных серверов в EC2, в том числе:&lt;/li&gt;
+&lt;li&gt;Проект куплен Facebook за &lt;em&gt;1 млрд. долл&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;1 миллион регистраций за 12 часов после запуска Android-версии&lt;/li&gt;
+&lt;li&gt;5 разработчиков&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="tekhnologii"&gt;Технологии&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/ubuntu/"&gt;Ubuntu&lt;/a&gt; &lt;a href="/tag/linux/"&gt;Linux&lt;/a&gt; 11.04&lt;/strong&gt; - основная
+операционная система&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/python/"&gt;Python&lt;/a&gt;&lt;/strong&gt; - основной язык программирования серверной части&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/django/"&gt;Django&lt;/a&gt;&lt;/strong&gt; - фреймворк&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/amazon/"&gt;&lt;strong&gt;Amazon&lt;/strong&gt;&lt;/a&gt;:&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/ec2/"&gt;EC2&lt;/a&gt;&lt;/strong&gt;&amp;nbsp;- хостинг&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/elb/"&gt;ELB&lt;/a&gt;&lt;/strong&gt;&amp;nbsp;- балансировка входящих HTTP-запросов&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/route53/"&gt;Route53&lt;/a&gt;&lt;/strong&gt; - DNS&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/s3/"&gt;S3&lt;/a&gt;&lt;/strong&gt; - хранение фотографий&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/cloudfront/"&gt;CloudFront&lt;/a&gt;&lt;/strong&gt; - &lt;a href="/tag/cdn/"&gt;CDN&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/nginx/"&gt;nginx&lt;/a&gt;&lt;/strong&gt; - второй уровень балансировки входящихHTTP-запросов&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/gunicorn/"&gt;gunicorn&lt;/a&gt;&lt;/strong&gt; - WSGI-сервер&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/haproxy/"&gt;&lt;strong&gt;HAProxy&lt;/strong&gt;&lt;/a&gt;&amp;nbsp;- балансировка нагрузки внутри системы&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/postgresql/"&gt;&lt;strong&gt;PostgreSQL&lt;/strong&gt;&lt;/a&gt; - основное хранилище данных&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/postgis/"&gt;&lt;strong&gt;postgis&lt;/strong&gt;&lt;/a&gt; - поддержка гео-запросов&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/pgfouine/"&gt;&lt;strong&gt;pgfouine&lt;/strong&gt;&lt;/a&gt; - отчеты на основе логов&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/pgbouncer/"&gt;pgbouncer&lt;/a&gt;&lt;/strong&gt; - создание пула соединений&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/redis/"&gt;&lt;strong&gt;Redis&lt;/strong&gt;&lt;/a&gt; - дополнительное хранилище данных&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/memcached/"&gt;&lt;strong&gt;Memcached&lt;/strong&gt;&lt;/a&gt; - кэширование&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/gearman/"&gt;&lt;strong&gt;Gearman&lt;/strong&gt;&lt;/a&gt; - очередь задач&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/solr/"&gt;&lt;strong&gt;Solr&lt;/strong&gt;&lt;/a&gt; - гео-поиск&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/munin/"&gt;munin&lt;/a&gt;&lt;/strong&gt;, &lt;a href="/tag/statsd/"&gt;&lt;strong&gt;statsd&lt;/strong&gt;&lt;/a&gt;, &lt;a href="/tag/pingdom/"&gt;&lt;strong&gt;pingdom&lt;/strong&gt;&lt;/a&gt; - мониторинг&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/fabric/"&gt;&lt;strong&gt;Fabric&lt;/strong&gt;&lt;/a&gt; - управление кластером&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/xfs/"&gt;&lt;strong&gt;xfs&lt;/strong&gt;&lt;/a&gt; - файловая система&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="filosofiia"&gt;Философия&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;Простота&lt;/li&gt;
+&lt;li&gt;Минимизация операционных издержек&lt;/li&gt;
+&lt;li&gt;Использование подходящих инструментов&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="istoriia"&gt;История&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Забыли сделать &lt;strong&gt;favicon.ico&lt;/strong&gt; до запуска - в первый же день логи
+пестрили ошибками 404&lt;/li&gt;
+&lt;li&gt;Для хранения данных использовали просто &lt;strong&gt;Django &lt;a href="/tag/orm/"&gt;ORM&lt;/a&gt;&lt;/strong&gt; и
+&lt;strong&gt;PostgreSQL&lt;/strong&gt; (из-за postgis)&lt;/li&gt;
+&lt;li&gt;Начали с одного слабого сервера, после успешного запуска решили
+переехать на &lt;strong&gt;EC2&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Довольно быстро пришлось вынести &lt;a href="/tag/subd/"&gt;СУБД&lt;/a&gt; на отдельный сервер
+(виртуальный, естественно)&lt;/li&gt;
+&lt;li&gt;Количество фотографий продолжало расти и расти, даже самый большой
+инстанс &lt;strong&gt;EC2&lt;/strong&gt; не справлялся&lt;/li&gt;
+&lt;li&gt;Решили вертикально разделить данные на несколько баз, с использованием
+механизма &lt;strong&gt;routers&lt;/strong&gt; из ORM, параллельно избавившись от внешних ключей&lt;/li&gt;
+&lt;li&gt;Через несколько месяцев суммарный размер базы данных перевалил за 60Гб и
+перестало справляться и это решение&lt;/li&gt;
+&lt;li&gt;Следующим шагом стало горизонтальное разбиение данных &lt;em&gt;(sharding)&lt;/em&gt;:&lt;/li&gt;
+&lt;li&gt;Создали несколько тысяч логических баз данных.&lt;/li&gt;
+&lt;li&gt;Распределили их по существенно меньшему количеству физических серверов (читай: виртуальных машин).&lt;/li&gt;
+&lt;li&gt;Написали свой механизм определения где искать какую базу данных, с поддержкой миграции (вероятно тоже на основе routers).&lt;/li&gt;
+&lt;li&gt;По последним данным под &lt;strong&gt;PostgreSQL&lt;/strong&gt; используется 12+12 виртуальных
+машин с максимальной оперативной памятью (68.4Гб), а также сетевые диски
+EBS, объединенные в программный RAID посредством mdadm. Это необходимо,
+чтобы весь массив данных помещался в памяти, EBS не в состоянии
+обеспечить достаточную производительность.&lt;/li&gt;
+&lt;li&gt;С некоторыми задачами лучше справляется &lt;strong&gt;Redis&lt;/strong&gt;:&lt;/li&gt;
+&lt;li&gt;Для каждого пользователя в Redis есть список идентификаторов новых
+фотографий от других пользователей, на которых он подписан.&lt;/li&gt;
+&lt;li&gt;При отображении потока новых для пользователя фотографий делается
+выборка части такого списка, после чего посредством multiget достается
+подробная о них информация из memcached.&lt;/li&gt;
+&lt;li&gt;Пробовали возложить на него задачу хранения списков подписчиков, но в
+итоге вернулись к решению на &lt;strong&gt;PostgreSQL&lt;/strong&gt; с небольшим кэшированием.&lt;/li&gt;
+&lt;li&gt;В Redis также хранится информация о сессиях.&lt;/li&gt;
+&lt;li&gt;Несколько фактов о Redis:&lt;ul&gt;
+&lt;li&gt;Так как все находится в памяти - очень быстрые операции записи и работы с множествами.&lt;/li&gt;
+&lt;li&gt;Является не заменой, а дополнением к основному хранилищу данных.&lt;/li&gt;
+&lt;li&gt;Redis хорош для структур данных, которые относительно ограничены.&lt;/li&gt;
+&lt;li&gt;Отлично подходит для кэширования комплексных структур данных, где нужно большее, чем просто получить значение по ключу (например - счетчики, подмножества, проверка вхождения в множества).&lt;/li&gt;
+&lt;li&gt;Механизм репликации (посредством slaveof) позволяет легко
+масштабировать операции чтения.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Пользователи синхронно загружают фотографии на медиа-сервер с
+(опциональными) заголовком и месте на карте, все остальное происходит
+асинхронно посредством очередей, например:&lt;ul&gt;
+&lt;li&gt;Сохраняются гео-метки, обновляется &lt;strong&gt;Solr&lt;/strong&gt; (который впоследствии заменил postgis).&lt;/li&gt;
+&lt;li&gt;Идентификатор нового фото добавляется в обсуждавшиеся выше списки для всех подписчиков автора.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Поначалу использовали &lt;a href="/tag/apache/"&gt;Apache&lt;/a&gt; + &lt;code&gt;mod_wsgi&lt;/code&gt; для запуска
+&lt;strong&gt;Django&lt;/strong&gt;, впоследствии перешли к gunicorn из-за меньшего потребления
+ресурсов и простоты настройки.&lt;/li&gt;
+&lt;li&gt;С недавних пор начали использовать&amp;nbsp;&lt;strong&gt;Amazon ELB&lt;/strong&gt;&amp;nbsp;вместо &lt;strong&gt;DNS
+round-robin&lt;/strong&gt; для первичной балансировки входяших HTTP-запросов, что
+позволило:&lt;/li&gt;
+&lt;li&gt;избежать необходимости дешифровки &lt;a href="/tag/ssl/"&gt;&lt;strong&gt;SSL&lt;/strong&gt;&lt;/a&gt; посредством nginx;&lt;/li&gt;
+&lt;li&gt;ускорить исключение из балансировки проблемных серверов.&lt;/li&gt;
+&lt;li&gt;Благодаря использованию &lt;strong&gt;xfs&lt;/strong&gt; есть возможность "замораживать" и
+"размораживать" дисковые массивы при резервном копировании.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="podvodim-itogi"&gt;Подводим итоги&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Многие проблемы с масштабируемостью - результат банальных
+    человеческих ошибок.&lt;/li&gt;
+&lt;li&gt;Масштабирование = замена всех деталей в машине на скорости 150 км/ч.&lt;/li&gt;
+&lt;li&gt;Заранее сложно узнать как в основном будут обращаться к данным, без
+    реального использования.&lt;/li&gt;
+&lt;li&gt;В первую очередь попытайтесь адаптировать известные Вам технологии и
+    инструменты для создания простого и понятного решения, прежде чем
+    бросаться на поиски чего-то нетривиального.&lt;/li&gt;
+&lt;li&gt;Дополните свое основное хранилище более гибким компонентом, вроде
+    Redis.&lt;/li&gt;
+&lt;li&gt;Постарайтесь не использовать два инструмента для решения одной и той
+    же задачи.&lt;/li&gt;
+&lt;li&gt;Оставайтесь гибкими и ловкими = напоминайте себе о том, что на самом
+    деле имеет значение.&lt;/li&gt;
+&lt;li&gt;Разрабатывайте решения, к которым не придется постоянно возвращаться
+    из-за их сбоев.&lt;/li&gt;
+&lt;li&gt;Активное юнит- и функциональное тестирование стоят потраченного на
+    них времени.&lt;/li&gt;
+&lt;li&gt;DRY: не делайте одну и ту же работу несколько раз.&lt;/li&gt;
+&lt;li&gt;Слабая связанность посредством уведомлений или сигналов позволяет
+    легко менять структуру проекта.&lt;/li&gt;
+&lt;li&gt;Дисковый ввод-вывод часто оказывается узким местом, особенно на EC2.&lt;/li&gt;
+&lt;li&gt;Спускаться до C нужно только при необходимости, большую часть работы
+    лучше делать в Python.&lt;/li&gt;
+&lt;li&gt;Короткий цикл разработки - залог быстрого развития.&lt;/li&gt;
+&lt;li&gt;Частые совместные рассмотрения кода нужны, чтобы все были в курсе
+    происходящего.&lt;/li&gt;
+&lt;li&gt;Не изобретайте велосипед.&lt;/li&gt;
+&lt;li&gt;Окружите себя с толковыми &lt;a href="https://www.insight-it.ru/consulting/"&gt;консультантами&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Культура открытости вокруг разработки.&lt;/li&gt;
+&lt;li&gt;Делитесь с &lt;a href="/tag/opensource/"&gt;opensource&lt;/a&gt; сообществом.&lt;/li&gt;
+&lt;li&gt;Фокусируйтесь на том, что вы делаете лучше всего.&lt;/li&gt;
+&lt;li&gt;Вашим пользователям абсолютно без разницы, написали ли Вы
+    собственную СУБД или нет.&lt;/li&gt;
+&lt;li&gt;Не переоптимизируйте и не предполагайте заранее как сайт будет
+    расти.&lt;/li&gt;
+&lt;li&gt;Не рассчитывайте, что "кто-то еще присоединится к команде и
+    разберется с этим".&lt;/li&gt;
+&lt;li&gt;Для социальных стартапов очень мало, или даже совсем нет, нерешимых
+    вопросов, связанных с масштабируемостью.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="istochnik-informatsii"&gt;Источник информации&lt;/h2&gt;
+&lt;p&gt;Упоминавшаяся во вступлении неприлично длинная презентация из 185
+слайдов:&lt;/p&gt;
+&lt;iframe class="scribd_iframe_embed" data-aspect-ratio="" data-auto-height="true" frameborder="0" height="600" id="doc_73113" scrolling="no" src="http://www.scribd.com/embeds/89025069/content?start_page=1&amp;amp;view_mode=scroll" width="100%"&gt;&lt;/iframe&gt;
+&lt;p&gt;На видео, к сожалению, это выступление не записывалось.&lt;/p&gt;
+&lt;p&gt;Часть информации взята из &lt;a href="https://www.insight-it.ru/goto/ce2d4e38/" rel="nofollow" target="_blank" title="http://instagram-engineering.tumblr.com/"&gt;технического блога Instagram&lt;/a&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Fri, 13 Apr 2012 20:11:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-04-13:highload/2012/arkhitektura-instagram/</guid><category>Amazon</category><category>Android</category><category>CloudFront</category><category>django</category><category>EC2</category><category>ELB</category><category>Fabric</category><category>Facebook</category><category>gearman</category><category>gunicorn</category><category>HAProxy</category><category>Intagram</category><category>iOS</category><category>Linux</category><category>Memcached</category><category>Munin</category><category>nginx</category><category>ORM</category><category>pgbouncer</category><category>pgFouine</category><category>Pingdom</category><category>postgis</category><category>PostgreSQL</category><category>Python</category><category>Redis</category><category>Route53</category><category>S3</category><category>Solr</category><category>statsd</category><category>Ubuntu</category><category>WSGI</category><category>xfs</category><category>Архитектура Instagram</category></item><item><title>Архитектура Вконтакте</title><link>https://www.insight-it.ru//highload/2010/arkhitektura-vkontakte/</link><description>&lt;p&gt;&lt;img alt="Логотип Вконтакте" class="left" src="https://www.insight-it.ru/images/vkontakte-logo.png" title="Логотип Вконтакте"/&gt;
+Самая популярная социальная сеть в рунете пролила немного света на то,
+как же она работает. Представители проекта в лице Павла Дурова и Олега
+Илларионова на конференции &lt;a href="https://www.insight-it.ru/event/2010/highload-2010/"&gt;HighLoad++&lt;/a&gt; ответили на шквал вопросов по совершенно разным аспектам работы
+&lt;a href="https://www.insight-it.ru/goto/a14c17dd/" rel="nofollow" target="_blank" title="http://www.vkontakte.ru"&gt;Вконтакте&lt;/a&gt;, в том числе и техническим. Спешу
+поделиться своим взглядом на архитектуру проекта по результатам данного
+выступления.&lt;!--more--&gt;&lt;/p&gt;
+&lt;h2 id="platforma"&gt;Платформа&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/debian/"&gt;Debian&lt;/a&gt; &lt;a href="/tag/linux/"&gt;Linux&lt;/a&gt; - основная операционная
+    система&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/nginx/"&gt;nginx&lt;/a&gt; - балансировка нагрузки&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/php/"&gt;PHP&lt;/a&gt; + &lt;a href="/tag/xcache/"&gt;XCache&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/apache/"&gt;Apache&lt;/a&gt; + &lt;a href="/tag/mod_php/"&gt;mod_php&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/memcached/"&gt;memcached&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Собственная СУБД на &lt;a href="/tag/c/"&gt;C&lt;/a&gt;, созданная "лучшими умами" России&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/node-js/"&gt;node.js&lt;/a&gt; - прослойка для реализации XMPP, живет за
+    &lt;a href="/tag/haproxy/"&gt;HAProxy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Изображения отдаются просто с файловой системы &lt;a href="/tag/xfs/"&gt;xfs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/ffmpeg/"&gt;ffmpeg&lt;/a&gt; - конвертирование видео&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="statistika"&gt;Статистика&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;95 миллионов учетных записей&lt;/li&gt;
+&lt;li&gt;40 миллионов активных пользователей во всем мире (сопоставимо с
+    аудиторией интернета в России)&lt;/li&gt;
+&lt;li&gt;11 миллиардов запросов в день&lt;/li&gt;
+&lt;li&gt;200 миллионов личных сообщений в день&lt;/li&gt;
+&lt;li&gt;Видеопоток достигает 160Гбит/с&lt;/li&gt;
+&lt;li&gt;Более 10 тысяч серверов, из которых только 32 - фронтенды на
+    &lt;a href="/tag/nginx/"&gt;nginx&lt;/a&gt; (количество серверов с
+    &lt;a href="/tag/apache/"&gt;Apache&lt;/a&gt; неизвестно)&lt;/li&gt;
+&lt;li&gt;30-40 разработчиков, 2 дизайнера, 5 системных администраторов, много
+    людей в датацентрах&lt;/li&gt;
+&lt;li&gt;Каждый день выходит из строя около 10 жестких дисков&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="arkhitektura"&gt;Архитектура&lt;/h2&gt;
+&lt;h3 id="obshchie-printsipy"&gt;Общие принципы&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Cервера многофункциональны и используются одновременно в нескольких
+    ролях:&lt;ul&gt;
+&lt;li&gt;Перебрасывание полуавтоматическое&lt;/li&gt;
+&lt;li&gt;Требуется перезапускать daemon'ы&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Генерация страниц с новостями (микроблоги) происходит очень похожим
+    образом с &lt;a href="/tag/facebook/"&gt;Facebook&lt;/a&gt; (см. &lt;a href="https://www.insight-it.ru/highload/2010/arkhitektura-facebook/"&gt;Архитектура&amp;nbsp;Facebook&lt;/a&gt;), основное
+    отличие - использование собственной СУБД вместо MySQL&lt;/li&gt;
+&lt;li&gt;При балансировке нагрузки используются:&lt;ul&gt;
+&lt;li&gt;Взвешенный round robin внутри системы&lt;/li&gt;
+&lt;li&gt;Разные сервера для разных типов запросов&lt;/li&gt;
+&lt;li&gt;Балансировка на уровне ДНС на 32 IP-адреса&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Большая часть внутреннего софта написано самостоятельно, в том
+    числе:&lt;ul&gt;
+&lt;li&gt;Собственная СУБД (см. ниже)&lt;/li&gt;
+&lt;li&gt;Мониторинг с уведомлением по СМС (Павел сам помогал верстать
+    интерфейс :) )&lt;/li&gt;
+&lt;li&gt;Автоматическая система тестирования кода&lt;/li&gt;
+&lt;li&gt;Анализаторы статистики и логов&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Мощные сервера:&lt;ul&gt;
+&lt;li&gt;8-ядерные процессоры Intel (по два на сервер, видимо)&lt;/li&gt;
+&lt;li&gt;64Гб оперативной памяти&lt;/li&gt;
+&lt;li&gt;8 жестких дисков (соответственно скорее всего корпуса 2-3U)&lt;/li&gt;
+&lt;li&gt;RAID не используется&lt;/li&gt;
+&lt;li&gt;Не брендированные&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Вычислительные мощности серверов используются менее, чем на 20%&lt;/li&gt;
+&lt;li&gt;Сейчас проект расположен в 4 датацентрах в Санкт-Петербурге и
+    Москве, причем:&lt;ul&gt;
+&lt;li&gt;Вся основная база данных располагается в одном датацентре в
+    Санкт-Петербурге&lt;/li&gt;
+&lt;li&gt;В Московских датацентрах только аудио и видео&lt;/li&gt;
+&lt;li&gt;В планах сделать репликацию базы данных в другой датацентр в
+    ленинградской области&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/cdn/"&gt;CDN&lt;/a&gt; на данный момент не используется, но в планах есть&lt;/li&gt;
+&lt;li&gt;Резервное копирование данных происходит ежедневно и инкрементально&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="volshebnaia-baza-dannykh-na-c"&gt;Волшебная база данных на &lt;a href="/tag/c/"&gt;C&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Этому продукту, пожалуй, уделялось максимум внимания аудитории, но при
+этом почти никаких подробностей о том, что он собственно говоря собой
+представляет, так и не было обнародовано. Известно, что:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Разработана "лучшими умами" России, победителями олимпиад и
+    конкурсов топкодер; озвучили даже имена этих "героев" Вконтакте
+    (писал на слух и возможно не всех успел, так что извиняйте):&lt;ul&gt;
+&lt;li&gt;Андрей Лопатин&lt;/li&gt;
+&lt;li&gt;Николай Дуров&lt;/li&gt;
+&lt;li&gt;Арсений Смирнов&lt;/li&gt;
+&lt;li&gt;Алексей Левин&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Используется в огромном количестве сервисов:&lt;ul&gt;
+&lt;li&gt;Личные сообщения&lt;/li&gt;
+&lt;li&gt;Сообщения на стенах&lt;/li&gt;
+&lt;li&gt;Статусы&lt;/li&gt;
+&lt;li&gt;Поиск&lt;/li&gt;
+&lt;li&gt;Приватность&lt;/li&gt;
+&lt;li&gt;Списки друзей&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Нереляционная модель данных&lt;/li&gt;
+&lt;li&gt;Большинство операций осуществляется в оперативной памяти&lt;/li&gt;
+&lt;li&gt;Интерфейс доступа представляет собой расширенный протокол
+    &lt;a href="/tag/memcached/"&gt;memcached&lt;/a&gt;, специальным образом составленные ключи
+    возвращают результаты сложных запросов (чаще всего специфичных для
+    конкретного сервиса)&lt;/li&gt;
+&lt;li&gt;Хотели бы сделать из данной системы универсальную СУБД и
+    опубликовать под GPL, но пока не получается из-за высокой степени
+    интеграции с остальными сервисами&lt;/li&gt;
+&lt;li&gt;Кластеризация осуществляется легко&lt;/li&gt;
+&lt;li&gt;Есть репликация&lt;/li&gt;
+&lt;li&gt;Если честно, я так и не понял зачем им &lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt; с такой
+    штукой - возможно просто как legacy живет со старых времен&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="audio-i-video"&gt;Аудио и видео&lt;/h3&gt;
+&lt;p&gt;Эти подпроекты являются побочными для социальной сети, на них особо не
+фокусируются. В основном это связанно с тем, что они редко коррелируют с
+основной целью использования социальной сети - &lt;em&gt;общением&lt;/em&gt;, а также
+создают большое количество проблем: видео траффик - основная статья
+расходов проекта, плюс всем известные проблемы с нелегальным контентом и
+претензиями правообладателей. Медиа-файлы банятся по хэшу при удалении
+по просьбе правообладателей, но это неэффективно и планируется
+усовершенствовать этот механизм.&lt;/p&gt;
+&lt;p&gt;1000-1500 серверов используется для перекодирования видео, на них же оно
+и хранится.&lt;/p&gt;
+&lt;h3 id="xmpp"&gt;XMPP&lt;/h3&gt;
+&lt;p&gt;Как известно, некоторое время назад появилась возможность общаться на
+Вконтакте через протокол Jabber (он же XMPP). Протокол совершенно
+открытый и существует масса opensource реализаций.&lt;/p&gt;
+&lt;p&gt;По ряду причин, среди которых проблемы с интеграцией с остальными
+сервисами, было решено за месяц создать собственный сервер,
+представляющий собой прослойку между внутренними сервисами Вконтакте и
+реализацией XMPP протокола. Основные особенности этого сервиса:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Реализован на &lt;a href="/tag/node-js/"&gt;node.js&lt;/a&gt; (выбор обусловлен тем, что
+    JavaScript знают практически все разработчики проекта, а также
+    хороший набор инструментов для реализации задачи)&lt;/li&gt;
+&lt;li&gt;Работа с большими контакт-листами - у многих пользователей
+    количество друзей на Вконтакте измеряется сотнями и тысячами&lt;/li&gt;
+&lt;li&gt;Высокая активность смены статусов - люди появляются и исчезают из
+    онлайна чаще, чем в других аналогичных ситуациях&lt;/li&gt;
+&lt;li&gt;Аватарки передаются в &lt;code&gt;base64&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Тесная интеграция с внутренней системой обмена личными сообщениями
+    Вконтакте&lt;/li&gt;
+&lt;li&gt;60-80 тысяч человек онлайн, в пике - 150 тысяч&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/haproxy/"&gt;HAProxy&lt;/a&gt; обрабатывает входящие соединения и
+    используется для балансировки нагрузки и развертывания новых версий&lt;/li&gt;
+&lt;li&gt;Данные хранятся в &lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt; (думали о MongoDB, но
+    передумали)&lt;/li&gt;
+&lt;li&gt;Сервис работает на 5 серверах разной конфигурации, на каждом из них
+    работает код на&lt;a href="/tag/node-js/"&gt;node.js&lt;/a&gt; (по 4 процесса на сервер), а
+    на трех самых мощных - еще и &lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;В &lt;a href="/tag/node-js/"&gt;node.js&lt;/a&gt; большие проблемы с использованием
+    &lt;a href="/tag/openssl/"&gt;OpenSSL&lt;/a&gt;, а также течет память&lt;/li&gt;
+&lt;li&gt;Группы друзей в XMPP не связаны с группами друзей на сайте - сделано
+    по просьбе пользователей, которые не хотели чтобы их друзья из-за
+    плеча видели в какой группе они находятся&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="integratsiia-so-vneshnimi-resursami"&gt;Интеграция со внешними ресурсами&lt;/h3&gt;
+&lt;p&gt;Во Вконтакте считают данное направление очень перспективным и
+осуществляют массу связанной с этим работы. Основные предпринятые шаги:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Максимальная кроссбраузерность для виджетов на основе библиотек
+    easyXDM и fastXDM&lt;/li&gt;
+&lt;li&gt;Кросс-постинг статусов в &lt;a href="/tag/twitter/"&gt;Twitter&lt;/a&gt;, реализованный с
+    помощью очередей запросов&lt;/li&gt;
+&lt;li&gt;Кнопка "поделиться с друзьями", поддерживающая openGraph теги и
+    автоматически подбирающая подходящую иллюстрацию (путем сравнивание
+    содержимых тега &lt;code&gt;&amp;lt;title&amp;gt;&lt;/code&gt; и атрибутов alt у изображений, чуть ли не
+    побуквенно)&lt;/li&gt;
+&lt;li&gt;Возможность загрузки видео через сторонние видео-хостинги (YouTube,
+    RuTube, Vimeo, и.т.д.), открыты к интеграции с другими&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="interesnye-fakty-ne-po-teme_1"&gt;Интересные факты не по теме&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Процесс разработки близок к Agile, с недельными итерациями&lt;/li&gt;
+&lt;li&gt;Ядро операционной системы модифицированно (на предмет работы с
+    памятью), есть своя пакетная база для &lt;a href="/tag/debian/"&gt;Debian&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Фотографии загружаются на два жестких диска одного сервера
+    одновременно, после чего создается резервная копия на другом сервере&lt;/li&gt;
+&lt;li&gt;Есть много доработок над &lt;a href="/tag/memcached/"&gt;memcached&lt;/a&gt;, в.т.ч. для
+    более стабильного и длительного размещения объектов в памяти; есть
+    даже persistent версия&lt;/li&gt;
+&lt;li&gt;Фотографии не удаляются для минимизации фрагментации&lt;/li&gt;
+&lt;li&gt;Решения о развитии проекта принимают Павел Дуров и Андрей Рогозов,
+    ответственность за сервисы - на них и на реализовавшем его
+    разработчике&lt;/li&gt;
+&lt;li&gt;Павел Дуров откладывал деньги на хостинг с 1 курса :)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="podvodim-itogi"&gt;Подводим итоги&lt;/h2&gt;
+&lt;p&gt;В целом Вконтакте развивается в сторону увеличения скорости
+распространения информацию внутри сети. Приоритеты поменялись в этом
+направлении достаточно недавно, этим обусловлено, например, перенос
+выхода почтового сервиса Вконтакте, о котором очень активно говорили
+когда появилась возможность забивать себе текстовые URL вроде
+&lt;code&gt;vkontakte.ru/ivan.blinkov&lt;/code&gt;. Сейчас этот подпроект имеет низкий приоритет
+и ждет своего часа, когда они смогут предложить что-то более удобное и
+быстрое, чем Gmail.&lt;/p&gt;
+&lt;p&gt;Завеса тайны насчет технической реализации Вконтакте была немного
+развеяна, но много моментов все же остались секретом. Возможно в будущем
+появится более детальная информация о собственной СУБД Вконтакте,
+которая как оказалось является ключом к решению всех самых сложных
+моментов в масштабируемости системы.&lt;/p&gt;
+&lt;p&gt;Как я уже упоминал этот пост написан почти на память, на основе
+небольшого конспекта "круглого стола Вконтакте", так что хочется сразу
+извиниться за возможные неточности и недопонимания. Я лишь
+структурировал хаотичную кучу ответов на вопросы. Буду рад уточнениям и
+дополнениям.&lt;/p&gt;
+&lt;p&gt;Если хотите быть в курсе новых веяний в сфере масштабируемости
+высоконагруженных интернет-проектов - по традиции рекомендую
+&lt;a href="/feed/"&gt;подписаться на RSS&lt;/a&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Thu, 28 Oct 2010 21:12:00 +0400</pubDate><guid>tag:www.insight-it.ru,2010-10-28:highload/2010/arkhitektura-vkontakte/</guid><category>Apache</category><category>C++</category><category>Debian</category><category>featured</category><category>ffmpeg</category><category>HAProxy</category><category>highload</category><category>Linux</category><category>Memcached</category><category>mod_php</category><category>MySQL</category><category>nginx</category><category>node.js</category><category>openssl</category><category>PHP</category><category>XCache</category><category>xfs</category><category>Архитектура Вконтакте</category><category>Вконтакте</category></item></channel></rss>

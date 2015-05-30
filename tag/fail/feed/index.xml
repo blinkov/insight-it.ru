@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/fail/feed/index.xml" rel="self"></atom:link><lastBuildDate>Wed, 20 Apr 2011 12:37:00 +0400</lastBuildDate><item><title>Является ли использование продукции Microsoft причиной провала MySpace?</title><link>https://www.insight-it.ru//highload/2011/yavlyaetsya-li-ispolzovanie-produkcii-microsoft-prichinojj-provala-myspace/</link><description>&lt;p&gt;Как известно, &lt;a href="/tag/myspace/"&gt;MySpace&lt;/a&gt; появилась на рынке даже несколько
+раньше, чем &lt;a href="/tag/facebook/"&gt;Facebook&lt;/a&gt;, с практически аналогичным
+продуктом. Но при этом на сегодняшний день Facebook - общепризнанный
+лидер рынка социальных сетей, а MySpace даже далеко не все слышали
+название. С технической точки зрения у проектов совершенно разные
+подходы: Facebook построен на opensource технологиях, типичный LAMP,
+MySpace же полностью использует стек от &lt;a href="/tag/microsoft/"&gt;Microsoft&lt;/a&gt;.
+Некоторое время назад в зарубежной блогосфере зародилась оживленная
+дискуссия на тему: а не выбор ли закрытых технологий стал основной
+причиной проигранной MySpace "гонки" социальных сетей?&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;Вопрос и правда противоречивый: с одной стороны большая часть успеха
+зависит от позиционирования продукта и маркетинга, с другой -
+техническая неповоротливость, вызванная использованием проприетарных
+продуктов, не позволяла развиваться так же быстро, как конкуренты.
+Приведу ссылки на основные "очаги" дискуссии на данную тему:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/9d322b3/" rel="nofollow" target="_blank" title="http://scobleizer.com/2011/03/24/myspaces-death-spiral-due-to-bets-on-los-angeles-and-microsoft"&gt;MySpace's Death Spiral&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/cdb68f2/" rel="nofollow" target="_blank" title="http://highscalability.com/blog/2011/3/25/did-the-microsoft-stack-kill-myspace.html"&gt;Did The Microsoft Stack Kill&amp;nbsp;MySpace?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/a2ceedc5/" rel="nofollow" target="_blank" title="http://highscalability.com/blog/2011/3/31/8-lessons-we-can-learn-from-the-myspace-incident-balance-vis.html"&gt;8 Lessons We Can Learn From The MySpace Incident - Balance, Vision,&amp;nbsp;Fearlessness&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/48dba052/" rel="nofollow" target="_blank" title="http://www.intelligentspeculator.net/investment-talking/why-facebook-is-succeeding-where-myspace-has-failed"&gt;Why Facebook is succeeding where Myspace has failed&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;HackerNews: &lt;a href="https://www.insight-it.ru/goto/36159b1d/" rel="nofollow" target="_blank" title="http://news.ycombinator.com/item?id=2369271"&gt;раз&lt;/a&gt; и
+    &lt;a href="https://www.insight-it.ru/goto/2995e621/" rel="nofollow" target="_blank" title="http://apps.ycombinator.com/item?id=2369343"&gt;два&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Некоторые ключевые точки зрения:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Все интернет-компании в первую очередь технологические.&lt;/strong&gt; Даже
+    если основной тематикой является развлечение, всё равно оно
+    предоставляются посредством технологий.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Все неудачи в бизнесе не связаны с технологиями.&lt;/strong&gt; Если менеджмент
+    не понимает ценность каждого разработчика и не может делегировать
+    полномочия и ответственность - проект не станет успешным. С другой
+    стороны если разработчики не знают какие вещи являются важными для
+    бизнеса, так как их просто не держат в курсе - это так же ничем
+    хорошим не заканчивается.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Нельзя мотивировать разрушение инновации.&lt;/strong&gt; В MySpace основным
+    источником дохода являлась рекламе Google, доход с которой напрямую
+    зависел от количества просмотров страниц и кликов, что в результате
+    подтолкнуло MySpace добавить дополнительные не нужные страницы ко
+    всем действиям пользователей, что абсолютно уничтожило все
+    юзабилити.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Корпоративная разработка и веб-разработка - совершенно разные
+    вещи.&lt;/strong&gt; Не смотря на тот факт, что большинство сошлось во мнении,
+    что ни продукция Microsoft, ни разработчики MySpace не виноваты в
+    провале проекта, тот факт, что между инструментами, подходами и
+    технологиями для разработки масштабируемых интернет-проектов и
+    корпоративных приложений имеется очень большой разрыв, очевиден.
+    Технологии, разработанные для корпоративного рынка, не могут быть
+    без серьезной настройки и доработки использованы в мире крупных
+    интернет-проектов.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Нельзя позволять обратной совместимости останавливать развитие.&lt;/strong&gt;
+    В MySpace этот вопрос касается в большей степени пользовательского
+    интерфейса: пользователи сами могут его настраивать. В итоге при
+    введении каждой новой кнопочки или технологии типа AJAX им
+    приходилось задумываться: "а не сломает ли это страницу при
+    настройках какого-нибудь пользователя?"&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Успех не вечен.&lt;/strong&gt; Изменения нужно вводить в эксплуатацию без
+    страха ошибиться.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Не полагайтесь на единственного клиента.&lt;/strong&gt; Нужно иметь набор
+    различных источников дохода, чтобы быть от них независимыми и
+    продолжать развиваться даже если один из них иссяк.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Определитесь кем вы являетесь.&lt;/strong&gt; Когда битва проиграна, можно
+    переключить фокус на другую нишу, где меньше конкуренции - так новый
+    генеральный директор MySpace переориентировал проект с социальной
+    сети на сервис по открытию для себя новой музыки. Такие решения
+    могут сработать, а могут и нет - но в любом случае это лучше, чем
+    просто закрыть проект.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;С моей точки зрения основной минус закрытых технологий - отсутствие
+полного контроля над всем кодом проекта, если проблемы начинаются в
+"закрытых" компонентах, то их исправление занимает нереальное количество
+времени, так как требует взаимодействия со сторонней компанией, которая?
+скорее всего? не будет торопиться решать каждую конкретную проблему и в
+лучшем случае её исправление будет доступно лишь в следующем релизе
+используемого продукта. Помимо этого, при использовании проприетарных
+технологий у разработчиков меньше понимания того, как работают внутри
+используемые технологии - никакая документация не заменит возможность
+"залезть под капот". В случае же с Microsoft проект совсем связывает
+себя по рукам и ногам, так как воспользовавшись монолитным стеком чаще
+всего нельзя постепенно перейти на другую технологическую базу, так как
+это по сути сводится к полному переписыванию кода проекта, что на
+подобном уровне очень затруднительно. Эти и подобные вещи замедляют
+процесс разработки, а значит и развитие проекта - этот фактор очень
+важен в современном интернет-сообществе, так как, если не двигаться
+вперед, конкуренты догонят и перегонят очень стремительно, как в целом и
+случилось с MySpace.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;А какова твоя точка зрения на данную ситуацию? Может ли неудачное технологическое решение столь кардинально повлиять на успех бизнеса?&lt;/strong&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Wed, 20 Apr 2011 12:37:00 +0400</pubDate><guid>tag:www.insight-it.ru,2011-04-20:highload/2011/yavlyaetsya-li-ispolzovanie-produkcii-microsoft-prichinojj-provala-myspace/</guid><category>Microsoft</category><category>MySpace</category><category>fail</category><category>провал</category></item></channel></rss>

@@ -1,0 +1,702 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/iis/feed/index.xml" rel="self"></atom:link><lastBuildDate>Thu, 31 Mar 2011 16:05:00 +0400</lastBuildDate><item><title>Архитектура Stack Exchange Network</title><link>https://www.insight-it.ru//highload/2011/arkhitektura-stack-exchange-network/</link><description>&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/8d9e30a4/" rel="nofollow" target="_blank" title="http://stackexchange.com/"&gt;Stack Exchange Network&lt;/a&gt; представляет собой
+сеть из 46 сайтов вопросов-ответов на совершенно разные темы от
+программирования до кулинарии. Проект вырос из известной в узких кругах
+тусовки программистов &lt;a href="https://www.insight-it.ru/goto/dd7cd9bb/" rel="nofollow" target="_blank" title="http://stackoverflow.com/"&gt;Stack Overflow&lt;/a&gt;, об
+архитектуре которой &lt;a href="https://www.insight-it.ru/highload/2010/arkhitektura-stack-overflow/"&gt;я уже рассказывал&lt;/a&gt; чуть больше года назад. Проект активно развивается и уже появилось приличное количество новой информации, которой я и спешу с Вами поделиться.
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;h2 id="statistika"&gt;Статистика&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;95 миллионов просмотров страниц в месяц&lt;/li&gt;
+&lt;li&gt;800 HTTP запросов в секунду&lt;/li&gt;
+&lt;li&gt;180 DNS запросов в секунду&lt;/li&gt;
+&lt;li&gt;Загруженность интернет-канала в 55 Мбит/с&lt;/li&gt;
+&lt;li&gt;16 миллионов уникальных пользователей в месяц&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="tekhnologii"&gt;Технологии&lt;/h2&gt;
+&lt;h3 id="razrabotka"&gt;Разработка&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/c/"&gt;C#&lt;/a&gt; - основной язык программирования&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/visual-studio/"&gt;Visual Studio 2010 Team Suite&lt;/a&gt; -&amp;nbsp;IDE&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/asp-net/"&gt;Microsoft ASP.NET 4.0&lt;/a&gt; - framework&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/asp-net-mvc/"&gt;ASP.NET MVC 3&lt;/a&gt; -&amp;nbsp;web Framework&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/razor/"&gt;Razor&lt;/a&gt; - генератор шаблонов&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/jquery/"&gt;jQuery 1.4.2&lt;/a&gt; - JavaScript framework&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/linq-to-sql/"&gt;LINQ to SQL&lt;/a&gt; и немного чистого SQL - доступ к
+    данным&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/mercurial/"&gt;Mercurial&lt;/a&gt; и &lt;a href="/tag/kiln/"&gt;Kiln&lt;/a&gt; - контроль версий
+    исходного кода&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/beyond-compare/"&gt;Beyond Compare 3&lt;/a&gt; - инструмент для сравнения&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="programmnoe-obespechenie"&gt;Программное обеспечение&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/886b3540/" rel="nofollow" target="_blank" title="http://stackoverflow.com/questions/177901/what-does-wisc-stack-mean"&gt;WISC&lt;/a&gt;
+    стек получен условно-бесплатно с
+    помощью&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/b478b941/" rel="nofollow" target="_blank" title="http://blog.stackoverflow.com/2009/03/stack-overflow-and-bizspark/"&gt;BizSpark&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/windows-server/"&gt;Windows Server&lt;/a&gt;&lt;a href="/tag/windows-server-2008/"&gt;2008 R2
+    x64&lt;/a&gt; - основная операционная система&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/ms-sql-server-2008/"&gt;MS SQL Server 2008 R2&lt;/a&gt; на&amp;nbsp;&lt;a href="/tag/windows-server-2008/"&gt;Windows Server
+    2008 Enterprise Edition x64&lt;/a&gt; - база
+    данных&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/ubuntu-server/"&gt;Ubuntu Server&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/centos/"&gt;CentOS&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/iis/"&gt;IIS 7.0&lt;/a&gt; - веб-сервер&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/haproxy/"&gt;HAProxy&lt;/a&gt; - балансировка нагрузки&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/redis/"&gt;Redis&lt;/a&gt; - используется как распределенная система
+    кэширования&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/cruisecontrol-net/"&gt;CruiseControl.NET&lt;/a&gt; - сборки и
+    автоматическая система развертывания кода&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/lucene/"&gt;Lucene.NET&lt;/a&gt; - полнотекстовый поиск&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/bacula/"&gt;Bacula&lt;/a&gt; - резервное копирование&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/nagios/"&gt;Nagios&lt;/a&gt; (с
+    плагинами&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/d576a9fc/" rel="nofollow" target="_blank" title="http://n2rrd.diglinks.com/cgi-bin/trac.fcgi"&gt;n2rrd&lt;/a&gt; и
+    &lt;a href="https://www.insight-it.ru/goto/9b00fbb3/" rel="nofollow" target="_blank" title="http://web.taranis.org/drraw/"&gt;drraw&lt;/a&gt;) для мониторинга&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/splunk/"&gt;Splunk&lt;/a&gt; - сбор и агрегация логов&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/sql-monitor/"&gt;SQL Monitor&lt;/a&gt; от&amp;nbsp;Red Gate - мониторинг SQL Server&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/bind/"&gt;Bind&lt;/a&gt; -&amp;nbsp;DNS&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/dotnetopenid/"&gt;DotNetOpenId&lt;/a&gt; - реализация OpenID на .NET&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/wmd/"&gt;WMD&lt;/a&gt; - текстовый редактор&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/prettify/"&gt;Prettify&lt;/a&gt; - подсветка синтаксиса&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/markdownsharp/"&gt;MarkdownSharp&lt;/a&gt; - обработчик разметки Markdown
+    на C#&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/flot/"&gt;Flot&lt;/a&gt; - построение графиков на JavaScript&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="vneshnie-servisy"&gt;Внешние сервисы&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/recaptcha/"&gt;reCAPTCHA&lt;/a&gt; - защита от спама&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/google-analytics/"&gt;Google Analytics&lt;/a&gt; - веб-аналитика&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/kiln/"&gt;Kiln&lt;/a&gt; - Mercurial хостинг&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/pingdom/"&gt;Pingdom&lt;/a&gt; - внешний мониторинг и уведомления&lt;/li&gt;
+&lt;li&gt;CDN не используется, его роль выполняет&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/a5057c7b/" rel="nofollow" target="_blank" title="http://sstatic.net/"&gt;sstatic.net&lt;/a&gt;, отдельный домен для статичных файлов SEN без cookie&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="oborudovanie_1"&gt;Оборудование&lt;/h2&gt;
+&lt;h3 id="datatsentry"&gt;Датацентры&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;1 стойка в Peak Internet, штат Орегон (чат и обнаружение данных)&lt;/li&gt;
+&lt;li&gt;2 стойки в Peer 1, Нью-Йорк (остальная часть SEN)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="servery"&gt;Серверы&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;10 веб-серверов:&lt;ul&gt;
+&lt;li&gt;Dell R610&lt;/li&gt;
+&lt;li&gt;1x Intel Xeon Processor E5640 @ 2.66 GHz&lt;/li&gt;
+&lt;li&gt;16 GB RAM&lt;/li&gt;
+&lt;li&gt;Windows Server 2008 R2&lt;/li&gt;
+&lt;li&gt;IIS&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;2 сервера баз данных:&lt;ul&gt;
+&lt;li&gt;Dell R710&lt;/li&gt;
+&lt;li&gt;2x Intel Xeon Processor X5680 @ 3.33 GHz&lt;/li&gt;
+&lt;li&gt;64 GB RAM&lt;/li&gt;
+&lt;li&gt;8 жестких дисков&lt;/li&gt;
+&lt;li&gt;MS SQL Server 2008 R2&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;2 виртуальных сервера для балансировки нагрузки:&lt;ul&gt;
+&lt;li&gt;1x Intel Xeon Processor E5640 @ 2.66 GHz&lt;/li&gt;
+&lt;li&gt;4 GB RAM&lt;/li&gt;
+&lt;li&gt;Ubuntu Server&lt;/li&gt;
+&lt;li&gt;HAProxy&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;2 сервера для кэша:&lt;ul&gt;
+&lt;li&gt;Dell R610&lt;/li&gt;
+&lt;li&gt;2x Intel Xeon Processor E5640 @ 2.66 GHz&lt;/li&gt;
+&lt;li&gt;16 GB RAM&lt;/li&gt;
+&lt;li&gt;CentOS&lt;/li&gt;
+&lt;li&gt;Redis&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;1 сервер для резервного копирования:&lt;ul&gt;
+&lt;li&gt;Dell R610&lt;/li&gt;
+&lt;li&gt;1x Intel Xeon Processor E5640 @ 2.66 GHz&lt;/li&gt;
+&lt;li&gt;32 GB RAM&lt;/li&gt;
+&lt;li&gt;Linux&lt;/li&gt;
+&lt;li&gt;Bacula&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;1 сервер для мониторинга, управления и сбора логов:&lt;ul&gt;
+&lt;li&gt;Dell R610&lt;/li&gt;
+&lt;li&gt;1x Intel Xeon Processor E5640 @ 2.66 GHz&lt;/li&gt;
+&lt;li&gt;32 GB RAM&lt;/li&gt;
+&lt;li&gt;Linux&lt;/li&gt;
+&lt;li&gt;Nagios&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;2 сервера для виртуализации:&lt;ul&gt;
+&lt;li&gt;Dell R610&lt;/li&gt;
+&lt;li&gt;1x Intel Xeon Processor E5640 @ 2.66 GHz&lt;/li&gt;
+&lt;li&gt;16 GB RAM&lt;/li&gt;
+&lt;li&gt;VMWare ESXi&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="setevoe-oborudovanie"&gt;Сетевое оборудование&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2 маршрутизатора на Linux&lt;/li&gt;
+&lt;li&gt;5 свитчей &amp;nbsp;Dell PowerConnect&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="prochee"&gt;Прочее&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/aa5532bf/" rel="nofollow" target="_blank" title="http://www.wowwee.com/en/products/tech/telepresence/rovio/rovio"&gt;Rovio&lt;/a&gt; -
+    маленький робот, позволяющий удаленным разработчиком посетить офис
+    "виртуально"&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="komanda_1"&gt;Команда&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;14 разработчиков&lt;/li&gt;
+&lt;li&gt;2 системных администратора&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="chto-novogo"&gt;Что нового?&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;HAProxy стал использоваться вместо Windows NLB так как HAProxy
+    является быстрым, нересурсоемким, бесплатным решением, которое
+    работает. Полностью прозрачен для серверов, легче обслуживать по
+    сравнению со старым решением, располагается на виртуальных машинах.&lt;/li&gt;
+&lt;li&gt;CDN не используется, так как даже "недорогие" решения обходятся в
+    очень приличную сумму по сравнению с тем трафиком, который входит в
+    тарифный план хостинг-провайдера. Самое дешевой решение CDN от
+    Amazon обошлось бы как минимум на тысячу долларов в месяц дороже при
+    текущем уровне использования трафика.&lt;/li&gt;
+&lt;li&gt;Резервное копирование на диски для быстрого восстановления и на
+    кассеты для "истории".&lt;/li&gt;
+&lt;li&gt;Полнотекстный поиск в SQL Server плохо интегрируется, нестабилен и
+    обладает низким качеством результатов, так что они перешли на
+    Lucene.&lt;/li&gt;
+&lt;li&gt;Все сайты в SEN теперь работают на общей платформе: используется
+    общее оборудование и программное обеспечение.&lt;/li&gt;
+&lt;li&gt;Проект разделен на разные сайты для разных ниш, чтобы полностью
+    изолировать группы аудитории, специализирующиеся в каждой конкретной
+    области.&lt;/li&gt;
+&lt;li&gt;Используется агрессивное кэширование, большинство страниц кэшируются
+    в виде HTML для анонимных пользователей средствами IIS.&lt;/li&gt;
+&lt;li&gt;Используется три уровня кэширования: локальный, относящийся к
+    каждому сайту и глобальный.&lt;/li&gt;
+&lt;li&gt;Локальный кэш доступен только для каждой пары сайт/сервер:&lt;ul&gt;
+&lt;li&gt;Используется для уменьшения сетевых задержек, по сути просто
+    через&amp;nbsp;HttpRuntime.Cache.&lt;/li&gt;
+&lt;li&gt;Содержит такие вещи как пользовательские сессии, будущие
+    обновления счетчиков просмотров страниц.&lt;/li&gt;
+&lt;li&gt;Располагается полностью в оперативной памяти веб-сервера.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Кэш сайта доступен для каждого сервера, обрабатывающий запрос к
+    конкретному сайту:&lt;ul&gt;
+&lt;li&gt;Большинство кэшируемых данных располагаются здесь.&lt;/li&gt;
+&lt;li&gt;Располагается в Redis.&lt;/li&gt;
+&lt;li&gt;Redis настолько быстр, что большую часть времени доступа к кэшу
+    занимает передача данных по сети.&lt;/li&gt;
+&lt;li&gt;Данные сжимаются перед отправкой в Redis, так как большинство
+    данных являются строками и у них есть масса свободных
+    вычислительных ресурсов.&lt;/li&gt;
+&lt;li&gt;Использование процессорных ресурсов на серверах с Redis
+    стремится к нулю.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Глобальный кэш является общим для всех серверов и сайтов:&lt;ul&gt;
+&lt;li&gt;Личные сообщения, квоты по API и несколько других по-настоящему
+    глобальных вещей располагаются здесь.&lt;/li&gt;
+&lt;li&gt;Также используется Redis.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Большинство данных в кэше удаляются через заданный период времени
+    (обычно в районе нескольких минут) и практически никогда явно не
+    удаляются.&lt;/li&gt;
+&lt;li&gt;Когда требуется инвалидация кэша на уровне готовых страниц,
+    используется система подписки внутри Redis для отправки сообщений в
+    соответствующую часть системы кэширования.&lt;/li&gt;
+&lt;li&gt;Для системы ввода-вывода они выбрали Intel X25 SSD в RAID10. RAID
+    решил многие вопросы с надежностью, а SSD показывают отличную
+    производительностью по сравнению с&amp;nbsp;FusionIO при существенно более
+    низкой цене.&lt;/li&gt;
+&lt;li&gt;Стоимость лицензий используемых продуктов Microsoft составила бы 242
+    тысячи долларов. Но так как они используют программу BizSpark, им не
+    пришлось платить большую часть этой суммы.&lt;/li&gt;
+&lt;li&gt;Сетевые карты от Broadcom заменяются на сетевые карты от Intel на
+    основных production серверах. Это решило большинство проблем с
+    потерями соединений, пакетов и таблицами ARP.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="istochniki-informatsii"&gt;Источники информации&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/8a78f426/" rel="nofollow" target="_blank" title="http://highscalability.com/blog/2011/3/3/stack-overflow-architecture-update-now-at-95-million-page-vi.html"&gt;Stack Overflow Architecture Update - Now At 95 Million Page Views
+    A&amp;nbsp;Month&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/ac2efccd/" rel="nofollow" target="_blank" title="http://blog.stackoverflow.com/"&gt;Stack Overflow Blog&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/83742213/" rel="nofollow" target="_blank" title="http://blog.serverfault.com/post/1432571770/"&gt;Stack Overflow&amp;rsquo;s New York Data
+    Center&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/7241f829/" rel="nofollow" target="_blank" title="http://blog.serverfault.com/post/1097492931/"&gt;Designing For Scalability of Management and Fault
+    Tolerance&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/955af379/" rel="nofollow" target="_blank" title="http://blog.stackoverflow.com/2011/01/stack-overflow-search-now-81-less-crappy/"&gt;Stack Overflow Search &amp;mdash; Now 81% Less
+    Crappy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/7ab0ab00/" rel="nofollow" target="_blank" title="http://blog.stackoverflow.com/2011/01/state-of-the-stack-2010-a-message-from-your-ceo/"&gt;State of the Stack 2010 (a message from your
+    CEO)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/f4755d56/" rel="nofollow" target="_blank" title="http://blog.stackoverflow.com/2010/01/stack-overflow-network-configuration/"&gt;Stack Overflow Network
+    Configuration&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/d29680fc/" rel="nofollow" target="_blank" title="http://meta.stackoverflow.com/questions/69164/does-stackoverflow-use-caching-and-if-so-how"&gt;Does StackOverflow use caching and if so,
+    how?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/a1f157a/" rel="nofollow" target="_blank" title="http://meta.stackoverflow.com/questions/6435/how-does-stackoverflow-handle-cache-invalidation"&gt;How does StackOverflow handle cache
+    invalidation?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/4812040a/" rel="nofollow" target="_blank" title="http://meta.stackoverflow.com/questions/10369/which-tools-and-technologies-build-the-stack-exchange-network"&gt;Which tools and technologies build the Stack Exchange
+    Network?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/d1cfeccf/" rel="nofollow" target="_blank" title="http://meta.stackoverflow.com/questions/2765/how-does-stack-overflow-handle-spam"&gt;How does Stack Overflow handle
+    spam?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/58e28ee2/" rel="nofollow" target="_blank" title="http://blog.serverfault.com/post/our-storage-decision/"&gt;Our Storage
+    Decision&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/6a63689c/" rel="nofollow" target="_blank" title="http://meta.stackoverflow.com/questions/4766/how-are-hot-questions-selected"&gt;How are &amp;ldquo;Hot&amp;rdquo; Questions
+    Selected?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/90fef20/" rel="nofollow" target="_blank" title="http://blog.stackoverflow.com/2010/04/stack-overflow-and-dvcs/"&gt;Stack Overflow and
+    DVCS&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/fe105178/" rel="nofollow" target="_blank" title="http://chat.stackexchange.com/rooms/127/the-comms-room"&gt;Server Fault Chat
+    Room&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Спасибо за внимание! Для оперативного получения свежей информации о
+&lt;a href="https://www.insight-it.ru/highload/"&gt;высоконагруженных интернет-проектах&lt;/a&gt; рекомендую &lt;a href="/feed/"&gt;подписаться на RSS&lt;/a&gt;.&lt;/strong&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Thu, 31 Mar 2011 16:05:00 +0400</pubDate><guid>tag:www.insight-it.ru,2011-03-31:highload/2011/arkhitektura-stack-exchange-network/</guid><category>ASP .NET</category><category>ASP .NET MVC</category><category>Bacula</category><category>Beyond Compare 3</category><category>Bind</category><category>C++</category><category>CentOS</category><category>CruiseControl.NET</category><category>DotNetOpenId</category><category>Flot</category><category>Google Analytics</category><category>HAProxy</category><category>IIS</category><category>JQuery</category><category>Kiln</category><category>LINQ to SQL</category><category>Lucene</category><category>MarkdownSharp</category><category>Mercurial</category><category>MS SQL Server 2008</category><category>Nagios</category><category>Pingdom</category><category>Prettify</category><category>Razor</category><category>reCAPTCHA</category><category>Redis</category><category>Splunk</category><category>SQL Monitor</category><category>Ubuntu Server</category><category>Visual Studio</category><category>Windows Server</category><category>Windows Server 2008</category><category>WMD</category></item><item><title>Архитектура Plenty of Fish</title><link>https://www.insight-it.ru//highload/2010/arkhitektura-plenty-of-fish/</link><description>&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/fa2360fd/" rel="nofollow" target="_blank" title="http://www.plentyoffish.com/"&gt;Plenty of Fish&lt;/a&gt; представляет собой очень
+популярный сервис онлайн знакомств, насчитывающий более 45 миллионов
+посетителей в месяц и 30+ миллионов просмотров страниц в сутки (что
+составляет около 500-600 страниц в секунду). Но это не самая интересная
+часть истории... Все это управляется единственным человеком при
+использовании нескольких серверов, при этом он тратит на работу всего
+пару часов в день и зарабатывает 6 миллионов долларов на рекламе от
+Google. Завидуете? Я тоже :) Как же ему удалось соединить столько
+влюбленных пар, используя так мало ресурсов?&lt;!--more--&gt;&lt;/p&gt;
+&lt;h2 id="istochniki-informatsii"&gt;Источники информации&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Данный пост является переводом &lt;a href="https://www.insight-it.ru/goto/e06f86e0/" rel="nofollow" target="_blank" title="http://highscalability.com/plentyoffish-architecture"&gt;англоязычной
+статьи&lt;/a&gt;, автор
+оригинала: Todd Hoff.&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/35763c73/" rel="nofollow" target="_blank" title="http://channel9.msdn.com/ShowPost.aspx?PostID=331501#331501"&gt;Channel9 интервью с Markus Frind&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/fa591b8c/" rel="nofollow" target="_blank" title="http://plentyoffish.wordpress.com/%20target="&gt;Блог Markus Frind&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/ed31cb93/" rel="nofollow" target="_blank" title="http://www.readwriteweb.com/archives/plentyoffish_one_billion.php"&gt;Plentyoffish: компания одного человека может стоить 1 миллиард
+долларов&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="platforma"&gt;Платформа&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Microsoft Windows&lt;/li&gt;
+&lt;li&gt;ASP.NET&lt;/li&gt;
+&lt;li&gt;IIS&lt;/li&gt;
+&lt;li&gt;Akamai CDN&lt;/li&gt;
+&lt;li&gt;Foundry ServerIron Load Balancer&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="statistika"&gt;Статистика&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;PlentyOfFish (POF) имеет 1.2 миллиарда просмотров страниц в месяц, в
+среднем 500 тысяч уникальных авторизованных пользователей в день.
+Пиковый сезон приходится на январь каждого года, когда эти цифры
+возрастают на 30%.&lt;/li&gt;
+&lt;li&gt;POF имеет единственного сотрудника: создатель и генеральный директор
+Markus Frind.&lt;/li&gt;
+&lt;li&gt;Зарабатывает до 10 миллионов долларов в год на рекламе от Google,
+работает при этом только около двух часов в день.&lt;/li&gt;
+&lt;li&gt;30+ миллионов просмотров страниц в день (500 - 600 страниц в секунду).&lt;/li&gt;
+&lt;li&gt;1.2 миллиарда просмотров страниц и 45 миллионов посетителей в месяц.&lt;/li&gt;
+&lt;li&gt;Имеет &lt;a href="https://www.insight-it.ru/goto/ca40875e/" rel="nofollow" target="_blank" title="http://ru.wikipedia.org/wiki/CTR_(%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%BD%D0%B5%D1%82)"&gt;CTR&lt;/a&gt; в 5-10 раз выше, чем Facebook.&lt;/li&gt;
+&lt;li&gt;Находится в top 30 сайтов США по данным Competes Attention, top 10 в Канаде и top 30 в Великобритании.&lt;/li&gt;
+&lt;li&gt;Нагрузка балансируется между двумя веб-серверами с 2 Quad Core Intel
+Xeon X5355 @ 2.66Ghz, 8GB RAM (используется около 800 MB), 2 жесткими
+дисками, работают под управлением Windows x64 Server 2003.&lt;/li&gt;
+&lt;li&gt;3 сервера баз данных. Информация об их конфигурации не предоставляется.&lt;/li&gt;
+&lt;li&gt;Приближается к 64000 одновременных соединений и 2 миллионам просмотрам
+страниц в час.&lt;/li&gt;
+&lt;li&gt;Интернет-канал в 1Gbps, из которых используется только 200Mbps.&lt;/li&gt;
+&lt;li&gt;1 TB трафика от отдачи 171 миллионов изображений через Akamai.&lt;/li&gt;
+&lt;li&gt;6TB система хранения данных для обработки миллионов полноразмерных
+изображений, которые загружаются на сайт каждый месяц.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="chto-vnutri"&gt;Что внутри?&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Модель монетизации заключалась в использовании рекламы от Google.
+Match.com, для сравнения, получает 300 миллионов долларов в год, в
+основном с платных подписок. Источник дохода POF должен измениться,
+чтобы позволить ему получать больше выручки от имеющихся пользователей.
+Планируется нанять больше сотрудников, в частности людей, которые будут
+заниматься продажей рекламы напрямую вместо того, чтобы полностью
+полагаться на AdSense.&lt;/li&gt;
+&lt;li&gt;При 30 миллионах просмотрах страниц в день можно зарабатывать неплохие
+деньги на рекламе, даже
+если&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/b1c7d720/" rel="nofollow" target="_blank" title="http://en.wikipedia.org/wiki/Cost_per_mille"&gt;CPM&lt;/a&gt; будет всего 5-10
+центов.&lt;/li&gt;
+&lt;li&gt;Akamai используется для отдачи более 100 миллионов изображений в день.
+Если на странице 8 изображений и каждое загружается за 100 миллисекунд -
+их загрузка займет почти секунду, так что распределение изображений
+целесообразно.&lt;/li&gt;
+&lt;li&gt;Десятки миллионов изображений отдаются с серверов POF, но большинство из
+них размером меньше 2KB и практически полностью закешированы в
+оперативной памяти.&lt;/li&gt;
+&lt;li&gt;Все динамично. Практически никакой статики.&lt;/li&gt;
+&lt;li&gt;Все исходящие данные сжимаются с использованием Gzip, что обходится
+всего 30% использованием процессорного времени. Используется много
+вычислительных ресурсов, но зато существенно сокращается использование
+пропускной способности интернет-канала.&lt;/li&gt;
+&lt;li&gt;Кэширование ASP .NET не используется, так как данные теряют свою
+актуальность практически сразу же.&lt;/li&gt;
+&lt;li&gt;Встроенные компоненты ASP также не используется. Почти все написано с
+чистого листа. Ничего не может быть более сложным, чем кучка простых
+if-then-else и циклов. Все максимально элементарно.&lt;/li&gt;
+&lt;li&gt;Балансировка нагрузки:&lt;/li&gt;
+&lt;li&gt;IIS произвольно ограничивает общее количество соединений до 64000,
+таким образом балансировщик нагрузки был добавлен для обработки большего
+количества одновременных соединений. Вариант с добавлением второго IP
+адреса и использованием round robin DNS также рассматривался, но вариант
+с балансировщиком нагрузки выглядел более избыточным и позволял более
+легко расширять количество серверов. Помимо этого ServerIron позволял
+использовать более продвинутую функциональность, вроде блокировки ботов
+и балансировку запросов по cookies, сессиям или IP-адресам
+пользователей.&lt;/li&gt;
+&lt;li&gt;Windows Network Load Balancing (NLB) функция не использовалась, так
+как не поддерживает привязку сессий к серверам. Обходным путем было бы
+хранение сессионных данных в базе данных или общей файловой системе.&lt;/li&gt;
+&lt;li&gt;8-12 NLB серверов могут объединяться в кластер и может использоваться
+неограниченное количество таких кластеров. Схема DNS round robin может
+использоваться для распределения запросов между кластерами. Теоретически
+такая архитектура могла бы позволить 70 веб-серверам обрабатывать более&amp;nbsp;300 тысяч одновременных соединений.&lt;/li&gt;
+&lt;li&gt;NLB имеет опцию для отправки каждого пользователя на конкретный
+сервер, таким образом не используется внешнее хранилище для сессионных
+данных и если сервер выходит из строя - пользователи просто
+разлогиниваются из системы. Если это состояние включает в себя например
+корзину интернет-магазина или какую-то другую важную информацию, то
+такой подход мог бы показаться&amp;nbsp;неприемлемым, но для сайта знакомств это
+было бы не так критично.&lt;/li&gt;
+&lt;li&gt;Было решено, что хранение и получение сессионных данных программными
+средствами слишком дорого. Аппаратная балансировка нагрузка проще:
+пользователи просто назначаются конкретным серверам и в случае сбоя
+сервера назначенным ему пользователям предлагается пройти процесс
+авторизации еще раз.&lt;/li&gt;
+&lt;li&gt;Покупка ServerIron была дешевле и проще, чем использование NLB.
+Многие крупные сайты используют их для создания пулов TCP соединений,
+автоматическому определению ботов и так далее. ServerIron может делать
+намного больше, чем просто балансировать нагрузку и такие функции
+достаточно привлекательные за эту цену.&lt;/li&gt;
+&lt;li&gt;Была большая проблема с выбором системы размещения рекламы. Многие из
+них хотели несколько сотен тысяч в год и многолетний контракт.&lt;/li&gt;
+&lt;li&gt;В процессе избавления от ASP.NET повторителей и использование взамен
+конкатенации строк или response.write. Если у вас миллионы просмотров
+страниц в день - просто напишите весь код для отображения на экране
+пользователя.&lt;/li&gt;
+&lt;li&gt;Большинство изначальных вложений ушло на построение SAN. Избыточность
+любой ценой.&lt;/li&gt;
+&lt;li&gt;Рост был за счет вирусного эффекта. Портал начал набирать популярность в
+Канаде, затем о нем узнали в Великобритании и Австралии, и только потом
+в США.&lt;/li&gt;
+&lt;li&gt;База данных:&lt;/li&gt;
+&lt;li&gt;Одна база данных является основной.&lt;/li&gt;
+&lt;li&gt;Две базы данных для поиска. Поисковые запросы распределяются по их типу.&lt;/li&gt;
+&lt;li&gt;Производительность наблюдается через диспетчер задач. Когда
+появляются пики - ситуация рассматривается более детально. Проблемы
+обычно заключались в блокировках на уровне СУБД. Собственно говоря почти
+всегда это были проблемы с базами данных, очень редко они возникают на
+уровне .NET. Так как POF не использует библиотеки .NET, отследить
+проблемы с производительностью оказывается достаточно просто. Если бы
+использовалось много уровней framework'ов, поиск мест, где скрываются
+проблемы, был бы трудным и утомляющим.&lt;/li&gt;
+&lt;li&gt;Если Вы делаете запрос к базе данных 20 раз при отображении одной
+страницы, &amp;nbsp;Вы проиграли в любом случае, вне зависимости от того, что Вы
+будете делать.&lt;/li&gt;
+&lt;li&gt;Разделяйте запросы чтения и записи к базе данных. Если у вас нет
+избыточного количества оперативной памяти не следование этому правилу
+может заставить систему зависнуть на несколько секунд.&lt;/li&gt;
+&lt;li&gt;Постарайтесь делать базы данных только для чтения.&lt;/li&gt;
+&lt;li&gt;Денормализуйте данные. Если Вам приходится доставать данные из 20
+разных таблиц, попробуйте сделать просто одну таблицу, где будут лежать
+все нужные для чтения данные.&lt;/li&gt;
+&lt;li&gt;Один день может проработать почти что угодно, но когда Ваша база
+данных удвоится - использованные подход может внезапно перестать
+работать.&lt;/li&gt;
+&lt;li&gt;Если система делает только что-то одно, она будет делать это реально
+хорошо. Только записывайте данные и все будет нормально. Только читайте
+данные и все будет нормально. Делайте и то и другое - и все испортится.
+База данных погрязнет в проблемах с блокировками.&lt;/li&gt;
+&lt;li&gt;Если Вы полностью используете вычислительные мощности, Вы либо
+делаете что-то не так, либо Ваша система на самом деле очень
+оптимизирована. Если вы можете разместить всю базу в оперативной
+памяти - обязательно делайте это.&lt;/li&gt;
+&lt;li&gt;Процесс разработки выглядит примерно следующим образом: появляется идея,
+быстро реализуется и выдается пользователям в пределах 24 часов. Отклик
+от пользователей получается по слежению за тем, что они делают на сайте:
+выросло количество сообщений на пользователя? среднее время сессий
+выросло? Если пользователям новая фишка не пришлась по вкусу - просто
+уберите её.&lt;/li&gt;
+&lt;li&gt;При небольшом количестве серверов системные сбои достаточно редки и
+краткосрочны. Наибольшими сложностями были проблемы с DNS, когда
+некоторые интернет-провайдеры говорили, что POF больше не существует. Но
+так как сайт бесплатен, пользователи нормально относятся к небольшим
+периодам его недоступности. Люди часто не замечают простой сайта, так
+как думают, что это какая-то проблема у них, с интернет-соединением или
+еще чем-то.&lt;/li&gt;
+&lt;li&gt;Переход от миллиона пользователей к 12 миллионам пользователей был
+большим прыжком. Система может обслуживать и 60 миллионов пользователей
+с двумя веб-серверами.&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Часто смотрите на конкурентов для идей новых функциональных
+возможностей.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Рассмотрите использование чего-то вроде S3, когда система начнет
+требовать географической балансировки.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="podvodim-itogi"&gt;Подводим итоги&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Вам не нужны миллионы в финансировании, размашистая инфраструктура и
+целое здание сотрудников для того, чтобы создать вебсайт мирового
+уровня, который обслуживает кучу пользователей и приносит неплохие
+деньги. Все что нужно - всего лишь привлекательная идея, которая
+понравится большому количеству идей, сайт, который становится популярным
+благодаря слухам, а также опыт и видение для построения сайта, не
+наступая на типичные "грабли". Вот и все, что Вам нужно :-)&lt;/li&gt;
+&lt;li&gt;Необходимость - мать всех изменений.&lt;/li&gt;
+&lt;li&gt;Когда вы растете быстро, но не слишком быстро, у Вас появляется шанс
+расти, модифицировать и адаптироваться.&lt;/li&gt;
+&lt;li&gt;Максимальное использование оперативной памяти решает массу проблем.
+После этого рост возможен просто за счет использование более мощных
+серверов.&lt;/li&gt;
+&lt;li&gt;В начале старайтесь держать все максимально простым. Практически все
+дают этот же самый совет, а Markus говорит, что все что он делает -
+всего лишь очевидный здравый смысл. Но то что просто, не всегда означает
+всего лишь осмысленную вещь. Создание простых вещей является результатом
+многих лет практического опыта.&lt;/li&gt;
+&lt;li&gt;Поддерживайте время доступа к базе данных быстрым и у Вас не будет
+проблем.&lt;/li&gt;
+&lt;li&gt;Одной из основных причин, по которой POF может работать с таким
+небольшим количеством сотрудников и оборудования, является использование
+CDN для отдачи активно используемого контента. Использование CDN может
+оказаться секретным соусом для многих крупных сайтов. Markus считает,
+что в top 100 не существует ни одного сайта, не использующего CDN. Без
+CDN время загрузки страницы в Австралии возросло бы до 3-4 секунд только
+за счет изображений.&lt;/li&gt;
+&lt;li&gt;Реклама на Facebook принесла плохие результаты. Из 2000 кликов только 1
+человек регистрировался. С CTR равным 0.04% Facebook выдавал 0.4 клика
+на 1000 показов рекламы (CPM). При 5 центах CPM = 12.5 центов за клик,
+50 центах CPM = 1.25\$ за клик. 1 доллар CPM = 2.50\$ за клик. 15\$ CPM
+= 37.50\$ за клик.&lt;/li&gt;
+&lt;li&gt;Это просто продавать несколько миллионов просмотров страниц с высоким
+CPM, но НАМНОГО сложнее продавать миллиарды просмотров с высоким CPM,
+как это делают Myspace и Facebook.&lt;/li&gt;
+&lt;li&gt;Модель монетизации, основанная на рекламе, ограничивает Ваши доходы. Вам
+придется переходить к платной модели чтобы повышать прибыль.
+Генерировать 100 миллионов долларов в год за счет бесплатного сайта
+практически невозможно - Вам потребуется слишком большой рынок.&lt;/li&gt;
+&lt;li&gt;Повышение количества просмотров за счет Facebook не работает для сайтов
+знакомств. Иметь посетителя на собственном сайте намного более
+прибыльно. Большинство просмотров страниц на Facebook находятся за
+пределами США и Вам придется делить 5 центов CPM с Facebook.&lt;/li&gt;
+&lt;li&gt;Предложение пользователям при регистрации получить информацию об ипотеке
+или каком-то другом продукте, может стать неплохим источником
+дополнительной выручки.&lt;/li&gt;
+&lt;li&gt;Вы не можете постоянно прислушиваться к отзывам пользователей. Кому-то
+всегда будут нравиться новые функции, а кто-то всегда будет их
+ненавидеть, но только часть из них сообщит Вам об этом. Вместо этого
+лучше смотреть как новые функции влияют на то, чем люди на самом деле
+занимаются, просто смотря на Ваш сайт и статистику его использования.&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Mon, 18 Jan 2010 16:43:00 +0300</pubDate><guid>tag:www.insight-it.ru,2010-01-18:highload/2010/arkhitektura-plenty-of-fish/</guid><category>Akamai CDN</category><category>ASP</category><category>ASP .NET</category><category>dating</category><category>Foundry</category><category>IIS</category><category>Microsoft</category><category>online</category><category>Plenty of Fish</category><category>POF</category><category>ServerIron</category><category>Windows</category><category>Windows Server</category><category>архитектура</category><category>Архитектура Plenty of Fish</category><category>Масштабируемость</category><category>сайт знакомств</category></item><item><title>Архитектура MySpace</title><link>https://www.insight-it.ru//highload/2009/arkhitektura-myspace/</link><description>&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/f989d588/" rel="nofollow" target="_blank" title="http://www.myspace.com"&gt;MySpace.com&lt;/a&gt; является одним из наиболее быстро
+набирающих популярность сайтов в Интернете с 65 миллионами пользователей
+и 260000 регистрациями в день. Этот сайт часто подвергается критике
+из-за не достаточной производительности, хотя на самом деле MySpace
+удалось избежать ряда проблем с масштабируемостью, с которыми
+большинство других сайтов неизбежно сталкивались. Как же им это
+удалось?
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;h2 id="istochniki-informatsii"&gt;Источники информации&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Данная статья является переводом статьи &lt;a href="https://www.insight-it.ru/goto/e9f0b809/" rel="nofollow" target="_blank" title="http://highscalability.com/blog/2009/2/12/myspace-architecture.html"&gt;MySpace
+Architecture&lt;/a&gt;,
+автором которой является Todd Hoff. Когда-то давно один из читателей
+этого блога просил меня осветить и эту тему, тогда я так и не решился
+из-за отсутствия моего личного интереса, но сейчас снова случайно
+наткнулся на эту статью и подумал: а почему бы и нет?&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/45549701/" rel="nofollow" target="_blank" title="http://www.infoq.com/news/2009/02/MySpace-Dan-Farino"&gt;Презентация: за сценой MySpace.com&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/8d5c1d4d/" rel="nofollow" target="_blank" title="http://www.baselinemag.com/c/a/Projects-Networks-and-Storage/Inside-MySpacecom/"&gt;Внутри MySpace.com&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="platforma"&gt;Платформа&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;ASP .NET 2.0&lt;/li&gt;
+&lt;li&gt;Windows&lt;/li&gt;
+&lt;li&gt;IIS&lt;/li&gt;
+&lt;li&gt;MSSQL Server&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="chto-vnutri"&gt;Что внутри?&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;300 миллионов пользователей.&lt;/li&gt;
+&lt;li&gt;Отдает 100Gbps в Интернет. 10Gbps из них является HTML контентом.&lt;/li&gt;
+&lt;li&gt;4,500+ веб серверов со связкой: Windows 2003 / IIS 6.0 / ASP .NET.&lt;/li&gt;
+&lt;li&gt;1,200+ кэширующих серверов, работающих на 64-bit Windows 2003. На
+    каждом 16GB объектов находятся в кэше в оперативной памяти.&lt;/li&gt;
+&lt;li&gt;500+ серверов баз данных, работающих на 64-bit Windows и SQL Server
+    2005.&lt;/li&gt;
+&lt;li&gt;MySpace обрабатывает 1.5 миллиарда просмотров страниц в день, а
+    также 2.3 миллионов одновременно работающих пользователей в течении
+    дня.&lt;/li&gt;
+&lt;li&gt;Вехи по количеству пользователей:&lt;ul&gt;
+&lt;li&gt;500 тысяч пользователей: простая архитектура перестает
+справляться&lt;/li&gt;
+&lt;li&gt;1 миллион пользователей: вертикальное партиционирование временно
+спасает от основных болезненных вопросов с масштабированием&lt;/li&gt;
+&lt;li&gt;3 миллиона пользователей: горизонтальное масштабирование
+побеждает над вертикальным&lt;/li&gt;
+&lt;li&gt;9 миллионов пользователей: сайт мигрирует на ASP.NET, создается
+виртуализированная система хранения данных (SAN)&lt;/li&gt;
+&lt;li&gt;26 миллионов пользователей: MySpace переходит на 64-битную
+технологию.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;500 тысяч учетных записей было многовато для двух веб-серверов и
+    одного сервера баз данных.&lt;/li&gt;
+&lt;li&gt;На 1-2 миллионах учетных записей:&lt;ul&gt;
+&lt;li&gt;Они использовали архитектуру базы данных, построенную на
+концепции вертикального партиционирования, с отдельными базами
+данных для разных частей сайта, которые использовались для
+выполнения различных функций, таких как экран авторизации, профили
+пользователей и блоги.&lt;/li&gt;
+&lt;li&gt;Схема с вертикальным партиционированием помогала разделить
+нагрузку как для операций чтения, так и для операций записи, а если
+пользователям в друг оказывалась нужна новая функциональная
+возможность - достаточно было просто добавить еще один сервер баз
+данных для её обслуживания.&lt;/li&gt;
+&lt;li&gt;MySpace переходит от использования систем хранения, подключенных
+к серверам баз данных напрямую, к сетям хранения данных (SAN), при
+таком подходе целый массив систем хранения объединяется вместе
+специализированной сетью с высокой пропускной способностью, и
+сервера баз данных также получают доступ к хранилищам через эту
+сеть. Переход к SAN оказал положительное влияние как на
+производительность, так и на доступность и надежность системы.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;На 3 миллионах учетных записей:&lt;ul&gt;
+&lt;li&gt;Решение с вертикальным партиционированием не протянуло долго, так
+как им приходилось реплицировать какую-то часть информации (например
+информацию об учетных записях) по всем вертикальным частям базы
+данных. С таким большим количеством операций репликации данных один
+узел даже при незначительном сбое мог существенно замедлить
+обновление информации во всей системе.&lt;/li&gt;
+&lt;li&gt;Индивидуальные приложения вроде блогов на под-секциях сайта
+достаточно быстро стали слишком большими для нормальной работы с
+единственным сервером базы данных&lt;/li&gt;
+&lt;li&gt;Произведена реорганизация всех ключевых данных для более логичной
+организации в единственную базу данных&lt;/li&gt;
+&lt;li&gt;Пользователи были разбиты на группы по миллиону в каждой и каждая
+такая группа была перемещена на отдельный SQL Server&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;9&amp;ndash;17 миллионов учетных записей:&lt;ul&gt;
+&lt;li&gt;Переход на ASP .NET, который требовал меньше ресурсов по
+сравнению с их предыдущим вариантом архитектуры. 150 серверов,
+использовавших новый код могли обработать нагрузку, для которой
+раньше требовалось 246 серверов.&lt;/li&gt;
+&lt;li&gt;Снова пришлось столкнуться с узким местом в системе хранения
+данных. Реализация SAN решило какую-то часть старых проблем с
+производительностью, но на тот момент потребности сайта начали
+периодически превосходить возможности SAN по пропускной способности
+операций ввода-вывода - той скорости, с которой она может читать и
+писать данные на дисковые массивы.&lt;/li&gt;
+&lt;li&gt;Столкнулись с лимитом производительности при размещении миллиона
+учетных записей на одном сервере, ресурсы некоторых серверов начали
+исчерпываться.&lt;/li&gt;
+&lt;li&gt;Переход к виртуальному хранилищу, где весь SAN рассматривается
+как одно большое общее место для хранения данных, без необходимости
+назначать конкретные диски для хранения данных определенной части
+приложения. MySpace на данный момент работает со стандартизированным
+оборудованием от достаточно нового вендора SAN - 3PARdata&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Был добавлен кэширующий уровень &amp;mdash; прослойка из специализированных
+    серверов, расположенных между веб-серверами и серверами данных, чья
+    единственная задача была захватывать копии часто запрашиваемых
+    объектов с данными в памяти и отдавать их веб-серверам для
+    минимизации количества поиска данных в СУБД.&lt;/li&gt;
+&lt;li&gt;26 миллионов учетных записей:&lt;ul&gt;
+&lt;li&gt;Переход на 64-битные сервера с SQL Server на правах решения
+проблемы с недостатком оперативной памяти. С тех пор их стандартный
+сервер баз данных оснащен 64 GB RAM.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Горизонтальная федерация баз данных&lt;/strong&gt;. Базы данных
+    партиционируются в зависимости от своего назначения. У них есть базы
+    данных с профилями, электронными сообщениями и так далее. Каждая
+    партиция основана на диапазоне пользователей. По миллиону в каждой
+    базе данных. Таким образом, у них есть Profile1, Profile2 и все
+    остальные базы данных вплоть до Profile300, если считать, что у них
+    на данный момент зарегистрировано 300 миллионов учетных записей.&lt;/li&gt;
+&lt;li&gt;Кэш ASP не используется, так как он не обеспечивает достаточного
+    процента попаданий на веб серверах. Кэш, организованный как
+    промежуточный слой, имеет существенно более высокое значение данного
+    показателя.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Изоляция сбоев&lt;/strong&gt;. Внутри веб-сервера запросы сегментируются по
+    базам данным. Разрешено использование только 7 потоков для работы с
+    каждой базой данных. Таким образом, если база данных по каким-то
+    причинам начинает работать медленно, только эти потоки замедлятся, в
+    то время как остальные потоки будут успешно продолжать обрабатывать
+    поток трафика.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="rabota-saita"&gt;Работа сайта&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Коллектор данных о производительности&lt;/strong&gt;. Централизованная система
+    сбора информации о производительности через UDP. Такой подход более
+    надежен, чем стандартный механизм Windows, а также позволяет любому
+    клиенту подключиться и увидеть статистику.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Веб-система по просмотру дампов стеков процессов&lt;/strong&gt;. Можно просто
+    сделать клик правой кнопкой мыши на проблемном сервере и увидеть
+    дамп стека процессов, управляемых .NET. И это после привычки каждой
+    раз удаленно подключаться к серверу, включать дебаггер и через
+    полчаса получать свой ответ о том что же все таки происходит.
+    Медленно, немасштабируемо и утомительно. Эта же система позволяет
+    увидеть не просто стек процесса, но и предоставляет большое
+    количество информации о контексте, в котором он работает.
+    Обнаружение проблем намного проще при таком подходе, например можно
+    легко увидеть, что база не отвечает, так как 90 ее потоков
+    заблокировано.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Веб-система создания дампа heap-памяти&lt;/strong&gt;. Создает дамп всей
+    выделенной памяти. Очень удобно и полезно для разработчиков.
+    Сэкономьте часы на выполнение этой работы вручную.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Профайлер&lt;/strong&gt;. Прослеживает запрос от начала до конца и выводит
+    подробный отчет. В нем можно увидеть URL, методы, статус, а также
+    все, что поможет идентифицировать медленный запрос и его причины.
+    Обнаруживает проблемы с блокировкой потоков, непредвиденными
+    исключениями, другими словами все, что может оказаться интересным. В
+    то же время остается очень легковесным решением. Работает на одной
+    машине из каждой VIP (группа из 100 серверов) в production-среде.
+    Опрашивает 1 поток каждые 10 секунд. Постоянно следит за системой в
+    фоновом режиме.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Powershell&lt;/strong&gt;. Новая программная оболочка от Microsoft, которая
+    работает в процессе и передаем объекты между командами вместо работы
+    с текстовыми данными. MySpace разрабатывает множество так называемых
+    commandlets'ов для поддержки различных операций.&lt;/li&gt;
+&lt;li&gt;Разработана собственная технология асинхронной коммуникации для
+    того, чтобы обойти проблемы с сетевыми проблемами Windows и работать
+    с серверами как с группой. Например, она позволяет доставить файл
+    .cs, скомпилировать его, запустить, и доставить результат обратно.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Развертывание&lt;/strong&gt;. Обновление кодовой базы происходит с помощью
+    упомянутой выше собственной технологии. Ранее происходило до 5 таких
+    обновлений в день, сейчас же они происходят лишь раз в неделю.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="podvodim-itogi"&gt;Подводим итоги&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;С помощью стека Microsoft тоже можно делать большие веб-сайты.&lt;/li&gt;
+&lt;li&gt;Стоит использовать кэширование с самого начала.&lt;/li&gt;
+&lt;li&gt;Кэш является более подходящим местом для хранения временных данных,
+    не требующих персистентности, например информации о пользовательских
+    сессиях.&lt;/li&gt;
+&lt;li&gt;Встроенные в операционные систему возможности, например по
+    обнаружению DDoS-атака, могут приводить к необъяснимым сбоям.&lt;/li&gt;
+&lt;li&gt;Храните свои данные в географически удаленных датацентрах для
+    минимизации проблем, связанных со сбоями в электросети.&lt;/li&gt;
+&lt;li&gt;Рассматривайте возможности использования виртуализированных систем
+    хранения данных или кластерных файловых систем с самого начала. Это
+    позволит существенно параллелизировать операции ввода-вывода, а
+    также увеличивать дисковое пространство без необходимости какой-либо
+    реорганизации.&lt;/li&gt;
+&lt;li&gt;Разрабатывайте утилиты для работы с production окружением.
+    Невозможно смоделировать все ситуации в тестовой среде.
+    Масштабируемость и все различные варианты использования API не могут
+    быть симулированы в процессе тестирования качества программного
+    обеспечения. Обычные пользователи и хакеры обязательно найдут такие
+    способы использования вашего продукта, о которых вы даже никогда и
+    не подумаете в процессе тестирования, хотя конечно большая часть все
+    же обнаружима в процессе QA тестирования.&lt;/li&gt;
+&lt;li&gt;Когда это возможно - лучше просто использовать дополнительное
+    оборудование для решения проблем. Это намного проще, чем изменять
+    поведение программного обеспечения для того чтобы решать задачи
+    как-то по-другому. Примером может служить добавление нового сервера
+    на каждый миллион пользователей. Возможно было бы более эффективным
+    изменить подход к самой работе с СУБД, но на практике все же проще и
+    дешевле добавлять все новые и новые сервера. По крайней мере на
+    данный момент.&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Mon, 21 Dec 2009 16:15:00 +0300</pubDate><guid>tag:www.insight-it.ru,2009-12-21:highload/2009/arkhitektura-myspace/</guid><category>ASP</category><category>ASP .NET</category><category>highload</category><category>IIS</category><category>Microsoft</category><category>MSSQL</category><category>MySpace</category><category>myspace.com</category><category>online</category><category>Windows</category><category>Windows Server</category><category>архитектура</category><category>архитектура MySpace</category><category>Масштабируемость</category></item></channel></rss>

@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/template/feed/index.xml" rel="self"></atom:link><lastBuildDate>Fri, 13 Apr 2012 08:00:00 +0400</lastBuildDate><item><title>Повторное использование шаблонов</title><link>https://www.insight-it.ru//interactive/2012/povtornoe-ispolzovanie-shablonov/</link><description>&lt;blockquote&gt;
+&lt;p&gt;Лень - двигатель прогресса&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Сегодня мы рассмотрим способ, позволяющий немного упростить себе жизнь
+при создании &lt;a href="https://www.insight-it.ru/interactive/"&gt;интерактивного сайта&lt;/a&gt;&amp;nbsp;путем повторного использования шаблонов. Визуально результат будет примерно таким же, как при дублировании бизнес-логики в браузере, но ценой существенно меньших
+трудозатрат на разработку JavaScript-клиента, да и на серверной части
+тоже. Хотите узнать как это провернуть?&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Небольшая ремарка, чтобы не было недопонимания из-за терминологии:&lt;/p&gt;
+&lt;div class="card blue lighten-4"&gt;
+&lt;div class="card-content"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Шаблон&lt;/strong&gt;&amp;ensp;&lt;em&gt;(template)&lt;/em&gt; : HTML-документ с расширенным набором тегов,
+    которые впоследствии используются для подстановки динамических
+    данных.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Шаблонизатор&lt;/strong&gt;&amp;ensp;&lt;em&gt;(templating engine)&lt;/em&gt; : библиотека, позволяющая на
+    основе &lt;em&gt;шаблона&lt;/em&gt; (использующего определенный синтаксис
+    дополнительных тегов) и &lt;em&gt;динамических данных&lt;/em&gt; получить итоговый
+    HTML-документ, пригодный для отображения в браузере.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Рендеринг&lt;/strong&gt;&amp;ensp;&lt;em&gt;(rendering)&lt;/em&gt; : в данном контексте &amp;mdash; процесс, которым занимается шаблонизатор.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;h2 id="obshchii-printsip"&gt;Общий принцип&lt;/h2&gt;
+&lt;p&gt;Чтобы сразу в голове сложилась нужная картина, начнем с дополненной
+схемы из статьи про &lt;a href="https://www.insight-it.ru/interactive/2012/arkhitektura-interaktivnykh-sajjtov/"&gt;архитектуру интерактивных сайтов&lt;/a&gt;:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Повторное использование шаблонов" class="responsive-img" src="https://www.insight-it.ru/images/templates.jpeg" title="Повторное использование шаблонов"/&gt;&lt;/p&gt;
+&lt;p&gt;Если вкратце, то стандартный интерфейс внутренних сервисов, скрывающихся
+за блоком &lt;strong&gt;"Бизнес-логика"&lt;/strong&gt;, можно реализовать таким образом, чтобы он
+возвращал все необходимые данные для рендеринга шаблона плюс его имя.
+База &lt;strong&gt;шаблонов&lt;/strong&gt; у всех общая, у каждого уникальное имя, каждый сервер
+интерфейсов (обоих) держит по копии всех шаблонов в памяти.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;HTML интерфейс&lt;/strong&gt; просто разбирает HTTP-запросы, отправляет на его
+основе сообщение(ия) внутренним сервисам, получает в ответ имя шаблона и
+данные для его заполнения, с помощью &lt;strong&gt;шаблонизатора&lt;/strong&gt; рендерит итоговый
+&lt;a href="/tag/html/"&gt;HTML&lt;/a&gt; и отдает браузеру или роботу.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Интерфейс сериализованных данных&lt;/strong&gt;&amp;ensp;&lt;em&gt;(если он, как и обсуждалось ранее,
+работает через &lt;a href="https://www.insight-it.ru/interactive/2012/postoyannoe-soedinenie-mezhdu-brauzerom-i-serverom/"&gt;постоянное соединение с браузером&lt;/a&gt;)&lt;/em&gt;&amp;nbsp;каждому
+подключившемуся клиенту первым делом отправляет
+&lt;a href="/tag/json/"&gt;JSON&lt;/a&gt;-объект с шаблонами, по крайней мере если их не особо
+много, иначе лучше "по запросу". При действии пользователя
+JavaScript-клиент отправляет сообщение с информацией, на его основе
+интерфейс сериализованных данных передает то же самое (а может и как-то
+модифицированное) сообщение внутреннему сервису, также получает в ответ
+имя шаблона и данные и перенаправляет их клиенту (возможно
+сконвертировав в другой формат). Клиенту остается передать их своему
+шаблонизатору и заменить результатом его работы какую-то часть уже
+имеющегося в окне браузера HTML-документа.&lt;/p&gt;
+&lt;h2 id="rendering"&gt;Рендеринг&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Шаблонизаторов&lt;/strong&gt; сейчас доступно огромное количество под любую
+платформу, с разной производительностью и возможностями, но чтобы
+воплотить эту стратегию в жизнь подойдут далеко не все. Два основных
+требования:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Отсутствие внешних вызовов при рендеринге&lt;/em&gt;, то есть на входе только
+    данные, если используются какие-то фильтры или что-то такое - они
+    должны быть частью шаблонизатора.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Шаблонизатор должен иметь реализацию на JavaScript&lt;/em&gt;, так как будет
+    исполняться в том числе и в браузере.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Да, многофункциональные шаблонизаторы вроде &lt;a href="/tag/jinja2/"&gt;Jinja2&lt;/a&gt; - это
+очень удобно, но конкретно в данном случае богатый ассортимент
+возможностей не уместен. Наиболее известный &lt;em&gt;кроссплатформенный&lt;/em&gt;
+шаблонизатор, не обремененный ничем лишним, называется
+&lt;strong&gt;&lt;a href="https://www.insight-it.ru/goto/fff99a22/" rel="nofollow" target="_blank" title="http://mustache.github.com/"&gt;mustache&lt;/a&gt;&lt;/strong&gt;. С его использованием иногда
+получаются довольно замысловатые конструкции, но зато он отлично
+подходит под этот сценарий использования и прост как три копейки,
+изучить можно за 5 минут, &lt;em&gt;рекомендую&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;В этой схеме напрашивается использование &lt;a href="/tag/node-js/"&gt;node.js&lt;/a&gt; для
+реализации &lt;strong&gt;HTML-интерфейса&lt;/strong&gt;, что откроет доступ к многочисленным
+шаблонизаторам, &lt;a href="https://www.insight-it.ru/goto/261edaf6/" rel="nofollow" target="_blank" title="https://github.com/joyent/node/wiki/modules#wiki-templating"&gt;реализованным исключительно на JavaScript&lt;/a&gt;.
+Тем более кроме рендеринга шаблонов эта часть проекта практически ничего
+и не делает. В качестве бонуса требование про отсутствие внешних вызовов
+станет не таким строгим, да и в целом, если минималистичное решение
+вроде &lt;a href="/tag/mustache/"&gt;mustache&lt;/a&gt;&amp;nbsp;по каким-то идеологическим соображениям
+не устраивает - любой написанный для node.js шаблонизатор наверняка
+станет отличным выходом.&lt;/p&gt;
+&lt;h2 id="struktura-shablonov"&gt;Структура шаблонов&lt;/h2&gt;
+&lt;p&gt;При рендеринге на клиентской стороне &lt;strong&gt;обычно&lt;/strong&gt; нужно заменять лишь
+содержимое определенного блока, где располагается основной контент
+сайта. Изменения в в других частях сайта нужны существенно реже,
+соответственно стоит вынести их в отдельные шаблоны.&lt;/p&gt;
+&lt;p&gt;Таким образом большинство шаблонов, соответствующих страницам сайта,
+представляют собой содержимое одного блока. Отдельные шаблоны,
+актуальные для всего сайта, создаются для:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Блока &lt;code&gt;&amp;lt;head&amp;gt;&lt;/code&gt; документа&lt;/li&gt;
+&lt;li&gt;Видимой "шапки" сайта&lt;/li&gt;
+&lt;li&gt;Сайдбара(ов), если они не сильно зависят от основного контентом
+    страниц&lt;/li&gt;
+&lt;li&gt;Видимого "подвала" сайта плюс тегов для подключения
+    &lt;a href="/tag/javascript/"&gt;JavaScript&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;HTML-интерфейс&lt;/strong&gt; при чтении их из файловой системы "склеивает" их в
+полные шаблоны для каждой страницы, просто конкатенацией или с
+использованием механизмов шаблонизатора. &lt;strong&gt;Интерфейс сериализованных
+данных&lt;/strong&gt; "заворачивает" шаблоны страниц в JSON (или другой используемый
+формат) прямо в исходном виде для вставки в блок с основным контентом.
+Из "общесайтовых"&amp;nbsp;шаблонов браузерному клиенту вероятно могут
+понадобиться только сайдбар(ы), и то не всегда.&lt;/p&gt;
+&lt;p&gt;Изменения в остальных частях сайта лучше все же отдать на совесть
+&lt;em&gt;представлений&lt;/em&gt; на основе клиентского фреймворка. В первую очередь это
+касается изменения &lt;code&gt;&amp;lt;title&amp;gt;&lt;/code&gt; и других мета-тегов.&lt;/p&gt;
+&lt;h2 id="primechaniia"&gt;Примечания&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;При использовании минималистичного шаблонизатора без внешних вызовов
+    будьте морально готовы передавать ему "многоуровневые" объекты для
+    вставки в шаблон. Например, если говорить о постраничной навигации,
+    там, где в продвинутом шаблонизаторе было бы что-то вроде &lt;code&gt;{% pagination(current_page, total_pages) %}&lt;/code&gt;,&amp;nbsp;может понадобится не
+    только написать саму верстку (что, в целом, хорошая практика), а еще
+    и передать информацию о точном списке страниц, какая именно из них
+    активная, где пропуски и пр.&lt;/li&gt;
+&lt;li&gt;Стоит обращать внимание на производительность используемого
+    шаблонизатора. Например, под одну из платформ "официальная"
+    реализация &lt;strong&gt;mustache&lt;/strong&gt;, как оказалось,&amp;nbsp;проигрывает сторонней с
+    отрывом в 2 порядка.&lt;/li&gt;
+&lt;li&gt;Хоть при таком подходе добиться одинакового внешнего вида страниц
+    при рендеринге серверной и клиентской частью достаточно легко,
+    следить за их соответствием все же стоит - какие-то детали можно и
+    упустить.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="zakliuchenie"&gt;Заключение&lt;/h2&gt;
+&lt;p&gt;Как я уже намекал в конце &lt;a href="https://www.insight-it.ru/interactive/2012/postoyannoe-soedinenie-mezhdu-brauzerom-i-serverom/"&gt;предыдущего материала&lt;/a&gt;,
+обсуждавшийся в этой статье подход не совсем &lt;em&gt;"идеологически
+правильный"&lt;/em&gt;, по крайней мере с точки зрения используемого &lt;em&gt;клиентского
+фреймворка&lt;/em&gt;. &lt;strong&gt;Модели&lt;/strong&gt;,&amp;nbsp;вероятно,&amp;nbsp;будут использоваться для хранения
+библиотеки шаблонов и данных для их рендеринга, а не для объектов
+предметной области проекта. &lt;strong&gt;Представления&lt;/strong&gt; будут отвечать лишь за
+рендеринг шаблонов и синхронизацию второстепенных элементов интерфейса.
+Если Вы все же пойдете по этому пути, хочется, чтобы Вы сделали это
+осознанно. Альтернативный сценарий создания полноценного
+JavaScript-приложения для работы в браузере для некоторых проектов
+по-прежнему может оказаться более предпочтительным.&lt;/p&gt;
+&lt;p&gt;В&amp;nbsp;следующей&amp;nbsp;статье мы наконец-то перейдем к более привычной для меня
+&lt;em&gt;серверной части&lt;/em&gt; интерактивных сайтов, там тоже есть много интересных
+моментов, которые стоит обсудить.&lt;/p&gt;
+&lt;div class="card green"&gt;
+&lt;p&gt;&lt;div class="card-content white-text"&gt;
+Эта статья - четвертая в &lt;a class="green-text text-lighten-4" href="https://www.insight-it.ru/interactive/"&gt;серии про Интерактивные сайты&lt;/a&gt;, автор - &lt;a class="green-text text-lighten-4" href="https://www.insight-it.ru/goto/b03d9116/" rel="nofollow" target="_blank" title="http://blinkov.ru"&gt;Иван&amp;nbsp;Блинков&lt;/a&gt;, основано на личном опыте.
+До встречи &lt;a class="green-text text-lighten-4" href="/feed/"&gt;на страницах Insight IT&lt;/a&gt;!
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Fri, 13 Apr 2012 08:00:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-04-13:interactive/2012/povtornoe-ispolzovanie-shablonov/</guid><category>html</category><category>JSON</category><category>mustache</category><category>node.js</category><category>rendering</category><category>template</category><category>template engine</category><category>интерфейс</category><category>шаблон</category><category>шаблонизация</category></item><item><title>Шаблонизация</title><link>https://www.insight-it.ru//php/2008/shablonizaciya/</link><description>&lt;p&gt;Наверняка Вы часто замечали, что в пределах одного сайта все (или
+покрайней мере большинство) страниц имеют много общего: структуру,
+расположение элементов, дизайн и так далее. Основным различием обычно
+является лишь содержание. Естественно, что делается это не спроста:
+именно общие компоненты сайта создают в голове посетителей тот самый
+образ, который производит общее подсознательное впечатление о сайте, а
+также позволяет посетителям отличать сайт А от сайта Б.&lt;/p&gt;
+&lt;p&gt;Продолжая разговор, начатый еще в
+&lt;a href="https://www.insight-it.ru/php/2008/obshhaemsya-s-bazojj-dannykh/"&gt;одной&lt;/a&gt; из &lt;a href="https://www.insight-it.ru/dzhentelmenskij-nabor-php-programmista/"&gt;предыдущих
+статей&lt;/a&gt;, рассмотрим организацию интерфейса между двумя другими составляющими практически любого
+интернет-проекта: скриптов (все так же на примере PHP) и страницами,
+отправляемыми посетителям посредством http-сервера.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;С точки зрения веб-разработчика было бы как минимум не логично мешать в
+кучу постоянные части страниц с динамическими. Для этого существует
+множество причин, в том числе, например, экономия вычислительной
+мощности сервера на отсутствии необходимости каждый раз заново
+генерировать статичные элементы или неминуемое сокращение объемов кода,
+который необходимо написать, в случае если статический и динамический
+контент разделены. Отделенную подобным образом статическую часть страниц
+(слегка модифицированную с целью обозначить правила, по которым будет
+проводиться "заполнение" ее динамическим контентом) принято называть
+словом &lt;em&gt;"шаблон"&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Наверняка у Вас уже возникло два вполне логичных вопроса:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Как можно разделить таким образом контент?&lt;/li&gt;
+&lt;li&gt;Как потом восстановить страницу в исходном виде?&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Вариантов ответа на каждый из них можно придумать множество: начиная с
+банальных вариаций на тему применения &lt;strong&gt;echo&lt;/strong&gt;, заканчивая применением
+достаточно серьезных готовых решений вроде широкораспространенного
+&lt;a href="https://www.insight-it.ru/goto/2915d764/" rel="nofollow" target="_blank" title="http://smarty.php.net"&gt;&lt;strong&gt;Smarty&lt;/strong&gt;&lt;/a&gt; или существенно более эффективного
+&lt;a href="https://www.insight-it.ru/goto/8c8929a1/" rel="nofollow" target="_blank" title="http://alexeyrybak.com/blitz/blitz_ru.html"&gt;&lt;strong&gt;Blitz&lt;/strong&gt;&lt;/a&gt;. Каждый из них
+имеет свои сильные и слабые стороны, но в целом любой из них можно
+оценить по двум критериям: производительности и удобстве организации
+кода.&lt;/p&gt;
+&lt;p&gt;Какие-либо цифры оценки производительности приводить не буду, так как,
+во-первых, в Сети можно найти много benchmark'ов, посвященных этой теме,
+а, во-вторых, просто-напросто вовсе не о цифрах я хотел с Вами
+поговорить. Как известно самым производительным по крайней мере с
+теоретической точки зрения является метод под названием &lt;strong&gt;php mess&lt;/strong&gt;, заключается он в следующем: вся страница размещается в рамках
+одного файла, при этом статическая часть документа пишется просто "как
+есть" в соответствии с необходимым стандартом, а изменяемые части
+организуются размещенным в необходимых местах PHP-кодом, окруженным
+стандартной конструкцией &lt;code&gt;&amp;lt;?php&amp;nbsp;&amp;nbsp;&amp;nbsp;?&amp;gt;&lt;/code&gt;. Но огромнейший недостаток
+очевиден - огромное количество информации расположенной в одном файле,
+при отсутствии какого-либо более четкого разделения PHP-кода и
+остального содержимого, чем указанная выше конструкция, приводит к
+постоянной путанице в коде, а также существенным затратам времени
+программиста при попытках исправить ту или иную часть документа.&lt;/p&gt;
+&lt;p&gt;На противоположной стороне нашей шкалы &lt;em&gt;удобство-производительность&lt;/em&gt; я
+бы расположил уже упомянутое выше решение под названием &lt;strong&gt;Smarty&lt;/strong&gt;.
+Представляет оно собой целую систему, реализованную также на PHP, и
+предоставляющую огромное количество возможностей по решению нашей
+задачи. Шаблоны хранятся в отдельных файлах, для определения мест
+расположения динамического контента используется специальный синтаксис,
+который прост как три копейки, так как разрабатывался с расчетом не на
+программистов, а по принципу "чем проще, тем лучше". Именно этот факт
+сделал &lt;strong&gt;Smarty&lt;/strong&gt; одним из самых (если не самым) распространенных
+движков шаблонизации (или как их принято правильно называть "Template
+Engine"). Но, к сожалению, за удобство приходится платить, в этом случае
+производительностью: вся система сама по себе громоздка и состоит из
+множества файлов, между которыми все данные так или иначе передаются, а
+так как написано она на PHP (который является далеко не самым
+производительным языком программирования, в основном в силу своей
+интерпритируемости и некоторых других особенностей), конкуренции в плане
+производительности многим другим вариантам решения нашей задачи
+&lt;strong&gt;Smarty&lt;/strong&gt; составить не в состоянии.&lt;/p&gt;
+&lt;p&gt;Одним из лучших "компромиссных" вариантов, которые доступны на данный
+момент, могу назвать также упомянутый выше &lt;strong&gt;Blitz&lt;/strong&gt;. Реализован он в
+виде модуля PHP, написанного на языке &lt;strong&gt;C&lt;/strong&gt;, что является залогом его
+отличной производительности. При этом общая его концепция близка к
+&lt;strong&gt;Smarty&lt;/strong&gt;: шаблоны также хранятся в отдельных файлах и подчинены
+незамысловатому синтаксису (который вообще можно понять и запомнить
+буквально за 15-20 минут, прочитав статью, &lt;a href="https://www.insight-it.ru/goto/8c8929a1/" rel="nofollow" target="_blank" title="http://alexeyrybak.com/blitz/blitz_ru.html"&gt;ссылку на
+которую&lt;/a&gt; я уже приводил
+выше), а в PHP-скриптах после установки становится доступен специальный
+класс для управления модулем. Но основное достоинство этого решения
+является одновременно и его основным недостатком - редкий хостинг имеет
+этот модуль в списке предустановленных (видимо в силу своей не очень
+обширной известности, обусловленной ), а доступ к http-серверу и
+PHP-интерпретатору, который необходим для установки PHP-модулей,
+предоставляется чаще всего только на дорогих тарифах виртуального
+хостинга или на различных вариантах VPS или арендуемых серверов.&lt;/p&gt;
+&lt;p&gt;Помимо этого некоторые энтузиасты берутся на написание "собственных"
+&lt;em&gt;Template Engine&lt;/em&gt;, базирующихся на различных вариантов использования
+PHP-функций вроде &lt;strong&gt;preg_replace&lt;/strong&gt;. Если честно такие попытки редко
+заканчиваются успехом: в лучшем случае удается добиться удобства
+использования самим разработчиком, но чаще всего в ущерб
+производительности. Заниматься подобными экспериментами я Вам не
+советую, вместо этого я предлагаю написать &lt;em&gt;"обертку"&lt;/em&gt; к приглянувшемуся
+распространенному &lt;em&gt;Template Engine&lt;/em&gt;, что позволит не только сделать его
+использование более удобным конкретно для Вас, но и позволит заменить
+его на другой с минимальными затратами сил и времени (например в случае,
+если модуль &lt;strong&gt;Blitz&lt;/strong&gt; недоступен).&lt;/p&gt;
+&lt;h3 id="razrabatyvaem-obertku"&gt;Разрабатываем "обертку"&lt;/h3&gt;
+&lt;p&gt;Сразу скажу, что цели привести конкретный пример пригодного для
+реального использования кода я перед собой не ставлю в этой части моего
+повествования. Я лишь хочу показать направление, в котором можно
+провести разработку с целью облегчения собственной же жизни, т.е.
+предоставить Вам альтернативу простому использованию тех или иных
+решений в том виде, в котором они предоставлены разработчиками.&lt;/p&gt;
+&lt;p&gt;Если Ваш выбор всетаки пал на написание "оболочки", не смотря на
+принесение в жертву несущественной части производительности, то стоит
+для начала определиться: а что же мы будем "заворачивать"? В качестве
+примера я, пожалуй, буду использовать &lt;strong&gt;Blitz&lt;/strong&gt;, как самый оптимальный
+вариант (по крайней мере с моей точки зрения). Начать стоит как обычно с пустой заготовки для класса.&lt;/p&gt;
+&lt;p&gt;Далее следует решить какие все же модификации мы будем производить для
+собственного удобства над стандартным решением. Попробую привести
+несколько примеров в отношении &lt;strong&gt;Blitz&lt;/strong&gt;, для начала хочу обратить
+внимание, что при внимательном прочтении все той же статьи от
+разработчика этого шаблонизатора, можно обнаружить, что модуль
+показывает более высокие показатели производительности при однократном
+вызове метода &lt;em&gt;set&lt;/em&gt;. Достичь это можно выполнением этого метода с
+указанием в качестве одного из входных параметров "многоуровнего"
+массива, составленного специальным образом (надеюсь Вы все же к этому
+моменту уже успели прочитать неоднократно упоминавшуюся статью, и
+представляете принцип работы модуля). Написание механизма составления
+такого массива позволит как сократить время разработки, так и сэкономит
+драгоценные миллисекунды, вычитаемые из свободного времени посетителей
+сайта в процессе генерации страницы.&lt;/p&gt;
+&lt;p&gt;В любом случае понадобится переменная для его хранения:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;TemplateEngine&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;array&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;array&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+    &lt;span class="c1"&gt;//можно сразу указать указать путь к папке с шаблонами&lt;/span&gt;
+    &lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;engine&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;Blitz&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'./template/'&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nv"&gt;$template&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="s1"&gt;'.tpl'&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;А также метод, переопределяющий стандартный &lt;em&gt;set&lt;/em&gt; на метод, добавляющий
+новые значения к нашему массиву (хотя можно и любое другое понравившееся
+название использовать):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;set&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$caption&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;array&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;$caption&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;После чего оригинальный &lt;em&gt;set&lt;/em&gt; можно использовать уже непосредственно
+перед &lt;em&gt;parse&lt;/em&gt;, с указанием уже собранного массива в качестве параметра.
+За компанию позволю произвести себе еще одну модификацию: в подавляющем
+большинстве случаев &lt;em&gt;parse&lt;/em&gt; используется в совокупности с &lt;strong&gt;echo&lt;/strong&gt;,
+чтобы не указывать каждый раз это слово - можно включить его прямо в наш
+класс:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;parse&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;count&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;array&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;engine&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;set&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;array&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="k"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;engine&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;parse&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Еще одним возможным вариантом модификации может стать обработка всех
+(или какой-то части, если есть необходимость) динамических данных с
+помощью какой-либо функции, например это актуально для
+&lt;strong&gt;htmlspecialchars&lt;/strong&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;set&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$caption&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;array&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;$caption&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;html&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$value&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;rawset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$caption&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;array&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;$caption&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;html&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$array&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;is_array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$array&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+  &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;foreach&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$array&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nv"&gt;$caption&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="nv"&gt;$value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="nv"&gt;$value&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;html&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$value&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nv"&gt;$array&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;htmlspecialchars&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$array&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;ENT_QUOTES&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Как нетрудно заметить, в методе используется рекурсия, так как структура
+передаваемых параметром массивов неизвестна.&lt;/p&gt;
+&lt;p&gt;Надеюсь написанный выше текст подтолкнет Вас к действию или хотябы
+заставит задуматься над имеющимся выбором, если же Вы читали его лишь
+"для общего развития", то тем более хочется сказать Вам огромное
+&lt;em&gt;Спасибо за то, что дочитали до конца это повествование.&lt;/em&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sat, 26 Jan 2008 15:25:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-01-26:php/2008/shablonizaciya/</guid><category>blitz</category><category>PHP</category><category>Smarty</category><category>template</category><category>template engine</category><category>интернет</category><category>ООП</category><category>разработка</category><category>шаблон</category><category>шаблонизация</category></item></channel></rss>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/khranenie/feed/index.xml" rel="self"></atom:link><lastBuildDate>Thu, 07 Jan 2010 01:22:00 +0300</lastBuildDate><item><title>Terrastore</title><link>https://www.insight-it.ru//storage/2010/terrastore/</link><description>&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/76e0ccd6/" rel="nofollow" target="_blank" title="http://code.google.com/p/terrastore/"&gt;Terrastore&lt;/a&gt; является
+свежеиспеченной системой хранения документов, с отличными возможностями
+по масштабируемости и эластичной настройке, при этом без жертв со
+стороны консистентности данных.&lt;/p&gt;
+&lt;p&gt;Вместо подробного описания несколько ключевых характеристик продукта:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Легкодоступность:&lt;/strong&gt; данные доступны посредством повсеместно
+    используемого протокола HTTP.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Распреденность:&lt;/strong&gt; узлы могут работать и существовать на любых
+    доступных серверах.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Эластичность:&lt;/strong&gt; имеется возможность динамического добавления и
+    удаления узлов кластера на лету, без малейшего простоя системы и
+    каких-либо изменений в конфигурации.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Масштабируемость на уровне данных:&lt;/strong&gt; документы разбиваются на
+    группы и распределяются между доступными узлами с автоматической
+    прозрачной балансировкой, в том числе и при добавлении и исключении
+    узлов в кластере.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Масштабируемость на вычислительном уровне:&lt;/strong&gt; запросы и обновление
+    данных распределяются по узлам, которые физически хранят
+    используемые данные, тем самым минимизируется трафик и
+    распределяется вычислительная нагрузка.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Консистентность:&lt;/strong&gt; система обеспечивает по-документную
+    консистентность данных, таким образом гарантируя тот факт, что
+    пользователь всегда получает самую свежую версию документа,
+    обеспечивая изоляцию для параллельных модификаций документов.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Отсутствие схемы:&lt;/strong&gt; предоставляет JSON интерфейс, основанный на
+    коллекциях; пользователям предоставляется возможность просто создать
+    свою коллекцию и положить туда что угодно.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Простота в работе:&lt;/strong&gt; установка полностью работоспособного кластера
+    заключается в вводе всего нескольких команд и не требует какого-либо
+    редактирование XML-конфигов.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Богатый функционал:&lt;/strong&gt; поддерживаются push-down предикаты, запросы
+    по диапазонам и серверные функции обновления.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Если Вам показалось интересным, у Вас есть возможность &lt;a href="https://www.insight-it.ru/goto/76e0ccd6/" rel="nofollow" target="_blank" title="http://code.google.com/p/terrastore/"&gt;получить более подробную информацию&lt;/a&gt;,&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/ff8d489f/" rel="nofollow" target="_blank" title="http://groups.google.com/group/terrastore-discussions"&gt;принять участие в проекте&lt;/a&gt;,&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/b14ec8b0/" rel="nofollow" target="_blank" title="http://code.google.com/p/terrastore/downloads/list"&gt;скачать дистрибутив&lt;/a&gt;
+или&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/caed0d40/" rel="nofollow" target="_blank" title="http://code.google.com/p/terrastore/source/createClone"&gt;получить копию исходного кода&lt;/a&gt;!
+﻿&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;В очередной раз спасибо &lt;a href="https://www.insight-it.ru/goto/7b0eba82/" rel="nofollow" target="_blank" title="http://highscalability.com/blog/2009/12/30/terrastore-scalable-elastic-consistent-document-store.html"&gt;highscalability.com за источник
+информации&lt;/a&gt;,
+за одно хотелось бы услышать мнения о таком формате постов. Я тут уже
+почти неделю копаюсь над постом-долгостроем про Baidu, а такой можно
+сочинить за полчаса.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Кстати про &lt;a href="https://www.insight-it.ru/goto/65f34522/" rel="nofollow" target="_blank" title="http://www.terracotta.org"&gt;Terracotta&lt;/a&gt;, на основе
+которой работает данный продукт, тоже давно пора было уже написать, в
+ближайшее время займусь :)&lt;/em&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Thu, 07 Jan 2010 01:22:00 +0300</pubDate><guid>tag:www.insight-it.ru,2010-01-07:storage/2010/terrastore/</guid><category>HTTP</category><category>Terracotta</category><category>Terrastore</category><category>документы</category><category>Масштабируемость</category><category>хранение</category></item></channel></rss>

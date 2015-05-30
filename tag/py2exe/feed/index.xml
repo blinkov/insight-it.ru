@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/py2exe/feed/index.xml" rel="self"></atom:link><lastBuildDate>Fri, 18 Mar 2011 18:57:00 +0300</lastBuildDate><item><title>Архитектура Dropbox</title><link>https://www.insight-it.ru//highload/2011/arkhitektura-dropbox/</link><description>&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/4f16cf21/" rel="nofollow" target="_blank" title="http://db.tt/4TDAr1L"&gt;Dropbox&lt;/a&gt; - это самый простой способ...
+&lt;img alt="Dropbox" class="right" src="https://www.insight-it.ru/images/dropbox_logo.png" title="Dropbox Logo"/&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Хранить файлы в безопасном месте&lt;/li&gt;
+&lt;li&gt;Делиться файлами с другими людьми&lt;/li&gt;
+&lt;li&gt;Постоянно иметь к ним доступ вне зависимости от своего месторасположения&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!--more--&gt;
+&lt;h2 id="vzryvnoi-rost"&gt;Взрывной рост&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;1 миллион файлов сохраняются в Dropbox каждые 15 минут (по
+    презентации это больше, чем твитов в Twitter за тот же период
+    времени, но это &lt;a href="https://www.insight-it.ru/highload/2011/arkhitektura-twitter-dva-goda-spustya/"&gt;несколько преувеличено&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;Одно из самых скачиваемых приложений, уступает лишь Skype&lt;/li&gt;
+&lt;li&gt;Важная часть жизни многих пользователей: "не могу жить без этого"&lt;/li&gt;
+&lt;li&gt;Рост обеспечен "сарафанным радио", практически без рекламы&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt="Dropbox" class="responsive-img" src="https://www.insight-it.ru/images/dropbox.jpeg" title="Dropbox"/&gt;&lt;/p&gt;
+&lt;h2 id="komanda-v-nachale-proekta"&gt;Команда в начале проекта&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Все хорошие друзья&lt;/li&gt;
+&lt;li&gt;Самые умные, голодные и страстные, которых они знали :)&lt;/li&gt;
+&lt;li&gt;Для каждого это была первая реальная работа, очень ограниченный опыт
+    в данной индустрии&lt;/li&gt;
+&lt;li&gt;Эти качества хорошо сочетаются с итеративной методологией разработки
+    на &lt;a href="/tag/python/"&gt;Python&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="rannie-dostizheniia"&gt;Ранние достижения&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Reverse engineering приложения Finder для Mac OSX 10.4/5 для
+    отображения иконок статуса синхронизации ("в процессе", "все
+    готово")&lt;/li&gt;
+&lt;li&gt;Сложная инфраструктура HTTP нотификаций для избежания регулярного
+    опроса серверов на каждом клиенте, основанная на
+    &lt;a href="/tag/twisted/"&gt;Twisted&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Общая кодовая база, работающая на всех основных операционных
+    системах: Windows, Mac OS, Linux (на основе PyObjC, wxPython,
+    ctypes, py2exe, py2app, PyWin32)&lt;/li&gt;
+&lt;li&gt;Горизонтально масштабируемое хранилище для информации о файлах на
+    основе &lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Собственная инфраструктура для аналитики в реальном времени&lt;/li&gt;
+&lt;li&gt;Собственный механизм выделения памяти для Python, позволивший
+    сократить её потребление на 90%&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="sfery-primeneniia-python"&gt;Сферы применения Python&lt;/h2&gt;
+&lt;p&gt;По сути он используется во всех частях проекта:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;логика backend синхронизации;&lt;/li&gt;
+&lt;li&gt;клиенты для основных ОС (Windows, Mac, Linux);&lt;/li&gt;
+&lt;li&gt;контроллер основного сайта;&lt;/li&gt;
+&lt;li&gt;обработка API запросов;&lt;/li&gt;
+&lt;li&gt;аналитика.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Исключения из-за ограничений по доступной оперативной памяти:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Android (мог бы быть Jython)&lt;/li&gt;
+&lt;li&gt;iPhone (мог бы быть Cpython)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="pochemu-imenno-python"&gt;Почему именно Python?&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Легок в изучении и понимании:&lt;/strong&gt;&lt;ul&gt;
+&lt;li&gt;новые люди легко втягиваются в процесс;&lt;/li&gt;
+&lt;li&gt;позволяет людям переключаться с проекта на проект.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Легок в написании:&lt;/strong&gt; важно для быстрой реализации функционала и
+    выпуска новых версий.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Легок в изменении:&lt;/strong&gt;&lt;ul&gt;
+&lt;li&gt;нет необходимости в перекомпиляции;&lt;/li&gt;
+&lt;li&gt;высокая скорость итерации;&lt;/li&gt;
+&lt;li&gt;динамическая типизация:&lt;ul&gt;
+&lt;li&gt;рефакторинг очень прост;&lt;/li&gt;
+&lt;li&gt;уменьшение прямых зависимостей модулей;&lt;/li&gt;
+&lt;li&gt;динамические инструменты.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Позволяет обеспечивать качество&lt;/strong&gt; путем создания более-менее
+    работающей версии продукта и доведения её до качественного уровня
+    путем быстрых итераций.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="ne-bez-trudnostei"&gt;Не без трудностей&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Аргх!!! Python потребляет слишком много оперативной памяти и о-о-очень
+медленный!&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;На серверной стороне можно вообще не заморачиваться и купить больше
+оборудования - всегда помогает. Но для клиентской части такой подход не
+прокатит, если только Вы не собираетесь купить новые компьютеры и
+телефоны всем своим клиентам.&lt;/p&gt;
+&lt;p&gt;Как с этим бороться?&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Убедитесь, что все длинные внутренние циклы выполняются в C (может
+    сэкономить до 44% процессорного времени)&lt;/li&gt;
+&lt;li&gt;С оптимизацией потребления вычислительных ресурсов все просто:&lt;ul&gt;
+&lt;li&gt;есть много готовых решений для профайлинга;&lt;/li&gt;
+&lt;li&gt;проблемный код чаще всего не раскидан по всей кодовой базе.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;С оптимизацией потребляемой памяти все сложнее:&lt;ul&gt;
+&lt;li&gt;нет готовых решений для профайлинга память (одновременно в
+    Python и C);&lt;/li&gt;
+&lt;li&gt;много потенциальных причин для повышенного потребления памяти:&lt;ul&gt;
+&lt;li&gt;утечки в Python и C;&lt;/li&gt;
+&lt;li&gt;фрагментация памяти;&lt;/li&gt;
+&lt;li&gt;неэффективное её использование.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Как исправить? Однозначного решения нет - чаще всего приходится
+    перерывать всю кодовую базу в поисках неоптимальных мест и
+    источников утечек.&lt;/li&gt;
+&lt;li&gt;Почему память фрагментируется?&lt;ul&gt;
+&lt;li&gt;Большинство объектов расположены в heap памяти (большой
+    последовательный кусок, выделенный приложению);&lt;/li&gt;
+&lt;li&gt;Много маленьких объектов вперемешку с большими;&lt;/li&gt;
+&lt;li&gt;Много временных объектов вперемешку с постоянными;&lt;/li&gt;
+&lt;li&gt;В CPython нет сборщика мусора, позволяющего собрать объекты
+    компактно в одной части heap'а.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Решением проблемы с фрагментацией стал собственный аллокатор
+    памяти (механизм её выделения под определенные типы объектов):&lt;ul&gt;
+&lt;li&gt;В Dropbox обнаружили, что большая часть heap-памяти
+    захламляется контейнерами с метаданными файлов, которые
+    синхронизируется;&lt;/li&gt;
+&lt;li&gt;Было решено вынести их куда-нибудь еще;&lt;/li&gt;
+&lt;li&gt;CPython позволяет управлять процессом выделения памяти для
+    типов данных расширений;&lt;/li&gt;
+&lt;li&gt;Делается это с помощью простых структур на C;&lt;/li&gt;
+&lt;li&gt;"Not Rocket Science, just C code";&lt;/li&gt;
+&lt;li&gt;Выделяются области памяти по 4Мб, состоящие из заголовка и
+    буферов фиксированной длины.&lt;/li&gt;
+&lt;li&gt;Что насчет внутренней фрагментации?&lt;ul&gt;
+&lt;li&gt;по идее же даже в одном буфере останутся данные, весь
+    блок нельзя будет освободить...&lt;/li&gt;
+&lt;li&gt;потенциально этот факт может привести к еще большему
+    расходу оперативной памяти;&lt;/li&gt;
+&lt;li&gt;но это оказывается не так, если учесть, что все объекты
+    являются временными, то есть живут не долго!&lt;/li&gt;
+&lt;li&gt;в результате Dropbox редко использует более 100Мб памяти
+    для больших синхронизаций (раньше эта цифра могла
+    достигать 1.5Гб)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Но писать C расширение для каждой структуры данных, которую
+    может понадобиться вынести в отдельный аллокатор - дело
+    неблагодарное:&amp;nbsp;в результате эта история закончилась
+    изменением &lt;code&gt;type_new()&lt;/code&gt; в &lt;code&gt;Objects/typeobject.c&lt;/code&gt; для того,
+    чтобы можно было указывать &lt;code&gt;__use_region_allocator__&lt;/code&gt;
+    = True** для тех классов, которым требуется такой механизм
+    выделения памяти.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="podvodim-itogi"&gt;Подводим итоги&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Python стал ключом к технической реализации обоих сторон Dropbox:
+    серверной и клиентской.&lt;/li&gt;
+&lt;li&gt;Залогом успеха является максимальная простота с пользовательской
+    точки зрения: "положил файл в папку и он становится доступен
+    отовсюду"&lt;/li&gt;
+&lt;li&gt;Dropbox не брали на себя реализацию стороннего функционала, вроде
+    собственно создания хранилища файлов - используется &lt;a href="https://www.insight-it.ru/goto/d0869408/" rel="nofollow" target="_blank" title="http://aws.amazon.com/s3/"&gt;Amazon S3&lt;/a&gt;, что позволило им запуститься очень
+    быстро и стремительно.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Лучше решать одну задачу, но качественно, чем много, но так себе!&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="istochniki-informatsii"&gt;Источники информации&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/afbbb2b7/" rel="nofollow" target="_blank" title="http://pycon.blip.tv/file/4878722/"&gt;Видео&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/f70a4522/" rel="nofollow" target="_blank" title="https://www.dropbox.com/s/mwxsyxtu9qieboo/pycon%20talk%20minus%20video.pptx"&gt;Презентация&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Fri, 18 Mar 2011 18:57:00 +0300</pubDate><guid>tag:www.insight-it.ru,2011-03-18:highload/2011/arkhitektura-dropbox/</guid><category>ctypes</category><category>Dropbox</category><category>MySQL</category><category>py2app</category><category>py2exe</category><category>PyObjC</category><category>PyWin32</category><category>Twisted</category><category>wxPython</category><category>Архитектура Dropbox</category><category>Масштабируемость</category></item></channel></rss>

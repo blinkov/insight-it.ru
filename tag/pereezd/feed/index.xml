@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/pereezd/feed/index.xml" rel="self"></atom:link><lastBuildDate>Wed, 21 Oct 2009 18:45:00 +0400</lastBuildDate><item><title>Потенциальный переезд блога</title><link>https://www.insight-it.ru//misc/2009/potencialnyjj-pereezd-bloga/</link><description>&lt;div class="card orange darken-3"&gt;
+&lt;p&gt;&lt;div class="card-content white-text center"&gt;
+&lt;strong&gt;В обсуждавшемся ниже виде так и не сложилось, но 6 лет спустя с &lt;a class="white-text" href="https://www.insight-it.ru/misc/2015/reinkarnatsiia-saita/"&gt;WordPress таки удалось попрощаться&lt;/a&gt;.&lt;/strong&gt;
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Все наверно уже видели мои негативные комментарии о хостинг-провайдере,
+на котором сейчас живет &lt;strong&gt;Insight IT,&lt;/strong&gt; а также успели прочитать
+&lt;a href="https://www.insight-it.ru/python/2009/django-v-gostyakh-u-google/"&gt;предыдущий пост про Django + Google App Engine&lt;/a&gt;. Уже несколько дней в
+голове крутится вполне очевидная идея попробовать реализовать функционал
+блога на Django (хотябы базовый), сконвертировать контент и попрощаться
+с текущим хостингом, чего мне так давно уже хочется (хотя возможны
+нюансы с доменом, но надеюсь это все решаемо). Хочется услышать Ваше
+мнение об этой идее, для чего предлагаю Вам оставить комментарий к этой
+записи и/или поучаствовать в следующем опросе:
+&lt;img alt="GAE" class="responsive-img" src="https://www.insight-it.ru/images/gae-poll-2009.jpg"/&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Wed, 21 Oct 2009 18:45:00 +0400</pubDate><guid>tag:www.insight-it.ru,2009-10-21:misc/2009/potencialnyjj-pereezd-bloga/</guid><category>django</category><category>gae</category><category>google app engine</category><category>WordPress</category><category>опрос</category><category>переезд</category></item></channel></rss>

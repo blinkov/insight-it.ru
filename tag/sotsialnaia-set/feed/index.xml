@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/sotsialnaia-set/feed/index.xml" rel="self"></atom:link><lastBuildDate>Sat, 05 Mar 2011 20:47:00 +0300</lastBuildDate><item><title>Архитектура Twitter. Два года спустя.</title><link>https://www.insight-it.ru//highload/2011/arkhitektura-twitter-dva-goda-spustya/</link><description>&lt;p&gt;В далеком 2008м я уже публиковал статью про &lt;a href="https://www.insight-it.ru/highload/2008/arkhitektura-twitter/"&gt;архитектуру Twitter&lt;/a&gt;, но время летит
+стремительно и она уже абсолютно устарела. За это время аудитория
+Twitter росла просто фантастическими темпами и многое поменялось и с
+технической точки зрения. Интересно что новенького у одного из самых
+популярных социальных интернет-проектов?&lt;!--more--&gt;&lt;/p&gt;
+&lt;h2 id="statistika"&gt;Статистика&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;3 год, 2 месяца и 1 день потребовалось Twitter, чтобы набрать 1
+    миллиард твитов&lt;/li&gt;
+&lt;li&gt;На сегодняшний день, чтобы отправить миллиард твитов пользователям
+    нужна всего одна неделя&lt;/li&gt;
+&lt;li&gt;752% рост аудитории за 2008 год&lt;/li&gt;
+&lt;li&gt;1358% рост аудитории за 2009 год&amp;nbsp;(без учета API, по данным comScore)&lt;/li&gt;
+&lt;li&gt;175 миллионов зарегистрированных пользователей на сентябрь 2010 года&lt;/li&gt;
+&lt;li&gt;460 тысяч регистраций пользователей в день&lt;/li&gt;
+&lt;li&gt;9й сайт в мире по популярности (по данным Alexa, год назад был на 12
+    месте)&lt;/li&gt;
+&lt;li&gt;50 миллионов твитов в день год назад, 140 миллионов твитов в день
+    месяц назад, 177 миллионов твитов в день на 11 марта 2011г.&lt;/li&gt;
+&lt;li&gt;Рекорд по количеству твитов за секунду 6939, установлен через минуту
+    после того, как Новый Год 2011 наступил в Японии&lt;/li&gt;
+&lt;li&gt;600 миллионов поисков в день&lt;/li&gt;
+&lt;li&gt;Лишь 25% трафика приходится на веб сайт, остальное идет через API&lt;/li&gt;
+&lt;li&gt;Росто числа мобильных пользователей за последний год 182%&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;6 миллиардов&lt;/strong&gt; запросов к API в день, около 70 тысяч в секунду&lt;/li&gt;
+&lt;li&gt;8, 29, 130, 350, 400 - это количество сотрудников Twitter на январь
+    2008, январь 2009, январь 2010, январь и март 2011, соответственно&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Самая свежая &lt;a href="https://www.insight-it.ru/goto/682783c0/" rel="nofollow" target="_blank" title="http://blog.twitter.com/2011/03/numbers.html"&gt;статистика про Twitter&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id="platforma"&gt;Платформа&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/apache/"&gt;Apache&lt;/a&gt; + &lt;code&gt;mod_proxy&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/unicorn/"&gt;Unicorn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/ruby/"&gt;Ruby&lt;/a&gt; +&amp;nbsp;&lt;a href="/tag/ror/"&gt;Ruby on Rails&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/scala/"&gt;Scala&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/flock/"&gt;Flock&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/memcached/"&gt;memcached&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/kestrel/"&gt;Kestrel&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/cassandra/"&gt;Cassandra&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/scribe/"&gt;Scribe&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/hadoop/"&gt;Hadoop&lt;/a&gt;, &lt;a href="/tag/hbase/"&gt;HBase&lt;/a&gt; и &lt;a href="/tag/pig/"&gt;Pig&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Сравните с аналогичным разделом предыдущей статьи о Twitter - увидите
+много новых лиц, подробнее ниже.&lt;/p&gt;
+&lt;h2 id="oborudovanie"&gt;Оборудование&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Сервера расположены в NTT America&lt;/li&gt;
+&lt;li&gt;Никаких облаков и виртуализации, существующие решения страдают
+    слишком высокими задержками&lt;/li&gt;
+&lt;li&gt;Более тысячи серверов&lt;/li&gt;
+&lt;li&gt;Планируется переезд в собственный датацентр&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="chto-takoe-tvit"&gt;Что такое твит?&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Сообщение длиной до 140 символов + метаданные&lt;/li&gt;
+&lt;li&gt;Типичные запросы:&lt;ul&gt;
+&lt;li&gt;по идентификатору&lt;/li&gt;
+&lt;li&gt;по автору&lt;/li&gt;
+&lt;li&gt;по @упоминаниям пользователей&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="arkhitektura"&gt;Архитектура&lt;/h2&gt;
+&lt;p&gt;&lt;img alt="Процесс обработки запроса в Twitter" class="responsive-img" src="https://www.insight-it.ru/images/twitter-request-flow.jpeg" title="Процесс обработки запроса в Twitter"/&gt;&lt;/p&gt;
+&lt;h3 id="unicorn"&gt;Unicorn&lt;/h3&gt;
+&lt;p&gt;Сервер приложений для Rails:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Развертывание новых версий кода &lt;strong&gt;без простоя&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;На 30% меньше расход вычислительных ресурсов и оперативной памяти,
+    по сравнению с другими решениями&lt;/li&gt;
+&lt;li&gt;Перешли с &lt;code&gt;mod_proxy_balancer&lt;/code&gt; на &lt;code&gt;mod_proxy_pass&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="rails"&gt;Rails&lt;/h3&gt;
+&lt;p&gt;Используется в основном для генерации страниц, работа за сценой
+реализована на чистом Ruby или Scala.&lt;/p&gt;
+&lt;p&gt;Столкнулись со следующими проблемами:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Проблемы с кэшированием, особенно по части инвалидации&lt;/li&gt;
+&lt;li&gt;ActiveRecord генерирует не самые удачные SQL-запросы, что замедляло
+    время отклика&lt;/li&gt;
+&lt;li&gt;Высокие задержки в очереди и при репликации&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="memcached"&gt;memcached&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;memcached не идеален. Twitter начал сталкиваться с Segmentation
+    Fault в нем очень рано.&lt;/li&gt;
+&lt;li&gt;Большинство стратегий кэширования основываются на длинных TTL
+    (более минуты).&lt;/li&gt;
+&lt;li&gt;Вытеснение данных делает его непригодным для важных конфигурационных
+    данных (например флагов "темного режима", о котором пойдет речь
+    ниже).&lt;/li&gt;
+&lt;li&gt;Разбивается на несколько пулов для улучшения производительности и
+    снижения риска вытеснения.&lt;/li&gt;
+&lt;li&gt;Оптимизированная библиотека для доступа к memcached из Ruby на
+    основе libmemcached + FNV hash, вместо чистого Ruby и md5.&lt;/li&gt;
+&lt;li&gt;Twitter является одним их наиболее активных проектов, участвующих в
+    разработке libmemcached.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="mysql"&gt;MySQL&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Разбиение больших объемов данных является тяжелой задачей.&lt;/li&gt;
+&lt;li&gt;Задержки в репликации и вытеснение данных из кэша является причиной
+    нарушения целостности данных с точки зрения конечного пользователя.&lt;/li&gt;
+&lt;li&gt;Блокировки создают борьбу за ресурсы для популярных данных.&lt;/li&gt;
+&lt;li&gt;Репликация однопоточна и происходит недостаточно быстро.&lt;/li&gt;
+&lt;li&gt;Данные социальных сетей плохо подходят для реляционных СУБД:&lt;ul&gt;
+&lt;li&gt;NxN отношения, социальный граф и обход деревьев - не самые
+    подходящие задачи для таких баз данных&lt;/li&gt;
+&lt;li&gt;Проблемы с дисковой подсистемой (выбор файловой системы,
+    noatime, алгоритм планирования)&lt;/li&gt;
+&lt;li&gt;ACID практически не требуется&lt;/li&gt;
+&lt;li&gt;Для очередей также практически непригодны&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Twitter сталкивался с большими проблемами касательно таблиц
+    пользователей и их статусов&lt;/li&gt;
+&lt;li&gt;Читать данные с мастера при Master/Slave репликации = медленная
+    смерть&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="flockdb"&gt;FlockDB&lt;/h3&gt;
+&lt;p&gt;Масштабируемое хранилище для данных социального графа:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Разбиение данных через Gizzard&lt;/li&gt;
+&lt;li&gt;Множество серверов MySQL в качестве низлежащей системы хранения&lt;/li&gt;
+&lt;li&gt;В Twitter содержит 13 миллиардов ребер графа и обеспечивает 20 тысяч
+    операций записи и 100 тысяч операций чтения в секунду&lt;/li&gt;
+&lt;li&gt;Грани хранятся и индексируются в обоих направлениях&lt;/li&gt;
+&lt;li&gt;Поддерживает распределенный подсчет количества строк&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/4fe0530b/" rel="nofollow" target="_blank" title="https://github.com/twitter/flockdb"&gt;Open source!&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Среднее время на выполнение операций:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Подсчет количества строк: 1мс&lt;/li&gt;
+&lt;li&gt;Временные запросы: 2мс&lt;/li&gt;
+&lt;li&gt;Запись: 1мс для журнала, 16мс для надежной записи&lt;/li&gt;
+&lt;li&gt;Обход дерева: 100 граней/мс&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Подробнее про эволюцию систем хранения данных в Twitter &lt;a href="https://www.insight-it.ru/goto/32077a90/" rel="nofollow" target="_blank" title="http://www.slideshare.net/nkallen/q-con-3770885"&gt;в презентации
+Nick Kallen&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id="cassandra"&gt;Cassandra&lt;/h3&gt;
+&lt;p&gt;Распределенная система хранения данных, ориентированная на работу в
+реальном времени:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Изначально разработана в &lt;a href="/tag/facebook/"&gt;Facebook&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Очень высокая производительность на запись&lt;/li&gt;
+&lt;li&gt;Из слабых сторон: высокая задержка при случайном доступе&lt;/li&gt;
+&lt;li&gt;Децентрализованная, способна переносить сбои оборудования&lt;/li&gt;
+&lt;li&gt;Гибкая схема данных&lt;/li&gt;
+&lt;li&gt;&lt;del&gt;Планируется полный переход на нее по
+    следующему алгоритму:&lt;/del&gt;&lt;ul&gt;
+&lt;li&gt;&lt;del&gt;Все твиты пишутся и в Cassandra
+    и в MySQL&lt;/del&gt;&lt;/li&gt;
+&lt;li&gt;&lt;del&gt;Динамически часть операций
+    чтения переводится на Cassandra&lt;/del&gt;&lt;/li&gt;
+&lt;li&gt;&lt;del&gt;Анализируется реакция системы,
+    что сломалось&lt;/del&gt;&lt;/li&gt;
+&lt;li&gt;&lt;del&gt;Полностью отключаем чтение из
+    Cassandra, чиним неисправности&lt;/del&gt;&lt;/li&gt;
+&lt;li&gt;&lt;del&gt;Начинаем сначала&lt;/del&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="https://www.insight-it.ru/goto/e83e4e8e/" rel="nofollow" target="_blank" title="http://engineering.twitter.com/2010/07/cassandra-at-twitter-today.html"&gt;Обновление:&lt;/a&gt;&lt;/strong&gt; стратегия по поводу использования Cassandra изменилась, попытки
+    использовать её в роли основного хранилища для твитов прекратились,
+    но она продолжает использоваться для аналитики и географической
+    информации.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Подробнее почему Twitter пришел к решению использовать Cassandra можно
+прочитать &lt;a href="https://www.insight-it.ru/goto/ffc31d1/" rel="nofollow" target="_blank" title="http://www.slideshare.net/ryansking/scaling-twitter-with-cassandra"&gt;в отдельной презентации&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Помимо всего прочего Cassandra&amp;nbsp;&lt;del&gt;планируется использовать&lt;/del&gt; используется для аналитики в реальном времени.&lt;/p&gt;
+&lt;h3 id="scribe"&gt;Scribe&lt;/h3&gt;
+&lt;p&gt;Пользователи Twitter генерируют огромное количество данных, около 15-25
+Гб в минуту, более 12 Тб в день, и эта цифра удваивается несколько раз
+в год.&lt;/p&gt;
+&lt;p&gt;Изначально для сбора логов использовали &lt;code&gt;syslog-ng&lt;/code&gt;, но он очень быстро
+перестал справляться с нагрузкой.&lt;/p&gt;
+&lt;p&gt;Решение нашлось очень просто: &lt;a href="/tag/facebook/"&gt;Facebook&lt;/a&gt; столкнулся с
+аналогичной проблемой и разработал проект Scribe, который был
+опубликован в opensource.&lt;/p&gt;
+&lt;p&gt;По сути это фреймворк для сбора и агрегации логов, основанный на
+&lt;a href="/tag/thrift/"&gt;Thrift&lt;/a&gt;. Вы пишете текст для логов и указываете
+категорию, остальное он берет на себя.&lt;/p&gt;
+&lt;p&gt;Работает локально, надежен даже в случае потери сетевого соединения,
+каждый узел знает только на какой сервер передавать логи, что позволяет
+создавать масштабируемую иерархию для сбора логов.&lt;/p&gt;
+&lt;p&gt;Поддерживаются различные системы для записи в данным, &amp;nbsp;в том числе
+обычные файлы и HDFS (о ней ниже).&lt;/p&gt;
+&lt;p&gt;Этот продукт полностью решил проблему Twitter со сбором логов,
+используется около 30 различных категорий. В процессе использования была
+создана и опубликована масса доработок. Активно сотрудничают с командой
+Facebook в развитии проекта.&lt;/p&gt;
+&lt;h3 id="hadoop"&gt;Hadoop&lt;/h3&gt;
+&lt;p&gt;Как Вы обычно сохраняете 12Тб новых данных, поступающих каждый день?&lt;/p&gt;
+&lt;p&gt;Если считать, что средняя скорость записи современного жесткого диска
+составляет 80Мбайт в секунду, запись 12Тб данных заняла бы почти 48
+часов.&lt;/p&gt;
+&lt;p&gt;На одном даже очень большом сервере данную задачу не решить, логичным
+решением задачи стало использование кластера для хранения и анализа
+таких объемов данных.&lt;/p&gt;
+&lt;p&gt;Использование кластерной файловой системы добавляет сложности, но
+позволяет меньше заботиться о деталях.&lt;/p&gt;
+&lt;p&gt;Hadoop Distributed File System (HDFS) предоставляет возможность
+автоматической репликации и помогает справляться со сбоями оборудования.&lt;/p&gt;
+&lt;p&gt;MapReduce framework позволяет обрабатывать огромные объемы данных,
+анализируя пары ключ-значение.&lt;/p&gt;
+&lt;p&gt;Типичные вычислительные задачи, которые решаются с помощью Hadoop в
+Twitter:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Вычисление связей дружбы в социальном графе (&lt;code&gt;grep&lt;/code&gt; и &lt;code&gt;awk&lt;/code&gt; не
+    справились бы, self join в MySQL на таблицах с миллиардами строк -
+    тоже)&lt;/li&gt;
+&lt;li&gt;Подсчет статистики (количество пользователей и твитов, например
+    подсчет количества твитов занимает 5 минут при 12 миллиардах
+    записей)&lt;/li&gt;
+&lt;li&gt;Подсчет PageRank между пользователями для вычисления репутации.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;В твиттер используется бесплатный дистрибутив от Cloudera, версия Hadoop
+0.20.1, данные храняться &lt;a href="https://www.insight-it.ru/goto/1ac5bba3/" rel="nofollow" target="_blank" title="https://github.com/kevinweil/hadoop-lzo"&gt;в сжатом по алгоритму LZO виде&lt;/a&gt;, библиотеки для работы с
+данными опубликованы под названием
+&lt;a href="https://www.insight-it.ru/goto/a1b5430e/" rel="nofollow" target="_blank" title="https://github.com/kevinweil/elephant-bird"&gt;elephant-bird&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id="pig"&gt;Pig&lt;/h3&gt;
+&lt;p&gt;Для того чтобы анализировать данные с помощью MapReduce обычно
+необходимо разрабатывать код на Java, что далеко не все умеют делать, да
+и трудоемко это.&lt;/p&gt;
+&lt;p&gt;Pig представляет собой высокоуровневый язык, позволяющий
+трансформировать огромные наборы данных шаг за шагом.&lt;/p&gt;
+&lt;p&gt;Немного напоминает SQL, но намного проще. Это позволяет писать в 20 раз
+меньше кода, чем при анализе данных с помощью обычных MapReduce работ.
+Большая часть работы по анализу данных в Twitter осуществляется с
+помощью Pig.&lt;/p&gt;
+&lt;h3 id="dannye"&gt;Данные&lt;/h3&gt;
+&lt;p&gt;Полу-структурированные данные:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;логи Apache, RoR, MySQL, A/B тестирования, процесса регистрации&lt;/li&gt;
+&lt;li&gt;поисковые запросы&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Структурированные данные:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Твиты&lt;/li&gt;
+&lt;li&gt;Пользователи&lt;/li&gt;
+&lt;li&gt;Блок-листы&lt;/li&gt;
+&lt;li&gt;Номера телефонов&lt;/li&gt;
+&lt;li&gt;Любимые твиты&lt;/li&gt;
+&lt;li&gt;Сохраненные поиски&lt;/li&gt;
+&lt;li&gt;Ретвиты&lt;/li&gt;
+&lt;li&gt;Авторизации&lt;/li&gt;
+&lt;li&gt;Подписки&lt;/li&gt;
+&lt;li&gt;Сторонние клиенты&lt;/li&gt;
+&lt;li&gt;География&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Запутанные данные:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Социальный граф&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Что же они делают с этим всем?&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Подсчет математического ожидания, минимума, максимума и дисперсии
+    следующих показателей:&lt;ul&gt;
+&lt;li&gt;Количество запросов за сутки&lt;/li&gt;
+&lt;li&gt;Средняя задержка, 95% задержка&lt;/li&gt;
+&lt;li&gt;Распределение кодов HTTP-ответов (по часам)&lt;/li&gt;
+&lt;li&gt;Количество поисков осуществляется каждый день&lt;/li&gt;
+&lt;li&gt;Количество уникальных запросов и пользователей&lt;/li&gt;
+&lt;li&gt;Географическое распределение запросов и пользователей&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Подсчет вероятности, ковариации, влияния:&lt;ul&gt;
+&lt;li&gt;Как отличается использование через мобильные устройства?&lt;/li&gt;
+&lt;li&gt;Как влияет использование клиентов сторонних разработчиков?&lt;/li&gt;
+&lt;li&gt;Когортный анализ&lt;/li&gt;
+&lt;li&gt;Проблемы с сайтом (киты и роботы, подробнее ниже)&lt;/li&gt;
+&lt;li&gt;Какие функциональные возможности цепляют пользователей?&lt;/li&gt;
+&lt;li&gt;Какие функциональные возможности чаще используются популярными
+    пользователями?&lt;/li&gt;
+&lt;li&gt;Корректировка и предложение поисковых запросов&lt;/li&gt;
+&lt;li&gt;A/B тестирование&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Предсказания, анализ графов, естественные языки:&lt;ul&gt;
+&lt;li&gt;Анализ пользователей по их твитам, твитов, на которые они
+    подписаны, твитам их фоловеров&lt;/li&gt;
+&lt;li&gt;Какая структура графа ведет к успешным популярным сетям&lt;/li&gt;
+&lt;li&gt;Пользовательская репутация&lt;/li&gt;
+&lt;li&gt;Анализ эмоциональной окраски&lt;/li&gt;
+&lt;li&gt;Какие особенности заставляют людей ретвитнуть твит?&lt;/li&gt;
+&lt;li&gt;Что влияет на глубину дерева ретвитов ?&lt;/li&gt;
+&lt;li&gt;Долгосрочное обнаружение дубликатов&lt;/li&gt;
+&lt;li&gt;Машинное обучение&lt;/li&gt;
+&lt;li&gt;Обнаружения языка&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Подробнее про обработку данных &lt;a href="https://www.insight-it.ru/goto/3d4649ef/" rel="nofollow" target="_blank" title="http://www.slideshare.net/kevinweil/nosql-at-twitter-nosql-eu-2010"&gt;в презентации Kevin Weil&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id="hbase"&gt;HBase&lt;/h3&gt;
+&lt;p&gt;Twitter начинают строить настоящие сервисы на основе Hadoop, например
+поиск людей:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;HBase используется как изменяемая прослойка над HDFS&lt;/li&gt;
+&lt;li&gt;Данные экспортируются из HBase c помощью периодической MapReduce
+    работы:&lt;ul&gt;
+&lt;li&gt;На этапе Map используются также данные из FlockDB и нескольких
+    внутренних сервисов&lt;/li&gt;
+&lt;li&gt;Собственная схема разбиения данных&lt;/li&gt;
+&lt;li&gt;Данные подтягиваются через высокопроизводительный, горизонтально
+    масштабируемый сервис на Scala (&lt;a href="https://www.insight-it.ru/goto/917f8c95/" rel="nofollow" target="_blank" title="http://www.slideshare.net/al3x/building-distributed-systems-in-scala"&gt;подробнее о построении распределенных сервисов на Scala&lt;/a&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;На основе HBase разрабатываются и другие продукты внутри Twitter.&lt;/p&gt;
+&lt;p&gt;Основными её достоинствами являются гибкость и легкая интеграция с
+Hadoop и Pig.&lt;/p&gt;
+&lt;p&gt;По сравнению с Cassandra:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;"Их происхождение объясняет их сильные и слабые стороны"&lt;/li&gt;
+&lt;li&gt;HBase построен на основе системы по пакетной обработке данных,
+    высокие задержки, работает далеко не в реальном времени&lt;/li&gt;
+&lt;li&gt;Cassandra построена с нуля для работы с низкими задержками&lt;/li&gt;
+&lt;li&gt;HBase легко использовать при анализе данных как источник или место
+    сохранения результатов, Cassandra для этого подходит меньше, но они
+    работают над этим&lt;/li&gt;
+&lt;li&gt;HBase на данный момент единственную точку отказа в виде мастер-узла&lt;/li&gt;
+&lt;li&gt;В твиттере HBase используется для аналитики, анализа и создания
+    наборов данных, а Cassandra - для онлайн систем&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="loony"&gt;Loony&lt;/h3&gt;
+&lt;p&gt;Централизованная система управления оборудованием.&lt;/p&gt;
+&lt;p&gt;Реализована с использованием:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/python/"&gt;Python&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/django/"&gt;Django&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/8927633f/" rel="nofollow" target="_blank" title="http://www.lag.net/paramiko"&gt;Paraminko&lt;/a&gt; (реализация протокола SSH
+    на Python, разработана и опубликована в opensource в Twitter)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Интегрирована с LDAP, анализирует входящую почту от датацентра и
+автоматически вносит изменения в базу.&lt;/p&gt;
+&lt;h3 id="murder"&gt;Murder&lt;/h3&gt;
+&lt;p&gt;Система развертывания кода и ПО, основанная на протоколе BitTorrent.&lt;/p&gt;
+&lt;p&gt;Благодаря своей P2P природе позволяет обновить более тысячи серверов за
+30-60 секунд.&lt;/p&gt;
+&lt;h3 id="kestrel"&gt;Kestrel&lt;/h3&gt;
+&lt;p&gt;Распределенная очередь, работающая по протоколу memcache:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;set&lt;/code&gt; - поставить в очередь&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;get&lt;/code&gt; - взять из очереди&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Особенности:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Отсутствие строгого порядка выполнения заданий&lt;/li&gt;
+&lt;li&gt;Отсутствие общего состояния между серверами&lt;/li&gt;
+&lt;li&gt;Разработана на &lt;a href="/tag/scala/"&gt;Scala&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="daemony"&gt;Daemon'ы&lt;/h3&gt;
+&lt;p&gt;Каждый твит обрабатывается с помощью daemon'ов.&lt;/p&gt;
+&lt;p&gt;В unicorn обрабатываются только HTTP запросы, вся работа за сценой
+реализована в виде отдельных daemon'ов.&lt;/p&gt;
+&lt;p&gt;Раньше использовалось много разных демонов, по одному на каждую задачу
+(Rails), но перешли к меньшему их количеству, способному решать
+несколько задач одновременно.&lt;/p&gt;
+&lt;h3 id="kak-oni-spravliaiutsia-s-takimi-tempami-rosta"&gt;Как они справляются с такими темпами роста?&lt;/h3&gt;
+&lt;p&gt;Рецепт прост, но эффективен, подходит практически для любого
+интернет-проекта:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;обнаружить самое слабое место в системе;&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;принять меры по его устранению;&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;перейти к следующему самому слабому месту.&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;На словах звучит и правда примитивно, но на практике нужно предпринять
+ряд мер, чтобы такой подход был бы реализуем:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Автоматический сбор метрик (причем в агрегированном виде)&lt;/li&gt;
+&lt;li&gt;Построение графиков (RRD, Ganglia)&lt;/li&gt;
+&lt;li&gt;Сбор и анализ&amp;nbsp;логов&lt;/li&gt;
+&lt;li&gt;Все данные должны получаться с минимальной задержкой, как можно
+    более близко к реальному времени&lt;/li&gt;
+&lt;li&gt;Анализ:&lt;ul&gt;
+&lt;li&gt;Из данных необходимо получать &lt;em&gt;информацию&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Следить за динамикой показателей: стало лучше или хуже?&lt;/li&gt;
+&lt;li&gt;Особенно при развертывании новых версий кода&lt;/li&gt;
+&lt;li&gt;Планирование использования ресурсов намного проще, чем решение
+    экстренных ситуаций, когда они на исходу&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Примерами агрегированных метрик в Twitter являются "киты" и "роботы",
+вернее их количество в единицу времени.&lt;/p&gt;
+&lt;h5&gt;Что такое "робот"?&lt;/h5&gt;
+&lt;p&gt;&lt;img alt="Twitter Робот" class="responsive-img" src="https://www.insight-it.ru/images/twitter-bot.jpg" title="Twitter Робот"/&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Ошибка внутри Rails (HTTP 500)&lt;/li&gt;
+&lt;li&gt;Непойманное исключение&lt;/li&gt;
+&lt;li&gt;Проблема в коде или нулевой результат&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5&gt;Что такое "кит"?&lt;/h5&gt;
+&lt;p&gt;&lt;img alt="Twitter Кит" class="responsive-img" src="https://www.insight-it.ru/images/twitter-whale.jpg" title="Twitter Кит"/&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;HTTP ошибка 502 или 503&lt;/li&gt;
+&lt;li&gt;В твиттер используется фиксированный таймаут в 5 секунд (лучше
+    кому-то показать ошибку, чем захлебнуться в запросах)&lt;/li&gt;
+&lt;li&gt;Убитый слишком длинный запрос к базе данных (mkill)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Значительное превышение нормального количества китов или роботов в
+минуту является поводом для беспокойством.&lt;/p&gt;
+&lt;p&gt;Реализован этот механизм простым bash-скриптом, который просматривает
+агрегированные логи за последние 60 секунд, подсчитывает количество
+китов/роботов и рассылает уведомления, если значение оказалось выше
+порогового значения. Подробнее про работу команды оперативного
+реагирования &lt;a href="https://www.insight-it.ru/goto/30562be/" rel="nofollow" target="_blank" title="http://www.slideshare.net/netik/billions-of-hits-scaling-twitter"&gt;в презентации John Adams&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id="temnyi-rezhim"&gt;"Темный режим"&lt;/h3&gt;
+&lt;p&gt;Для экстренных ситуаций в Twitter предусмотрен так называемый "темный
+режим", который представляет собой набор механизмов для отключения
+тяжелых по вычислительным ресурсам или вводу-выводу функциональных
+частей сайта. Что-то вроде стоп-крана для сайта.&lt;/p&gt;
+&lt;p&gt;Имеется около 60 выключателей, в том числе и полный режим "только для
+чтения".&lt;/p&gt;
+&lt;p&gt;Все изменения в настройках этого режима фиксируются в логах и сообщаются
+руководству, чтобы никто не баловался.&lt;/p&gt;
+&lt;h2 id="podvodim-itogi_1"&gt;Подводим итоги&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Не бросайте систему на самотек, начинайте собирать метрики и их
+    визуализировать как можно раньше&lt;/li&gt;
+&lt;li&gt;Заранее планируйте рост требуемых ресурсов и свои действия в случае
+    экстренных ситуаций&lt;/li&gt;
+&lt;li&gt;Кэшируйте по максимуму все, что возможно&lt;/li&gt;
+&lt;li&gt;Все инженерные решения не вечны, ни одно из решений не идеально, но
+    многие будут нормально работать в течение какого-то периода времени&lt;/li&gt;
+&lt;li&gt;Заранее начинайте задумываться о плане масштабирования&lt;/li&gt;
+&lt;li&gt;Не полагайтесь полностью на memcached и базу данных - они могут Вас
+    подвести в самый неподходящий момент&lt;/li&gt;
+&lt;li&gt;Все данные для запросов в реальном времени должны находиться в
+    памяти, диски в основном для записи&lt;/li&gt;
+&lt;li&gt;Убивайте медленные запросы (mkill) прежде, чем они убьют всю систему&lt;/li&gt;
+&lt;li&gt;Некоторые задачи могут решаться путем предварительного подсчета и
+    анализа, но далеко не все&lt;/li&gt;
+&lt;li&gt;Приближайте вычисления к данным по возможности&lt;/li&gt;
+&lt;li&gt;Используйте не mongrel, а unicorn для RoR&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Спасибо за внимание, &lt;a href="/feed/"&gt;жду Вас снова&lt;/a&gt;! Буду рад, если Вы
+&lt;a href="https://www.insight-it.ru/goto/26b8fa1/" rel="nofollow" target="_blank" title="http://twitter.com/blinkov"&gt;подпишитесь на меня в Twitter&lt;/a&gt;, с
+удовольствием пообщаюсь со всеми читателями :)&lt;/strong&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sat, 05 Mar 2011 20:47:00 +0300</pubDate><guid>tag:www.insight-it.ru,2011-03-05:highload/2011/arkhitektura-twitter-dva-goda-spustya/</guid><category>Apache</category><category>Cassandra</category><category>featured</category><category>Flock</category><category>FlockDB</category><category>Hadoop</category><category>HBase</category><category>Kestrel</category><category>Memcached</category><category>MySQL</category><category>Pig</category><category>Ruby</category><category>Ruby on Rails</category><category>Scala</category><category>Scribe</category><category>Twitter</category><category>Unicorn</category><category>архитектура Twitter</category><category>интернет-проекты</category><category>Масштабируемость</category><category>социальная сеть</category></item></channel></rss>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/razmetka/feed/index.xml" rel="self"></atom:link><lastBuildDate>Sun, 06 Jan 2008 20:18:00 +0300</lastBuildDate><item><title>Что такое XML?</title><link>https://www.insight-it.ru//theory/2008/chto-takoe-xml/</link><description>&lt;p&gt;Если Вам интересен ответ на этот вопрос, то Вам сюда!&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Ответ на вопрос, заявленный в теме прост до безобразия. Сама
+аббревиатура XML расшифровывается как e&lt;strong&gt;X&lt;/strong&gt;tensible &lt;strong&gt;M&lt;/strong&gt;arkup
+&lt;strong&gt;L&lt;/strong&gt;anguage, из чего логически вытекает все остальное.&lt;/p&gt;
+&lt;p&gt;Как и HTML он является &lt;em&gt;языком разметки&lt;/em&gt;, но в отличии от HTML, XML
+предназначен для других целей: он был разработан для &lt;em&gt;описания и
+хранения данных&lt;/em&gt;, когда HTML в основном сосредоточен на определении
+того, как данные будут отображаться на экране. Еще одним основным
+отличием является тот факт, XML нет предопределенных тэгов, Вы должны
+сами определять какие тэги будете использовать.&lt;/p&gt;
+&lt;p&gt;XML может использоваться для хранения практически любых типов данных, а
+его расширяемость позволяет ограничивать варианты его использования лишь
+фантазией разработчиков. Вот некоторые из них:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;В совокупности с технологией XSL или CSS данные, хранящиеся в XML
+    могут быть представлены как простая веб-страница&lt;/li&gt;
+&lt;li&gt;XML являться форматом обмена данными между несовместимыми системами,
+    так как он не зависит ни от программного обеспечения, ни от
+    оборудования, на котором хранятся данные&lt;/li&gt;
+&lt;li&gt;XML может не просто хранить данные, но и дать понять что же эти
+    данные значат&lt;/li&gt;
+&lt;li&gt;На базе XML может быть построено множество других технологии, из уже
+    получивших широкое распространение можно назвать RSS, WAP и WML.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Одними из самых наглядных способов увидеть что же из себя представляет
+XML - являются &lt;a href="/feed"&gt;RSS лента&lt;/a&gt; и &lt;a href="/sitemap.xml"&gt;карта сайта в XML&lt;/a&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sun, 06 Jan 2008 20:18:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-01-06:theory/2008/chto-takoe-xml/</guid><category>markup</category><category>XML</category><category>описание данных</category><category>разметка</category><category>хранение данных</category></item></channel></rss>

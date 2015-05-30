@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/ustanovka/feed/index.xml" rel="self"></atom:link><lastBuildDate>Tue, 26 Feb 2008 00:15:00 +0300</lastBuildDate><item><title>Hadoop для разработчика</title><link>https://www.insight-it.ru//storage/2008/hadoop-dlya-razrabotchika/</link><description>&lt;p&gt;Для разработки приложений, работающих с использованием Hadoop, или же
+алгоритмов для MapReduce framework'а совсем не нужен полномасштабный
+кластер. На самом же деле для запуска всей системы, описанной мной в
+&lt;a href="https://www.insight-it.ru/storage/2008/hadoop/"&gt;одном из предыдущих постов&lt;/a&gt;, вполне
+достаточно одного компьютера и буквально минут 15 свободного времени,
+как потратить их для решения этой задачи я Вам и поведаю.
+&lt;!--more--&gt;
+Рассказывать я буду на примере своего &lt;a href="/tag/gentoo-linux/"&gt;Gentoo
+Linux&lt;/a&gt;, но большая часть этого повествования будет
+справедлива и для других unix-like операционных систем.&lt;/p&gt;
+&lt;h3 id="podgotovka"&gt;Подготовка&lt;/h3&gt;
+&lt;p&gt;Перед тем, как приступить собственно говоря к установке
+&lt;a href="https://www.insight-it.ru/goto/30a7481/" rel="nofollow" target="_blank" title="http://hadoop.apache.org/core/"&gt;Hadoop&lt;/a&gt;, необходимо выполнить два
+элементарных действия, необходимых для правильного функционирования
+системы:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;открыть доступ одному из пользователей по &lt;code&gt;ssh&lt;/code&gt; к этому же
+    компьютеру без пароля, можно например создать отдельного
+    пользователя для этого &lt;code&gt;hadoop&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$$&lt;/span&gt; useradd -m -n hadoop
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Далее действия выполняем от его имени:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$$&lt;/span&gt; su hadoop
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Генерируем RSA-ключ для обеспечения аутентификации в условиях
+отсутствия возможности использовать пароль:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$$&lt;/span&gt; hadoop@localhost ~ &lt;span class="nv"&gt;$ &lt;/span&gt;ssh-keygen -t rsa -P &lt;span class="s2"&gt;""&lt;/span&gt;
+Generating public/private rsa key pair.
+Enter file in which to save the key &lt;span class="o"&gt;(&lt;/span&gt;/home/hadoop/.ssh/id_rsa&lt;span class="o"&gt;)&lt;/span&gt;:
+Your identification has been saved in /home/hadoop/.ssh/id_rsa.
+Your public key has been saved in /home/hadoop/.ssh/id_rsa.pub.
+The key fingerprint is:
+7b:5c:cf:79:6b:93:d6:d6:8d:41:e3:a6:9d:04:f9:85 hadoop@localhost
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;И добавляем его в список авторизованных ключей:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$$&lt;/span&gt; cat ~/.ssh/id_rsa.pub &amp;gt;&amp;gt; ~/.ssh/authorized_keys
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Этого должно быть более чем достаточно, проверить работоспособность
+соединения можно просто написав:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$$&lt;/span&gt; ssh localhost
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Не забываем предварительно инициализировать &lt;strong&gt;sshd&lt;/strong&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$$&lt;/span&gt; /etc/init.d/sshd start
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Помимо этого необходимо убедиться в наличии установленной JVM версии
+    1.5.0 или выше, а также узнать директорию, где она располагается,
+    вариантов сделать это множество, я нашел ее просто заглянув в самое
+    логичное место - &lt;code&gt;/usr/lib&lt;/code&gt;, но при желании никто не может Вам
+    помешать воспользоваться услугами, например, &lt;code&gt;slocate&lt;/code&gt;. Найденную
+    директорию с JVM лучше запомнить или записать куда-нибудь, для меня
+    она оказалась: &lt;code&gt;/usr/lib/jvm/sun-jdk-1.6&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="ustanovka"&gt;Установка&lt;/h3&gt;
+&lt;p&gt;Установка начинается с получения копии исходного кода системы, способов
+для этого существует несколько. Я перепробовал практически все, самую
+адекватную версию мне удалось получить из SVN. Для ее получения
+необходимо выполнить следующую команду:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;svn checkout http://svn.apache.org/repos/asf/hadoop/core/branches/branch-0.16 ~
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;branch-0.16&lt;/strong&gt; - последняя доступная версия на данный момент, для
+определения ее номера достаточно заглянуть &lt;a href="https://www.insight-it.ru/goto/99e3d37e/" rel="nofollow" target="_blank" title="http://svn.apache.org/repos/asf/hadoop/core/branches/"&gt;по тому же адресу&lt;/a&gt;
+браузером. Предполагается, что Hadoop будет располагаться прямо в
+&lt;code&gt;/home/hadoop&lt;/code&gt;, но запросто можно использовать и другую директорию.&lt;/p&gt;
+&lt;p&gt;Сразу же стоит скомпилировать различные дополнительные компоненты
+системы, особенно это актуально из-за &lt;a href="/tag/hbase/"&gt;HBase&lt;/a&gt;, но и помимо
+него соберется много чего интересного, например plug-in для отличной IDE
+под названием &lt;strong&gt;&lt;a href="https://www.insight-it.ru/goto/b7976bc5/" rel="nofollow" target="_blank" title="http://www.eclipse.org"&gt;Eclipse&lt;/a&gt;&lt;/strong&gt; или &lt;a href="https://www.insight-it.ru/goto/9253da15/" rel="nofollow" target="_blank" title="http://hadoop.apache.org/core/docs/r0.16.0/hod.html"&gt;Hadoop On
+Demand&lt;/a&gt;. Задача
+также элементарна:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; ~ &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; ant clean jar compile-contrib
+&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id="nastroika"&gt;Настройка&lt;/h3&gt;
+&lt;p&gt;Конфигурационные файлы можно редактировать в произвольном порядке, самое
+главное ничего не забыть :)&lt;/p&gt;
+&lt;h4&gt;conf/hadoop-env.sh&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;JAVA_HOME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/usr/lib/jvm/sun-jdk-1.6
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Единственная обязательная переменная окружения - &lt;code&gt;JAVA_HOME&lt;/code&gt;,
+здесь как раз пригодится заранее найденный путь до JVM, все
+остальное - по желанию.&lt;/p&gt;
+&lt;h4&gt;conf/hadoop-site.xml&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;hadoop.tmp.dir&lt;span class="nt"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;/home/hadoop/data/${user.name}&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;description&amp;gt;&lt;/span&gt;A base for other temporary directories.&lt;span class="nt"&gt;&amp;lt;/description&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;fs.default.name&lt;span class="nt"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;hdfs://localhost:54310&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;description&amp;gt;&lt;/span&gt;The name of the default file system.  A URI whose
+  scheme and authority determine the FileSystem implementation.  The
+  uri's scheme determines the config property (fs.SCHEME.impl) naming
+  the FileSystem implementation class.  The uri's authority is used to
+  determine the host, port, etc. for a filesystem.&lt;span class="nt"&gt;&amp;lt;/description&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;mapred.job.tracker&lt;span class="nt"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;localhost:54311&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;description&amp;gt;&lt;/span&gt;The host and port that the MapReduce job tracker runs
+  at.  If "local", then jobs are run in-process as a single map
+  and reduce task.
+  &lt;span class="nt"&gt;&amp;lt;/description&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;dfs.replication&lt;span class="nt"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;1&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;description&amp;gt;&lt;/span&gt;Default block replication.
+  The actual number of replications can be specified when the file is created.
+  The default is used if replication is not specified in create time.
+  &lt;span class="nt"&gt;&amp;lt;/description&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Этот конфигурации файл является одним из ключевых, таким образом он
+выглядит для конфигурации, состоящей из одного компьютера
+(позаимствован из &lt;a href="https://www.insight-it.ru/goto/f1c9004a/" rel="nofollow" target="_blank" title="http://www.michael-noll.com/tutorials/running-hadoop-on-ubuntu-linux-single-node-cluster/"&gt;англоязычного мануала&lt;/a&gt;
+на ту же тему).&lt;/p&gt;
+&lt;h4&gt;src/contrib/hbase/conf/hbase-site.xml&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;hbase.master&lt;span class="nt"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;localhost:60000&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;description&amp;gt;&lt;/span&gt;The host and port that the HBase master runs at&lt;span class="nt"&gt;&amp;lt;/description&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;hbase.rootdir&lt;span class="nt"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;/hbase&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;description&amp;gt;&lt;/span&gt;location of HBase instance in dfs&lt;span class="nt"&gt;&amp;lt;/description&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Как не сложно заметить, этот файл необходим для функционирования
+&lt;strong&gt;HBase&lt;/strong&gt;, по-моему все просто и очевидно, &lt;code&gt;&amp;lt;description&amp;gt;&lt;/code&gt; говорят
+сами за себя.&lt;/p&gt;
+&lt;h3 id="zapusk"&gt;Запуск&lt;/h3&gt;
+&lt;p&gt;Начать стоит с ознакомления с кратким описанием доступных команд Hadoop,
+сделать это можно просто набрав &lt;code&gt;~/bin/hadoop&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;Usage: hadoop &lt;span class="o"&gt;[&lt;/span&gt;--config confdir&lt;span class="o"&gt;]&lt;/span&gt; COMMAND
+where COMMAND is one of:
+  namenode -format     format the DFS filesystem
+  secondarynamenode    run the DFS secondary namenode
+  namenode             run the DFS namenode
+  datanode             run a DFS datanode
+  dfsadmin             run a DFS admin client
+  fsck                 run a DFS filesystem checking utility
+  fs                   run a generic filesystem user client
+  balancer             run a cluster balancing utility
+  jobtracker           run the MapReduce job Tracker node
+  pipes                run a Pipes job
+  tasktracker          run a MapReduce task Tracker node
+  job                  manipulate MapReduce &lt;span class="nb"&gt;jobs&lt;/span&gt;
+&lt;span class="nb"&gt;  &lt;/span&gt;version              print the version
+  jar             run a jar file
+  distcp   copy file or directories recursively
+  daemonlog            get/set the log level &lt;span class="k"&gt;for&lt;/span&gt; each daemon
+ or
+  CLASSNAME            run the class named CLASSNAME
+Most commands print &lt;span class="nb"&gt;help &lt;/span&gt;when invoked w/o parameters.
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Первым делом необходимо отформатировать &lt;em&gt;Namenode&lt;/em&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;~/bin/hadoop namenode -format
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;И дело останется лишь за малым, запустить на выполнение пару
+bash-скриптов, которые без вашего дальнейшего участия &lt;em&gt;инициализируют&lt;/em&gt;
+всю систему, включая HBase:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;~/bin/hadoop/start-all.sh &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; ~/src/contrib/hbase/bin/start-hbase.sh
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Как только они закончат все необходимые действия, у Вас появится
+возможность удостовериться, что все в порядке. Самым простым способом
+является запуск клиента &lt;em&gt;Hbase Shell&lt;/em&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;~/bin/src/contrib/hbase/bin/hbase shell
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Если в ответ Вы получили соответствующее приглашение клиента, значит все
+было сделано верно!&lt;/p&gt;
+&lt;p&gt;Вот собственно говоря и все, псевдо-кластер функционирует, доступ к
+HBase имеется, можно приступать к разработке :)&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;P.S.:&lt;/strong&gt; Остановка системы производится по тому же принципу скриптами
+&lt;code&gt;stop-all.sh&lt;/code&gt; и &lt;code&gt;stop-hbase.sh&lt;/code&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Tue, 26 Feb 2008 00:15:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-02-26:storage/2008/hadoop-dlya-razrabotchika/</guid><category>gentoo linux</category><category>Hadoop</category><category>HBase</category><category>HDFS</category><category>MapReduce</category><category>ПО</category><category>развертывание</category><category>разработка</category><category>установка</category></item></channel></rss>

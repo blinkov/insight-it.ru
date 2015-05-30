@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /goto
+Disallow: /drafts
+Disallow: /search
+Sitemap: https://www.insight-it.ru/sitemap.xml
+Host: www.insight-it.ru

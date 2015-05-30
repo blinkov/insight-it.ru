@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/plug-in/feed/index.xml" rel="self"></atom:link><lastBuildDate>Tue, 08 Jan 2008 02:13:00 +0300</lastBuildDate><item><title>SEO without category. Модифицированная версия.</title><link>https://www.insight-it.ru//misc/2008/seo-without-category-modificirovannaya-versiya/</link><description>&lt;div class="card orange darken-3"&gt;
+&lt;p&gt;&lt;div class="card-content white-text center"&gt;
+&lt;strong&gt;Данный пост морально устарел и оставлен лишь из исторических соображений.&lt;/strong&gt;
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Помимо простого удаления префикса "category" из постоянных ссылок на
+рубрики, добавлены следующие возможности:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;В случае, если рубрика является подрубрикой, производится замена
+    ссылки "/рубрика/подрубрика" на просто "/подрубрика".&lt;/li&gt;
+&lt;li&gt;Исправлена ошибка, приводящая в некоторых случаях к появлению ссылок
+    на несуществующие страницы подрубрик (ошибке 404 Not Found)&lt;/li&gt;
+&lt;li&gt;Работает даже в том случае, если префикс category был заменен на
+    что-либо другое&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Если у кого-либо возникнут какие-либо вопросы по этой модификации -
+прошу оставлять комментарии здесь, как связаться с автором оригинальной
+версии не знаю - страница, указанная как его адрес недоступна на данный
+момент.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Tue, 08 Jan 2008 02:13:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-01-08:misc/2008/seo-without-category-modificirovannaya-versiya/</guid><category>plug-in</category><category>SEO</category><category>seo without category</category><category>seo wordpress</category><category>WordPress</category><category>плагин</category></item><item><title>Related Posts 2.04. Русская версия</title><link>https://www.insight-it.ru//misc/2008/related-posts-204-russkaya-versiya/</link><description>&lt;div class="card orange darken-3"&gt;
+&lt;p&gt;&lt;div class="card-content white-text center"&gt;
+&lt;strong&gt;Данный пост морально устарел и оставлен лишь из исторических соображений.&lt;/strong&gt;
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;На досуге перевел на русский язык плагин под названием &lt;a href="https://www.insight-it.ru/goto/3db242e9/" rel="nofollow" target="_blank" title="http://wasabi.pbwiki.com/Related%20Entries"&gt;Related Posts&lt;/a&gt;, являющийся альтернативой одноименной функции из Simple Tags, с несколько другим алгоритмом. Не вижу ни одной причины почему бы не выложить в публичный доступ то, что у меня получилось. О качестве перевода не мне конечно судить, но по-моему вполне адекватно получилось.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h3 id="instruktsiia-po-ustanovke"&gt;Инструкция по установке&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;Разместите файл &lt;code&gt;related-posts.php&lt;/code&gt; в ваш каталог &lt;code&gt;/wp-content/plugins/&lt;/code&gt; и активируйте плагин.&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;a) В меню Плагины появится пункт &amp;ldquo;Настройка Related Posts&amp;rdquo;. Если Вы
+    впервые устанавливаете этот plug-in на этот блог нажмите на ссылку а
+    нижней части страницы настроек плагина. Это действие необходимо
+    производить только при первичной установке. Если в автоматическом режиме
+    не удалось составить индекс, то читайте дальше &amp;hellip;
+    b) В случае если автоматической создание индекса не удалось, Вам
+    придется создать его вручную. Не волнуйтесь - это не трудно. Необходимо
+    зайти в Вашу базу данных через phpMyAdmin или любым другим известным Вам
+    способом и выполнить следующий запрос (просто скопируйте и вставьте):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;ALTER&lt;/span&gt; &lt;span class="k"&gt;TABLE&lt;/span&gt; &lt;span class="o"&gt;`&lt;/span&gt;&lt;span class="n"&gt;wp_posts&lt;/span&gt;&lt;span class="o"&gt;`&lt;/span&gt;
+&lt;span class="k"&gt;ADD&lt;/span&gt; &lt;span class="n"&gt;FULLTEXT&lt;/span&gt; &lt;span class="o"&gt;`&lt;/span&gt;&lt;span class="n"&gt;post_related&lt;/span&gt;&lt;span class="o"&gt;`&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="o"&gt;`&lt;/span&gt;&lt;span class="n"&gt;post_name&lt;/span&gt;&lt;span class="o"&gt;`&lt;/span&gt; &lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="o"&gt;`&lt;/span&gt;&lt;span class="n"&gt;post_content&lt;/span&gt;&lt;span class="o"&gt;`&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Замечание:&lt;/strong&gt; Возможно Вам придется заменить &lt;code&gt;wp_posts&lt;/code&gt; на что-либо
+еще в случае если Вы используете другой префикс, что часто бывает,
+когда установлено несколько копий WordPress на одном сервере.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Разместите вызов плагина внутри цикла WordPress, и вуаля - плагин работает!&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="parametry"&gt;Параметры&lt;/h3&gt;
+&lt;p&gt;Начиная с версии 2.0 у Вас есть возможность изменять внешний вид и вывод
+плагина с помощью страницы настроек. Последующее руководство же
+предназначено для ручного изменения настроек.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;$limit&lt;/code&gt; - Количество записей для отображения. (По-умолчанию: 5)
+&lt;code&gt;$len&lt;/code&gt; - Длина отрывка из записи (количество слов). (По-умолчанию: 10)
+&lt;code&gt;$before/after_title&lt;/code&gt; - Текст перед/после заголовка.
+&lt;code&gt;$before/after_post&lt;/code&gt; - Текст перед/после отрывка записи, если
+включено.
+&lt;code&gt;$show_pass_post&lt;/code&gt; - Показывать/скрывать записи, защищенные паролем.
+(По-умолчанию выключено)
+&lt;code&gt;$show_excerpt&lt;/code&gt; - Показывать/скрывать отрывки из записей. (По-умолчанию
+выключено)&lt;/p&gt;
+&lt;p&gt;Например, можно создать непронумерванный список (вывод отсортирован по
+количеству совпавших ключевых слов) состоящий максимум из 5 записей.&lt;/p&gt;
+&lt;h3 id="ruchnaia-ustanovka-kliuchevykh-slov"&gt;Ручная установка ключевых слов&lt;/h3&gt;
+&lt;p&gt;Это функция была написана человеком по имени &lt;a href="https://www.insight-it.ru/goto/d7f5a701/" rel="nofollow" target="_blank" title="http://mike.blogdns.org/mikelu/archives/2004/07/27/related-post-plugin-v13-en/"&gt;Mike&lt;/a&gt;
+и позволят вручную &amp;ldquo;связывать&amp;rdquo; записи в случаях когда заголовок никак не
+связан с содержанием записи.&lt;/p&gt;
+&lt;p&gt;Ключевые слова обозначаются с помощью тэга &lt;code&gt;&amp;lt;!&amp;mdash;&amp;mdash;kw=keyword1 keyword2&amp;mdash;&amp;mdash;&amp;gt;&lt;/code&gt; размещенного внутри статьи. Плагин будет хранить эти
+ключевые слова в отдельном поле и использовать их для поиска совпадений,
+при их отсутствии используется заголовок.&lt;/p&gt;
+&lt;h3 id="problemy-voprosy-predlozheniia"&gt;Проблемы / Вопросы / Предложения&lt;/h3&gt;
+&lt;p&gt;Проблемы, вопросы и предложения, связанные с самим плагином имеет смысл
+сообщать авторам плагина на http://www.w-a-s-a-b-i.com или
+http://mike.blogdns.org/mikelu/.
+Все что связано с переводом же - пишите мне в комментариях к этой теме.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Tue, 08 Jan 2008 00:15:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-01-08:misc/2008/related-posts-204-russkaya-versiya/</guid><category>Life</category><category>online</category><category>plug-in</category><category>related posts</category><category>WordPress</category><category>перевод</category><category>плагин</category></item></channel></rss>

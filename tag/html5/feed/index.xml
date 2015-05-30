@@ -1,0 +1,927 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/html5/feed/index.xml" rel="self"></atom:link><lastBuildDate>Fri, 08 Feb 2013 10:20:00 +0400</lastBuildDate><item><title>Вакансии: команда Python разработчиков в EVAplacer</title><link>https://www.insight-it.ru//vacancy/2013/vakansii-komanda-python-razrabotchikov-v-evaplacer/</link><description>&lt;div class="card orange darken-3"&gt;
+&lt;p&gt;&lt;div class="card-content white-text center"&gt;
+&lt;strong&gt;Вакансии более не актуальны&lt;/strong&gt;
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Новая &lt;em&gt;международная геоинформационная социальная сеть&lt;/em&gt; EVAplacer
+набирает команду разработчиков.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h2 id="vedushchii-razrabotchik-servernoi-chasti-na-python"&gt;Ведущий разработчик серверной части на Python&lt;/h2&gt;
+&lt;h3 id="zadachi"&gt;Задачи&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Разработка серверной части проекта на Python&lt;/li&gt;
+&lt;li&gt;Проектирование архитектуры системы и схемы базы данных&lt;/li&gt;
+&lt;li&gt;Организация взаимодействия серверной части проекта с клиентской&lt;/li&gt;
+&lt;li&gt;Принятие технических решений&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="trebovaniia"&gt;Требования&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Свежий опыт веб-разработки на Python &lt;em&gt;без использования Django&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Суммарный опыт веб-разработки от 5 лет&lt;/li&gt;
+&lt;li&gt;Самостоятельность и заинтересованность в качестве результата своей
+    работы&lt;/li&gt;
+&lt;li&gt;Умение делегировать часть работы коллегам&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="tekhnologii"&gt;Технологии&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Предстоит работать со следующими технологиями:&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/2e568974/" rel="nofollow" target="_blank" title="http://flask.pocoo.org/"&gt;Flask&lt;/a&gt; +
+    &lt;a href="https://www.insight-it.ru/goto/35c21496/" rel="nofollow" target="_blank" title="http://jinja.pocoo.org/"&gt;Jinja2&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/bf2b1e00/" rel="nofollow" target="_blank" title="http://www.mongodb.org/"&gt;MongoDB&lt;/a&gt; +
+    &lt;a href="https://www.insight-it.ru/goto/a6920afe/" rel="nofollow" target="_blank" title="http://lucene.apache.org/solr/"&gt;Solr&lt;/a&gt; +
+    &lt;a href="https://www.insight-it.ru/goto/9ecaff4c/" rel="nofollow" target="_blank" title="http://memcached.org/"&gt;memcached&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/39ecae7b/" rel="nofollow" target="_blank" title="http://www.zeromq.org/"&gt;ZeroMQ&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Опыт работы именно с ними очень желателен, но не обязателен&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="zarplata"&gt;Зарплата&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;В диапазоне 100-150 тысяч рублей в месяц в зависимости от опыта&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="klientskii-razrabotchik_1"&gt;Клиентский разработчик&lt;/h2&gt;
+&lt;h3 id="zadachi_1"&gt;Задачи&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Разработка клиентской части проекта&lt;/li&gt;
+&lt;li&gt;Работа на стыке с серверной частью (Python), создание HTML и других
+    шаблонов на Jinja2&lt;/li&gt;
+&lt;li&gt;Оптимизация скорости загрузки страниц&lt;/li&gt;
+&lt;li&gt;Принятие технических решений по клиентской части&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="trebovaniia_1"&gt;Требования&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Опыт разработки на JavaScript/CoffeeScript и валидной верстки на
+    HTML5&lt;/li&gt;
+&lt;li&gt;Понимание основных принципов клиентской оптимизации&lt;/li&gt;
+&lt;li&gt;Суммарный опыт веб-разработки от 3 лет&lt;/li&gt;
+&lt;li&gt;Усидчивость, самостоятельность и заинтересованность в качестве
+    результата своей работы&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="tekhnologii_1"&gt;Технологии&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Предстоит работать со следующими технологиями:&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/35c21496/" rel="nofollow" target="_blank" title="http://jinja.pocoo.org/"&gt;Jinja2&lt;/a&gt; +
+    &lt;a href="https://www.insight-it.ru/goto/312f4825/" rel="nofollow" target="_blank" title="http://elsdoerfer.name/docs/webassets/"&gt;webassets&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/834fa52/" rel="nofollow" target="_blank" title="http://coffeescript.org/"&gt;CoffeeScript&lt;/a&gt; +
+    &lt;a href="https://www.insight-it.ru/goto/dca1748a/" rel="nofollow" target="_blank" title="http://sass-lang.com/"&gt;SASS&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/f573c764/" rel="nofollow" target="_blank" title="http://twitter.github.com/bootstrap/"&gt;Twitter Bootstrap&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/3b02d98c/" rel="nofollow" target="_blank" title="http://jquery.com/"&gt;jQuery&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/96340c7c/" rel="nofollow" target="_blank" title="http://leafletjs.com/"&gt;Leaflet&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Опыт работы именно с ними очень желателен, но не обязателен&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="zarplata_1"&gt;Зарплата&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;В диапазоне 60-100 тысяч рублей в месяц в зависимости от опыта&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="spetsialist-po-testirovaniiu_1"&gt;Специалист по тестированию&lt;/h2&gt;
+&lt;h3 id="zadachi_2"&gt;Задачи&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Основные:&lt;ul&gt;
+&lt;li&gt;Разработка автоматических тестов для серверной части проекта на
+    Python&lt;/li&gt;
+&lt;li&gt;Регрессионное тестирование сайта с помощью
+    &lt;a href="https://www.insight-it.ru/goto/561c2b8c/" rel="nofollow" target="_blank" title="http://seleniumhq.org/"&gt;Selenium&lt;/a&gt; или альтернатив&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Дополнительные:&lt;ul&gt;
+&lt;li&gt;Нагрузочное тестирование с использованием
+    &lt;a href="https://www.insight-it.ru/goto/52bdc53f/" rel="nofollow" target="_blank" title="http://jmeter.apache.org/"&gt;JMeter&lt;/a&gt; или альтернатив&lt;/li&gt;
+&lt;li&gt;Ручное визуальное тестирование, в т.ч. на кроссбраузерность&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="trebovaniia_2"&gt;Требования&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Свежий опыт тестирования интернет-проектов, желательно на Python&lt;/li&gt;
+&lt;li&gt;Суммарный опыт в тестировании от 3 лет&lt;/li&gt;
+&lt;li&gt;Внимательность, самостоятельность и заинтересованность в качестве
+    результата работы команды&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="zarplata_2"&gt;Зарплата&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;В диапазоне 50-100 тысяч рублей в месяц в зависимости от опыта&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="usloviia_1"&gt;Условия&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Премии по достижении ключевых вех проекта&lt;/li&gt;
+&lt;li&gt;Офис в центре Москвы (м. Охотный ряд, меньше 5 минут пешком)&lt;/li&gt;
+&lt;li&gt;Работа на MacBook Pro&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="card orange darken-3"&gt;
+&lt;p&gt;&lt;div class="card-content white-text center"&gt;
+&lt;strong&gt;Вакансии более не актуальны&lt;/strong&gt;
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Fri, 08 Feb 2013 10:20:00 +0400</pubDate><guid>tag:www.insight-it.ru,2013-02-08:vacancy/2013/vakansii-komanda-python-razrabotchikov-v-evaplacer/</guid><category>CoffeeScript</category><category>EVAplacer</category><category>Flask</category><category>html5</category><category>JavaScript</category><category>Jinja2</category><category>JMeter</category><category>JQuery</category><category>Leaflet</category><category>MacBook Pro</category><category>Memcached</category><category>MongoDB</category><category>Python</category><category>sass</category><category>Selenium</category><category>Solr</category><category>Twitter Bootstrap</category><category>webassets</category><category>ZeroMQ</category><category>вакансии</category><category>разработчик</category><category>тестировщик</category></item><item><title>Web Standards Days</title><link>https://www.insight-it.ru//event/2012/web-standards-days/</link><description>&lt;p&gt;Моё сегодняшнее путешествие на еще одну конференцию "для общего
+развития" закончилось с на удивление хорошими впечатлениями. Не смотря
+на скучные на&amp;nbsp;первый взгляд &amp;nbsp;названия докладов и &amp;nbsp;общую неоднозначную
+тематику, мероприятие оказалось очень даже не плохим.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/355926f4/" rel="nofollow" target="_blank" title="http://webstandardsdays.ru/"&gt;Мероприятие&lt;/a&gt; вообще независимое и
+проводится во многих крупных городах СНГ, в Москве проходило на
+территории Яндекса, который засветился на единственной имеющейся у меня
+фотографии (к чему пробел перед запятой не знаю):&lt;/p&gt;
+&lt;p&gt;&lt;img alt="WSD @ Yandex" class="responsive-img" src="https://www.insight-it.ru/images/wstdays-yandex.jpg" title="WSD @ Yandex"/&gt;&lt;/p&gt;
+&lt;p&gt;Вкратце пробежимся по докладам:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Current work on CSS at W3C&lt;/strong&gt;&amp;ensp;&lt;em&gt;(Bert Bos)&lt;/em&gt;: на первое выступление я
+    опоздал, видел лишь его кусочек из дома через трансляцию. На первый
+    взгляд показалось довольно унылым, чуть не передумал вообще ехать
+    из-за этого. Если первый взгляд оказался обманчивым - поправьте меня
+    в комментариях.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;New developments in Semantic Web and Internationalization at the W3C&lt;/strong&gt;&amp;ensp;&lt;em&gt;(Felix Sasaki)&lt;/em&gt;: хоть семантический Интернет - по-прежнему
+    все так же "круто", но никто, даже видимо в самом W3C, так толком и
+    не знает зачем он сдался на практике. В докладе, например, был
+    момент где заявлялось, что &lt;code&gt;&amp;lt;a property="http://creativecommons.org..."&lt;/code&gt;
+&lt;code&gt;href="http://creativecommons.org..."&amp;gt;&lt;/code&gt;&amp;nbsp;намного более машино-читабельно &lt;em&gt;(machine readable)&lt;/em&gt;, чем &lt;code&gt;&amp;lt;a href="http://creativecommons.org..."&amp;gt;&lt;/code&gt;. А&amp;nbsp;&lt;a href="/tag/google/"&gt;Google&lt;/a&gt;,
+    &lt;a href="/tag/yandex/"&gt;Яндекс&lt;/a&gt; и прочие поисковые системы значит, видимо,
+    вручную &amp;nbsp;непосильным трудом миллионов китайцев каждый день строят
+    поисковый индекс, так как компьютерам с атрибутом href
+    самостоятельно разобраться нереально. Если хотите мое мнение: из
+    всех этих "семантических" прибабахов на сегодняшний день самым
+    полезным является стандарт &lt;strong&gt;hReview&lt;/strong&gt;, так как с его помощью можно
+    в выдаче Google&amp;nbsp;напротив&amp;nbsp;страниц своего сайта звездочки рисовать,
+    которые здорово привлекают внимание. Остальные - пока лишь теория и
+    практическую пользу&amp;nbsp;среднестатистическому&amp;nbsp;интернет-проекту принести
+    не могут, буду рад, если расскажете мне в комментариях, почему я не
+    прав по этому вопросу..&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Yandex and W3C&lt;/strong&gt;&amp;ensp;&lt;em&gt;(Charles McCathieNevile aka Chaals)&lt;/em&gt;: я уже
+    слышал этот доклад на
+    &lt;a href="https://www.insight-it.ru/event/2012/yet-another-conference-2012/"&gt;YaC&lt;/a&gt;,
+    из нового Чаальз чуть подробнее показал как выглядит продвигаемый&amp;nbsp;в
+    W3C им и Яндексом&amp;nbsp;&lt;strong&gt;prefetch&lt;/strong&gt;. Если раньше я не придавал ему
+    особого значения, то в этот раз мне это предложение показалось очень
+    адекватным. По сути prefetch.txt - подобный robots.txt файлик в
+    корне домена, &amp;nbsp;в котором в простом формате сайт сообщает браузеру,
+    что такие-то статические ресурсы желательно заранее скачать и на
+    особых условиях локально кэшировать для быстрой работы сайта.
+    &lt;a href="https://www.insight-it.ru/goto/f91336cb/" rel="nofollow" target="_blank" title="http://mail.yandex.ru/prefetch.txt"&gt;Пример&lt;/a&gt;. Особо находчивые
+    сейчас воскликнут, что для этого же есть AppCache
+    из&amp;nbsp;&lt;a href="/tag/html5/"&gt;HTML5&lt;/a&gt;! Да, есть, но из-за обилия лишних заморочек
+    эту технологию очень мало кто умеет нормально "готовить", так что у
+    prefetch есть все шансы со временем вытеснить AppCache. Жаль, что на
+    сегодня поддерживается почти никем, лишь Яндекс.Браузером.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;SVGO: оптимизатор SVG&lt;/strong&gt;&amp;ensp;&lt;em&gt;(Кир Белевич)&lt;/em&gt;: если вдруг Вы работаете с
+    этим векторным форматом графики, имейте ввиду, что можно значительно
+    &amp;nbsp;уменьшить его объем и ускорить&amp;nbsp;производительность отрисовки выкинув
+    формальности, не влияющие на отображение, в ущерб, правда,
+    соответствию стандартам. Для этого как раз есть некоторое количество
+    утилит, в т.ч. и обсуждавшаяся SVGO.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Чётко и резко. Новая графика для экранов с высоким разрешением&lt;/strong&gt;&amp;ensp;&lt;em&gt;(Вадим Макеев)&lt;/em&gt;: очень доступно об особенностях верстки под
+    современные мобильные и не очень дисплеи. Основной заключительный
+    трюк доклада я слышал уже в третий раз из разных источников, так как
+    все трое о нем восторженно отзываются, наверное и правда работает.
+    Суть в следующем: если для сайта нужно JPEG-изображение размером
+    &lt;strong&gt;X&lt;/strong&gt;x&lt;strong&gt;Y&lt;/strong&gt;, подготавливаем вместо него изображение
+    &lt;strong&gt;2*X&lt;/strong&gt;x&lt;strong&gt;2*Y&lt;/strong&gt; и сохраняем его с низким качеством, порядка 20-30%
+    вместо обычных 70-90%. По объему во многих случаях оно может
+    оказаться даже меньше, чем традиционный аналог, но при использовании
+    такого изображения оно отлично смотрится (без видимого размытия и
+    JPEG-артефактов) как на обычных экранах, так и на экранах с высоким
+    соотношением физического пикселя к виртуальному (которые как раз и
+    называют "retina"). Про это соотношение &amp;nbsp;краткая справка: физический
+    пиксель - лампочка на матрице, виртуальный - единица измерения,
+    которая и используется в CSS; у обычных экранов это соотношение
+    равно 1 или даже меньше; у Android бывает 1.5; у "ретиновой"
+    продукции Apple и флагманских смартфонов/планшетов - 2; больше двух
+    тоже бывает, но в природе встречается редко, почти никогда.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Паттерны Javascript&lt;/strong&gt;&amp;ensp;&lt;em&gt;(Антон Немцев)&lt;/em&gt;: доклад и правда об очень
+    базовых вещах в JavaScript, но с шутками и картинками, &amp;nbsp;который все
+    равно позволил мне обнаружить некоторые неудачные моменты в своем
+    клиентском коде. По делу и не скучно.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Grunt. Система сборки для фронтенд-разработчиков&lt;/strong&gt;&amp;ensp;&lt;em&gt;(Артём
+    Сапегин)&lt;/em&gt;: в общем-то заголовок передает всю суть доклада, добавлю
+    лишь, что он полностью на &lt;a href="/tag/javascript/"&gt;JavaScript&lt;/a&gt;&amp;nbsp;и имеет
+    200+ плагинов на все случаи жизни. &amp;nbsp;Я как-то по старинке пользуюсь
+    для этого &lt;a href="https://www.insight-it.ru/goto/5908cea6/" rel="nofollow" target="_blank" title="https://github.com/miracle2k/webassets"&gt;webassets&lt;/a&gt;, хотя
+    возможно и зря, надо будет по-детальнее взвесить за и против этих
+    двух и подобных продуктов.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Адаптивный веб-дизайн &amp;mdash; Что? Где? Когда?&lt;/strong&gt;&amp;ensp;&lt;em&gt;(Анна Селезнёва)&lt;/em&gt;:
+    отзывчивый дизайн &lt;em&gt;(responsive web design)&lt;/em&gt; - лишь небольшая часть
+    адаптивного &lt;em&gt;(adaptive)&lt;/em&gt;. Последний включает в себя не только
+    перераспределение содержимого веб-страниц при разном разрешении
+    экрана, но и приспособление под разные типы управляющих устройств
+    (не только сенсорные экраны, но и стилус, клавиатуры, читающий вслух
+    софт для слепых и пр.), а также по-хорошему к нему же относятся &amp;nbsp;и
+    вещи вроде стилей для печати веб-страниц.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Getting touchy&lt;/strong&gt;&amp;ensp;&lt;em&gt;(Patrick H. Lauke)&lt;/em&gt;: докладчик, видимо на
+    досуге, детально ковыряется в том, каким образом в JavaScript
+    создаются события на основе различных жестов, как эмулируется мышь и
+    прочих подобных штуках. &amp;nbsp;Мораль доклада: для большинства простых
+    сайтов стандартная эмуляция мыши мобильными браузерами вполне
+    достаточна, различные трюки с сенсорными &lt;em&gt;(touch)&lt;/em&gt; событиями нужны
+    лишь в определенных элементах (вроде слайдшоу или динамики внутри
+    тега &lt;code&gt;&amp;lt;canvas&amp;gt;&lt;/code&gt;), требующих повышенной интерактивности, за которую
+    нужно быть готовыми платить. Платить как местами низкой
+    производительностью, так и &amp;nbsp;ограничением стандартных механизмов
+    браузера - как минимум масштабированием&amp;nbsp;&lt;em&gt;(pinch to zoom)&lt;/em&gt; и/или
+    пролистыванием&amp;nbsp;&lt;em&gt;(scrolling)&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Технолог &amp;mdash; тоже дизайнер&lt;/strong&gt;&amp;ensp;&lt;em&gt;(Артём Поликарпов)&lt;/em&gt;: вся соль доклада лежала в одном его слайде:
+    &amp;gt; "Если дизайнер не показал, как делать что-то, нельзя делать вид, что этого нет".
+    Все остальное было лишь примерами того, как это может выглядеть на
+    практике, в духе как будет выглядеть кнопочка, если её отключить,
+    что делать с чрезмерно длинными заголовками и пр. В обсуждении
+    докладчику&amp;nbsp;досталось&amp;nbsp;за то, что он не обратил внимание на то, что не
+    смотря на всяческие плюсы данного подхода, обязательно нужно быть
+    готовым нести полную ответственность за собственное творчество. Если
+    "технолог" не видит всей картины проекта (а это практически всегда
+    так), подобным "творчеством" можно сильно навредить, особенно если
+    никого не&amp;nbsp;предупредить&amp;nbsp;о его существовании, хотя бы дизайнера, а
+    лучше и всех других заинтересованных лиц.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Круглый стол с экспертами W3C, Яндекса и Opera Software&lt;/strong&gt; &amp;ensp;&lt;em&gt;(все иностранные гости)&lt;/em&gt;: обсуждались всякие формальности взаимодействия
+    внутри и снаружи W3C и проектов вроде
+    &lt;a href="https://www.insight-it.ru/goto/a8f3b207/" rel="nofollow" target="_blank" title="http://www.webstandards.org/"&gt;webstandards.org&lt;/a&gt;.&amp;nbsp;Ничего практически
+    полезного, к сожалению, "со стола" не унес, думаю, и аудитория и
+    выступающие к тому моменту уже порядком подустали. Разве что был
+    интересный момент о том, что независимому эксперту для попадания в
+    подобные организации необходимо активно тусоваться в тематических
+    группах почтовых рассылок &lt;em&gt;(mailing list)&lt;/em&gt;, мозолить всем глаза, а
+    также реально заниматься чем-то общественно полезным, что может хотя
+    бы чуть-чуть изменит мир в лучшую сторону.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Вместо заключения повторюсь, что мероприятие вопреки моим ожиданиям
+оказалось довольно качественным. Подробности по докладам, презентации,
+может быть даже со временем видео и т.п. см. на страничке
+&lt;a href="https://www.insight-it.ru/goto/46069b1f/" rel="nofollow" target="_blank" title="http://events.yandex.ru/events/yagosti/wsd-msk-nov-2012/"&gt;Яндекса&lt;/a&gt;&amp;nbsp;о
+&lt;strong&gt;Web Standards Days&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;По традиции рекомендую &lt;a href="/feed/"&gt;подписаться на Insight IT через RSS&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sun, 25 Nov 2012 01:22:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-11-25:event/2012/web-standards-days/</guid><category>html5</category><category>web standards</category><category>Web Standards Days</category><category>веб стандарты</category><category>конференции</category><category>мероприятия</category><category>Яндекс</category></item><item><title>Оптимизация интерактивных сайтов</title><link>https://www.insight-it.ru//interactive/2012/optimizaciya-interaktivnykh-sajjtov/</link><description>&lt;p&gt;Возвращаясь к теме&amp;nbsp;&lt;a href="https://www.insight-it.ru/interactive/"&gt;"Интерактивных сайтов"&lt;/a&gt;,&amp;nbsp;сегодня я хотел бы обсудить заключительную часть повествования, их
+&lt;strong&gt;оптимизацию&lt;/strong&gt;. Возможно вы уже успели реализовать все или часть
+обсуждавшихся в предыдущих статьях приемов, в этой статье я "подкину"
+Вам еще несколько.&amp;nbsp;Настоятельно рекомендую прежде чем читать дальше
+ознакомиться хотя бы с первой статьей про общую архитектуру, а лучше,
+конечно, со всеми предыдущими статьями серии. В этот раз мы пройдемся по
+всем обсуждавшимся в отдельных статьях компонентам, правда в другом
+порядке, и будем обсуждать возможные пути их улучшения.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h2 id="oglavlenie-serii-interaktivnye-saity"&gt;Оглавление серии "Интерактивные сайты"&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href="https://www.insight-it.ru/interactive/2012/arkhitektura-interaktivnykh-sajjtov/"&gt;Общая архитектура&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.insight-it.ru/interactive/2012/klientskaya-chast-interaktivnogo-sajjta/"&gt;Организация клиентской части&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.insight-it.ru/interactive/2012/postoyannoe-soedinenie-mezhdu-brauzerom-i-serverom/"&gt;Постоянное соединение между браузером и сервером&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.insight-it.ru/interactive/2012/povtornoe-ispolzovanie-shablonov/"&gt;Повторное использование шаблонов&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.insight-it.ru/interactive/2012/servernaya-chast-interaktivnogo-sajjta-i-potoki-soobshhenijj/"&gt;Серверная часть интерактивного сайта и потоки сообщений&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href="https://www.insight-it.ru/interactive/2012/optimizaciya-interaktivnykh-sajjtov/"&gt;Оптимизация&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id="servernaia-chast"&gt;Серверная часть&lt;/h2&gt;
+&lt;p&gt;На серверной стороне есть масса простора для оптимизации, но, чтобы не
+распыляться, постараюсь сосредоточиться лишь на том, что напрямую
+связано с темой &lt;em&gt;интерактивных сайтов&lt;/em&gt;. В частности на процессе
+маршрутизации сообщений и уведомлений между пользователями.&lt;/p&gt;
+&lt;p&gt;Когда разрабатывается первая версия сайта, то многие части функционала
+проще всего реализовать в виде массовых рассылок, как-то так: произошло
+какое-то публично-доступное событие, допустим кто-то куда-то поставил
+"мне нравится", отправляем его в брокер сообщений с пометкой "доставить
+всем" &lt;em&gt;(fanout)&lt;/em&gt;. В итоге все подключенные на данный момент клиенты
+получают это уведомление и каждый сам решает что с ним делать - что-то
+менять на текущей странице или просто проигнорировать.&lt;/p&gt;
+&lt;p&gt;Но при большом количестве соединений и потоке событий такой подход
+становится роскошью. Большинство подобных ситуаций можно реализовать
+подпиской на тематические &lt;em&gt;(topic)&lt;/em&gt; рассылки для каждого пользователя
+индивидуально, то есть когда пользователь открывает ту или иную
+страницу - серверная сторона должна подписать его на уведомления,
+связанные именно с тем контентом, который находится у него на экране.
+Это позволит свести к минимуму количество&amp;nbsp;доставленных&amp;nbsp;зря сообщений.&lt;/p&gt;
+&lt;p&gt;Ситуации, когда правда нужны массовые рассылки по всем пользователям,
+хоть и редки, но все же бывают. Если есть возможность их избежать, то
+лучшей ей воспользоваться.&lt;/p&gt;
+&lt;p&gt;Чтобы реализовать индивидуальные подписки как изложено выше, вероятно
+понадобится еще и изменить принцип установления соединений между
+брокером сообщений и сервером, поддерживающим постоянное соединение. Для
+схемы массовых рассылок достаточно одного такого соединения на сервер.
+Каждый сервер хранит список активных соединений с браузерами и, получив
+новое сообщение от брокера, просто итеративно проходится по нему,
+ретранслируя сообщение в каждое соединение. В таком случае для
+последнего соединения в списке задержка может достигать нескольких
+секунд, что не всегда приемлемо. Для схемы индивидуальных подписок есть
+два основных варианта:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Реализовать мини-брокер внутри каждого такого сервера, т.е. сам
+    сервер по-прежнему держит лишь одно соединение с настоящим брокером
+    и получает все подряд сообщения, но прежде чем ретранслировать
+    анализирует его и отправляет лишь части соединений.&lt;/li&gt;
+&lt;li&gt;Либо держать создавать много примитивных процессов, которые с одной
+    стороны держат соединение с браузером, с другой - с брокером. Каждый
+    из них подписан именно на те сообщения, которые нужны данному
+    пользователю, и ретранслируют их все без анализа.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="card blue lighten-4"&gt;
+&lt;p&gt;&lt;div class="card-content"&gt;
+Оба варианта имеют право на существование, какой окажется лучше -
+зависит от многих факторов, нужно тестировать. Лично мне больше по душе
+второй, но далеко не на каждой платформе его удастся эффективно
+реализовать - настоящих системных процессов для такого использования
+не&amp;nbsp;напасешься.
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;h2 id="postoiannoe-soedinenie-mezhdu-brauzerom-i-serverom"&gt;Постоянное соединение между браузером и сервером&lt;/h2&gt;
+&lt;p&gt;Помимо выбора удачной библиотеки абстракции протоколов для различных
+браузеров, о чем я уже довольно подробно писал в соответствующей статье
+серии, здесь я могу предложить еще два момента для значительного
+улучшения производительности.&lt;/p&gt;
+&lt;h3 id="mezhvkladochnoe-vzaimodeistvie-cross-tab-communication"&gt;Межвкладочное взаимодействие &lt;em&gt;(cross-tab communication)&lt;/em&gt;&lt;/h3&gt;
+&lt;p&gt;На эту тему в Интернете ходит масса слухов и разговоров, но адекватной
+инструкции о том как это можно кроссбраузерно организовать в разумные
+сроки я не встречал, если кто знает - дайте в ссылку в комментариях,
+пожалуйста. А я пока попробую поделиться своим опытом.&lt;/p&gt;
+&lt;p&gt;Вкратце для тех, кто не в курсе: в самой простой реализации постоянное
+соединение между браузером и сервером устанавливается для каждой вновь
+открытой вкладки заново. Так как каждое такое соединение ресурсоемко, то
+этого хотелось бы избежать. Помочь в этом может организация
+&lt;strong&gt;межвкладочного взаимодействия&lt;/strong&gt; или, другими словами, общения между
+вкладками/окнами браузера: одна вкладка избирается &lt;em&gt;главной&lt;/em&gt; и
+устанавливает соединение с сервером, когда она получает новое
+сообщение - она переправляет его конкретной открытой вкладке или же всем
+сразу; те же, в свою очередь, когда хотят отправить сообщение на сервер,
+отправляют его сначала &lt;em&gt;главной&lt;/em&gt; вкладке, а та уже пересылает на сервер.
+В итоге все работает как и раньше, но соединений не больше одного на
+браузер.&lt;/p&gt;
+&lt;p&gt;Вообще в явном виде общение между вкладками браузера, как Вы, вероятно,
+знаете, не предусмотрено. Именно из-за этого реализовать это все
+кроссбраузерно не просто. Для начала приведу список технологий, которые
+так или иначе можно для этого приспособить, большинство из них принято
+относить к нынче модному &lt;a href="/tag/html5/"&gt;HTML5&lt;/a&gt;, в порядке возрастания
+моих симпатий:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/704e1f8a/" rel="nofollow" target="_blank" title="http://en.wikipedia.org/wiki/Local_shared_object"&gt;Flash Local Shared Cookies&lt;/a&gt; - даже не рассматривал как вариант, так как требуется Adobe Flash, плюс, кажется, постоянно всплывает окно вроде
+    &lt;a href="https://www.insight-it.ru/goto/e9a669cc/" rel="nofollow" target="_blank" title="http://www.macromedia.com/support/documentation/en/flashplayer/help/help06.html"&gt;этого&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/732af670/" rel="nofollow" target="_blank" title="http://caniuse.com/#feat=x-doc-messaging"&gt;postMessage&lt;/a&gt;&amp;nbsp;-&amp;nbsp;отправка
+    сообщения указанному окну по его идентификатору. Поддержка
+    браузерами хорошая, но большинство примеров показывают общение с
+    iframe, а сопутствующего API для получения списка всех открытых
+    окон/вкладок я не нашел, может быть плохо искал.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/86256a54/" rel="nofollow" target="_blank" title="http://caniuse.com/#feat=webworkers"&gt;Web Workers&lt;/a&gt; - в браузере
+    создается не зависящий от вкладок поток, с которым можно общаться из
+    вкладок. Поддержка браузерами хромает, а там где её нет -
+    polyfill'ов пока не придумали.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/fc6c98e9/" rel="nofollow" target="_blank" title="http://caniuse.com/#feat=namevalue-storage"&gt;Web Storage&lt;/a&gt; -
+    локальное хранилище пар ключ-значение с ограничением в 5-10Мб на
+    домен. Хорошая поддержка браузерами, а там где её нет - есть
+    polyfill'ы. Еще бывает &lt;a href="https://www.insight-it.ru/goto/71a12fd0/" rel="nofollow" target="_blank" title="http://caniuse.com/#feat=sql-storage"&gt;Web SQL&lt;/a&gt;, но для данной задачи это уже перебор.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;В общем рекомендую последний вариант, из дополнительных плюсов хранилище
+можно использовать и для других целей, но об этом в следующих разделах.&lt;/p&gt;
+&lt;p&gt;Если есть желание и время можно работать напрямую с API хранилища, но
+все же самостоятельно разбираться с особенностями браузеров - занятие не
+благодарное, так что могу посоветовать взглянуть на имеющиеся opensource
+библиотеки-обертки. Из тех, что я пробовал, мне больше всего нравится
+&lt;strong&gt;&lt;a href="https://www.insight-it.ru/goto/288f4119/" rel="nofollow" target="_blank" title="http://www.jstorage.info/"&gt;jStorage&lt;/a&gt;&lt;/strong&gt;&amp;nbsp;из-за своей "зеленой" таблицы
+поддержки браузерами и готовому publish/subscribe API.&lt;/p&gt;
+&lt;p&gt;Итак, вкратце пройдемся по ориентировочному алгоритму реализации
+межвкладочного взаимодействия:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Каждая вкладка при своем открытии придумывает себе уникальный
+    идентификатор (проще всего на основе &lt;em&gt;Math.random&lt;/em&gt;), будем называть
+    его &lt;strong&gt;tab_id&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;В хранилище будут храниться список всех активных tab_id, допустим,
+    &lt;strong&gt;tabs&lt;/strong&gt; и tab_id &lt;em&gt;главной&lt;/em&gt; &lt;em&gt;вкладки&lt;/em&gt;, допустим,&amp;nbsp;&lt;strong&gt;master&lt;/strong&gt;. Каждая
+    новая вкладка смотрит есть ли другие открытые вкладки. Если есть -
+    просто дописывает себя в tabs, если нет - то еще и объявляет себя
+    главной и открывает соединение с браузером.&lt;/li&gt;
+&lt;li&gt;Далее она подписывается на сообщения отправленные лично ей (по её
+    tab_id) и на различные типы сообщений, которые могут быть интересны
+    всем вкладкам.&lt;/li&gt;
+&lt;li&gt;В обработчике события &lt;em&gt;window.onbeforeunload&lt;/em&gt;&amp;nbsp;(происходит сразу же
+    перед закрытием вкладки) каждая вкладка убирает себя из &lt;strong&gt;tabs&lt;/strong&gt;&amp;nbsp;и
+    если она была главной, то и из &lt;strong&gt;master&lt;/strong&gt; тоже. Альтернативный
+    вариант: &lt;strong&gt;master&lt;/strong&gt; сразу может выбирать себе "преемника". Так как
+    это событие срабатывает не всегда (когда компьютер жестко вырубился
+    питанием, фатальный сбой в браузере, плюс оно не поддерживается
+    неоправданно популярной в рунете Оперой и мобильным Safari), то
+    придется создать альтернативный механизм проверки активности
+    &lt;strong&gt;master&lt;/strong&gt; и очистки &lt;strong&gt;tabs&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Так как какого-либо API для проверки открыта ли вкладка по её
+    &lt;strong&gt;tab_id&amp;nbsp;&lt;/strong&gt;по очевидным причинам нет, нужно придумать свою схему.
+    Самый простой рабочий вариант, пришедший мне в голову:&lt;ul&gt;
+&lt;li&gt;Главная вкладка пишет каждые несколько сотен&amp;nbsp;миллисекунд&amp;nbsp;в
+    хранилище текущую дату/время, теоретически так как все
+    происходит на одном компьютере, то текущее время во всех
+    вкладках должно быть одно и то же;&lt;/li&gt;
+&lt;li&gt;Не-главные вкладки каждые 1-3 секунд читают значение из того же
+    места в хранилище и если оно отстает от текущего на, допустим,
+    больше чем секунду, то главную вкладку, вероятно, закрыли и надо
+    её "свергнуть" - удалить из &lt;strong&gt;tabs&lt;/strong&gt; и &lt;strong&gt;master&lt;/strong&gt;&amp;nbsp;и назначить,
+    например, первую или последнюю запись из списка&amp;nbsp;&lt;strong&gt;tabs&lt;/strong&gt; новой
+    главной вкладкой;&lt;/li&gt;
+&lt;li&gt;Если выбранная новая вкладка тоже оказалась уже закрыта, не
+    беда - во всех случаях, кроме совсем неадекватных, этот не
+    хитрый механизм переберет все&amp;nbsp;&lt;strong&gt;tabs&lt;/strong&gt; и найдет-таки нормальную
+    открытую;&lt;/li&gt;
+&lt;li&gt;Каждая вкладка подписывается на изменения значения &lt;strong&gt;master&lt;/strong&gt;,
+    чтобы если новое значение совпадет с её tab_id открыть
+    соединение с сервером.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Отправка сообщений происходит по простому publish/subscribe, где
+    master подписывается и ретранслирует в соединение с сервером, а
+    отправляют все остальные вкладки. Если вкладка отправляет запрос,
+    ответ на который хочет получить только она сама (чаще всего переход
+    на другую страницу сайта или отправка формы), то она указывает в
+    отправляемом запросе свой "обратный адрес" в виде tab_id. Master,
+    получив ответ на такое сообщение с указанным обратным адресом,
+    перенаправляет его отправителю.&lt;/li&gt;
+&lt;li&gt;Также в хранилище полезно иметь переменную-флаг (также с подпиской
+    на изменения), обозначающую открыто ли сейчас где-то постоянное
+    соединение, чтобы вместо того, чтобы отправлять сообщения&amp;nbsp;в
+    никуда&amp;nbsp;вкладки использовали какой-то альтернативный способ (AJAX или
+    переход по ссылке / отправка формы средствами браузера). В качестве
+    альтернативы можно реализовать очередь неотправленных сообщений, но
+    по факту когда с соединением проблемы, то неизвестно когда они
+    устранятся и устранятся ли вообще, так что смысла в ней чаще всего
+    мало.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Надеюсь вышеизложенное окажется кому-то полезным, если нужны какие-то
+уточнения - не стесняйтесь спрашивать в комментариях.&lt;/p&gt;
+&lt;h3 id="minimizatsiia-razmera-soobshchenii"&gt;Минимизация размера сообщений&lt;/h3&gt;
+&lt;p&gt;&lt;a href="/tag/json/"&gt;JSON&lt;/a&gt; хоть и сильно выигрывает у &lt;a href="/tag/xml/"&gt;XML&lt;/a&gt;&amp;nbsp;по объему
+сериализованных сообщений, но все же является текстовым форматом с
+указанием схемы (название для каждого значения) внутри самого сообщения.
+Почему минимизация объема передаваемых по постоянному соединению
+данных - дело полезное, объяснять, думаю, не стоит.&lt;/p&gt;
+&lt;p&gt;Первое, что приходит в голову, чтобы уменьшить объем сообщений -
+избавиться от включенной в них схемы, оставив только чистые данные.
+Изобретать свой формат ни к чему, есть неплохой&amp;nbsp;широко
+распространенный&amp;nbsp;кандидат в виде &lt;a href="/tag/google/"&gt;Google&lt;/a&gt;&amp;nbsp;&lt;a href="/tag/protocol-buffers/"&gt;Protocol
+Buffers&lt;/a&gt;. Кстати, недавно нашел библиотеку с
+&lt;a href="/tag/javascript/"&gt;JavaScript&lt;/a&gt; реализацией Protocol Buffers с хорошими
+отзывами, в ближайшее время думаю сам опробую:
+&lt;a href="https://www.insight-it.ru/goto/a420ea/" rel="nofollow" target="_blank" title="https://github.com/sirikata/protojs"&gt;protojs&lt;/a&gt;. Если кто уже работал с
+ней - буду рад, если поделитесь впечатлениями.&lt;/p&gt;
+&lt;p&gt;Но на практике оказалось, что эта самая схема обычно занимает максимум
+10-20% от сообщения, так как большинство данных все же текстовые.
+Использование Protocol Buffers было бы намного более выгодным, если бы
+было необходимо "упаковать" много чисел или флагов, для текстовых данных
+выигрыш намного меньше.&lt;/p&gt;
+&lt;p&gt;Экономии в разы можно добиться используя обычные алгоритмы компрессии
+(или, если так привычнее, архивации) данных.
+&lt;a href="/tag/javascript/"&gt;JavaScrtipt&lt;/a&gt; "из коробки" этого делать не умеет, но
+есть полно библиотек на любой вкус и цвет, правда все хромают и чаще
+всего не кроссбраузерные. Приведу несколько, которые запомнились после
+вечера, проведенного за изучением данного вопроса:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/be52f434/" rel="nofollow" target="_blank" title="http://rosettacode.org/wiki/LZW_compression"&gt;LZW&lt;/a&gt; - есть реализации
+    на большинстве языков программирования, но компрессия не очень
+    сильная (раза в полтора-два в лучшем случае), плюс реализация под
+    интересующий меня &lt;a href="/tag/erlang/"&gt;Erlang&lt;/a&gt; оказалась дико неэффективна
+    по памяти, а на бинарных строках сходу не нашлась.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/49c64f8e/" rel="nofollow" target="_blank" title="https://github.com/imaya/zlib.js"&gt;zlib.js&lt;/a&gt; - умеет &lt;em&gt;zlib (deflate)&lt;/em&gt;
+    и &lt;em&gt;gzip&lt;/em&gt;, но, к сожалению, в моем браузере не могла разжать обратно
+    то, что сжала, плюс объем кода библиотеки очень большой.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/730dabaf/" rel="nofollow" target="_blank" title="https://github.com/dankogai/js-deflate"&gt;js-deflate&lt;/a&gt; - не
+    обновлялась уже 4 года, отсутствует документация, но зато в целом
+    работает. Подбирать метод компрессии для серверной стороны пришлось
+    почти экспериментально, оказался &lt;em&gt;zlib (deflate)&lt;/em&gt; без заголовков и
+    контрольной суммы (в &lt;a href="/tag/erlang/"&gt;Erlang&lt;/a&gt; встроенная функция zlib:zip). Компрессия примерно в 3-4 раза.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Если все же решите использовать компрессию, то рекомендую реализовать
+флаг для ситуаций когда в клиенте все же декомпрессия по каким-то
+причинам сломана. Достаточно просто сжать-разжать короткую строку и
+сравнить с оригиналом, если не совпало или выскочило исключение -
+просить сервер отвечать без компрессии.&lt;/p&gt;
+&lt;p&gt;По поводу дополнительных вычислительных ресурсов, которые будут
+потребляться на компрессию/декомпрессию, вопрос, конечно, спорный, в
+целом надо все мерять и делать выводы. Но если учесть, что почти во всех
+современных устройствах, даже телефонах, как минимум 1Ггц процессор, а
+на сервере можно кэшировать уже сжатые данные, то это не особо большая
+проблема. К слову объем сообщений уменьшается тоже не гарантированно,
+бывает что "сжатая" версия оказывается такой же или даже чуть больше,
+чем оригинал. В общем, использовать компрессию нужно осторожно :)&lt;/p&gt;
+&lt;h2 id="povtornoe-ispolzovanie-shablonov_1"&gt;Повторное использование шаблонов&lt;/h2&gt;
+&lt;p&gt;Сообщение со списком шаблонов для использование на клиентской части,
+вероятно, будет самым большим по объему и больше других выиграет от
+компрессии. Но есть возможность легко минимизировать и количество таких
+сообщений. Помните, я писал, что локальное хранилище в браузере можно и
+для других целей использовать?&lt;/p&gt;
+&lt;p&gt;Кэширование шаблонов - идеальный пример. Получив от сервера шаблоны он
+кладет их не только в объект-обертку, но и в локальное хранилище. На
+сервере помимо самого JSON'а с шаблонами генерируем хэш (md5, sha или
+crc - не важно) текущей версии. Клиент, когда открывает соединение,
+сообщает серверу есть ли у него какая-то версия и если есть, то какая,
+сервер отправляет новую версию в ответ только если хэши не совпали.&lt;/p&gt;
+&lt;p&gt;Аналогичным образом можно кэшировать и другую редко меняющуюся объемную
+информацию, например данные для автодополнения в текстовых полях
+&lt;em&gt;(autocomplete)&lt;/em&gt;.&lt;/p&gt;
+&lt;h2 id="zakliuchenie"&gt;Заключение&lt;/h2&gt;
+&lt;p&gt;Надеюсь предложенные в этой статье приемы окажутся Вам полезны. Буду
+рад, если Вы поделитесь своим опытом и приемами по данной теме в
+комментариях, а также с удовольствием обсужу подробности.&lt;/p&gt;
+&lt;div class="card green"&gt;
+&lt;p&gt;&lt;div class="card-content white-text"&gt;
+Эта статья - шестая и заключительная в &lt;a class="green-text text-lighten-4" href="https://www.insight-it.ru/interactive/"&gt;серии про Интерактивные сайты&lt;/a&gt;, автор - &lt;a class="green-text text-lighten-4" href="https://www.insight-it.ru/goto/b03d9116/" rel="nofollow" target="_blank" title="http://blinkov.ru"&gt;Иван&amp;nbsp;Блинков&lt;/a&gt;, основано на личном опыте.
+До встречи &lt;a class="green-text text-lighten-4" href="/feed/"&gt;на страницах Insight IT&lt;/a&gt;!
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sat, 20 Oct 2012 12:32:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-10-20:interactive/2012/optimizaciya-interaktivnykh-sajjtov/</guid><category>deflate</category><category>html5</category><category>JavaScript</category><category>JSON</category><category>jStorage</category><category>Protocol Buffers</category><category>Web Storage</category><category>zlib</category><category>клиентская оптимизация</category><category>компрессия</category><category>кэширование</category><category>оптимизация</category></item><item><title>Постоянное соединение между браузером и сервером</title><link>https://www.insight-it.ru//interactive/2012/postoyannoe-soedinenie-mezhdu-brauzerom-i-serverom/</link><description>&lt;p&gt;В статье про &lt;a href="https://www.insight-it.ru/interactive/2012/klientskaya-chast-interaktivnogo-sajjta/"&gt;клиентскую часть интерактивного интернет-проекта&lt;/a&gt; мы подошли к вопросу возможности использования двухстороннего
+постоянного соединения между сайтом и JavaScript-клиентом для
+синхронизации их состояний. Такое соединение представляет собой канал
+для обмена сообщениями &lt;em&gt;в реальном времени&lt;/em&gt; между браузером и серверным
+процессом, причем каждая сторона может быть инициатором отправки
+сообщения и имеет некую логику реакции на получаемые сообщения.&lt;/p&gt;
+&lt;p&gt;Сегодня мы рассмотрим основные варианты реализации этого принципа и как
+он сочетается с обсуждавшимися в предыдущих статьях
+&lt;a href="https://www.insight-it.ru/interactive/"&gt;серии&lt;/a&gt; темами.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h2 id="transport"&gt;Транспорт&lt;/h2&gt;
+&lt;p&gt;Так как одной из сторон постоянного соединения является браузер, вопрос
+кроссбраузерности при его реализации стоит не менее остро, чем,
+например, при верстке. В 2001 году, когда появился на свет самый часто
+вспоминаемый недобрым словом браузер в мире, о подобных технологиях
+постоянного соединения между браузером и сервером практически никто не
+задумывался даже отдаленно.&lt;/p&gt;
+&lt;p&gt;Существуют несколько протоколов и связанных с ними технологий, которые
+позволяют реализовать постоянное с точки зрения приложения соединение
+между браузером и сервером, обычно их называют &lt;strong&gt;транспортами&lt;/strong&gt;. Каждый
+из них обладает разной производительностью, особенностями реализации и
+нагрузкой на серверную часть. Возможно не полный их список c краткими
+пояснениями:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="https://www.insight-it.ru/goto/5ddd244b/" rel="nofollow" target="_blank" title="http://ru.wikipedia.org/wiki/WebSocket"&gt;WebSocket&lt;/a&gt;:&lt;/strong&gt;&amp;nbsp;пожалуй,
+    самый эффективный с точки зрения производительности и нагрузки на
+    сервер транспорт. Протокол относительно новый, появился в рамках
+    работы над &lt;a href="/tag/html5/"&gt;HTML5&lt;/a&gt;. Доступен только в очень свежих
+    браузерах, имеет несколько более-менее стандартных версий.
+    Используется одно соединение для обоих направлений обмена
+    сообщениями.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="https://www.insight-it.ru/goto/4587ee12/" rel="nofollow" target="_blank" title="http://dev.w3.org/html5/eventsource/"&gt;EventSource&lt;/a&gt;:&lt;/strong&gt;&amp;nbsp;появился
+    примерно в то же время, что и WebSocket, но по задумке должен
+    использоваться для получения односторонних уведомлений от сервера. В
+    совокупности с простыми AJAX запросами для отправки событий из
+    браузера может использоваться для двустороннего общения. Но так как
+    он доступен примерно в тех же версиях браузеров, что и WebSocket, со
+    сценариями, когда он оказывался бы более предпочтительным, я не
+    сталкивался. Технически очень похож на следующий транспорт.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/1a0e9c02/" rel="nofollow" target="_blank" title="http://en.wikipedia.org/wiki/Push_technology#HTTP_server_push"&gt;&lt;strong&gt;AJAX Multipart&lt;/strong&gt;&lt;/a&gt; aka &lt;strong&gt;&lt;a href="https://www.insight-it.ru/goto/1a0e9c02/" rel="nofollow" target="_blank" title="http://en.wikipedia.org/wiki/Push_technology#HTTP_server_push"&gt;HTTP Streaming&lt;/a&gt;:&lt;/strong&gt;&amp;nbsp;после
+    получения HTTP-запроса от клиента сервер не "отпускает" его и по
+    мере поступления отправляет в него свои сообщения. Для отправки
+    сообщений из браузера при необходимости создается&amp;nbsp;второе соединение.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="https://www.insight-it.ru/goto/dcd446e1/" rel="nofollow" target="_blank" title="http://en.wikipedia.org/wiki/Push_technology#Long_polling"&gt;AJAX/HTTP Polling&lt;/a&gt;:&lt;/strong&gt;&amp;nbsp;в
+    отличии от предыдущего транспорта, сервер закрывает HTTP-соединение
+    после каждого отправленного в него сообщения или по прошествии
+    определенного таймаута (обычно порядка 20-40 секунд). А браузер
+    сразу же после получения сообщения открывает новое соединение, таким
+    образом у сервера по-прежнему практически всегда есть соединение,
+    куда можно отправить сообщения. Хоть по нагрузке на сервер этот
+    вариант самый тяжелый, поддерживают его практически все браузеры.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="https://www.insight-it.ru/goto/9344995a/" rel="nofollow" target="_blank" title="https://github.com/gimite/web-socket-js"&gt;Adobe Flash&lt;/a&gt;:&lt;/strong&gt;&amp;nbsp;эта
+    платформа может эмулировать поддержку WebSocket при определенном
+    стечении обстоятельств (удачная комбинация Flash-плеера и браузера).
+    Немного нетривиальна в настройке из-за своих особенностей.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;По поводу поддержки каждого из них различными браузерами было бы неплохо
+составить табличку, но на самом деле нюансов там много и многое зависит
+не только от версии браузера, но и от других обстоятельств, вроде
+наличия и типа прокси, использования трюков с iframe, наличия
+Flash-плеера и т.п.&lt;/p&gt;
+&lt;p&gt;Все вышеизложенные транспорты в конечном итоге основываются на протоколе
+&lt;a href="/tag/http/"&gt;HTTP&lt;/a&gt;. Большинство из современных браузеров ограничивают
+количество одновременных HTTP-соединений с доменом &lt;strong&gt;до двух&lt;/strong&gt;, что как
+раз достаточно даже для менее эффективных вариантов.&lt;/p&gt;
+&lt;p&gt;В любом случае работать напрямую с транспортами не обязательно, благо
+существует большое количество библиотек и сервисов, позволяющих от них
+абстрагироваться, к ним и переходим.&lt;/p&gt;
+&lt;h2 id="abstraktsiia"&gt;Абстракция&lt;/h2&gt;
+&lt;p&gt;По сути такие библиотеки состоят из двух частей: клиентской на
+&lt;a href="/tag/javascript/"&gt;JavaScript&lt;/a&gt; и серверной для одной или нескольких
+платформ. Клиент определяет какой из доступных в текущем браузере
+транспортов является наиболее эффективным и с его помощью устанавливает
+соединение с сервером, который поддерживает несколько протоколов. С
+точки зрения разработчика интерфейс, ими предоставляемый, не зависит от
+транспорта и примерно одинаков:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Метод для &lt;strong&gt;отправки&lt;/strong&gt; сообщения противоположной стороне.&lt;/li&gt;
+&lt;li&gt;Регистрация обработчика события, который будет вызван &lt;strong&gt;при
+    получении&lt;/strong&gt; сообщения от противоположной стороны, с содержанием
+    сообщения в аргументе.&lt;/li&gt;
+&lt;li&gt;Метод, который будет вызван при установке и разрывании соединения.&lt;/li&gt;
+&lt;li&gt;Инициатором соединения по очевидным причинам всегда является клиент,
+    так что у него есть дополнительный механизм для этого, с
+    возможностью указать какие-то настройки.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;При выборе такой библиотеки для конкретного проекта очень большую роль
+играет его основная серверная платформа: обычно хочется использовать тот
+же язык программирования для обработки сообщений, что и для реализаций
+основной серверной части. Чаще всего используется основанный на
+&lt;a href="/tag/epoll/"&gt;epoll&lt;/a&gt; или аналогах HTTP-сервер, что позволяет
+поддерживать большое количество пользователей онлайн:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/node-js/"&gt;Node.js&lt;/a&gt; на &lt;a href="/tag/javascript/"&gt;JavaScript&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;На &lt;a href="/tag/erlang/"&gt;Erlang&lt;/a&gt; есть несколько очень эффективных
+    HTTP-серверов:&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/82a43b29/" rel="nofollow" target="_blank" title="https://github.com/extend/cowboy"&gt;cowboy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/4567a795/" rel="nofollow" target="_blank" title="https://github.com/ostinelli/misultin"&gt;misultin&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/2902d504/" rel="nofollow" target="_blank" title="https://github.com/mochi/mochiweb"&gt;mochiweb&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/798908e5/" rel="nofollow" target="_blank" title="http://yaws.hyber.org/"&gt;yaws&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/tornado/"&gt;Tornado&lt;/a&gt;&amp;nbsp;на &lt;a href="/tag/python/"&gt;Python&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/netty/"&gt;netty&lt;/a&gt; на &lt;a href="/tag/java/"&gt;Java&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Так как самих библиотек этой категории существует примерно пару
+десятков, расскажу вкратце о наиболее заслуживающих внимания на мой
+взгляд:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/4034b77d/" rel="nofollow" target="_blank" title="http://socket.io"&gt;socket.io&lt;/a&gt;: поддерживает практически все
+    возможные транспорты, включая &lt;a href="/tag/flash/"&gt;Flash&lt;/a&gt;. Основная
+    серверная платформа - &lt;strong&gt;node.js&lt;/strong&gt;, силами сторонних разработчиков
+    есть реализации протокола на других платформах. Имеет спорную
+    репутацию, проект довольно громоздкий, в некоторых ситуациях ведет
+    себя непредсказуемо.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/4dc9c4cc/" rel="nofollow" target="_blank" title="https://github.com/sockjs/sockjs-client"&gt;SockJS&lt;/a&gt;: очень молодой
+    проект, поддерживает необходимый минимум транспортов, прост в
+    эксплуатации. Относительно стабилен и предсказуем. Серверная часть
+    доступна на &lt;strong&gt;node.js&lt;/strong&gt;, &lt;strong&gt;Tornado&lt;/strong&gt; и &lt;strong&gt;cowboy/misultin,&lt;/strong&gt; активно
+    работают над другими платформами.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Существуют коммерческие решения, абсолютно идентичные по принципу работы
+и функционалу. Аналогичная обсуждавшимся opensource решениям библиотека
+дополняется брокером сообщений для организации паттерна
+"публикация-подписка" и в совокупности с хостингом "в облаках" продается
+с оплатой за количество переданных сообщений (или по подписке с каким-то
+лимитом), естественно с нехилой наценкой. Плюсы и минусы очевидны:
+отсутствие необходимости обо всем этом заботиться против относительно
+высокой стоимости, потере контроля при сбоях или необходимости
+изменений, привязке к стороннему поставщику услуг и т.п. Рекламировать
+их не буду, при желании легко гуглятся, ровно как и оставшиеся
+альтернативные opensource проекты.&lt;/p&gt;
+&lt;h2 id="vernemsia-k-interaktivnym-saitam"&gt;Вернемся к интерактивным сайтам&lt;/h2&gt;
+&lt;p&gt;Надеюсь, только что закончившегося лирического отступления на 3/4 статьи
+Вам будет достаточно, чтобы составить общее представление о построении
+постоянного соединения между браузером и сервером, а желательно и
+определиться с каким-то решением для автоматического выбора наиболее
+эффективного транспорта в контексте именно Вашего проекта.&lt;/p&gt;
+&lt;p&gt;Получив примитивный интерфейс в виде "отправить сообщение /
+отреагировать на сообщение" необходимо определиться с тем, что же мы
+будем передавать в этих сообщениях и как будем на них реагировать.&lt;/p&gt;
+&lt;p&gt;С форматом сериализации сообщений все довольно просто: выбор между XML и
+JSON очевиден в пользу последнего, а заморачиваться с чем-то более
+экзотическим смысла мало (хотя давно хочу попробовать в этой роли
+&lt;a href="/tag/protocol-buffers/"&gt;Protocol Buffers&lt;/a&gt; или &lt;a href="/tag/bson/"&gt;BSON&lt;/a&gt;, но
+никак руки не доходят).&lt;/p&gt;
+&lt;p&gt;Намного интереснее вопрос о том, что, собственно, будет в этих
+сообщениях содержаться. В &lt;a href="https://www.insight-it.ru/interactive/2012/klientskaya-chast-interaktivnogo-sajjta/"&gt;предыдущей статье&lt;/a&gt;
+мы остановились на использовании фреймворка для организации кода
+JavaScript-клиента. Предлагаемая ими концепция &lt;strong&gt;модели&lt;/strong&gt;&amp;nbsp;обычно
+по-умолчанию предоставляет возможность синхронизации с сервером
+посредством &lt;a href="/tag/ajax/"&gt;AJAX&lt;/a&gt; запросов и механизм изменения этого
+поведения. Для использовавшегося в качестве примера
+&lt;a href="/tag/backbone-js/"&gt;Backbone.js&lt;/a&gt;&amp;nbsp;для этого необходимо переопределить
+функцию &lt;strong&gt;Backbone.sync&lt;/strong&gt;.&amp;nbsp;При сохранении модели клиент будет отправлять
+объект с идентификатором модели и списком её изменений. Запрос изменений
+с сервера будет происходить асинхронно, то есть после отправки сообщения
+о том, что нужны данные для такой-то модели, посредством метода fetch он
+сам не получит ответа. Собственно изменения в модели произведет
+обработчик получения сообщений, в котором должна быть реализована
+соответствующая логика. Далее подписанные на события изменений в моделях
+объекты-представления будут соответствующим образом обновлять DOM-дерево
+страницы, отображая пользователю нужную информацию. &lt;em&gt;Это, пожалуй,
+наиболее &lt;strong&gt;правильный&lt;/strong&gt; способ интегрировать постоянное соединение и
+клиентский фреймфорк.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Основными минусами его является очень серьезный объем работы по
+разработке клиентской части, а также дублирование достаточно большой
+части логики и HTML-шаблонов между серверной и клиентской сторонами. Я
+бы рекомендовал использовать этот подход, только если позволяют трудовые
+ресурсы (читай: есть хотя бы отдельный специализирующийся на JavaScript
+разработчик), либо когда проект по каким-то причинам решил отказаться от
+реализации статичного HTML-интерфейса.&lt;/p&gt;
+&lt;p&gt;В следующей статье я расскажу о менее трудозатратном способе добиться
+того же результата, который основан на жертве идеологической
+правильностью в пользу минимизации повторного написания кода.&lt;/p&gt;
+&lt;div class="card green"&gt;
+&lt;p&gt;&lt;div class="card-content white-text"&gt;
+Эта статья - третья в &lt;a class="green-text text-lighten-4" href="https://www.insight-it.ru/interactive/"&gt;серии про Интерактивные сайты&lt;/a&gt;, автор - &lt;a class="green-text text-lighten-4" href="https://www.insight-it.ru/goto/b03d9116/" rel="nofollow" target="_blank" title="http://blinkov.ru"&gt;Иван&amp;nbsp;Блинков&lt;/a&gt;, основано на личном опыте.
+До встречи &lt;a class="green-text text-lighten-4" href="/feed/"&gt;на страницах Insight IT&lt;/a&gt;!
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Tue, 10 Apr 2012 00:47:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-04-10:interactive/2012/postoyannoe-soedinenie-mezhdu-brauzerom-i-serverom/</guid><category>AJAX</category><category>Comet</category><category>epoll</category><category>EventSource</category><category>Flash</category><category>HTTP</category><category>JavaScript</category><category>polling</category><category>streaming</category><category>WebSocket</category><category>клиентская часть</category><category>серверная часть</category><category>HTML5</category></item><item><title>Как нужно верстать?</title><link>https://www.insight-it.ru//frontend/2011/kak-nuzhno-verstat/</link><description>&lt;p&gt;По одному из проектов меня попросили написать бумажку, которую можно
+давать верстальщикам-фрилансерам, чтобы вкратце объяснить, чего от них
+хотят. Я на самом деле не считаю себя особо большим спецом по верстке,
+так что получилось довольно сумбурно и местами спорно (иногда
+проскальзывает специфика проекта, но думаю это некритично). Результат
+решил опубликовать в блоге, так как возможно многим она может показаться
+полезной, плюс очень хотелось бы послушать критику и дополнения в
+комментариях. Источники информации - различные статьи и блоги + личный
+опыт. Ссылки приводить не буду, так как подробная информация по любой из
+тем легко гуглится.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;HTML и CSS должны быть &lt;strong&gt;читаемыми&lt;/strong&gt; (все равно потом все ужимаем):&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;HTML должен быть иерархическим, открывающие теги с новой строки
+    (кроме случаев с), отступы 4 пробела&lt;/li&gt;
+&lt;li&gt;CSS желательно не свернутые в строчку, а по одной директиве на
+    строку, тоже с отступами по 4 пробела&lt;/li&gt;
+&lt;li&gt;Можно сразу
+    использовать&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/dca1748a/" rel="nofollow" target="_blank" title="http://sass-lang.com/"&gt;SASS&lt;/a&gt; -
+    сильно упрощает всем жизнь&lt;/li&gt;
+&lt;li&gt;Идентификаторы классов должны быть человекочитабельмыми
+    английскими словами и фразами&lt;/li&gt;
+&lt;li&gt;Очень желательно&amp;nbsp;&lt;em&gt;не использование&lt;/em&gt; в названиях классов и
+    идентификаторов ключевых слов из HTML/CSS/JS/jQuery&lt;/li&gt;
+&lt;li&gt;Очень желательно, чтобы идентификаторы и классы&amp;nbsp;&lt;em&gt;не были&lt;/em&gt;
+    префиксными (ни одно названия не является началом или концом
+    другого, например &lt;code&gt;.icon&lt;/code&gt; и &lt;code&gt;.icon_small&lt;/code&gt;) - это позволяет
+    сократить их все до 1-2 символов на этапе постобработки&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;DOCTYPE&lt;/code&gt; предпочтителен HTML5, но в крайнем случае можно и XHTML&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;Кодировка:&amp;nbsp;&lt;em&gt;обязательно&lt;/em&gt; &lt;strong&gt;UTF-8&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Валидность&lt;/strong&gt;:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;HTML:&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/e3e768b3/" rel="nofollow" target="_blank" title="http://validator.w3.org/"&gt;http://validator.w3.org&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;CSS:&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/5ff07096/" rel="nofollow" target="_blank" title="http://jigsaw.w3.org/css-validator/"&gt;http://jigsaw.w3.org/css-validator/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;WCAG:&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/90682485/" rel="nofollow" target="_blank" title="http://www.cynthiasays.com/"&gt;http://www.cynthiasays.com/&lt;/a&gt;
+    и&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/b17bf654/" rel="nofollow" target="_blank" title="http://www.w3.org/WAI/WCAG20/quickref/"&gt;http://www.w3.org/WAI/WCAG20/quickref/&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Соответствие макету&lt;/strong&gt;:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Проверка:&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/26bbcbb0/" rel="nofollow" target="_blank" title="https://addons.mozilla.org/ru/firefox/addon/pixel-perfect/"&gt;https://addons.mozilla.org/ru/firefox/addon/pixel-perfect/&lt;/a&gt;,&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/6d40d8b1/" rel="nofollow" target="_blank" title="https://github.com/aishek/modulargrid"&gt;https://github.com/aishek/modulargrid&lt;/a&gt;
+    и &lt;a href="https://www.insight-it.ru/goto/330b447f/" rel="nofollow" target="_blank" title="https://browserlab.adobe.com/en-us/index.html"&gt;https://browserlab.adobe.com/en-us/index.html&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;﻿Хоть и попиксельное соответствие приветствуется и считается
+    обязательным, но местами возможны отклонения:&lt;ol&gt;
+&lt;li&gt;Когда дизайнер нарисовал криво&lt;/li&gt;
+&lt;li&gt;Когда незначительные различия в отрисовке шрифтов&lt;/li&gt;
+&lt;li&gt;Когда у дизайнера разошлось вдохновение и единственный
+    способ сделать точно так как на картинке - впихнуть
+    здоровенный JPEG в пару сот килобайт на фон; в таких случаях
+    стараемся разбить фон на составные части и/или паттерны и
+    делаем его частями, стараясь минимизировать ущерб "креативу"
+    при адекватном размере страницы&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Кроссбраузерность&lt;/strong&gt;:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Перед приемом/сдачей работы проверить
+    на&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/939754d/" rel="nofollow" target="_blank" title="http://browsershots.org/"&gt;http://browsershots.org/&lt;/a&gt; (или аналоге) и во всех доступных
+    под рукой браузерах&lt;/li&gt;
+&lt;li&gt;Не забыть мобильные браузеры Opera Mini, iPhone и Android.&lt;/li&gt;
+&lt;li&gt;Хаки для IE в conditional comments, не забываем правильно
+    фильтровать для разных его версий&lt;/li&gt;
+&lt;li&gt;IE6 должен адекватно воспринимать специфичные для HTML5 теги&lt;/li&gt;
+&lt;li&gt;Помимо этого желательно проверить все разрешения от 1024х768 до
+    1920х1080 - везде все должно смотреться пристойно, без
+    скроллбаров и излишних пустых областей&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Гибкость шаблона&lt;/strong&gt;:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;При этом не смотря на то, что в макетах для примера используется
+    какой-то текст, шаблон должен нормально себя вести при любом
+    количестве текста (как нулевом, так и очень большом) в любом
+    элементе&lt;/li&gt;
+&lt;li&gt;Если пункт меню, заголовок или просто текст в 5-10 раз длиннее
+    или короче того, что на макете - все должно отображаться
+    корректно (по возможности, естественно)&lt;/li&gt;
+&lt;li&gt;Если в макете не было всех шести видов заголовков, ссылок в
+    тексте, картинок, цитат, аббревиатур, блоков pre и code - это не
+    значит, что стиль по-умолчанию для всех стандартных
+    html-элементов может отсутствовать в CSS - возьмите цвета и
+    стиль от других элементов шаблона и сделайте хоть как-то, для
+    образца все элементы можно добавить в текст, даже если их там не
+    было&lt;/li&gt;
+&lt;li&gt;У всех ссылок должно быть отдельное поведение для :hover, у
+    ссылок внутри текста - и для :visited&lt;/li&gt;
+&lt;li&gt;Если в макете все же были заголовки: их структура должна быть
+    перенесена верно&lt;/li&gt;
+&lt;li&gt;Надеяться, что WYSIWYG или Word проставит какие-то особые стили
+    к тексту и все будет нормально&amp;nbsp;&lt;em&gt;нельзя&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Если используем HTML5, то верстка должна быть&amp;nbsp;&lt;em&gt;семантической&lt;/em&gt;,
+    то есть блоки навигации заворачиваем в nav, сайдбар в aside
+    и.т.п.&lt;/li&gt;
+&lt;li&gt;Стили для печати и мобильной версии указываем отдельными файлами
+    с соответствующим media&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;CSS&lt;/strong&gt;:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Не забываем о производительности CSS: селекторы обрабатываются
+    справа-налево, подробнее
+    здесь:&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/6aa64e6a/" rel="nofollow" target="_blank" title="http://code.google.com/speed/page-speed/docs/rendering.html"&gt;http://code.google.com/speed/page-speed/docs/rendering.html&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;CSS3 правила для нормальных браузеров (border-radius, gradient,
+    text-shadow, box-shadow), с остальными извращаемся отдельно,
+    никаких хаков с кучей &lt;code&gt;&amp;lt;b&amp;gt;&lt;/code&gt; и подобных&lt;/li&gt;
+&lt;li&gt;Размеры и позиционирование элемента должны указываться в одних
+    единицах измерения&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Изображения&lt;/strong&gt;:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;С умом относимся к выбору формата и уменьшаем их объем
+    (см.&amp;nbsp;&lt;a href="https://www.insight-it.ru/frontend/2011/instrumenty-dlya-minimizacii-razmera-izobrazhenijj/"&gt;"Инструменты для минимизации размера изображений"&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Иллюстрации и элементы интерфейса с четкими краями лучше
+    сохранять в PNG8, фотографии в progressive JPEG - но в целом
+    руководствуемся минимизацией объема не в ущерб качеству&lt;/li&gt;
+&lt;li&gt;Отсутствие &lt;code&gt;title&lt;/code&gt; и &lt;code&gt;alt&lt;/code&gt;&amp;nbsp;&lt;em&gt;непростительно&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;По возможности всегда указываем размеры изображений, особенно
+    если они являются частью дизайна и заранее известны&lt;/li&gt;
+&lt;li&gt;Для групп небольших изображений приблизительно одинаковой ширины
+    или высоты (иконки, картинки разных буллетов и.т.п.) используем
+    CSS Sprites:&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/149b7279/" rel="nofollow" target="_blank" title="http://css-tricks.com/css-sprites/"&gt;http://css-tricks.com/css-sprites/&lt;/a&gt; (для ленивых
+    есть ряд инструментов для автоматизации процесса)&lt;/li&gt;
+&lt;li&gt;Для совсем маленьких изображений используем
+    data:URI+MHTML:&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/905dc16e/" rel="nofollow" target="_blank" title="http://www.phpied.com/inline-mhtml-data-uris/"&gt;http://www.phpied.com/inline-mhtml-data-uris/&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Шрифты&lt;/strong&gt;:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Указываем базовый размер шрифта в em, там где нужен размер
+    больше или меньше - в % от базового&lt;/li&gt;
+&lt;li&gt;Line-height задаем в долях&lt;/li&gt;
+&lt;li&gt;Должно быть как минимум одному шрифту для Windows, Linux и Mac
+    OS. Примеры:&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;Arial,Helvetica,FreeSans,"Liberation Sans","Nimbus Sans L",sans-serif&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;"Courier New",Courier,FreeMono,"Nimbus Mono L","Liberation Mono",monospace&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Georgia,"Bitstream Charter","Century Schoolbook L","Liberation Serif",Times,serif&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;"Lucida Sans","Lucida Sans Unicode","Lucida Grande",Lucida,sans-serif&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;"Lucida Console",Monaco,"DejaVu Sans Mono","Bitstream Vera Sans Mono","Liberation Mono",monospace&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Palatino,"Palatino Linotype",Palladio,"URW Palladio L","Book Antiqua","Liberation Serif",Times,serif&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Tahoma,Geneva,"DejaVu Sans Condensed",sans-serif&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;"Times New Roman",Times,"Nimbus Roman No9 L","FreeSerif","Liberation Serif",serif&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Verdana,"Bitstream Vera Sans","DejaVu Sans","Liberation Sans",Geneva,sans-serif&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;Если требуется нестандартный шрифт, используем кроссбраузерный
+    font-face:&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/419fd700/" rel="nofollow" target="_blank" title="http://randsco.com/index.php/2009/07/04/p680"&gt;http://randsco.com/index.php/2009/07/04/p680&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Формы&lt;/strong&gt;:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Ко всем полям должен быть label или, если так задумано,
+    toggleval&lt;/li&gt;
+&lt;li&gt;Если используем HTML5, то и поля форм тоже делаем по этому
+    стандарту (email/tel)&lt;/li&gt;
+&lt;li&gt;Проверить работу tabindex&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Использование &lt;strong&gt;микроформатов&lt;/strong&gt; желательно, если они уместны (hCard,
+    hCalendar, hAtom, XFN)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;JavaScript&lt;/strong&gt;:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Весь используемый JS располагается перед закрывающим &lt;code&gt;&amp;lt;/body&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Желательно использование асинхронной загрузки файлов&lt;/li&gt;
+&lt;li&gt;Работоспособность проверяем средствами Firebug&lt;/li&gt;
+&lt;li&gt;Сайт должен нормально функционировать с выключенным JavaScript
+    (и Flash тоже, к слову)&lt;/li&gt;
+&lt;li&gt;Если на странице имеются формы - они должны валидироваться еще
+    до отправки и нормально отображать ошибки (как минимум просто
+    цветом)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Остальное&lt;/strong&gt;:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Полное отсутствие комментариев в html, кроме условных&lt;/li&gt;
+&lt;li&gt;Копирайт пишем правильно:&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/dd9dd788/" rel="nofollow" target="_blank" title="http://habrahabr.ru/blogs/typography/23812/"&gt;http://habrahabr.ru/blogs/typography/23812/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Никакого CSS или JS внутри HTML, только внешние файлы&lt;/li&gt;
+&lt;li&gt;Ссылки на внешние ресурсы должны быть с &lt;code&gt;target="_blank"&lt;/code&gt; и по
+    необходимости могут снабжаться
+    иконками:&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/2fb93566/" rel="nofollow" target="_blank" title="https://github.com/joshuaclayton/blueprint-css/blob/master/blueprint/plugins/link-icons/screen.css"&gt;https://github.com/joshuaclayton/blueprint-css/blob/master/blueprint/plugins/link-icons/screen.css&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Текст лучше оттипографить перед
+    публикацией:&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/d2a1d6c6/" rel="nofollow" target="_blank" title="http://rmcreative.ru/blog/post/tipograf"&gt;http://rmcreative.ru/blog/post/tipograf&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Логотип должен вести на главную страницу&lt;/li&gt;
+&lt;li&gt;Ссылки на внешние ресурсы (изображения, CSS, JS) лучше делать
+    относительными&lt;/li&gt;
+&lt;li&gt;Не забываем &lt;code&gt;&amp;lt;title&amp;gt;&lt;/code&gt; всей страницы, должен быть понятен как
+    человеку, так и поисковым системам&lt;/li&gt;
+&lt;li&gt;HTML, JS и CSS лучше минимизировать не на этапе верстки, а
+    автоматически при генерации шаблонов&lt;/li&gt;
+&lt;li&gt;Не забыть выкинуть не используемые стили (вроде красной рамочки
+    для выделения элементов в процессе верстки)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Fri, 25 Feb 2011 00:02:00 +0300</pubDate><guid>tag:www.insight-it.ru,2011-02-25:frontend/2011/kak-nuzhno-verstat/</guid><category>css</category><category>html</category><category>html5</category><category>js</category><category>markup</category><category>верстка</category></item><item><title>Переезд + реконструкция</title><link>https://www.insight-it.ru//misc/2009/pereezd-rekonstrukciya/</link><description>&lt;div class="card orange darken-3"&gt;
+&lt;p&gt;&lt;div class="card-content white-text center"&gt;
+&lt;strong&gt;По большей части написанное ниже уже не актуально&lt;/strong&gt;
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Уважаемые читатели, у меня для вас есть ряд замечательных новостей:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Блог переехал на новый хостинг, теперь живем в США&lt;/li&gt;
+&lt;li&gt;Блог по прежнему работает на WordPress, от идеи трансфера на GAE я
+    отказался из-за нехватки сил и времени&lt;/li&gt;
+&lt;li&gt;Оформление было переверстано на HTML5, пока все еще далеко от
+    идеала, возможно буду переделывать (пользователей IE и прочего
+    антиквариата просьба не кидаться камнями - сами виноваты)&lt;/li&gt;
+&lt;li&gt;Ради эксперимента добавлена поддержка &lt;a href="https://www.insight-it.ru/goto/ede8ea14/" rel="nofollow" target="_blank" title="http://code.google.com/chrome/chromeframe/"&gt;Google Chrome Frame&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Все плагины и сам движок были обновлены и доведены до ума - раньше
+    все работало на устаревших версиях&lt;/li&gt;
+&lt;li&gt;Я вспомнил, что у меня был аккаунт на твиттере: &lt;a href="https://www.insight-it.ru/goto/a1390f6d/" rel="nofollow" target="_blank" title="https://twitter.com/blinkov"&gt;follow me&lt;/a&gt;!&lt;/li&gt;
+&lt;li&gt;Решил попробовать вернуть AdSense в том виде, в котором он был
+    когда-то давно, может быть на хлеб с маслом хватит, пока работу не
+    найду :)&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sun, 20 Dec 2009 21:39:00 +0300</pubDate><guid>tag:www.insight-it.ru,2009-12-20:misc/2009/pereezd-rekonstrukciya/</guid><category>Google Chrome Frame</category><category>html5</category><category>USA</category><category>WordPress</category><category>США</category></item></channel></rss>

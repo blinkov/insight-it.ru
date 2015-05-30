@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/tornado/feed/index.xml" rel="self"></atom:link><lastBuildDate>Tue, 28 Feb 2012 23:03:00 +0400</lastBuildDate><item><title>Tornado</title><link>https://www.insight-it.ru//python/2012/tornado/</link><description>&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/21e3a9b2/" rel="nofollow" target="_blank" title="http://www.tornadoweb.org"&gt;&lt;strong&gt;Tornado&lt;/strong&gt;&lt;/a&gt;&amp;nbsp;- масштабируемый
+неблокирующий&amp;nbsp;&lt;a href="/tag/http/"&gt;HTTP&lt;/a&gt;-сервер на основе&amp;nbsp;&lt;a href="/tag/epoll/"&gt;epoll&lt;/a&gt;,
+написанный полностью на &lt;a href="/tag/python/"&gt;Python&lt;/a&gt;. Изначально он был
+разработан в рамках проекта FriendFeed, на сегодняшний же день
+его&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/8839735b/" rel="nofollow" target="_blank" title="https://github.com/facebook/tornado/"&gt;поддержкой&lt;/a&gt;&amp;nbsp;занимается&amp;nbsp;&lt;a href="/tag/facebook/"&gt;Facebook&lt;/a&gt;.
+Сегодня я хотел бы рассказать о том, как с его помощью можно быстро и
+легко создавать веб-проекты на Python, которые в дальнейшем будет
+относительно легко горизонтально масштабировать.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h2 id="http"&gt;HTTP&lt;/h2&gt;
+&lt;p&gt;Не смотря на приличное количество опциональных модулей, идущих в
+комплекте с Tornado, проект в первую очередь является именно
+HTTP-сервером. Используемый механизм
+&lt;a href="https://www.insight-it.ru/linux/2012/kak-rabotaet-epoll/"&gt;epoll&lt;/a&gt; (по
+ссылке можно прочитать о том, в чем он заключается) практически
+полностью определяет основные принципы работы Tornado:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;он работает в рамках одного процесса;&lt;/li&gt;
+&lt;li&gt;использование потоков внутри него нежелательно;&lt;/li&gt;
+&lt;li&gt;для использования всех доступных ядер процессора обычно запускают
+    несколько копий одинаковых процессов на разных портах (недавно
+    добавили модуль
+    &lt;a href="https://www.insight-it.ru/goto/f0b10879/" rel="nofollow" target="_blank" title="http://www.tornadoweb.org/documentation/process.html"&gt;tornado.process&lt;/a&gt;
+    для упрощения реализации этого);&lt;/li&gt;
+&lt;li&gt;обычно обрабатывает HTTP-запросы не напрямую, а через балансировщик
+    нагрузки (&lt;a href="/tag/nginx/"&gt;nginx&lt;/a&gt; или &lt;a href="/tag/haproxy/"&gt;HAProxy&lt;/a&gt;).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Эта ситуация мотивирует с самого начала задумываться о распределении
+нагрузки, а также о выносе выполнения вычислительно сложных задач в
+отдельные сервисы, скажем конвертирование фото/видео или подсчет
+какой-то статистики.&lt;/p&gt;
+&lt;p&gt;Стоит добавить, что вместе с проектом поставляется модуль
+&lt;a href="https://www.insight-it.ru/goto/1b53962f/" rel="nofollow" target="_blank" title="http://www.tornadoweb.org/documentation/wsgi.html"&gt;tornado.wsgi&lt;/a&gt;,
+который позволяет запускать внутри себя другие веб-ориентированные
+проекты на Python (в частности небезызвестный &lt;a href="/tag/django/"&gt;Django&lt;/a&gt;), а
+также "притворяться" таковым для каких-то внешних серверов или сервисов,
+которые умеют общаться с Python-приложениями только по
+WSGI-протоколу,&amp;nbsp;например таковым является&amp;nbsp;&lt;a href="/tag/gae/"&gt;Google App Engine&lt;/a&gt;. Пользоваться этим модулем крайне не рекомендую,
+только при постепенном мигрировании проекта с каких-то других
+технологий.&lt;/p&gt;
+&lt;h2 id="obrabotka-zaprosov"&gt;Обработка запросов&lt;/h2&gt;
+&lt;p&gt;При использовании &lt;strong&gt;Tornado&lt;/strong&gt; не приходится работать с HTTP напрямую -
+разбор заголовков и URL он берет на себя. От разработчика требуется лишь
+словарь, состоящий из регулярных выражений и соответствующих им
+классов-обработчиков запросов.&lt;/p&gt;
+&lt;p&gt;При создании этих классов настоятельно рекомендую по полной
+воспользоваться возможностями &lt;a href="/tag/oop/"&gt;ООП&lt;/a&gt;, в частности
+наследования. Tornado предоставляет базовый класс
+&lt;a href="https://www.insight-it.ru/goto/6a529884/" rel="nofollow" target="_blank" title="http://www.tornadoweb.org/documentation/web.html#tornado.web.RequestHandler"&gt;RequestHandler&lt;/a&gt;,
+который берет на себя всю грязную работу, а разработчику предлагается
+реализовать лишь логику, переопределив метод(ы) &lt;em&gt;get&lt;/em&gt;, &lt;em&gt;post&lt;/em&gt;, &lt;em&gt;delete&lt;/em&gt;
+или &lt;em&gt;head&lt;/em&gt;. На практике же обычно удобнее иметь свой собственный базовый
+класс для обработчиков запросов, который унаследован от RequestHandler и
+реализовывает общую для текущего конкретного проекта логику (примеры
+ниже).&lt;/p&gt;
+&lt;h2 id="dostup-k-baze-dannykh"&gt;Доступ к базе данных&lt;/h2&gt;
+&lt;p&gt;Модуль &lt;a href="https://www.insight-it.ru/goto/3642a74b/" rel="nofollow" target="_blank" title="http://www.tornadoweb.org/documentation/database.html"&gt;tornado.database&lt;/a&gt;&amp;nbsp;предлагает довольно простой доступ к &lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt;. С одной стороны благодаря нему можно сходу начинать разрабатывать приложение на Tornado без использования дополнительных библиотек, с другой - далеко не в каждом проекте используется именно эта &lt;a href="/tag/subd/"&gt;СУБД&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;В любом случае никто не запрещает использовать любую другую библиотеку
+для доступа к любой другой СУБД, но есть одно большое &lt;strong&gt;НО!&lt;/strong&gt;
+Большинство из них являются &lt;em&gt;блокирующими&lt;/em&gt;, то есть не возвращают
+управление до тех пор, пока СУБД не вернет ответ. Почуяли неладное?
+Правильно, в таком случае весь процесс Tornado, вместе со всеми
+попавшими в него запросами, будет простаивать пока управление не будет
+получено обратно, что очень не здорово.&lt;/p&gt;
+&lt;p&gt;Решается эта неприятная ситуация путем отправки асинхронных запросов к
+СУБД, то есть после отправки запроса управление сразу же возвращается, а
+для обработки запроса регистрируется callback, который получит
+управление, когда прийдет ответ от СУБД. За планирование очередности
+передачи управления отвечает &lt;a href="https://www.insight-it.ru/goto/987cbc33/" rel="nofollow" target="_blank" title="http://www.tornadoweb.org/documentation/ioloop.html"&gt;IOLoop&lt;/a&gt;, который и является "сердцем" Tornado.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/fa9e55f2/" rel="nofollow" target="_blank" title="https://github.com/facebook/tornado/wiki/Links"&gt;Ассортимент&lt;/a&gt;&amp;nbsp;готовых
+библиотек, интегрированных с &lt;strong&gt;Tornado IOLoop&lt;/strong&gt;, довольно широк и не
+ограничивается одним доступом к СУБД. Хотя готовое решение получается
+найти все же не всегда - приходится возиться с этим всем вручную или
+мириться с блокировками...&lt;/p&gt;
+&lt;h2 id="vzaimodeistvie-s-vneshnim-mirom"&gt;Взаимодействие с внешним миром&lt;/h2&gt;
+&lt;p&gt;В комплекте с Tornado идет неблокирующий
+&lt;a href="https://www.insight-it.ru/goto/4d3aa901/" rel="nofollow" target="_blank" title="http://www.tornadoweb.org/documentation/httpclient.html"&gt;HTTP-клиент&lt;/a&gt;,
+так что внутренние сервисы проще всего реализовывать с интерфейсом на
+JSON over HTTP. Им же можно и обращаться к&amp;nbsp;API внешних сервисов.&lt;/p&gt;
+&lt;p&gt;С &lt;a href="/tag/thrift/"&gt;Thrift&lt;/a&gt; и &lt;a href="/tag/protocol-buffers/"&gt;Protocol Buffers&lt;/a&gt;
+ситуация несколько более печальна - о прецедентах их интеграции в
+&lt;strong&gt;Tornado IOLoop&lt;/strong&gt; я не слышал, если кто-то может поделиться
+информацией - буду благодарен, довольно актуальный вопрос.&lt;/p&gt;
+&lt;h2 id="generatsiia-html"&gt;Генерация HTML&lt;/h2&gt;
+&lt;p&gt;Шаблонизатор также предлагается свой собственный (не очень удачный, но
+вполне можно использовать), но его особо никто не навязывает -
+необходимо лишь переопределить метод render у базового RequestHandler с
+использованием любого другого аналогичного продукта.&lt;/p&gt;
+&lt;p&gt;Например,&amp;nbsp;&lt;a href="https://www.insight-it.ru/python/2012/jinja2/"&gt;Jinja2&lt;/a&gt;, о котором я недавно писал, подключается примерно вот так:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;connections&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;env&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;tornado.web&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;RequestHandler&lt;/span&gt;
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;BaseHandler&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;RequestHandler&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;render&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;template&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;context&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;context&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;context&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{}&lt;/span&gt;
+    &lt;span class="n"&gt;context&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;'user'&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;current_user&lt;/span&gt;
+    &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_template&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;template&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;render&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;context&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;flush&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id="prochie-bonusy"&gt;Прочие бонусы&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/4a1367c0/" rel="nofollow" target="_blank" title="http://www.tornadoweb.org/documentation/gen.html"&gt;tornado.gen&lt;/a&gt; -
+    набор инструментов для упрощения написания асинхронного кода.
+    Благодаря использованию механизма генераторов (yield), позволяет
+    уместить в рамках одного метода и отправку асинхронного запроса и
+    обработку его результата.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/51bf20aa/" rel="nofollow" target="_blank" title="http://www.tornadoweb.org/documentation/websocket.html"&gt;tornado.websocket&lt;/a&gt;
+    предлагает реализацию нескольких последних редакций одноименного
+    протокола, &amp;nbsp;доступна пара более кроссбраузерных альтернатив с
+    поддержкой нескольких протоколов:
+    &lt;a href="https://www.insight-it.ru/goto/4aaf7cbf/" rel="nofollow" target="_blank" title="https://github.com/MrJoes/sockjs-tornado"&gt;sockjs-tornado&lt;/a&gt; и
+    &lt;a href="https://www.insight-it.ru/goto/96d4faf2/" rel="nofollow" target="_blank" title="https://github.com/MrJoes/tornadio2"&gt;TornadIO&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;С помощью
+    &lt;a href="https://www.insight-it.ru/goto/89f20712/" rel="nofollow" target="_blank" title="http://www.tornadoweb.org/documentation/twisted.html"&gt;tornado.platform.twisted&lt;/a&gt;
+    можно запускать код, написанный под &lt;strong&gt;Twisted&lt;/strong&gt; (несколько более
+    громоздкий и пожилой конкурент), внутри &lt;strong&gt;Tornado
+    IOLoop.&lt;/strong&gt;&amp;nbsp;Актуально для "мигрирующих" проектов и прикручивания
+    библиотек, написанных под Twisted.&lt;/li&gt;
+&lt;li&gt;Без
+    &lt;a href="https://www.insight-it.ru/goto/656f36a1/" rel="nofollow" target="_blank" title="http://www.tornadoweb.org/documentation/autoreload.html"&gt;tornado.autoreload&lt;/a&gt;
+    разработка превратилась бы в настоящий кошмар.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="zakliuchenie"&gt;Заключение&lt;/h2&gt;
+&lt;p&gt;Асинхронная модель обработки запросов - и правда может оказаться очень
+большой головной болью, но к ней вполне реально приспособиться и
+получить выгоды в виде, как минимум:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;возможности поддерживать открытыми больше пользовательских
+    соединений при фиксированных ресурсах;&lt;/li&gt;
+&lt;li&gt;априори горизонтально масштабируемой архитектуры на уровне
+    приложения (базы данных - отдельная тема);&lt;/li&gt;
+&lt;li&gt;частичной независимости от быстродействия используемых сторонних и
+    внутренних сервисов;&lt;/li&gt;
+&lt;li&gt;мотивации выносить вычислительно-тяжелые операции в отдельные
+    сервисы (даже при многопоточной модели так стоит делать), а заодно и
+    использовать брокер сообщений внутри системы &lt;em&gt;(весь последний пункт
+    связан лишь косвенно)&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;В комментариях предлагаю подискутировать на тему пригодности
+&lt;strong&gt;Tornado&lt;/strong&gt;&amp;nbsp;и аналогичных продуктов для использования в различных
+интернет-проектах, как высоконагруженных, так и маленьких. Ещё&amp;nbsp;мне было
+бы интересно узнать насколько велик интерес аудитории к чуть более
+прикладным, чем обычно, статьям, вроде этой - с удовольствием выслушаю
+Ваше мнение. &lt;a href="/feed/"&gt;До новых встреч!&lt;/a&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Tue, 28 Feb 2012 23:03:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-02-28:python/2012/tornado/</guid><category>epoll</category><category>HTTP</category><category>Python</category><category>Tornado</category></item></channel></rss>

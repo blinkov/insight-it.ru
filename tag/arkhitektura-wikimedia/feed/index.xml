@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/arkhitektura-wikimedia/feed/index.xml" rel="self"></atom:link><lastBuildDate>Fri, 28 Mar 2008 15:32:00 +0300</lastBuildDate><item><title>Архитектура Wikimedia</title><link>https://www.insight-it.ru//highload/2008/arkhitektura-wikimedia/</link><description>&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/687b5b81/" rel="nofollow" target="_blank" title="http://wikimedia.org"&gt;Wikimedia&lt;/a&gt; является платформой для
+&lt;a href="https://www.insight-it.ru/goto/35f4fea7/" rel="nofollow" target="_blank" title="http://wikipedia.org"&gt;Wikipedia&lt;/a&gt;, &lt;a href="https://www.insight-it.ru/goto/389e980c/" rel="nofollow" target="_blank" title="http://wiktionary.org"&gt;Wiktionary&lt;/a&gt; и
+еще семи менее крупных wiki-проектов. Этот документ очень пригодится
+новичкам, пытающимся довести свои проекты до масштабов гигантских
+вебсайтов. Здесь можно найти множество интересных деталей и
+инновационных идей, которые уже успели доказать свою работоспособность
+на самых посещаемых сайтах всего Интернета.
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;h3 id="istochniki-informatsii"&gt;Источники информации&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;Перевод &lt;a href="https://www.insight-it.ru/goto/cd47c021/" rel="nofollow" target="_blank" title="http://highscalability.com/wikimedia-architecture"&gt;статьи&lt;/a&gt;.
+Автор - &lt;a href="https://www.insight-it.ru/goto/f3f1b405/" rel="nofollow" target="_blank" title="http://highscalability.com/user/todd-hoff"&gt;Todd Hoff&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/c8e5f8d0/" rel="nofollow" target="_blank" title="http://www.nedworks.org/~mark/presentations/san/Wikimedia%20architecture.pdf"&gt;Архитектура Wikimedia&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/62eceab/" rel="nofollow" target="_blank" title="http://meta.wikimedia.org/wiki/Wikimedia_servers"&gt;Серверы Wikimedia&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/c56ad62f/" rel="nofollow" target="_blank" title="http://oracle2mysql.wordpress.com/2007/08/22/12/"&gt;scale-out vs scale-up&lt;/a&gt; из блога "Oracle to MySQL"&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="platforma"&gt;Платформа&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/apache/"&gt;Apache&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/linux/"&gt;Linux&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/php/"&gt;PHP&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/squid/"&gt;Squid&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/lvs/"&gt;LVS&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/lucene/"&gt;Lucene&lt;/a&gt; для поиска&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/memcached/"&gt;Memcached&lt;/a&gt; для распределенного кэширования объектов&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/lighttpd/"&gt;lighttpd&lt;/a&gt; для работы с изображениями&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="statitstika"&gt;Статитстика&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;8 миллионов статей распределены по сотням языковых подпроектов
+    (английские, голландские, ...)&lt;/li&gt;
+&lt;li&gt;В десятке самых высоконагруженных проектов по данным
+    &lt;a href="https://www.insight-it.ru/goto/3b390e59/" rel="nofollow" target="_blank" title="http://alexa.com"&gt;Alexa&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Экспоненциальный рост: в терминах посетителей, трафика и серверов
+    удвоение происходит каждые 4-6 месяцев&lt;/li&gt;
+&lt;li&gt;30000 HTTP запросов в секунду в периоды пиковой нагрузки&lt;/li&gt;
+&lt;li&gt;3 GBps трафик данных&lt;/li&gt;
+&lt;li&gt;3 датацентра: Тампа, Амстердам, Сеул&lt;/li&gt;
+&lt;li&gt;350 серверов, конфигурации варьируются от однопроцессорных Pentium 4
+    с 512 MB оперативной памяти до двухпроцессорных Xeon Quad-Core с 16
+    GB RAM.&lt;/li&gt;
+&lt;li&gt;Управляется ~6 людьми&lt;/li&gt;
+&lt;li&gt;Три кластера на трех разных континентах&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="arkhitektura"&gt;Архитектура&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Географическая балансировка нагрузки, основываясь на IP клиента,
+    перенаправляет их на ближайший кластер. Происходит статическое
+    отображение множества IP адресов на множество стран, а затем и на
+    множество кластеров.&lt;/li&gt;
+&lt;li&gt;Кэширование с помощью &lt;a href="/tag/squid/"&gt;Squid&lt;/a&gt; группируется по типу
+    контента: текст для wiki отдельно от изображений и больших
+    статических файлов.&lt;/li&gt;
+&lt;li&gt;На данный момент функционирует 55 &lt;a href="/tag/squid/"&gt;Squid&lt;/a&gt; серверов, плюс
+    еще 20 подготавливается к запуску.&lt;/li&gt;
+&lt;li&gt;1000 HTTP запросов в секунду на каждый сервер, в периоды повышенной
+    нагрузки эта цифра может достигать 2500.&lt;/li&gt;
+&lt;li&gt;~ 100-250 MBps на сервер.&lt;/li&gt;
+&lt;li&gt;~ 14000-32000 открытых соединений на каждом сервере.&lt;/li&gt;
+&lt;li&gt;До 40 GB дискового кэша на каждом Squid сервере.&lt;/li&gt;
+&lt;li&gt;До 4 дисков в каждом сервере (1U серверы).&lt;/li&gt;
+&lt;li&gt;8 GB оперативной памяти, половину использует &lt;a href="/tag/squid/"&gt;Squid&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/e669c01a/" rel="nofollow" target="_blank" title="http://www.powerdns.com"&gt;PowerDNS&lt;/a&gt; предоставляет геораспределение.&lt;/li&gt;
+&lt;li&gt;В основном и региональных датацентрах текстовые и медиа кластеры
+    построены на &lt;a href="/tag/lvs/"&gt;LVS&lt;/a&gt;,
+    &lt;abbr title="Common Address Redundancy Protocol"&gt;CARP&lt;/abbr&gt;
+&lt;a href="/tag/squid/"&gt;Squid&lt;/a&gt;, кэш &lt;a href="/tag/squid/"&gt;Squid&lt;/a&gt;. В основном датацентре
+    также находится хранилище медиа-данных.&lt;/li&gt;
+&lt;li&gt;Для того, чтобы обеспечить предоставление только последних версий
+    страниц, всем Squid-серверам отправляются инвалидационные запросы.&lt;/li&gt;
+&lt;li&gt;Централизованно управляемая и синхронизированная установка
+    программного обеспечения для сотен серверов.&lt;/li&gt;
+&lt;li&gt;MediaWiki отлично масштабируется с несколькими процессорами, так что
+    закупаются двухпроцессорный четырех ядерные серверы (8 ядер на
+    сервер).&lt;/li&gt;
+&lt;li&gt;Одно и то же оборудование выполняет как задачи внешнего хранения
+    данных, так и кэширования &lt;a href="/tag/memcached/"&gt;Memcached&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/memcached/"&gt;Memcached&lt;/a&gt; используется для кэширования метаданных
+    изображений, данных парсера, различий между ревизиями,
+    пользователей, сессий. Метаданные, такие как история ревизий,
+    отношений статей (ссылки, категории и так далее), учетные записи
+    пользователей хранятся в основных базах данных&lt;/li&gt;
+&lt;li&gt;Сам текст находится во внешних хранилищах данных.&lt;/li&gt;
+&lt;li&gt;Статические (загруженные пользователями) файлы, например
+    изображения, хранятся отдельно на сервере изображений, а метаданные
+    (размер, тип и так далее) кэшируются в основной базе данных и
+    объектном кэше.&lt;/li&gt;
+&lt;li&gt;Отдельная база данных для каждой вики (не отдельный сервер!).&lt;/li&gt;
+&lt;li&gt;Один master и много реплицированных slave серверов.&lt;/li&gt;
+&lt;li&gt;Операции чтения равномерно распределяются по slave серверам,
+    операции записи направляются на master.&lt;/li&gt;
+&lt;li&gt;Иногда master используется и для операция чтения, когда репликация
+    на slave еще не завершена.&lt;/li&gt;
+&lt;li&gt;Внешнее хранение данных:&lt;ul&gt;
+&lt;li&gt;Текст статей хранится на отдельных кластерах, которые представляют
+собой простой средство хранения данных с возможностью только
+дописывания новых данных. Такой подход позволяет сохранить
+дорогостоящее место в высоконагруженных основных базах данных от
+редко используемой информации.&lt;/li&gt;
+&lt;li&gt;Благодаря этому появляются дополнительные неиспользованные ресурсы
+на серверах приложений (порой 250-500 GB на сервер).&lt;/li&gt;
+&lt;li&gt;На данной момент используются реплицируемые кластеры из 3
+&lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt; серверов, но в будущем это может измениться, так
+как требуется более удобное управление ими.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="podvodim-itogi"&gt;Подводим итоги&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Сфокусируйтесь на архитектуре, а не на операциях или чем-то другом.&lt;/li&gt;
+&lt;li&gt;Иногда кэширование обходится дороже, чем повторные вычисление или
+    поиск данных в исходном источнике.&lt;/li&gt;
+&lt;li&gt;Старайтесь избегать сложных алгоритмов, запросов к базе данных и
+    тому подобного.&lt;/li&gt;
+&lt;li&gt;Кэшируйте каждый результат, который дорого вам обошелся и является
+    относительно локальным.&lt;/li&gt;
+&lt;li&gt;Сфокусируйтесь на "горячих точках" в коде.&lt;/li&gt;
+&lt;li&gt;Масштабируйтесь разделением:&lt;ul&gt;
+&lt;li&gt;операций чтения и записи (master/slave);&lt;/li&gt;
+&lt;li&gt;сложных операций и более частых и простых (группы запросов);&lt;/li&gt;
+&lt;li&gt;больших, популярных вики и более мелких.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Улучшайте кэширование: временная и пространственная локализация
+    данных, а также уменьшение набора данных на каждом сервере.&lt;/li&gt;
+&lt;li&gt;Выполняйте компрессию текстовых данных, храните только изменения в
+    статьях.&lt;/li&gt;
+&lt;li&gt;Казалось бы простые вызовы библиотечных функций порой на практике
+    могут занимать слишком много времени.&lt;/li&gt;
+&lt;li&gt;Скорость поиска данных на диске ограничена, так что чем больше
+    дисков - тем лучше!&lt;/li&gt;
+&lt;li&gt;Масштабирование с использованием обычного оборудование не означает
+    использование самых дешевых вещей, которые удастся найти. Серверы
+    баз данных Wikipedia сегодня представляют собой 16GB RAM, двух- или
+    четырех-ядерные серверы с 6 15000 rpm SCSI дисками, организованными
+    в RAID 0. Возможно они бы и использовали более дешевые системы, но
+    16 GB как раз хватает для размещения основного объема данных, а
+    остальное берут на себя жесткие диски, это вполне соответствует
+    потребностям системы, которую они построили. Примерно по таким же
+    причинам их веб-сервера имеют 8 ядер, так как это позволяет достичь
+    неплохой производительности &lt;a href="/tag/php/"&gt;PHP&lt;/a&gt; при достаточно простой
+    организации балансировки нагрузки.&lt;/li&gt;
+&lt;li&gt;Для масштабирования требуется выполнение массы работы, но если
+    заранее этого не предусмотреть - понадобится сделать еще больше.
+    MediaWiki изначально была написана для одного master сервера баз
+    данных. Затем добавилась поддержка slave. Затем добавилось
+    распределение по языкам и проектам. Дизайн системы с тех пор
+    прекрасно выдерживает все нагрузки, но без очистки от новых узких
+    мест системы не обошлось.&lt;/li&gt;
+&lt;li&gt;Каждый, кто хочет разработать свою базу данных таким образом, чтобы
+    она позволила недорого масштабироваться с уровня одного сервера до
+    уровня десятки лучших сайтов Интернета, должен начать с обработки
+    слегка устаревших данных на реплицированных slave серверах, при этом
+    не забывать балансировать нагрузку операций чтения между slave
+    серверами. Если это возможно - блоки данных (группы пользователей,
+    учетных записей, или чего угодно) должны размещаться каждый на
+    разных серверах. Можно делать это с самого начала используя
+    виртуализацию, чтобы удостовериться в работоспособности архитектуры,
+    когда вы еще "маленькие". Это &lt;strong&gt;намного&lt;/strong&gt; проще, чем когда вы
+    делаете то же самое, но под ежемесячно удваивающейся нагрузкой.&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Fri, 28 Mar 2008 15:32:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-03-28:highload/2008/arkhitektura-wikimedia/</guid><category>Apache</category><category>lighttpd</category><category>Linux</category><category>Lucene</category><category>LVS</category><category>Memcached</category><category>MySQL</category><category>PHP</category><category>Squid</category><category>архитектура</category><category>архитектура Wikimedia</category><category>геораспределение</category><category>Масштабируемость</category></item></channel></rss>

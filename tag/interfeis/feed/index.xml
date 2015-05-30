@@ -1,0 +1,785 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/interfeis/feed/index.xml" rel="self"></atom:link><lastBuildDate>Fri, 13 Apr 2012 08:00:00 +0400</lastBuildDate><item><title>Повторное использование шаблонов</title><link>https://www.insight-it.ru//interactive/2012/povtornoe-ispolzovanie-shablonov/</link><description>&lt;blockquote&gt;
+&lt;p&gt;Лень - двигатель прогресса&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Сегодня мы рассмотрим способ, позволяющий немного упростить себе жизнь
+при создании &lt;a href="https://www.insight-it.ru/interactive/"&gt;интерактивного сайта&lt;/a&gt;&amp;nbsp;путем повторного использования шаблонов. Визуально результат будет примерно таким же, как при дублировании бизнес-логики в браузере, но ценой существенно меньших
+трудозатрат на разработку JavaScript-клиента, да и на серверной части
+тоже. Хотите узнать как это провернуть?&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Небольшая ремарка, чтобы не было недопонимания из-за терминологии:&lt;/p&gt;
+&lt;div class="card blue lighten-4"&gt;
+&lt;div class="card-content"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Шаблон&lt;/strong&gt;&amp;ensp;&lt;em&gt;(template)&lt;/em&gt; : HTML-документ с расширенным набором тегов,
+    которые впоследствии используются для подстановки динамических
+    данных.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Шаблонизатор&lt;/strong&gt;&amp;ensp;&lt;em&gt;(templating engine)&lt;/em&gt; : библиотека, позволяющая на
+    основе &lt;em&gt;шаблона&lt;/em&gt; (использующего определенный синтаксис
+    дополнительных тегов) и &lt;em&gt;динамических данных&lt;/em&gt; получить итоговый
+    HTML-документ, пригодный для отображения в браузере.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Рендеринг&lt;/strong&gt;&amp;ensp;&lt;em&gt;(rendering)&lt;/em&gt; : в данном контексте &amp;mdash; процесс, которым занимается шаблонизатор.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;h2 id="obshchii-printsip"&gt;Общий принцип&lt;/h2&gt;
+&lt;p&gt;Чтобы сразу в голове сложилась нужная картина, начнем с дополненной
+схемы из статьи про &lt;a href="https://www.insight-it.ru/interactive/2012/arkhitektura-interaktivnykh-sajjtov/"&gt;архитектуру интерактивных сайтов&lt;/a&gt;:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Повторное использование шаблонов" class="responsive-img" src="https://www.insight-it.ru/images/templates.jpeg" title="Повторное использование шаблонов"/&gt;&lt;/p&gt;
+&lt;p&gt;Если вкратце, то стандартный интерфейс внутренних сервисов, скрывающихся
+за блоком &lt;strong&gt;"Бизнес-логика"&lt;/strong&gt;, можно реализовать таким образом, чтобы он
+возвращал все необходимые данные для рендеринга шаблона плюс его имя.
+База &lt;strong&gt;шаблонов&lt;/strong&gt; у всех общая, у каждого уникальное имя, каждый сервер
+интерфейсов (обоих) держит по копии всех шаблонов в памяти.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;HTML интерфейс&lt;/strong&gt; просто разбирает HTTP-запросы, отправляет на его
+основе сообщение(ия) внутренним сервисам, получает в ответ имя шаблона и
+данные для его заполнения, с помощью &lt;strong&gt;шаблонизатора&lt;/strong&gt; рендерит итоговый
+&lt;a href="/tag/html/"&gt;HTML&lt;/a&gt; и отдает браузеру или роботу.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Интерфейс сериализованных данных&lt;/strong&gt;&amp;ensp;&lt;em&gt;(если он, как и обсуждалось ранее,
+работает через &lt;a href="https://www.insight-it.ru/interactive/2012/postoyannoe-soedinenie-mezhdu-brauzerom-i-serverom/"&gt;постоянное соединение с браузером&lt;/a&gt;)&lt;/em&gt;&amp;nbsp;каждому
+подключившемуся клиенту первым делом отправляет
+&lt;a href="/tag/json/"&gt;JSON&lt;/a&gt;-объект с шаблонами, по крайней мере если их не особо
+много, иначе лучше "по запросу". При действии пользователя
+JavaScript-клиент отправляет сообщение с информацией, на его основе
+интерфейс сериализованных данных передает то же самое (а может и как-то
+модифицированное) сообщение внутреннему сервису, также получает в ответ
+имя шаблона и данные и перенаправляет их клиенту (возможно
+сконвертировав в другой формат). Клиенту остается передать их своему
+шаблонизатору и заменить результатом его работы какую-то часть уже
+имеющегося в окне браузера HTML-документа.&lt;/p&gt;
+&lt;h2 id="rendering"&gt;Рендеринг&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Шаблонизаторов&lt;/strong&gt; сейчас доступно огромное количество под любую
+платформу, с разной производительностью и возможностями, но чтобы
+воплотить эту стратегию в жизнь подойдут далеко не все. Два основных
+требования:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Отсутствие внешних вызовов при рендеринге&lt;/em&gt;, то есть на входе только
+    данные, если используются какие-то фильтры или что-то такое - они
+    должны быть частью шаблонизатора.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Шаблонизатор должен иметь реализацию на JavaScript&lt;/em&gt;, так как будет
+    исполняться в том числе и в браузере.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Да, многофункциональные шаблонизаторы вроде &lt;a href="/tag/jinja2/"&gt;Jinja2&lt;/a&gt; - это
+очень удобно, но конкретно в данном случае богатый ассортимент
+возможностей не уместен. Наиболее известный &lt;em&gt;кроссплатформенный&lt;/em&gt;
+шаблонизатор, не обремененный ничем лишним, называется
+&lt;strong&gt;&lt;a href="https://www.insight-it.ru/goto/fff99a22/" rel="nofollow" target="_blank" title="http://mustache.github.com/"&gt;mustache&lt;/a&gt;&lt;/strong&gt;. С его использованием иногда
+получаются довольно замысловатые конструкции, но зато он отлично
+подходит под этот сценарий использования и прост как три копейки,
+изучить можно за 5 минут, &lt;em&gt;рекомендую&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;В этой схеме напрашивается использование &lt;a href="/tag/node-js/"&gt;node.js&lt;/a&gt; для
+реализации &lt;strong&gt;HTML-интерфейса&lt;/strong&gt;, что откроет доступ к многочисленным
+шаблонизаторам, &lt;a href="https://www.insight-it.ru/goto/261edaf6/" rel="nofollow" target="_blank" title="https://github.com/joyent/node/wiki/modules#wiki-templating"&gt;реализованным исключительно на JavaScript&lt;/a&gt;.
+Тем более кроме рендеринга шаблонов эта часть проекта практически ничего
+и не делает. В качестве бонуса требование про отсутствие внешних вызовов
+станет не таким строгим, да и в целом, если минималистичное решение
+вроде &lt;a href="/tag/mustache/"&gt;mustache&lt;/a&gt;&amp;nbsp;по каким-то идеологическим соображениям
+не устраивает - любой написанный для node.js шаблонизатор наверняка
+станет отличным выходом.&lt;/p&gt;
+&lt;h2 id="struktura-shablonov"&gt;Структура шаблонов&lt;/h2&gt;
+&lt;p&gt;При рендеринге на клиентской стороне &lt;strong&gt;обычно&lt;/strong&gt; нужно заменять лишь
+содержимое определенного блока, где располагается основной контент
+сайта. Изменения в в других частях сайта нужны существенно реже,
+соответственно стоит вынести их в отдельные шаблоны.&lt;/p&gt;
+&lt;p&gt;Таким образом большинство шаблонов, соответствующих страницам сайта,
+представляют собой содержимое одного блока. Отдельные шаблоны,
+актуальные для всего сайта, создаются для:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Блока &lt;code&gt;&amp;lt;head&amp;gt;&lt;/code&gt; документа&lt;/li&gt;
+&lt;li&gt;Видимой "шапки" сайта&lt;/li&gt;
+&lt;li&gt;Сайдбара(ов), если они не сильно зависят от основного контентом
+    страниц&lt;/li&gt;
+&lt;li&gt;Видимого "подвала" сайта плюс тегов для подключения
+    &lt;a href="/tag/javascript/"&gt;JavaScript&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;HTML-интерфейс&lt;/strong&gt; при чтении их из файловой системы "склеивает" их в
+полные шаблоны для каждой страницы, просто конкатенацией или с
+использованием механизмов шаблонизатора. &lt;strong&gt;Интерфейс сериализованных
+данных&lt;/strong&gt; "заворачивает" шаблоны страниц в JSON (или другой используемый
+формат) прямо в исходном виде для вставки в блок с основным контентом.
+Из "общесайтовых"&amp;nbsp;шаблонов браузерному клиенту вероятно могут
+понадобиться только сайдбар(ы), и то не всегда.&lt;/p&gt;
+&lt;p&gt;Изменения в остальных частях сайта лучше все же отдать на совесть
+&lt;em&gt;представлений&lt;/em&gt; на основе клиентского фреймворка. В первую очередь это
+касается изменения &lt;code&gt;&amp;lt;title&amp;gt;&lt;/code&gt; и других мета-тегов.&lt;/p&gt;
+&lt;h2 id="primechaniia"&gt;Примечания&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;При использовании минималистичного шаблонизатора без внешних вызовов
+    будьте морально готовы передавать ему "многоуровневые" объекты для
+    вставки в шаблон. Например, если говорить о постраничной навигации,
+    там, где в продвинутом шаблонизаторе было бы что-то вроде &lt;code&gt;{% pagination(current_page, total_pages) %}&lt;/code&gt;,&amp;nbsp;может понадобится не
+    только написать саму верстку (что, в целом, хорошая практика), а еще
+    и передать информацию о точном списке страниц, какая именно из них
+    активная, где пропуски и пр.&lt;/li&gt;
+&lt;li&gt;Стоит обращать внимание на производительность используемого
+    шаблонизатора. Например, под одну из платформ "официальная"
+    реализация &lt;strong&gt;mustache&lt;/strong&gt;, как оказалось,&amp;nbsp;проигрывает сторонней с
+    отрывом в 2 порядка.&lt;/li&gt;
+&lt;li&gt;Хоть при таком подходе добиться одинакового внешнего вида страниц
+    при рендеринге серверной и клиентской частью достаточно легко,
+    следить за их соответствием все же стоит - какие-то детали можно и
+    упустить.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="zakliuchenie"&gt;Заключение&lt;/h2&gt;
+&lt;p&gt;Как я уже намекал в конце &lt;a href="https://www.insight-it.ru/interactive/2012/postoyannoe-soedinenie-mezhdu-brauzerom-i-serverom/"&gt;предыдущего материала&lt;/a&gt;,
+обсуждавшийся в этой статье подход не совсем &lt;em&gt;"идеологически
+правильный"&lt;/em&gt;, по крайней мере с точки зрения используемого &lt;em&gt;клиентского
+фреймворка&lt;/em&gt;. &lt;strong&gt;Модели&lt;/strong&gt;,&amp;nbsp;вероятно,&amp;nbsp;будут использоваться для хранения
+библиотеки шаблонов и данных для их рендеринга, а не для объектов
+предметной области проекта. &lt;strong&gt;Представления&lt;/strong&gt; будут отвечать лишь за
+рендеринг шаблонов и синхронизацию второстепенных элементов интерфейса.
+Если Вы все же пойдете по этому пути, хочется, чтобы Вы сделали это
+осознанно. Альтернативный сценарий создания полноценного
+JavaScript-приложения для работы в браузере для некоторых проектов
+по-прежнему может оказаться более предпочтительным.&lt;/p&gt;
+&lt;p&gt;В&amp;nbsp;следующей&amp;nbsp;статье мы наконец-то перейдем к более привычной для меня
+&lt;em&gt;серверной части&lt;/em&gt; интерактивных сайтов, там тоже есть много интересных
+моментов, которые стоит обсудить.&lt;/p&gt;
+&lt;div class="card green"&gt;
+&lt;p&gt;&lt;div class="card-content white-text"&gt;
+Эта статья - четвертая в &lt;a class="green-text text-lighten-4" href="https://www.insight-it.ru/interactive/"&gt;серии про Интерактивные сайты&lt;/a&gt;, автор - &lt;a class="green-text text-lighten-4" href="https://www.insight-it.ru/goto/b03d9116/" rel="nofollow" target="_blank" title="http://blinkov.ru"&gt;Иван&amp;nbsp;Блинков&lt;/a&gt;, основано на личном опыте.
+До встречи &lt;a class="green-text text-lighten-4" href="/feed/"&gt;на страницах Insight IT&lt;/a&gt;!
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Fri, 13 Apr 2012 08:00:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-04-13:interactive/2012/povtornoe-ispolzovanie-shablonov/</guid><category>html</category><category>JSON</category><category>mustache</category><category>node.js</category><category>rendering</category><category>template</category><category>template engine</category><category>интерфейс</category><category>шаблон</category><category>шаблонизация</category></item><item><title>Интерфейс</title><link>https://www.insight-it.ru//theory/2008/interfejs/</link><description>&lt;p&gt;&lt;img alt="Интерфейс" class="right" src="https://www.insight-it.ru/images/exec.png"/&gt;
+Наверняка у многих из вас слово &lt;em&gt;"интерфейс"&lt;/em&gt; ассоциируется с внешним
+видом любой программы, то есть кнопочками, виджетами, иконками и прочим
+ее оформлением. Да, несомненно графический пользовательский интерфейс
+является одним из значений этого понятия, но существует и масса других!&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Хотите узнать больше?&lt;/strong&gt;
+&lt;!--more--&gt;
+В общем случае под словом интерфейс понимают правила и рамки
+взаимодействия двух произвольных объектов. В рамках компьютерной
+терминологии такими объектами обычно выступают люди, оборудование,
+программное обеспечение или его компоненты, но этот термин применим и
+далеко за ее пределами.&lt;/p&gt;
+&lt;p&gt;Вернувшись к примеру из первого абзаца мы теперь можем вполне
+аргументированно объяснить почему GUI так часто приравнивают к слову
+интерфейс: он просто является частным случаем интерфейса между
+приложением и его пользователем. Можно было бы привести еще массу
+примеров различных интерфейсов, скажем сокет в качестве интерфейса между
+процессором и материнской платой, но целью написания этого поста было
+вовсе не это.&lt;/p&gt;
+&lt;p&gt;Уже догадались? Да, это я так неспеша плавно подводил разговор к
+&lt;a href="/tag/oop/"&gt;объектно-ориентированному программированию&lt;/a&gt;. Термин
+&lt;em&gt;интерфейс&lt;/em&gt; широко применяется и в нем. Как не трудно предположить, в
+роли объектов в этом случае выступают как сами классы, так и их
+экземпляры (которые, впрочем, тоже принято называть словом &lt;em&gt;объект&lt;/em&gt;).&lt;/p&gt;
+&lt;p&gt;В общем случае интерфейсом класса выступает совокупность его &lt;strong&gt;public&lt;/strong&gt;
+методов и переменных, то есть доступных для обращения из других частей
+приложения. Этот факт вполне логичен - именно благодаря им и
+осуществляется взаимодействие класса (или его объекта) с "внешним
+миром". Но не все так просто, особенно с точки зрения &lt;a href="https://www.insight-it.ru/theory/2008/design-patterns/"&gt;шаблонов
+проектирования&lt;/a&gt;, немаловажную роль в
+взаимодействии классов и объектов играет &lt;strong&gt;абстракция&lt;/strong&gt;. Хочется
+обратить внимание, что формально имеется ввиду даже не сами методы, а их
+заголовки, то есть название, набор получаемых переменных и тип
+возвращаемого значения (этот набор данных принято также принято называть
+интерфейсом методов или функций), само тело метода (реализация) в данном
+случае не важно.&lt;/p&gt;
+&lt;p&gt;Иными словами, если один класс (будем называть его &lt;em&gt;клиент&lt;/em&gt;)
+взаимодействует с каким-либо другим объектом, то по большому счету он
+абсолютно не обязан знать какого класса этот объект является экземпляром
+(может конечно, но это совсем не обязательно). Единственное, что
+интересует класс-клиент, это &lt;em&gt;интерфейс&lt;/em&gt; объекта, с которым он
+взаимодействует, этой информации вполне достаточно для полноценной
+совместной работы.&lt;/p&gt;
+&lt;p&gt;Сразу напрашивается вполне резонный вопрос: а как же тогда клиент может
+быть уверен, что в классе, с которым он работает, какой-либо конкретный
+интерфейс реализован? Допустим ему нужен во-о-о-он тот метод, а как же
+узнать доступен ли он и получит ли клиент в ответ данные нужного типа?
+Ответ на этот вопрос реализован в каждом языке программирования
+по-разному: где-то существует специальные ключевые слова для
+&lt;em&gt;обозначения&lt;/em&gt; интерфейсов и классов, их реализующих, где-то это
+ненавязчиво реализуется средствами &lt;em&gt;наследования&lt;/em&gt; и &lt;em&gt;полиморфизма&lt;/em&gt; на
+более концептуальном уровне.&lt;/p&gt;
+&lt;p&gt;Самым наглядным языком программирования для демонстрации описания
+интерфейсов я считаю &lt;strong&gt;Java&lt;/strong&gt; (хотя можно было бы выбрать и C#, PHP или
+практически любой другой по вкусу). В теории все просто:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Ключевое слово &lt;code&gt;interface&lt;/code&gt; обозначает описание интерфейса;&lt;/li&gt;
+&lt;li&gt;За ним следует название конкретного интерфейса, которое впоследствии
+    можно будет использовать в коде при его упоминании (некоторые
+    программисты на правах традиции начинают названия интерфейсов с
+    заглавной буквы &lt;strong&gt;I&lt;/strong&gt;, мне в свое время даже пытались объяснить
+    зачем так надо делать, но аргументы не показались мне достаточно
+    весомыми);&lt;/li&gt;
+&lt;li&gt;Далее идет тело интерфейса, в котором перечисляются все заголовки
+    методов, которые должны быть в классе, реализующем данный интерфейс
+    (никакой реализации!);&lt;/li&gt;
+&lt;li&gt;Впоследствии приписав к заголовку любого класса ключевое слово
+    &lt;code&gt;implements&lt;/code&gt; с последующим указанием названия интерфейса, можно
+    &lt;em&gt;обязать&lt;/em&gt; этот класс реализовать указанные в описания интерфейса
+    методы. Существует небольшое исключение для абстрактных классов (то
+    есть классов,для которых &lt;em&gt;не может&lt;/em&gt; быть создан объект, обозначаются
+    ключевым словом &lt;code&gt;abstract&lt;/code&gt;), они &lt;em&gt;могут&lt;/em&gt; и не реализовать все
+    методы интерфейса, но тогда эта &lt;em&gt;обязанность&lt;/em&gt; будет переложена на их
+    &lt;em&gt;наследников&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;В данной ситуации клиент, работающий с каким-либо произвольным объектом
+может просто-напросто проверить, реализован ли в нем заранее
+определенный интерфейс, что даст ему гарантию, что он может смело
+обращаться к необходимому набору методов.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Небольшое примечание:&lt;/em&gt; сами интерфейсы и методы в их теле по-умолчанию
+обладают свойствами &lt;code&gt;abstract&lt;/code&gt; и &lt;code&gt;public&lt;/code&gt;, так что повторно
+указывать эти ключевые слова не нужно.&lt;/p&gt;
+&lt;p&gt;На практике же это выглядит это примерно следующим образом:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c1"&gt;// описание интерфейса&lt;/span&gt;
+&lt;span class="kd"&gt;interface&lt;/span&gt; &lt;span class="nc"&gt;Renderable&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="c1"&gt;// обязуем реализовать метод draw&lt;/span&gt;
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;draw&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="c1"&gt;// конкретная реализация интерфейса&lt;/span&gt;
+&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;SomeText&lt;/span&gt; &lt;span class="kd"&gt;implements&lt;/span&gt; &lt;span class="n"&gt;Renderable&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+   &lt;span class="n"&gt;string&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+   &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;SomeText&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;string&lt;/span&gt; &lt;span class="n"&gt;str&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+   &lt;span class="o"&gt;{&lt;/span&gt;
+      &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;text&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;str&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+   &lt;span class="o"&gt;}&lt;/span&gt;
+   &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;draw&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+   &lt;span class="o"&gt;{&lt;/span&gt;
+       &lt;span class="c1"&gt;// вынуждены подчиниться и реализовать&lt;/span&gt;
+       &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;text&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+   &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="c1"&gt;// класс-клиент&lt;/span&gt;
+&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Render&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;Render&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Renderable&lt;/span&gt; &lt;span class="n"&gt;obj&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+     &lt;span class="c1"&gt;// можно быть уверенным, что&lt;/span&gt;
+     &lt;span class="c1"&gt;// метод draw реализован&lt;/span&gt;
+     &lt;span class="n"&gt;obj&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;draw&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+     &lt;span class="cm"&gt;/*&lt;/span&gt;
+&lt;span class="cm"&gt;         в качестве альтернативы можно было бы написать как-то так:&lt;/span&gt;
+&lt;span class="cm"&gt;         if(obj instanceof Renderable)obj.draw();&lt;/span&gt;
+&lt;span class="cm"&gt;         то есть проверить реализован ли интерфейс&lt;/span&gt;
+&lt;span class="cm"&gt;         вместо использования его названия в роли типа данных&lt;/span&gt;
+&lt;span class="cm"&gt;     */&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;В данном примере ситуация тривиальна: класс-клиент &lt;code&gt;Render&lt;/code&gt; умеет лишь
+визуализировать классы, которые он получает в конструктор, вызывая у них
+метод &lt;code&gt;draw&lt;/code&gt;. Для обеспечения такой возможности описан интерфейс
+&lt;code&gt;Renderable&lt;/code&gt;, который реализуется в классе &lt;code&gt;SomeText&lt;/code&gt;. Хоть класс
+&lt;code&gt;Render&lt;/code&gt; ничего и не знает о том, какой именно класс ему подсунут,
+благодаря интерфейсу он сможет вывести на экран любой объект, корректно
+реализующий наш интерфейс, в том числе и &lt;code&gt;SomeText&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Как я уже упоминал: альтернативой такому подходу является использование
+полиморфизма и наследования. Такой подход более распространен в других
+языках программирования, например C++, но пример я приведу все равно на
+&lt;strong&gt;Java&lt;/strong&gt;, основываясь на предыдущем примере, чтобы читателям было проще
+сравнивать.&lt;/p&gt;
+&lt;p&gt;В теории такой подход еще проще: создается абстрактный класс, хоть
+как-то реализующий наш интерфейс (теоретически реализация может быть и
+пустой, просто в виде метода-заглушки), а на стороне клиента достаточно
+лишь просто принимать только наследников этого абстрактного класса. В
+нашем примере достаточно лишь изменить пару ключевых слов и все:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c1"&gt;// теперь используем абстрактный класс&lt;/span&gt;
+&lt;span class="kd"&gt;abstract&lt;/span&gt; &lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Renderable&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="c1"&gt;// реализуем метод draw&lt;/span&gt;
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;draw&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+    &lt;span class="o"&gt;{&lt;/span&gt;
+       &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Вывод на экран недоступен!"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="c1"&gt;// реализация интерфейса (на этот раз неформального)&lt;/span&gt;
+&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;SomeText&lt;/span&gt; &lt;span class="kd"&gt;extends&lt;/span&gt; &lt;span class="n"&gt;Renderable&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+   &lt;span class="c1"&gt;// на этот раз используем extends (наследование)&lt;/span&gt;
+   &lt;span class="c1"&gt;// вместо implements&lt;/span&gt;
+   &lt;span class="n"&gt;string&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+   &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;SomeText&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;string&lt;/span&gt; &lt;span class="n"&gt;str&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+   &lt;span class="o"&gt;{&lt;/span&gt;
+      &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;text&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;str&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+   &lt;span class="o"&gt;}&lt;/span&gt;
+   &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;draw&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+   &lt;span class="o"&gt;{&lt;/span&gt;
+       &lt;span class="c1"&gt;// переопределяем метод draw&lt;/span&gt;
+       &lt;span class="c1"&gt;// но могли этого и не делать, тогда&lt;/span&gt;
+       &lt;span class="c1"&gt;// использовался бы метод из Renderable&lt;/span&gt;
+       &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;text&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+   &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="c1"&gt;// класс-клиент&lt;/span&gt;
+&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Render&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;Render&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Renderable&lt;/span&gt; &lt;span class="n"&gt;obj&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+     &lt;span class="c1"&gt;// можно быть уверенным, что&lt;/span&gt;
+     &lt;span class="c1"&gt;// метод draw реализован&lt;/span&gt;
+     &lt;span class="n"&gt;obj&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;draw&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+     &lt;span class="cm"&gt;/*&lt;/span&gt;
+&lt;span class="cm"&gt;        на этот раз так как в крайнем случае&lt;/span&gt;
+&lt;span class="cm"&gt;        в крайнем случае вызовется хотябы&lt;/span&gt;
+&lt;span class="cm"&gt;        метод из класса Renderable&lt;/span&gt;
+&lt;span class="cm"&gt;     */&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Минимальные изменения - суть та же. Сразу хочу отметить, что этот
+процесс так прост только в &lt;strong&gt;Java&lt;/strong&gt;, в других языках программирования
+понадобилось бы использование дополнительных модификаторов для метода
+&lt;code&gt;draw&lt;/code&gt; (например в &lt;strong&gt;C#&lt;/strong&gt;: &lt;code&gt;virtual&lt;/code&gt; или &lt;code&gt;abstract&lt;/code&gt; в
+классе-потомке и &lt;code&gt;override&lt;/code&gt; в классе-наследнике, это необходимо для
+обеспечения возможности их переопределения).&lt;/p&gt;
+&lt;p&gt;На этом позвольте завершить данное повествование, очень надеюсь, что мне
+удалось изложить суть максимально прозрачно. Эта тема будет активно
+подниматься в дальнейших статьях по &lt;a href="/tag/oop/"&gt;ООП&lt;/a&gt;, так что очень
+надеюсь, что она стала для Вас элементарной и очевидной. По традиции
+напоминаю, что не пропустить публикацию новых постов можно &lt;a href="/feed/"&gt;подписавшись
+на RSS&lt;/a&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sun, 04 May 2008 13:41:00 +0400</pubDate><guid>tag:www.insight-it.ru,2008-05-04:theory/2008/interfejs/</guid><category>Java</category><category>интерфейс</category><category>ООП</category><category>Программирование</category></item><item><title>Общаемся с базой данных</title><link>https://www.insight-it.ru//php/2008/obshhaemsya-s-bazojj-dannykh/</link><description>&lt;p&gt;На этот раз хочется обсудить такой одновременно важный и несложный
+момент в реализации работы любого интернет-проекта, как координации
+работы Ваших скриптов с СУБД.&lt;/p&gt;
+&lt;p&gt;Если подойти к этому вопросу "в лоб", то код станет очень неудобен как
+для понимания, так и для использования: код станет переполнен различными
+функциями соединения с БД, отправки запросов, преобразования результатов
+запросов в массивы PHP, подсчета строк, которые затронул запрос, а также
+многие и многие другие.&lt;/p&gt;
+&lt;p&gt;Для желающих минимизировать подобного рода издержки в процессе написания
+кода, хочу предложить один из, на мой взгляд, самых эффективных способов
+решения этой проблемы.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Этим способом будет являться написание класса, реализующего интерфейс
+между СУБД и PHP-скриптами. Для начала стоит определиться с
+ассортиментом функций, которые будет призван выполнять наш класс:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;установка соединения&lt;/em&gt;, а также проверка успешности выполнения этого
+    действия;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;отправка запросов&lt;/em&gt;, как заданных извне так и, возможно, из
+    какого-либо ассортимента заранее написанных запросов;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;обработка результатов запросов&lt;/em&gt;, не ограничивающаяся одним SELECT,
+    должны быть предоставлены методы обработки результатов любых видов
+    запросов (или хотябы большинства).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Вполне очевидным является тот факт, что методы этого класса будут
+использоваться практически повсеместно в большинстве проектов.
+Вследствии чего становится нецелесообразным создание объекта нашего
+класса и передача его по всем функциям и методам всех скриптов, в таких
+случае намного предпочтительнее делать владельцем методов и переменных
+сам класс, а не экземпляр класса, с помощью ключевого слова &lt;strong&gt;static&lt;/strong&gt;.
+Это позволит пользоваться услугами нашего класса из любого места кода.
+Приступим-с собственно к кодингу, начать стоит с заготовки пустого
+класса:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;SQL&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;В зависимости от предпочитаемой Вами СУБД набор конкретных функций,
+используемых в реализации нашего класса, будет вариироваться. В
+большинстве случаев предпочитаю пользоваться PostgreSQL, на это причин у
+меня несколько, но это тема для отдельного разговора. Благодаря этому
+факту приводимый в качестве примера код будет использовать функции для
+работы именно с этой СУБД. Для поклонников же других этот систем вопрос
+в подавляющем большинстве случаев заключается лишь в замене этих функций
+на аналогичные из других модулей PHP, например для популярной и
+широкораспространенной MySQL достаточно будет всеголишь пройтись
+автозаменой &lt;strong&gt;pg_ =&amp;gt; mysql_&lt;/strong&gt; и слегка подредактировать параметры
+некоторых функций.&lt;/p&gt;
+&lt;p&gt;Перейдем к реализации установления соединения с СУБД, не стоит ожидать
+увидеть здесь ничего необычного:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;connect&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;  &lt;span class="c1"&gt;// установка соединения&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="nx"&gt;self&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nv"&gt;$connection&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;pg_pconnect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"host=localhost dbname=pgsql user=pgsql password=MyPassword"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="c1"&gt;// не забываем менять указанные данные для авторизации на правильные&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="nb"&gt;isset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;self&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nv"&gt;$connection&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+  &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"Сайт не работает по техническим причинам.&lt;/span&gt;
+&lt;span class="s2"&gt;Просим прощения за доставленные неудобства."&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;exit&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;   &lt;span class="c1"&gt;// ни в коем случае не выводим более информативных сообщений об ошибке, чем это&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;А вот с отправкой и обработкой результатов запросов ситуация далеко не
+так однозначна. Помимо простой передачи самого текста запроса в СУБД,
+необходимо правильно определить тип запроса и в соответствии с этим
+обработать результат. Можно конечно попытаться сделать это автоматически
+на основе вытаскивания первого слова из текста запроса, но мне всетаки
+кажется более предпочтительным определение "вручную" желаемого вида
+представление результата. Выполнение произвольных запросов может
+выглядеть, например, следующим образом:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;query&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$str&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$bool&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;false&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;// произвольный запрос&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="c1"&gt;//echo $str."&lt;/span&gt;
+&lt;span class="s2"&gt;"; // очень удобно на стадии разработки в процессе поиска ошибок&lt;/span&gt;
+&lt;span class="s2"&gt;  &lt;/span&gt;&lt;span class="si"&gt;$result&lt;/span&gt;&lt;span class="s2"&gt;=@pg_query(self::&lt;/span&gt;&lt;span class="si"&gt;$connection&lt;/span&gt;&lt;span class="s2"&gt;,&lt;/span&gt;&lt;span class="si"&gt;$str&lt;/span&gt;&lt;span class="s2"&gt;); // @ - для сокрытия теоретически возможных ошибок&lt;/span&gt;
+&lt;span class="s2"&gt;  // or die('Query failed: '.pg_last_error());&lt;/span&gt;
+&lt;span class="s2"&gt;  // не забываем убирать в комментарий в финальном варианте проекта&lt;/span&gt;
+&lt;span class="s2"&gt;  // или совсем удалять&lt;/span&gt;
+&lt;span class="s2"&gt;  if(&lt;/span&gt;&lt;span class="si"&gt;$result&lt;/span&gt;&lt;span class="s2"&gt;)  // Если получен результат, отличный от false&lt;/span&gt;
+&lt;span class="s2"&gt;  {&lt;/span&gt;
+&lt;span class="s2"&gt;    if(&lt;/span&gt;&lt;span class="si"&gt;$bool&lt;/span&gt;&lt;span class="s2"&gt;)  // Если выбран результат в виде boolean&lt;/span&gt;
+&lt;span class="s2"&gt;    {&lt;/span&gt;
+&lt;span class="s2"&gt;      return true;&lt;/span&gt;
+&lt;span class="s2"&gt;    }&lt;/span&gt;
+&lt;span class="s2"&gt;    else  // Если выбран результат в виде массива&lt;/span&gt;
+&lt;span class="s2"&gt;    {&lt;/span&gt;
+&lt;span class="s2"&gt;      &lt;/span&gt;&lt;span class="si"&gt;$n&lt;/span&gt;&lt;span class="s2"&gt;=pg_num_rows(&lt;/span&gt;&lt;span class="si"&gt;$result&lt;/span&gt;&lt;span class="s2"&gt;);  // для создания универсального формата массива&lt;/span&gt;
+&lt;span class="s2"&gt;      if(&lt;/span&gt;&lt;span class="si"&gt;$n&lt;/span&gt;&lt;span class="s2"&gt;==1)return pg_fetch_array(&lt;/span&gt;&lt;span class="si"&gt;$result&lt;/span&gt;&lt;span class="s2"&gt;,0,PGSQL_ASSOC);&lt;/span&gt;
+&lt;span class="s2"&gt;      else  // даже когда результат содержит только одну строку&lt;/span&gt;
+&lt;span class="s2"&gt;      {&lt;/span&gt;
+&lt;span class="s2"&gt;        &lt;/span&gt;&lt;span class="si"&gt;$j&lt;/span&gt;&lt;span class="s2"&gt;=pg_num_rows(&lt;/span&gt;&lt;span class="si"&gt;$result&lt;/span&gt;&lt;span class="s2"&gt;);&lt;/span&gt;
+&lt;span class="s2"&gt;        &lt;/span&gt;&lt;span class="si"&gt;$list&lt;/span&gt;&lt;span class="s2"&gt;=array();&lt;/span&gt;
+&lt;span class="s2"&gt;        for(&lt;/span&gt;&lt;span class="si"&gt;$i&lt;/span&gt;&lt;span class="s2"&gt;=0;&lt;/span&gt;&lt;span class="si"&gt;$i&lt;/span&gt;&lt;span class="s2"&gt;&amp;lt;&lt;/span&gt;&lt;span class="si"&gt;$j&lt;/span&gt;&lt;span class="s2"&gt;;&lt;/span&gt;&lt;span class="si"&gt;$i&lt;/span&gt;&lt;span class="s2"&gt;++)&lt;/span&gt;
+&lt;span class="s2"&gt;        &lt;/span&gt;&lt;span class="si"&gt;$list&lt;/span&gt;&lt;span class="s2"&gt;[]=pg_fetch_array(&lt;/span&gt;&lt;span class="si"&gt;$result&lt;/span&gt;&lt;span class="s2"&gt;,&lt;/span&gt;&lt;span class="si"&gt;$i&lt;/span&gt;&lt;span class="s2"&gt;,PGSQL_ASSOC);&lt;/span&gt;
+&lt;span class="s2"&gt;        return &lt;/span&gt;&lt;span class="si"&gt;$list&lt;/span&gt;&lt;span class="s2"&gt;;&lt;/span&gt;
+&lt;span class="s2"&gt;      }&lt;/span&gt;
+&lt;span class="s2"&gt;    }&lt;/span&gt;
+&lt;span class="s2"&gt;  }else return false;&lt;/span&gt;
+&lt;span class="s2"&gt;}&lt;/span&gt;
+&lt;span class="s2"&gt;?&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Помимо базовой отправки запросов, в некоторых случаях имеет смысл
+написать несколько методов, отправляющих частоиспользуемые запросы, что
+в некоторых случаях позволяет сократить объем и уменьшить
+нагроможденность кода. Хоть я и предпочитаю не пользоваться такими
+вещами, но привести пример такого рода метода все же стоит:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;selectAll&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$table&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="c1"&gt;// пример метода отправки чаcтоиспользуемых запросов&lt;/span&gt;
+  &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;self&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="na"&gt;query&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"select * from "&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nv"&gt;$table&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="s2"&gt;";"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Если чувствуете необходимость в подобных функциях, можно написать
+огромное количество, все ограничивается лишь Вашим воображением и
+знаниями SQL.&lt;/p&gt;
+&lt;p&gt;Что ж, осталось лишь собрать весь код в единый листинг:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;SQL&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="nv"&gt;$connection&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// соединение с СУБД&lt;/span&gt;
+  &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;connect&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;  &lt;span class="c1"&gt;// установка соединения&lt;/span&gt;
+  &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nx"&gt;self&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nv"&gt;$connection&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;pg_pconnect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"host=localhost dbname=pgsql user=pgsql password=MyPassword"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="c1"&gt;// не забываем менять указанные данные для авторизации на правильные&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="nb"&gt;isset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;self&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nv"&gt;$connection&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="k"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"Сайт не работает по техническим причинам.&amp;lt;br /&amp;gt;Просим прощения за доставленные неудобства."&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+      &lt;span class="k"&gt;exit&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// ни в коем случае не выводим более информативных сообщений об ошибке, чем это&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;query&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$str&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$bool&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;false&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;// произвольный запрос&lt;/span&gt;
+  &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="c1"&gt;//echo $str."&amp;lt;br&amp;gt;"; // очень удобно на стадии разработки в процессе поиска ошибок&lt;/span&gt;
+    &lt;span class="nv"&gt;$result&lt;/span&gt;&lt;span class="o"&gt;=@&lt;/span&gt;&lt;span class="nb"&gt;pg_query&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;self&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nv"&gt;$connection&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$str&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="c1"&gt;// @ - для сокрытия теоретически возможных ошибок&lt;/span&gt;
+    &lt;span class="c1"&gt;// or die('Query failed: '.pg_last_error());&lt;/span&gt;
+    &lt;span class="c1"&gt;// не забываем убирать в комментарий в финальном варианте проекта&lt;/span&gt;
+    &lt;span class="c1"&gt;// или совсем удалять&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$result&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;// Если получен результат, отличный от false&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$bool&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;// Если выбран результат в виде boolean&lt;/span&gt;
+      &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="k"&gt;true&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+      &lt;span class="p"&gt;}&lt;/span&gt;
+      &lt;span class="k"&gt;else&lt;/span&gt;  &lt;span class="c1"&gt;// Если выбран результат в виде массива&lt;/span&gt;
+      &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="nv"&gt;$n&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;pg_num_rows&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$result&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;  &lt;span class="c1"&gt;// для создания универсального формата массива&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$n&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;pg_fetch_array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$result&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;PGSQL_ASSOC&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="k"&gt;else&lt;/span&gt;  &lt;span class="c1"&gt;// даже когда результат содержит только одну строку&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt;
+          &lt;span class="nv"&gt;$j&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;pg_num_rows&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$result&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+          &lt;span class="nv"&gt;$list&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;array&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+          &lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nv"&gt;$j&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+          &lt;span class="nv"&gt;$list&lt;/span&gt;&lt;span class="p"&gt;[]&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;pg_fetch_array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$result&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;PGSQL_ASSOC&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+          &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nv"&gt;$list&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+      &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="k"&gt;false&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+  &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;selectAll&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$table&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="c1"&gt;// пример метода отправки чаcтоиспользуемых запросов&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;self&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="na"&gt;query&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"select * from "&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nv"&gt;$table&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="s2"&gt;";"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;```&lt;/p&gt;
+&lt;p&gt;Вот так вот оно и выглядит в простейшем варианте, дорабатывать под
+собственные нужды код можно до бесконечности естественно, но в
+большинстве случаев даже такой реализации вполне должно хватать.&lt;/p&gt;
+&lt;p&gt;Эта статья является частью &lt;a href="https://www.insight-it.ru/dzhentelmenskij-nabor-php-programmista/"&gt;серии статей "Джентельменский набор PHP программиста"&lt;/a&gt;, если Вам
+понравилась эта статья то очень вероятно, что Вам придутся по душе и
+остальные статьи.&lt;/p&gt;
+&lt;p&gt;Не забываем &lt;a href="/feed/"&gt;подписываться на RSS блога&lt;/a&gt;!&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Wed, 16 Jan 2008 22:04:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-01-16:php/2008/obshhaemsya-s-bazojj-dannykh/</guid><category>MySQL</category><category>PHP</category><category>PostgreSQL</category><category>SQL</category><category>БД</category><category>интерфейс</category><category>кодинг</category><category>ООП</category><category>СУБД</category><category>технология</category><category>хранение данных</category></item><item><title>Три основных компонента парадигмы объектно-ориентированного программирования</title><link>https://www.insight-it.ru//theory/2008/tri-osnovnyx-komponenta-paradigmy-obektno-orientirovannogo-programmirovaniya/</link><description>&lt;p&gt;Представьте: Россия, солнце только-только начинает свой путь по
+бескрайним просторам неба, Вы находитесь на одной из самых оживленных
+улиц своего города и вокруг Вас нетрудно заметить множество людей,
+спешащих по своим делам. И вот, Вы видите как один человек зашел в
+большое офисное здание.&lt;/p&gt;
+&lt;p&gt;Вы спросите у меня: как это все может быть связано с темой этой
+записи? - об этом я и собираюсь Вам поведать.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;div class="card blue lighten-4"&gt;
+&lt;p&gt;&lt;div class="card-content"&gt;Перед тем как продолжить чтение этой записи, очень рекомендую сначала ознакомиться с &lt;a href="https://www.insight-it.ru/goto/e52e6866/" rel="nofollow" target="_blank" title="{theory}/obektno-orientirovannoe-programmirovanie-a-chto-zhe-eto.md"&gt;введением в объектно-ориентированное програмирование&lt;/a&gt;, если Вы еще не успели этого сделать.
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;img alt="Три основных компонента" class="right" src="https://www.insight-it.ru/images/cubes.png"/&gt;&lt;/p&gt;
+&lt;p&gt;Человек, которого Вы, надеюсь, успешно представили в процессе прочтения
+вступления к этой записи, будет служить нам примером в процессе
+обсуждения трех базовых вещей, на которых основывается вся концепция
+&lt;strong&gt;ООП&lt;/strong&gt;, которые имеет смысл сразу обозначить прямо сейчас:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;наследование&lt;/li&gt;
+&lt;li&gt;инкапсуляция&lt;/li&gt;
+&lt;li&gt;полиморфизм&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Все они являются равнозначными и перечислены они просто в порядке их
+упоминания в этом посте. Но прежде чем перейти к их рассмотрению по
+отдельности было бы не лишним несколько конкретизировать пример,
+упомянутый чуть выше. Основной акцент в этой записи делается на теорию,
+но для упрощения понимания я буду стараться приводить элементарные
+примеры реализации на языке &lt;em&gt;Java&lt;/em&gt; (выбранный как наиболее характерный
+представитель языков программирования, приспособленных для ООП), которые
+правда будут лишь иллюстрировать повествование, но не будут нести за
+собой никакой практической пользы.&lt;/p&gt;
+&lt;p&gt;Для начала можно рассматривать этого человека просто "со стороны": с
+этой точки зрения можно определить его рост, возраст, пол, цвет волос и
+глаз, и возможно какие-либо внешние признаки. Помимо этого можно
+предположить, что он обладает элементарными навыками, которые он успел
+продемонстрировать, проходя мимо Вас: он умеет ходить и еще, видимо,
+работать, правда не ясно кем.&lt;/p&gt;
+&lt;p&gt;Теперь посмотрим на него, как на объект, который необходимо
+смоделировать внутри программы. Внешние данные, перечисленные в
+предыдущем абзаце, станут &lt;em&gt;состоянием&lt;/em&gt;, которое необходимо будет описать
+примерно следующим образом в описании класса, экземпляром которого и
+будет впоследствии являться наш человек:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Human&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;height&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// рост&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;age&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// возраст&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;gender&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// пол&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;eyesColor&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// цвет глаз&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;hairColor&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// цвет волос&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Помимо этого мы говорили о его навыках, которые тоже необходимо здесь же
+упомянуть, для простоты не будем ничего сложного придумывать в плане
+реализации:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Human&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;height&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// рост&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;age&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// возраст&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;gender&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// пол&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;eyesColor&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// цвет глаз&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;hairColor&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// цвет волос&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;walk&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Я иду!"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;work&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Я работаю в большом офисном здании"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Пожалуй этого будет достаточно для перехода собственно к обсуждению
+первого из трех компонентов парадигмы.&lt;/p&gt;
+&lt;h3 id="nasledovanie"&gt;Наследование&lt;/h3&gt;
+&lt;p&gt;В отличии от реальной жизни, в рамках данной концепции наследование
+относится не к материальным вещам, а к переменным и методам класса. Тот
+класс, который передает "наследство", принято называть &lt;strong&gt;базовым&lt;/strong&gt;, а
+получателя "наследства", соответственно - &lt;strong&gt;наследующим&lt;/strong&gt;. Наследующий
+класс в дополнение к собственным методам и переменным получает еще и
+полный доступ ко всем переменным и методам базового класса (за некоторым
+исключением, о котором пойдет речь при разговоре об инкапсуляции, но обо
+всем по порядку).&lt;/p&gt;
+&lt;p&gt;Для иллюстрации этого механизма предлагаю предположить кем же мог
+работать наш человек. Для примера возьмем три варианта: менеджер,
+программист и директор. Менеджер будет уметь командовать подчиненными,
+программист писать код, а директор - ничего не делать. но не будем
+забывать, что человек, обладающий каждой из этих трех профессий, все же
+остается просто человеком и может выполнять все стандартные действия,
+которые мог бы выполнять обычный безработный, и обладать теми же
+признаками.&lt;/p&gt;
+&lt;p&gt;Конечно же можно было бы написать для каждой из профессии класс, просто
+добавив по одному методу, это выглядело бы примерно так:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Director&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;height&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// рост&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;age&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// возраст&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;gender&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// пол&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;eyesColor&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// цвет глаз&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;hairColor&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// цвет глаз&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;walk&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Я иду!"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;work&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Я работаю в большом офисном здании"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;idle&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Я ничего не делаю!"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Но такой подход годится только для людей даже краем уха не слышавших об
+ООП, ведь он далеко не самый эффективный, особенно с точки зрения
+затрачиваемого на написание кода времени. Воспользовавшись механизмом
+наследования, можно сократить как объем кода, так и время, затраченное
+на его написание. В используемом для примеров языке программирования
+Java, для этого достаточно лишь указать в заголовке наследующего класса
+ключевое слово &lt;em&gt;extends&lt;/em&gt; и название базового класса. Аналогичный
+предыдущему класс с использованием этого механизма существенно
+упрощается:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Director&lt;/span&gt; &lt;span class="kd"&gt;extends&lt;/span&gt; &lt;span class="n"&gt;Human&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;idle&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Я ничего не делаю!"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Как не трудно заметить объем кода существенно сократился, но это далеко
+не единственное преимущество. Помимо этого, например, если появится
+необходимость произвести изменения во всех профессиях - нужно будет
+произвести их один раз в базовом классе, а не три раза, как было бы в
+случае не использования наследования. А в некоторых случаях базовый
+класс может быть уже написан разработчиками языка программирования и для
+того чтобы им воспользоваться останется лишь написать пару волшебных
+слов.&lt;/p&gt;
+&lt;h3 id="polimorfizm"&gt;Полиморфизм&lt;/h3&gt;
+&lt;p&gt;Это слово пришло к нам из греческого языка, понимания этого термина
+легко достичь, просто переведя его на русский язык: &lt;code&gt;&amp;pi;&amp;omicron;&amp;lambda;ύ&amp;mu;&amp;omicron;&amp;rho;&amp;phi;&amp;omicron;&amp;sigmaf;&lt;/code&gt; - многоформенность. То есть в наиболее
+простом случае подразумевается использование одной и той же переменной
+(или массива) для хранения информации об объектах, описываемых разными
+классами. Представим, что нам необходим стандартизованный способ узнать
+кем же работает тот или иной человек, естественно для этого необходимо
+описание соответствующего метода для выполнения этой функции в каждом
+классе, причем он должен одинаково называться в каждом из них. Для
+реализации этого примера на языке Java нет необходимости использовать
+дополнительных ключевых слов (в отличие от, например, C#, где
+необходимо использование слова virtual в заголовке метода в базовом
+классе и override - в производных). Продолжая приводить примеры на Java
+имеем три производных класса (для упрощения опустим дополнительные
+методы, которые могли бы присутствовать):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Director&lt;/span&gt; &lt;span class="kd"&gt;extends&lt;/span&gt; &lt;span class="n"&gt;Human&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;work&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Я работаю директором!"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Programmer&lt;/span&gt; &lt;span class="kd"&gt;extends&lt;/span&gt; &lt;span class="n"&gt;Human&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;work&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Я работаю программистом!"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Manager&lt;/span&gt; &lt;span class="kd"&gt;extends&lt;/span&gt; &lt;span class="n"&gt;Human&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;work&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Я работаю менеджером!"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Для того, чтобы воспользоваться механизмом полиморфизма достаточно лишь
+написать функцию, которая будет создавать экземпляры наших классов и
+"спрашивать" к них кем они работают, выглядит это ничуть не сложнее, чем
+и описания классов, хочу лишь обратить Ваще внимание на то, что
+полиморфная переменная должна иметь тип базового класса:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;AskHuman&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;static&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;String&lt;/span&gt;&lt;span class="o"&gt;[]&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;Human&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;person&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Director&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+    &lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;work&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+    &lt;span class="n"&gt;person&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Manager&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+    &lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;work&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+    &lt;span class="n"&gt;person&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Programmer&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+    &lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;work&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;В ответ на выполнение этого мы метода мы получим каждую фразу из всех
+четырех классов, то есть не смотря на то, что у переменной заявлен тип
+базового класса, будут вызываться методы производных:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Я работаю директором! Я работаю менеджером! Я работаю программистом!&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Этот механизм расширяет возможности использования классов, позволяя
+более гибко использовать переменные и методы (да, этот механизм
+справедлив и для методов), а также позволяет писать более абстрактные
+программы и существенно упрощает работу программ, имеющих модульную
+структуру.&lt;/p&gt;
+&lt;p&gt;Также имеет смысл упомянуть, что в некоторых языках программирования
+существует такое понятие как &lt;strong&gt;интерфейс&lt;/strong&gt;, предназначенное именно для
+стандартизации механизма полиморфизма. Смысл интерфейса состоит в том,
+что он предоставляет классу список методов, которые класс &lt;em&gt;обязан&lt;/em&gt;
+реализовать (ключевое слово в Java - &lt;code&gt;implements&lt;/code&gt;), при этом сам
+интерфейс не содержит какой-либо реализации и может быть только
+определен. Выглядит примерно следующим образом:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;interface&lt;/span&gt; &lt;span class="nc"&gt;Worker&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;work&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Director&lt;/span&gt; &lt;span class="kd"&gt;extends&lt;/span&gt; &lt;span class="n"&gt;Human&lt;/span&gt; &lt;span class="kd"&gt;implements&lt;/span&gt; &lt;span class="n"&gt;Worker&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;work&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Я работаю директором!"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Programmer&lt;/span&gt; &lt;span class="kd"&gt;extends&lt;/span&gt; &lt;span class="n"&gt;Human&lt;/span&gt; &lt;span class="kd"&gt;implements&lt;/span&gt; &lt;span class="n"&gt;Worker&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;work&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Я работаю программистом!"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Manager&lt;/span&gt; &lt;span class="kd"&gt;extends&lt;/span&gt; &lt;span class="n"&gt;Human&lt;/span&gt; &lt;span class="kd"&gt;implements&lt;/span&gt; &lt;span class="n"&gt;Worker&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;work&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Я работаю менеджером!"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;В этом случае производные классы будут &lt;em&gt;обязаны&lt;/em&gt; иметь метод work, что
+даст гарантию классу AskHuman, что он не вызовет несуществующий метод.&lt;/p&gt;
+&lt;h3 id="inkapsuliatsiia"&gt;Инкапсуляция&lt;/h3&gt;
+&lt;p&gt;Наверняка Вы уже задавались вопросом о том, что же значит слово
+&lt;code&gt;public&lt;/code&gt; во всех предыдущих примерах. Это ключевое слово является
+частью реализации механизма инкапсуляции в языке Java, суть его состоит
+в том, чтобы дать возможность определить &lt;em&gt;область видимости&lt;/em&gt; для
+составных частей класса, это очень актуально при написании ПО,
+использующего библиотеки, plug-in'ы или при написании программы группой
+людей. Ведь если Ваш класс подразумевает какие-либо ограничения для
+переменных или методов (например - возраст не может быть отрицательным),
+то их легко обойти воспользовавшись прямым доступом к ним из-за пределов
+класса или просто выполнив наследование.&lt;/p&gt;
+&lt;p&gt;Для предотвращения этого используется система параметров, назначаемых
+переменным и методам внутри класса для присвоения им "уровней доступа"
+(на примере опять же Java, но в большинстве известных мне
+высокоуровневых языков используется та же система):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;public&lt;/code&gt; - назначается по-умолчанию - полностью свободный доступ&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;private&lt;/code&gt; - доступ предоставляется &lt;em&gt;только&lt;/em&gt; другим компонентам
+   класса&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;protected&lt;/code&gt; - доступ предоставляется остальным компонентам класса,
+   а также всем &lt;em&gt;наследникам&lt;/em&gt; данного класса&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Данный механизм является незаменимым помощником разработчиков любых
+более-менее крупных проектов, следующих принципам ООП.&lt;/p&gt;
+&lt;h4&gt;Вместо заключения&lt;/h4&gt;
+&lt;p&gt;Казалось бы бестолковая история про человека, идущего на работу,
+позволила Вам получить базовое представление об основах
+объектно-ориентированного программирования. Надеюсь у меня не раз еще
+найдется повод вернуться к обсуждению этой парадигмы.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sat, 05 Jan 2008 22:28:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-01-05:theory/2008/tri-osnovnyx-komponenta-paradigmy-obektno-orientirovannogo-programmirovaniya/</guid><category>инкапсуляция</category><category>интерфейс</category><category>наследование</category><category>объектно-ориентированное программирование</category><category>ООП</category><category>парадигма</category><category>полиморфизм</category><category>Программирование</category><category>программное обеспечение</category></item></channel></rss>

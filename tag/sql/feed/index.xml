@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/sql/feed/index.xml" rel="self"></atom:link><lastBuildDate>Wed, 16 Jan 2008 22:04:00 +0300</lastBuildDate><item><title>Общаемся с базой данных</title><link>https://www.insight-it.ru//php/2008/obshhaemsya-s-bazojj-dannykh/</link><description>&lt;p&gt;На этот раз хочется обсудить такой одновременно важный и несложный
+момент в реализации работы любого интернет-проекта, как координации
+работы Ваших скриптов с СУБД.&lt;/p&gt;
+&lt;p&gt;Если подойти к этому вопросу "в лоб", то код станет очень неудобен как
+для понимания, так и для использования: код станет переполнен различными
+функциями соединения с БД, отправки запросов, преобразования результатов
+запросов в массивы PHP, подсчета строк, которые затронул запрос, а также
+многие и многие другие.&lt;/p&gt;
+&lt;p&gt;Для желающих минимизировать подобного рода издержки в процессе написания
+кода, хочу предложить один из, на мой взгляд, самых эффективных способов
+решения этой проблемы.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Этим способом будет являться написание класса, реализующего интерфейс
+между СУБД и PHP-скриптами. Для начала стоит определиться с
+ассортиментом функций, которые будет призван выполнять наш класс:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;установка соединения&lt;/em&gt;, а также проверка успешности выполнения этого
+    действия;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;отправка запросов&lt;/em&gt;, как заданных извне так и, возможно, из
+    какого-либо ассортимента заранее написанных запросов;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;обработка результатов запросов&lt;/em&gt;, не ограничивающаяся одним SELECT,
+    должны быть предоставлены методы обработки результатов любых видов
+    запросов (или хотябы большинства).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Вполне очевидным является тот факт, что методы этого класса будут
+использоваться практически повсеместно в большинстве проектов.
+Вследствии чего становится нецелесообразным создание объекта нашего
+класса и передача его по всем функциям и методам всех скриптов, в таких
+случае намного предпочтительнее делать владельцем методов и переменных
+сам класс, а не экземпляр класса, с помощью ключевого слова &lt;strong&gt;static&lt;/strong&gt;.
+Это позволит пользоваться услугами нашего класса из любого места кода.
+Приступим-с собственно к кодингу, начать стоит с заготовки пустого
+класса:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;SQL&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;В зависимости от предпочитаемой Вами СУБД набор конкретных функций,
+используемых в реализации нашего класса, будет вариироваться. В
+большинстве случаев предпочитаю пользоваться PostgreSQL, на это причин у
+меня несколько, но это тема для отдельного разговора. Благодаря этому
+факту приводимый в качестве примера код будет использовать функции для
+работы именно с этой СУБД. Для поклонников же других этот систем вопрос
+в подавляющем большинстве случаев заключается лишь в замене этих функций
+на аналогичные из других модулей PHP, например для популярной и
+широкораспространенной MySQL достаточно будет всеголишь пройтись
+автозаменой &lt;strong&gt;pg_ =&amp;gt; mysql_&lt;/strong&gt; и слегка подредактировать параметры
+некоторых функций.&lt;/p&gt;
+&lt;p&gt;Перейдем к реализации установления соединения с СУБД, не стоит ожидать
+увидеть здесь ничего необычного:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;connect&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;  &lt;span class="c1"&gt;// установка соединения&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="nx"&gt;self&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nv"&gt;$connection&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;pg_pconnect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"host=localhost dbname=pgsql user=pgsql password=MyPassword"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="c1"&gt;// не забываем менять указанные данные для авторизации на правильные&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="nb"&gt;isset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;self&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nv"&gt;$connection&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+  &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"Сайт не работает по техническим причинам.&lt;/span&gt;
+&lt;span class="s2"&gt;Просим прощения за доставленные неудобства."&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;exit&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;   &lt;span class="c1"&gt;// ни в коем случае не выводим более информативных сообщений об ошибке, чем это&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;А вот с отправкой и обработкой результатов запросов ситуация далеко не
+так однозначна. Помимо простой передачи самого текста запроса в СУБД,
+необходимо правильно определить тип запроса и в соответствии с этим
+обработать результат. Можно конечно попытаться сделать это автоматически
+на основе вытаскивания первого слова из текста запроса, но мне всетаки
+кажется более предпочтительным определение "вручную" желаемого вида
+представление результата. Выполнение произвольных запросов может
+выглядеть, например, следующим образом:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;query&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$str&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$bool&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;false&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;// произвольный запрос&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="c1"&gt;//echo $str."&lt;/span&gt;
+&lt;span class="s2"&gt;"; // очень удобно на стадии разработки в процессе поиска ошибок&lt;/span&gt;
+&lt;span class="s2"&gt;  &lt;/span&gt;&lt;span class="si"&gt;$result&lt;/span&gt;&lt;span class="s2"&gt;=@pg_query(self::&lt;/span&gt;&lt;span class="si"&gt;$connection&lt;/span&gt;&lt;span class="s2"&gt;,&lt;/span&gt;&lt;span class="si"&gt;$str&lt;/span&gt;&lt;span class="s2"&gt;); // @ - для сокрытия теоретически возможных ошибок&lt;/span&gt;
+&lt;span class="s2"&gt;  // or die('Query failed: '.pg_last_error());&lt;/span&gt;
+&lt;span class="s2"&gt;  // не забываем убирать в комментарий в финальном варианте проекта&lt;/span&gt;
+&lt;span class="s2"&gt;  // или совсем удалять&lt;/span&gt;
+&lt;span class="s2"&gt;  if(&lt;/span&gt;&lt;span class="si"&gt;$result&lt;/span&gt;&lt;span class="s2"&gt;)  // Если получен результат, отличный от false&lt;/span&gt;
+&lt;span class="s2"&gt;  {&lt;/span&gt;
+&lt;span class="s2"&gt;    if(&lt;/span&gt;&lt;span class="si"&gt;$bool&lt;/span&gt;&lt;span class="s2"&gt;)  // Если выбран результат в виде boolean&lt;/span&gt;
+&lt;span class="s2"&gt;    {&lt;/span&gt;
+&lt;span class="s2"&gt;      return true;&lt;/span&gt;
+&lt;span class="s2"&gt;    }&lt;/span&gt;
+&lt;span class="s2"&gt;    else  // Если выбран результат в виде массива&lt;/span&gt;
+&lt;span class="s2"&gt;    {&lt;/span&gt;
+&lt;span class="s2"&gt;      &lt;/span&gt;&lt;span class="si"&gt;$n&lt;/span&gt;&lt;span class="s2"&gt;=pg_num_rows(&lt;/span&gt;&lt;span class="si"&gt;$result&lt;/span&gt;&lt;span class="s2"&gt;);  // для создания универсального формата массива&lt;/span&gt;
+&lt;span class="s2"&gt;      if(&lt;/span&gt;&lt;span class="si"&gt;$n&lt;/span&gt;&lt;span class="s2"&gt;==1)return pg_fetch_array(&lt;/span&gt;&lt;span class="si"&gt;$result&lt;/span&gt;&lt;span class="s2"&gt;,0,PGSQL_ASSOC);&lt;/span&gt;
+&lt;span class="s2"&gt;      else  // даже когда результат содержит только одну строку&lt;/span&gt;
+&lt;span class="s2"&gt;      {&lt;/span&gt;
+&lt;span class="s2"&gt;        &lt;/span&gt;&lt;span class="si"&gt;$j&lt;/span&gt;&lt;span class="s2"&gt;=pg_num_rows(&lt;/span&gt;&lt;span class="si"&gt;$result&lt;/span&gt;&lt;span class="s2"&gt;);&lt;/span&gt;
+&lt;span class="s2"&gt;        &lt;/span&gt;&lt;span class="si"&gt;$list&lt;/span&gt;&lt;span class="s2"&gt;=array();&lt;/span&gt;
+&lt;span class="s2"&gt;        for(&lt;/span&gt;&lt;span class="si"&gt;$i&lt;/span&gt;&lt;span class="s2"&gt;=0;&lt;/span&gt;&lt;span class="si"&gt;$i&lt;/span&gt;&lt;span class="s2"&gt;&amp;lt;&lt;/span&gt;&lt;span class="si"&gt;$j&lt;/span&gt;&lt;span class="s2"&gt;;&lt;/span&gt;&lt;span class="si"&gt;$i&lt;/span&gt;&lt;span class="s2"&gt;++)&lt;/span&gt;
+&lt;span class="s2"&gt;        &lt;/span&gt;&lt;span class="si"&gt;$list&lt;/span&gt;&lt;span class="s2"&gt;[]=pg_fetch_array(&lt;/span&gt;&lt;span class="si"&gt;$result&lt;/span&gt;&lt;span class="s2"&gt;,&lt;/span&gt;&lt;span class="si"&gt;$i&lt;/span&gt;&lt;span class="s2"&gt;,PGSQL_ASSOC);&lt;/span&gt;
+&lt;span class="s2"&gt;        return &lt;/span&gt;&lt;span class="si"&gt;$list&lt;/span&gt;&lt;span class="s2"&gt;;&lt;/span&gt;
+&lt;span class="s2"&gt;      }&lt;/span&gt;
+&lt;span class="s2"&gt;    }&lt;/span&gt;
+&lt;span class="s2"&gt;  }else return false;&lt;/span&gt;
+&lt;span class="s2"&gt;}&lt;/span&gt;
+&lt;span class="s2"&gt;?&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Помимо базовой отправки запросов, в некоторых случаях имеет смысл
+написать несколько методов, отправляющих частоиспользуемые запросы, что
+в некоторых случаях позволяет сократить объем и уменьшить
+нагроможденность кода. Хоть я и предпочитаю не пользоваться такими
+вещами, но привести пример такого рода метода все же стоит:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;selectAll&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$table&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="c1"&gt;// пример метода отправки чаcтоиспользуемых запросов&lt;/span&gt;
+  &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;self&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="na"&gt;query&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"select * from "&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nv"&gt;$table&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="s2"&gt;";"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Если чувствуете необходимость в подобных функциях, можно написать
+огромное количество, все ограничивается лишь Вашим воображением и
+знаниями SQL.&lt;/p&gt;
+&lt;p&gt;Что ж, осталось лишь собрать весь код в единый листинг:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;SQL&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="nv"&gt;$connection&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// соединение с СУБД&lt;/span&gt;
+  &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;connect&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;  &lt;span class="c1"&gt;// установка соединения&lt;/span&gt;
+  &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nx"&gt;self&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nv"&gt;$connection&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;pg_pconnect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"host=localhost dbname=pgsql user=pgsql password=MyPassword"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="c1"&gt;// не забываем менять указанные данные для авторизации на правильные&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="nb"&gt;isset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;self&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nv"&gt;$connection&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="k"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"Сайт не работает по техническим причинам.&amp;lt;br /&amp;gt;Просим прощения за доставленные неудобства."&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+      &lt;span class="k"&gt;exit&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// ни в коем случае не выводим более информативных сообщений об ошибке, чем это&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;query&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$str&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$bool&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;false&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;// произвольный запрос&lt;/span&gt;
+  &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="c1"&gt;//echo $str."&amp;lt;br&amp;gt;"; // очень удобно на стадии разработки в процессе поиска ошибок&lt;/span&gt;
+    &lt;span class="nv"&gt;$result&lt;/span&gt;&lt;span class="o"&gt;=@&lt;/span&gt;&lt;span class="nb"&gt;pg_query&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;self&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nv"&gt;$connection&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$str&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="c1"&gt;// @ - для сокрытия теоретически возможных ошибок&lt;/span&gt;
+    &lt;span class="c1"&gt;// or die('Query failed: '.pg_last_error());&lt;/span&gt;
+    &lt;span class="c1"&gt;// не забываем убирать в комментарий в финальном варианте проекта&lt;/span&gt;
+    &lt;span class="c1"&gt;// или совсем удалять&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$result&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;// Если получен результат, отличный от false&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$bool&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;// Если выбран результат в виде boolean&lt;/span&gt;
+      &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="k"&gt;true&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+      &lt;span class="p"&gt;}&lt;/span&gt;
+      &lt;span class="k"&gt;else&lt;/span&gt;  &lt;span class="c1"&gt;// Если выбран результат в виде массива&lt;/span&gt;
+      &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="nv"&gt;$n&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;pg_num_rows&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$result&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;  &lt;span class="c1"&gt;// для создания универсального формата массива&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$n&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;pg_fetch_array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$result&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;PGSQL_ASSOC&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="k"&gt;else&lt;/span&gt;  &lt;span class="c1"&gt;// даже когда результат содержит только одну строку&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt;
+          &lt;span class="nv"&gt;$j&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;pg_num_rows&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$result&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+          &lt;span class="nv"&gt;$list&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;array&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+          &lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nv"&gt;$j&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+          &lt;span class="nv"&gt;$list&lt;/span&gt;&lt;span class="p"&gt;[]&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;pg_fetch_array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$result&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;PGSQL_ASSOC&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+          &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nv"&gt;$list&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+      &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="k"&gt;false&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+  &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;selectAll&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$table&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="c1"&gt;// пример метода отправки чаcтоиспользуемых запросов&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;self&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="na"&gt;query&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"select * from "&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nv"&gt;$table&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="s2"&gt;";"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;```&lt;/p&gt;
+&lt;p&gt;Вот так вот оно и выглядит в простейшем варианте, дорабатывать под
+собственные нужды код можно до бесконечности естественно, но в
+большинстве случаев даже такой реализации вполне должно хватать.&lt;/p&gt;
+&lt;p&gt;Эта статья является частью &lt;a href="https://www.insight-it.ru/dzhentelmenskij-nabor-php-programmista/"&gt;серии статей "Джентельменский набор PHP программиста"&lt;/a&gt;, если Вам
+понравилась эта статья то очень вероятно, что Вам придутся по душе и
+остальные статьи.&lt;/p&gt;
+&lt;p&gt;Не забываем &lt;a href="/feed/"&gt;подписываться на RSS блога&lt;/a&gt;!&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Wed, 16 Jan 2008 22:04:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-01-16:php/2008/obshhaemsya-s-bazojj-dannykh/</guid><category>MySQL</category><category>PHP</category><category>PostgreSQL</category><category>SQL</category><category>БД</category><category>интерфейс</category><category>кодинг</category><category>ООП</category><category>СУБД</category><category>технология</category><category>хранение данных</category></item></channel></rss>

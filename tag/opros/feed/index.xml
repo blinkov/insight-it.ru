@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/opros/feed/index.xml" rel="self"></atom:link><lastBuildDate>Thu, 17 Feb 2011 23:02:00 +0300</lastBuildDate><item><title>Небольшой соц.опрос</title><link>https://www.insight-it.ru//misc/2011/nebolshojj-soc-opros/</link><description>&lt;p&gt;В очередной раз размышляя над темой для нового поста, до меня дошло, что
+я практически не знаю кто же на самом деле меня читает. По большей части
+я имею представление об аудитории Insight IT по той небольшой её части,
+которая активно себя проявляет и пишет комментарии, мне на почту и в
+социальные сети. У меня есть подозрения, что выборка эта не совсем
+репрезентативна, так что у меня появилась идея провернуть небольшой
+социальный вопрос. Если Вас не затруднит, ответьте, пожалуйста, на
+следующие три простые вопроса, это сильно поможет сделать этот блог еще
+лучше!
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Если Вы читаете через RSS - скорее
+    всего форма опроса не сработает, нужно пройти в пост по
+    ссылке&lt;/li&gt;
+&lt;li&gt;Не забудьте нажать "голос" после каждого вопроса&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt="Небольшой соц.опрос" class="responsive-img" src="https://www.insight-it.ru/images/poll-2011.jpg"/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Спасибо за потраченные несколько секунд!&lt;/strong&gt; Предоставленная информация
+определенно будет для меня чрезвычайно полезной.&lt;/p&gt;
+&lt;p&gt;Кстати я раньше проводил &lt;a href="https://www.insight-it.ru/feedback/"&gt;еще один опрос&lt;/a&gt; немного другого характера, он по-прежнему актуален.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Thu, 17 Feb 2011 23:02:00 +0300</pubDate><guid>tag:www.insight-it.ru,2011-02-17:misc/2011/nebolshojj-soc-opros/</guid><category>опрос</category><category>социология</category></item><item><title>Дизайн, верстка и RSS</title><link>https://www.insight-it.ru//misc/2009/dizajjn-verstka-i-rss/</link><description>&lt;p&gt;Я лично считаю, что очень важно после каких-либо кардинальных изменений
+сайта получить feedback от пользователей. Данный пост служит именно для
+этих целей.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;Для затравки пара опросов:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Опрос 2009" class="responsive-img" src="https://www.insight-it.ru/images/design-poll-2009.jpeg"/&gt;&lt;/p&gt;
+&lt;p&gt;В добавок хочется услышать отзывы об этих и других нововведениях (вроде
+нового хостинга) в комментариях.&lt;/p&gt;
+&lt;p&gt;Еще буду рад, если кто-то предложит какие-нибудь интересные и
+востребованные темы для новых постов и обсуждений, у меня есть и свои
+соображения, но мнение читателей для меня тоже очень важно.&lt;/p&gt;
+&lt;p&gt;Всем, проявившим инициативу, заранее спасибо за помощь в улучшении блога
+&lt;strong&gt;Insight IT&lt;/strong&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Mon, 28 Dec 2009 20:44:00 +0300</pubDate><guid>tag:www.insight-it.ru,2009-12-28:misc/2009/dizajjn-verstka-i-rss/</guid><category>feedback</category><category>online</category><category>RSS</category><category>WordPress</category><category>верстка</category><category>внешний вид</category><category>дизайн</category><category>опрос</category></item><item><title>Потенциальный переезд блога</title><link>https://www.insight-it.ru//misc/2009/potencialnyjj-pereezd-bloga/</link><description>&lt;div class="card orange darken-3"&gt;
+&lt;p&gt;&lt;div class="card-content white-text center"&gt;
+&lt;strong&gt;В обсуждавшемся ниже виде так и не сложилось, но 6 лет спустя с &lt;a class="white-text" href="https://www.insight-it.ru/misc/2015/reinkarnatsiia-saita/"&gt;WordPress таки удалось попрощаться&lt;/a&gt;.&lt;/strong&gt;
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Все наверно уже видели мои негативные комментарии о хостинг-провайдере,
+на котором сейчас живет &lt;strong&gt;Insight IT,&lt;/strong&gt; а также успели прочитать
+&lt;a href="https://www.insight-it.ru/python/2009/django-v-gostyakh-u-google/"&gt;предыдущий пост про Django + Google App Engine&lt;/a&gt;. Уже несколько дней в
+голове крутится вполне очевидная идея попробовать реализовать функционал
+блога на Django (хотябы базовый), сконвертировать контент и попрощаться
+с текущим хостингом, чего мне так давно уже хочется (хотя возможны
+нюансы с доменом, но надеюсь это все решаемо). Хочется услышать Ваше
+мнение об этой идее, для чего предлагаю Вам оставить комментарий к этой
+записи и/или поучаствовать в следующем опросе:
+&lt;img alt="GAE" class="responsive-img" src="https://www.insight-it.ru/images/gae-poll-2009.jpg"/&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Wed, 21 Oct 2009 18:45:00 +0400</pubDate><guid>tag:www.insight-it.ru,2009-10-21:misc/2009/potencialnyjj-pereezd-bloga/</guid><category>django</category><category>gae</category><category>google app engine</category><category>WordPress</category><category>опрос</category><category>переезд</category></item><item><title>Постоянным читателям</title><link>https://www.insight-it.ru//misc/2008/postoyannym-chitatelyam/</link><description>&lt;p&gt;Уже прошло четыре месяца с того момента, как я открыл этот блог, много
+текстов было написано с тех пор, вроде бы все нормально, но сегодня мне
+вдруг стало интересно: а стоит ли он вообще потраченного на него
+времени?&lt;/p&gt;
+&lt;p&gt;Да, я веду этот блог просто скорее ради собственного интереса, чем для
+какой-либо практической пользы, но мнение читателей для меня также
+далеко не безразлично. Именно по-этому я сегодня составил &lt;a href="https://www.insight-it.ru/feedback/"&gt;небольшую анкетку&lt;/a&gt; для своих читателей (постоянных и не очень) с предложением высказать свое мнение о данном интернет-ресурсе. Очень
+хочется попросить всех читающих этот текст сходить &lt;a href="https://www.insight-it.ru/feedback/"&gt;по ссылке&lt;/a&gt; и потратить несколько минут для ответов на несколько
+простых вопросов.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Заранее спасибо!&lt;/em&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sat, 03 May 2008 17:08:00 +0400</pubDate><guid>tag:www.insight-it.ru,2008-05-03:misc/2008/postoyannym-chitatelyam/</guid><category>анкета</category><category>блог</category><category>мнение</category><category>опрос</category></item></channel></rss>

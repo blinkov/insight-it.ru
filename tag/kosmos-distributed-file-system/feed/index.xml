@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/kosmos-distributed-file-system/feed/index.xml" rel="self"></atom:link><lastBuildDate>Sun, 30 Mar 2008 23:06:00 +0400</lastBuildDate><item><title>Файлы в космосе</title><link>https://www.insight-it.ru//storage/2008/fajjly-v-kosmose/</link><description>&lt;h4&gt;...или Kosmos Distributed File System&lt;/h4&gt;
+&lt;p&gt;&lt;img alt="Kosmos Distributed File System" class="right" src="https://www.insight-it.ru/images/KFS.jpg" title="KosmosFS Logo"/&gt;
+Сегодня речь пойдет об еще одной распределенной файловой системе -
+&lt;a href="https://www.insight-it.ru/goto/a11ac210/" rel="nofollow" target="_blank" title="http://kosmosfs.sourceforge.net/"&gt;KosmosFS&lt;/a&gt;. У русских людей название
+этого проекта определенно вызывает ассоциации с космосом, но изначально
+все же свою лепту в него внес изначальный разработчик -
+&lt;a href="https://www.insight-it.ru/goto/636f244d/" rel="nofollow" target="_blank" title="http://www.kosmix.com/"&gt;Kosmix&lt;/a&gt;.
+&lt;!--more--&gt;
+По большому счету &lt;a href="/tag/kfs/"&gt;KFS&lt;/a&gt; мало чем выделяется из множества
+своих конкурентов, по своей структуре она состоит из сервера метаданных
+и серверов блоков, доступ к системе производится средствами клиентской
+библиотеки, предоставляющей соответствующий API. Список возможностей
+файловой системы также вполне стандартен:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Инкрементальная масштабируемость.&lt;/em&gt; При добавлении дополнительных
+    узлов в кластер, система сама адаптируется для вовлечения их в
+    полноценную работу.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Стабильный доступ.&lt;/em&gt; Реплицируемость данных (по-умолчанию в трех
+    экземплярах) позволяет гарантировать доступность данных вне
+    зависимости от сбоев в работе отдельных узлов.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Балансировка блоков данных.&lt;/em&gt; Периодически сервер метаданных
+    перераспределяет данные с целью более оптимального использования
+    дискового пространства.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Целостность данных.&lt;/em&gt; Для обеспечения целостности данных вычисляются
+    и сравниваются контрольные суммы блоков данных.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Кэширование.&lt;/em&gt; Для увеличения производительности используется
+    кэширования на уровне клиентской библиотеки.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Прозрачная работа с недоступными узлами.&lt;/em&gt; Клиентская библиотека
+    прозрачно для приложения переключается на альтернативный сервер с
+    данными, если обнаруживает что один из них недоступен.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Поддержка языков программирования:&lt;/em&gt; &lt;a href="/tag/c/"&gt;C++&lt;/a&gt;,
+    &lt;a href="/tag/java/"&gt;Java&lt;/a&gt;, &lt;a href="/tag/python/"&gt;Python&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Скрипты.&lt;/em&gt; С системой предоставляется набор скриптов для
+    развертывания, запуска и остановки узлов.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Но написать этот пост меня подтолкнул вовсе не этот список. В
+комментариях к &lt;a href="https://www.insight-it.ru/storage/2008/hadoop/"&gt;одной из предыдущих моих записей&lt;/a&gt;
+читатели подняли тему о целесообразности использования &lt;a href="/tag/java/"&gt;Java&lt;/a&gt;
+для реализации &lt;a href="/tag/hdfs/"&gt;HDFS&lt;/a&gt; в частности и &lt;a href="/tag/hadoop/"&gt;Hadoop&lt;/a&gt; в
+целом. В качестве альтернативы был предложен &lt;a href="/tag/c/"&gt;C++&lt;/a&gt; (только на
+словах конечно же), аргументируя это тем, что такая реализация была бы
+эффективнее. &lt;a href="/tag/kfs/"&gt;KFS&lt;/a&gt; же как раз и является той самой
+альтернативой &lt;a href="/tag/hdfs/"&gt;HDFS&lt;/a&gt;, написанной на &lt;a href="/tag/c/"&gt;C++&lt;/a&gt;.
+&lt;a href="/tag/kfs/"&gt;KFS&lt;/a&gt; тесно интегрируется с &lt;a href="/tag/hadoop/"&gt;Hadoop&lt;/a&gt; с помощью
+его интерфейсов для файловой системы. Это позволяет Hadoop-приложениям
+незаметно работать с &lt;a href="/tag/kfs/"&gt;KFS&lt;/a&gt; точно так же, как если бы на ее
+месте была бы &lt;a href="/tag/hdfs/"&gt;HDFS&lt;/a&gt;. Код для интеграции с Hadoop был выпущен
+в виде патча к Hadoop-JIRA-1963, а начиная с Hadoop версии 0.15 этот код
+входит в стандартный дистрибутив, ровно как и детальная инструкция по
+интеграции.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sun, 30 Mar 2008 23:06:00 +0400</pubDate><guid>tag:www.insight-it.ru,2008-03-30:storage/2008/fajjly-v-kosmose/</guid><category>C++</category><category>Hadoop</category><category>KFS</category><category>Kosmos Distributed File System</category><category>кластер</category><category>файловая система</category></item></channel></rss>

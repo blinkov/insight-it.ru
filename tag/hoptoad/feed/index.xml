@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/hoptoad/feed/index.xml" rel="self"></atom:link><lastBuildDate>Thu, 24 Sep 2009 11:31:00 +0400</lastBuildDate><item><title>Как проект Ravelry дорос до 10 миллионов запросов с помощью Rails</title><link>https://www.insight-it.ru//highload/2009/kak-proekt-ravelry-doros-do-10-millionov-zaprosov-s-pomoshhyu-rails/</link><description>&lt;p&gt;Данная статься основана на замечательном интервью, взятом Tim Bray у
+Casey Forbes, создателя &lt;a href="https://www.insight-it.ru/goto/ce0996b1/" rel="nofollow" target="_blank" title="http://www.ravelry.com/"&gt;Ravelry&lt;/a&gt;, сайта на
+Ruby on Rails, поддерживаемое сообществом вязальщиц и специалистов по
+вышивке крючком численностью более 400000 человек.&lt;/p&gt;
+&lt;p&gt;Casey и его небольшой команде удалось реализовать массу великолепных
+идей на Ravelry. Этот сайт очень сфокусирован на своей тематике и
+представляет собой большую информационную ценность для заинтересованных
+лиц. Все пользователи Ravelry просто обожают этот сайт, этот факт
+очевиден по их комментариям полным энтузиазма и невероятно быстрому
+освоению Ravelry.&lt;/p&gt;
+&lt;p&gt;Десять лет назад сайт масштаба Ravelry потребовал бы далеко не один
+миллион долларов для поддержания своего функционирования. Сегодня же
+Casey является единственным разработчиком Ravelry, а поддержанием
+работоспособности системы занимается всего несколько человек.
+Изначальный процесс разработки занял у Casey 4 месяца работы по ночам и
+выходным. Если Вы взглянете на список технологий, используемых в
+Ravelry, Вам станет видно, что проект построен практически полностью на
+свободном и бесплатном программном обеспечении, которые просто было
+собрано вместе в единую полноценную систему. В сегодняшней экосистеме
+существует множество возможностей для того чтобы делать новые вещи
+просто комбинируя существующие качественные приложения, языки
+программирования, системы хранения, а также услуги по размещению и
+предоставлению доступа к веб-приложениям и данным.&lt;/p&gt;
+&lt;p&gt;Сейчас Casey и еще несколько сотрудников живут за счет Ravelry. Не это
+ли является мечтой любого предприятия малого бизнеса? Хотите узнать как
+и Вы могли бы достичь подобных успехов?
+&lt;!--more--&gt;
+&lt;em&gt;Данный текст является переводом статьи &lt;a href="https://www.insight-it.ru/goto/24572014/" rel="nofollow" target="_blank" title="http://highscalability.com/how-ravelry-scales-10-million-requests-using-rails"&gt;How Ravelry Scales to 10 Million Requests Using Rails&lt;/a&gt;,
+автор оригинала - &lt;a href="https://www.insight-it.ru/goto/f3f1b405/" rel="nofollow" target="_blank" title="http://highscalability.com/user/todd-hoff"&gt;Todd Hoff&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;h2 id="statistika"&gt;Статистика&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;10 миллионов запросов ежедневно обрабатывается &lt;a href="/tag/rails/"&gt;Rails&lt;/a&gt; (AJAX + RSS + API)&lt;/li&gt;
+&lt;li&gt;3.6 миллиона просмотров страниц ежедневно&lt;/li&gt;
+&lt;li&gt;430,000 зарегистрированных пользователей. 70,000 активно пользуются
+    сайтом ежедневно. 900 новых пользователей регистрируется ежедневно.&lt;/li&gt;
+&lt;li&gt;2.3 миллиона проектов по вязанию, 50000 новых сообщений на форуме
+    ежедневно, всего 19 миллионов сообщений на форуме, 13 миллионов
+    сообщений, 8 миллионов фотографий (большая часть размещена на
+    &lt;a href="/tag/flickr/"&gt;Flickr&lt;/a&gt;).&lt;/li&gt;
+&lt;li&gt;Проект начинался на небольшом VPS, но потребности в ресурсах очень
+    быстро вышли за его возможности.&lt;/li&gt;
+&lt;li&gt;Монетизация: рекламодатели + магазин соответствующей продукции +
+    продажа узоров&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="platform"&gt;Platform&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/ruby-on-rails/"&gt;Ruby on Rails&lt;/a&gt; (1.8.6, Ruby GC патчи)&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/percona/"&gt;Percona&lt;/a&gt; сборка &lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/gentoo/"&gt;Gentoo&lt;/a&gt; &lt;a href="/tag/linux/"&gt;Linux&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Servers: Silicon Mechanics (не арендуемые, в их собственности)&lt;/li&gt;
+&lt;li&gt;Хостинг: Colocation от Hosted Solutions&lt;/li&gt;
+&lt;li&gt;Интернет-канал: Cogent (очень дешево)&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/capistrano/"&gt;Capistrano&lt;/a&gt; для развертывания&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/nginx/"&gt;Nginx&lt;/a&gt; существенно более быстрый и менее требовательный к оперативной памяти по сравнению с Apache&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/xen/"&gt;Xen&lt;/a&gt; для виртуализации&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/haproxy/"&gt;HAproxy&lt;/a&gt; для балансировки нагрузки&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/munin/"&gt;Munin&lt;/a&gt; для мониторинга&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/tokyo-cabinet/"&gt;Tokyo Cabinet&lt;/a&gt; / &lt;a href="/tag/tokyo-tyrant/"&gt;Tokyo Tyrant&lt;/a&gt; для кеширования больших объектов&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/nagios/"&gt;Nagios&lt;/a&gt; для предупреждений&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/hoptoad/"&gt;HopToad&lt;/a&gt; для уведомлений об исключительных ситуациях.&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/newrelic/"&gt;NewRelic&lt;/a&gt; для тонкой настройки&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/syslog-ng/"&gt;Syslog-ng&lt;/a&gt; для агрегации логов&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/s3/"&gt;S3&lt;/a&gt; для хранения данных&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/cloudfront/"&gt;Cloudfront&lt;/a&gt; в роли CDN&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/sphinx/"&gt;Sphinx&lt;/a&gt; для текстового поиска&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/memcached/"&gt;Memcached&lt;/a&gt; для кеширования маленьких объектов&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="arkhitektura"&gt;Архитектура&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;7 серверов (Gentoo Linux). Средствами виртуализации (Xen) создано 13
+    виртуальных серверов:&lt;ul&gt;
+&lt;li&gt;Для обработки пользовательских запросов используются Nginx и
+Haproxy. Запросы проходят следущую цепочку: &lt;code&gt;nginx -&amp;gt; haproxy -&amp;gt; apache + mod_passenger&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Один небольшой сервер для резервного копирования данных.&lt;/li&gt;
+&lt;li&gt;Один небольшой вспомогательный сервер для некритичных процессов
+и тестирования новых версий.&lt;/li&gt;
+&lt;li&gt;2 сервера с 32 GB оперативной памяти для master+slave баз
+данных, а также поисковой системы Sphinx.&lt;/li&gt;
+&lt;li&gt;3 сервера приложений, состоящих из 6 Apache Passenger и
+запущенных экземпляров Ruby, каждый ограничен 20-ю потоками.
+Суммарно 6 четырехядерных процессоров и 40 GB оперативной памяти.
+Часть оперативной памяти большую часть времени простаивает.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;5 терабайт данных располагается в Amazon S3. Cloudfront используется
+    как CDN.&lt;/li&gt;
+&lt;li&gt;Tokyo Cabinet/Tyrant используется вместо memcached в некоторых
+    местах для кеширования более крупных объектов, в частности уже
+    размеченного текста в HTML.&lt;/li&gt;
+&lt;li&gt;HAproxy и Capistrano используются для вывода новых версий сайта без
+    негативного влияния на производительность и работу пользователей.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="podvodim-itogi"&gt;Подводим итоги&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Позвольте своим пользователям работать над Вашим сайтом за Вас&lt;/strong&gt;.
+    Проводите итерации и развивайтесь. Начните с чего-то, что просто
+    работает, и позвольте людям начать пользоваться продуктом, развивать
+    проект совместно с пользователями намного проще. Не торопясь
+    развивайте бета-версию своего проекта. Также медленно приглашайте
+    новых людей. Старайтесь ежедневно обсуждать с пользователями что бы
+    они хотели увидеть нового в проекте. Разрешите им оказывать помощь в
+    развитии проекта и результат станет существенно более
+    обнадеживающим, утешительным, интуитивно-понятным и эффективным.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Позвольте пользователям спонсировать Ваш проект&lt;/strong&gt;. Ravelry
+    частично был создан за счет его пользователей, которые пожертвовали
+    в пользу проекта более 71 тысячи долларов. Эти средства были
+    переданы проекту просто как дар, а не в обмен на акции. Не
+    недооценивайте значимость капитала компании. Ravelry потребовалось 6
+    месяцев непрерывной работы и экономии на издержках, связанных с
+    серверным оборудованием и каналами связи, чтобы наконец-то начать
+    получать прибыль, и полученные от пользователей средства оказались
+    основным фактором, позволившим проекту пережить этот тяжелый период.
+    Залогом их успеха является поддержание интереса и искры в глазах
+    своих пользователей, подталкивание пользователей к оказанию помощи и
+    поддержки проекту. Для этого требуется любовь к своему делу и
+    самоотдача.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Станьте центром выбранной ниши&lt;/strong&gt;. Найдите нишу на рынке с
+    недостаточным предложением. Не стремитесь к массовым рынкам. Совсем
+    не обязательно делать что-то для многих миллионов людей. Миллионы
+    скорее всего просто зевнут от скуки и в скором времени о Вас
+    забудут. Лучше создайте что-нибудь очень полезное для небольшой
+    заинтересованной группы лиц и их страсть к их интересам перейдет и к
+    Вам.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Успех не обязательно должен быть связан с масштабностью проекта, намного большее значение имеет стабильная и качественная реализация&lt;/strong&gt; &amp;copy; Jeff Putz.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Основная проблема в базе данных&lt;/strong&gt;. Практически вся работа,
+    относящаяся к масштабируемости/настройке/производительности, так или
+    иначе связана с базой данных. Например, изменение схемы данных для
+    больших таблиц в MySQL всегда связано с рядом проблем, особенно если
+    простой сервиса неприемлем. Еще один аргумент в пользу баз данных,
+    не имеющих схем данных.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Продолжайте получать удовольствие&lt;/strong&gt;. Casey перешел на Ruby on
+    Rails так как ему хотелось снова заняться программированием с
+    энтузиазмом. Этот факт стал одним из основных факторов, которые
+    помогли сделать проект успешным.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Придумывайте новые вещи, которые будут приводить в восторг Ваших
+    пользователей&lt;/strong&gt;. Воспользуйтесь магией, людям это нравится. Это тоже
+    один из принципов данного проекта. Например по этой
+    &lt;a href="https://www.insight-it.ru/goto/e231d34/" rel="nofollow" target="_blank" title="http://www.tbray.org/ongoing/When/200x/2009/09/02/Ravelry#c1252474782.65559"&gt;ссылке&lt;/a&gt;, можно почитать об использовании очень инновационных подходов к управлению форумами.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Ruby &amp;mdash; это круто&lt;/strong&gt;. Он представляет собой интересный язык
+    программирования, позволивший Ravelry быстро пройти стадию
+    изначальной разработки и выпускать новые версии дважды в день в
+    период бета-тестирования.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Получайте большую прибыль за счет минимизации издержек&lt;/strong&gt;. У
+    Ravelry есть свой магазин с соответствующей тематике продукцией,
+    оптовые счета, принтеры и реализующая компания. Это позволяет им
+    поддерживать издержки на низком уровне, таким образом их прибыль не
+    уходит сторонним компаниям вроде CafePress.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Наиболее сложный переход заключается в переходе от одного сервера к нескольким&lt;/strong&gt;. В этом процессе все меняется и становится более
+    сложным и комплексным. Всегда имейте этот переход ввиду, когда
+    планируете архитектуру веб-приложения.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;В сегодняшней экосистеме имеется возможность делать массу различных вещей даже обладая минимумом ресурсов&lt;/strong&gt;. Для создания
+    комплексного сайта вроде Ravelry больше не нужно много людей или
+    финансов. Взгляните на список различных программ, используемых в
+    Ravelry, а также на небольшое количество людей, работающих над
+    поддержанием работы проекта.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Некоторые люди могут жаловаться, что здесь нет практически никаких
+подробностей о том, как же все таки работает Ravelry. Сайты таких
+размеров не должны иметь развернутого описания мистического процесса его
+масштабирования, такие проекты могут быть построены просто из составных
+частей, с умом собранных вместе. И это очень здорово.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Thu, 24 Sep 2009 11:31:00 +0400</pubDate><guid>tag:www.insight-it.ru,2009-09-24:highload/2009/kak-proekt-ravelry-doros-do-10-millionov-zaprosov-s-pomoshhyu-rails/</guid><category>Ravelry</category><category>Ruby</category><category>Rails</category><category>Ruby on Rails</category><category>Percona</category><category>MySQL</category><category>Gentoo</category><category>Linux</category><category>Capistrano</category><category>nginx</category><category>HAProxy</category><category>Munin</category><category>Tokyo Cabinet</category><category>Tokyo Tyrant</category><category>Xen</category><category>Nagios</category><category>HopToad</category><category>NewRelic</category><category>syslog-ng</category><category>Cloudfront</category><category>S3</category><category>Sphinx</category><category>memcached</category></item></channel></rss>

@@ -1,0 +1,1479 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/erlang/feed/index.xml" rel="self"></atom:link><lastBuildDate>Tue, 13 Nov 2012 02:09:00 +0400</lastBuildDate><item><title>Обзор Riak</title><link>https://www.insight-it.ru//storage/2012/obzor-riak/</link><description>&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/187746b6/" rel="nofollow" target="_blank" title="http://basho.com/products/riak-overview/"&gt;Riak&lt;/a&gt; - распределенная
+&lt;em&gt;opensource&lt;/em&gt;&amp;nbsp;база данных, разработанная на &lt;a href="/tag/erlang/"&gt;Erlang&lt;/a&gt; и
+спроектированная в расчете на:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Высокую доступность и устойчивость к сбоям;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Масштабируемость и простоту обслуживания;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Универсальность.&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;У проекта отличная&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/5083ec33/" rel="nofollow" target="_blank" title="http://docs.basho.com/riak/latest"&gt;официальная документация&lt;/a&gt;&amp;nbsp;на английском, далее же в этой статье я расскажу об основных её особенностях чуть подробнее, а также хитростях и подводных камнях, выявленных в процессе применения на практике (с перспективы веб-разработки).&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h2 id="vysokaia-dostupnost-i-ustoichivost-k-sboiam"&gt;Высокая доступность и устойчивость к сбоям&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Все данные в кластере&amp;nbsp;&lt;em&gt;реплицируются&lt;/em&gt; по принципу соседей на хэш
+    кольце (см. логотип для иллюстрации) и даже в случае сбоев
+    &lt;em&gt;доступны&lt;/em&gt; посредством интеллектуального перенаправления запросов
+    внутри кластера.&lt;/li&gt;
+&lt;li&gt;В случае возникновения коллизий из-за разрыва сетевого соединения
+    или просто одновременной записи, на запрос получения данных &lt;em&gt;может
+    вернуться несколько версий&lt;/em&gt; и приложение само может решить как их
+    объединить или какую версию использовать.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="masshtabiruemost-i-prostota-obsluzhivaniia"&gt;Масштабируемость и простота обслуживания&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Добавление нового сервера тривиально путем копирования конфига и
+    одной команды.&lt;/li&gt;
+&lt;li&gt;Перераспределение данных и все остальное прозрачно происходит за
+    сценой.&lt;/li&gt;
+&lt;li&gt;Минимальный рекомендуемый размер Riak кластера - 5 серверов, меньшее
+    количество не дает раскрыть весь потенциал.&lt;/li&gt;
+&lt;li&gt;Одинаково легко обслуживать как маленький, так и большой кластер.&lt;/li&gt;
+&lt;li&gt;Есть коммерческая &lt;em&gt;Enterprise&lt;/em&gt; версия с поддержкой от &lt;strong&gt;Basho&lt;/strong&gt;,
+    компании-разработчика Riak (изначально выходцы из Akamai),
+    равноправной зашифрованной репликацией между датацентрами и
+    поддержкой &lt;em&gt;SNMP&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;Есть встроенный веб-интерфейс для мониторинга и управления
+    кластером, у меня правда так и не дошли руки его освоить:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="video-container"&gt;
+&lt;iframe allowfullscreen="" frameborder="0" height="480" src="//www.youtube.com/embed/R0_PLMCrtZw?rel=0" width="853"&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+&lt;h2 id="universalnost"&gt;Универсальность&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Схема отсутствует, ключи и данные - произвольные бинарные строки.
+    Ключи располагаются в пространствах имен &lt;em&gt;(bucket)&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;Сериализация - на усмотрение разработчика, популярные варианты -
+    Erlang'овский &lt;em&gt;BERT&lt;/em&gt;, &lt;em&gt;JSON&lt;/em&gt; для других платформ, можно использовать
+    просто как &lt;em&gt;файловую систему&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;Модульная система хранилищ данных, альтернатив много, основная -
+    &lt;a href="/tag/google/"&gt;Google&lt;/a&gt; &lt;a href="/tag/leveldb/"&gt;LevelDB&lt;/a&gt;;&amp;nbsp;еще интересный
+    вариант с хранением полностью в оперативной памяти - получается
+    продвинутый распределенный кэш с репликацией, поиском и пр.&lt;/li&gt;
+&lt;li&gt;Гибко настраиваемое количество узлов кластера, которые должны
+    подтвердить успешность операции, чтобы она считалась успешной: можно
+    указывать для всего кластера, пространства имен и даже конкретного
+    запроса. Riak в любом случае остается eventually consistent базой
+    данных (AP из CAP теоремы), но с возможностью управлять балансом
+    производительности операций и надежностью выполнения запросов.&lt;/li&gt;
+&lt;li&gt;Три интерфейса доступа &lt;em&gt;(API)&lt;/em&gt;:&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/protocol-buffers/"&gt;Google ProtocolBuffers&lt;/a&gt; - для основного
+    использования в боевых условиях.&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/http/"&gt;HTTP&lt;/a&gt; &lt;a href="/tag/rest/"&gt;REST&lt;/a&gt; - для использования в
+    языках, где нет готового клиента на ProtocolBuffers и для того,
+    чтобы по-быстрому что-то посмотреть из консоли через curl. Хотя
+    по факту клиенты для большинства языков программирования есть и
+    проще делать запросы через интерпретатор.&lt;/li&gt;
+&lt;li&gt;Еще есть прямой интерфейс Erlang-сообщений, но даже из самого
+    Erlang им пользоваться не рекомендуют, не говоря уже о
+    реализациях Erlang node (BERT) на других платформах.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Вместе с данными хранятся метаданные для разных целей, которые
+    используются в соответствующих типах запросов:&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/3d61cc81/" rel="nofollow" target="_blank" title="http://ru.wikipedia.org/wiki/%D0%92%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D0%BD%D1%8B%D0%B5_%D1%87%D0%B0%D1%81%D1%8B"&gt;Векторные часы&lt;/a&gt;
+    для разрешения конфликтов версий данных&amp;nbsp;&lt;em&gt;(обязательно, есть
+    автоматическое разрешение);&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Индекс для полнотекстного поиска &lt;em&gt;(концептуально позаимствован у
+    &lt;a href="/tag/lucene/"&gt;Lucene&lt;/a&gt;/&lt;a href="/tag/solr/"&gt;Solr&lt;/a&gt;, опционально);&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Индекс для простых выборок &lt;em&gt;(по бинарным и числовым полям,
+    опционально);&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Связанные ключи &lt;em&gt;(отдаленный аналог внешних ключей,
+    опционально).&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Встроенная поддержка &lt;a href="/tag/mapreduce/"&gt;MapReduce&lt;/a&gt;, фазы можно
+    реализовывать на &lt;a href="/tag/erlang/"&gt;Erlang&lt;/a&gt; или
+    &lt;a href="/tag/javascript/"&gt;JavaScript&lt;/a&gt;;&amp;nbsp;для обоих языков есть библиотека с
+    наиболее популярными случаями, которые можно использовать для
+    образца.&lt;/li&gt;
+&lt;li&gt;Есть поддержка выполнения операций до/после операций записи/чтения
+    &lt;em&gt;(hooks)&lt;/em&gt;, чаще всего используются для построения полнотекстного
+    индекса, но можно реализовать и свои, специфичные для приложения.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="nedokumentirovannye-vozmozhnosti"&gt;Недокументированные возможности&lt;/h2&gt;
+&lt;p&gt;Пока я их нашел всего две:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Счетчики:&lt;/strong&gt;&amp;nbsp;как такового API в для&amp;nbsp;увеличения/уменьшения числовых
+    значений &lt;em&gt;(increment/decrement)&lt;/em&gt; в Riak нет, так как он не лезет
+    внутрь хранящихся данных. Зато есть векторные часы, которые растут с
+    каждой операцией записи по ключу. Чтобы реализовать увеличение
+    &lt;em&gt;(increment)&lt;/em&gt; необходимо записать в Riak пустую бинарную строку с
+    опцией &lt;em&gt;return_body,&amp;nbsp;&lt;/em&gt;и у вернувшегося значения сложить все поля в
+    векторных часах. &lt;a href="https://www.insight-it.ru/goto/6a894d09/" rel="nofollow" target="_blank" title="https://gist.github.com/4061705"&gt;Пример на
+    Erlang&lt;/a&gt;. Если нужно еще и
+    уменьшение (decrement) этого можно добиться с помощью пары счетчиков
+    "плюс и минус" и вычитать второе значение из первого. Для&amp;nbsp;авто
+    инкремента&amp;nbsp;основных ключей не самый лучший вариант, но для не особо
+    критичных случаев вполне себе работает.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Выборка по списку ключей &lt;em&gt;(multiget)&lt;/em&gt;:&amp;nbsp;&lt;/strong&gt;такого API тоже нет, но
+    здесь на выручку приходит &lt;em&gt;MapReduce&lt;/em&gt;. Это, пожалуй, наиболее
+    популярное его применение. На вход подаем имеющийся список ключей и
+    используем фазы из готовой библиотеки: &lt;em&gt;reduce_set_union&lt;/em&gt; и
+    &lt;em&gt;map_identity&lt;/em&gt;. Данные возвращаются&amp;nbsp;неотсортированные &amp;nbsp;и требуют
+    небольшой обертки на выходе, но все равно это намного быстрее, чем
+    последовательно проходить по списку ключей и делать для каждого
+    обычный &lt;em&gt;get&lt;/em&gt;. &lt;a href="https://www.insight-it.ru/goto/d557f797/" rel="nofollow" target="_blank" title="https://gist.github.com/4061784"&gt;Пример на Erlang&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="card blue lighten-4"&gt;
+&lt;p&gt;&lt;div class="card-content"&gt;
+Буду рад, если Вы поможете мне дополнить этот список, оставив известные
+Вам подобные трюки в комментариях.
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;h2 id="podvodnye-kamni"&gt;Подводные камни&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Если в Вашем приложении необходима функциональность &lt;strong&gt;постраничного
+    просмотра отсортированных данных&lt;/strong&gt; &lt;em&gt;(pagination)&lt;/em&gt;, то будьте готовы
+    реализовать её на клиенте. То есть Riak быстро сделал нужную выборку
+    всех "страниц" и уже на клиенте её придется отсортировать и выкинуть
+    лишнее. Вообще в большинстве случаев результаты запросов к Riak
+    приходят в произвольном порядке из-за его распределенной природы.&lt;/li&gt;
+&lt;li&gt;В продолжение к предыдущему: в &lt;a href="https://www.insight-it.ru/goto/cb1ee41b/" rel="nofollow" target="_blank" title="http://docs.basho.com/riak/latest/cookbooks/Riak-Search---Querying/#Querying-via%20the%20Solr%20Interface"&gt;REST Solr интерфейсе&lt;/a&gt;&amp;nbsp;есть
+    аргументы (в ProtoBuf это тоже добавили в одной из последних
+    версий), которые, казалось бы, достаточны для реализации
+    постраничного просмотра: &lt;strong&gt;sort&lt;/strong&gt;, &lt;strong&gt;start&lt;/strong&gt;, &lt;strong&gt;rows&lt;/strong&gt; - что еще
+    нужно? На практике оно работает не так, как было бы логично.
+    Сортировка по значению (заданная в sort) применяется ПОСЛЕ того, как
+    была отсчитана страница по start и rows. Они отмеряются по ключам
+    или рейтингу значения в полнотекстном поиске и никак иначе. С тем же
+    успехом эти 5-10 значений можно очень быстро отсортировать и на
+    клиенте. Зачем-то это может быть и нужно, но в моем случае оказалось
+    совершенно бесполезно.&lt;/li&gt;
+&lt;li&gt;У Riak есть 4 основных типа запросов: простой
+    get/set,&amp;nbsp;полнотекстовый&amp;nbsp;поиск, вторичные ключи &lt;em&gt;(secondary
+    indices)&lt;/em&gt;, МapReduce и проход по связанным ключам &lt;em&gt;(link walking)&lt;/em&gt;.&lt;ul&gt;
+&lt;li&gt;Если Ваши данные являются сериализованным JSON, BERT или XML, то
+    в большинстве случаев Вам нужны лишь первые два из них,
+    исключение - упомянутая выше выборка по списку ключей через
+    MapReduce.&lt;/li&gt;
+&lt;li&gt;Основной сценарий использования вторичных индексов - метаданные
+    к произвольным неструктурированным бинарным данным, например в
+    случае с аналогом файловой системы. Либо совсем примитивные
+    случаи, когда правда нужно сделать простую выборку по одному
+    целочисленному полю, что бывает редко.&lt;/li&gt;
+&lt;li&gt;Если данные сериализованы, то связанные ключи проще хранить
+    внутри данных, а не средствами СУБД. Разницы в
+    производительности нет, в итоге делается тот же MapReduce с теми
+    же фазами.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Хоть Riak "из коробки" и правда надежнее многих других СУБД и 1-2
+    упавших/отключенных сервера в кластере внешне практически не
+    заметны, есть одно но. Если один узел упал - соединения всех
+    подключенных к нему клиентов теряются. Два основных
+    пути&amp;nbsp;преодоления&amp;nbsp;этого момента:&lt;ul&gt;
+&lt;li&gt;Если кластер клиентов и кластер Riak расположены на разных
+    серверах, то между ними можно поставить отказоустойчивый TCP
+    балансировщик нагрузки, в частности &lt;a href="/tag/haproxy/"&gt;HAProxy&lt;/a&gt; или
+    &lt;a href="/tag/ipvs/"&gt;IPVS&lt;/a&gt; здесь наиболее органично вписываются.&lt;/li&gt;
+&lt;li&gt;Если на одних и тех же, то есть вариант поставить балансировщик
+    нагрузки перед клиентами (для веба возможно и в HTTP/HTTPS
+    режиме), а каждый клиент подключается к своему локальному
+    серверу Riak и если один, другой или оба сразу упали, то
+    отрубать весь физический сервер целиком.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="vyvody"&gt;Выводы&lt;/h2&gt;
+&lt;p&gt;Riak отлично подходит для многих вариантов использования, как в Интернет
+среде, так и в смежных вроде телекома. Обладает отличным набором
+положительных "черт характера", о которых шла речь в начале статьи.
+Прекрасно справляется с большим потоком как операций записи, так и
+операций чтения.&lt;/p&gt;
+&lt;p&gt;Как уже упоминалось, практически единственный сценарий, где Riak совсем
+не справляется, это выборки по большим объемам данных с сортировкой и
+постраничным выводом. Но даже в этом случае никто не мешает использовать
+отдельный сервис, который будет индексировать нужным образом данные и
+подготавливать список идентификаторов для последующей multiget выборки
+из Riak. К слову, проекты по этой части уже появляются, например
+&lt;a href="https://www.insight-it.ru/goto/1232aa05/" rel="nofollow" target="_blank" title="https://github.com/rzezeski/yokozuna"&gt;Yokozuna&lt;/a&gt; - интеграция
+полноценного Solr с Riak &lt;em&gt;(Riak Search - лишь частичный порт Solr+Lucene
+на Erlang)&lt;/em&gt;.&lt;/p&gt;
+&lt;h2 id="dopolnitelnaia-informatsiia-po-teme"&gt;Дополнительная информация по теме&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/432a7a72/" rel="nofollow" target="_blank" title="http://basho.com/community/ricon2012"&gt;Riakcon 2012&lt;/a&gt; - свежая
+    конференция от Basho, рассказывают о различных сферах применения
+    Riak в реальных проектах&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/a6b96b20/" rel="nofollow" target="_blank" title="http://basho.com/company/production-users"&gt;Список компаний, использующих Riak&lt;/a&gt;&amp;nbsp;- можно увидеть очень солидные известные имена&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/b011dd8d/" rel="nofollow" target="_blank" title="http://docs.basho.com/riak/latest/references/appendices/comparisons"&gt;Сравнение Riak с другими NoSQL СУБД&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/c29f125e/" rel="nofollow" target="_blank" title="http://docs.basho.com/riak/latest/references/apis"&gt;Документация по API&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/5f671db1/" rel="nofollow" target="_blank" title="https://github.com/basho"&gt;Официальный GitHub&lt;/a&gt; и &lt;a href="https://www.insight-it.ru/goto/b59384fb/" rel="nofollow" target="_blank" title="http://docs.basho.com/riak/latest/references/Community-Developed-Libraries-and-Projects"&gt;список сторонних opensource проектов&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/4ec186ad/" rel="nofollow" target="_blank" title="http://docs.basho.com/riak/latest/tutorials/querying"&gt;Сравнительная таблица MapReduce, Secondary Indices и Link Walking&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Tue, 13 Nov 2012 02:09:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-11-13:storage/2012/obzor-riak/</guid><category>Basho</category><category>Erlang</category><category>LevelDB</category><category>Protocol Buffers</category><category>REST</category><category>Riak</category><category>БД</category><category>обзор</category><category>СУБД</category></item><item><title>Moscow Erlang Factory Lite 2012</title><link>https://www.insight-it.ru//event/2012/moscow-erlang-factory-lite-2012/</link><description>&lt;p&gt;Давненько я не выбирался на IT-мероприятия, так что продолжу традицию
+делиться впечатлениями. Как следует из заголовка она была исключительно
+про &lt;a href="/tag/erlang/"&gt;Erlang&lt;/a&gt;, причем в самых разных его проявлениях.
+Недавно я написал пару статей про него, можно найти по соответствующему
+&lt;a href="/tag/erlang/"&gt;тегу&lt;/a&gt;. Конференция была всего на пол дня, так что пост
+получится явно небольшой - много времени не займет ;)&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h2 id="organizatsiia"&gt;Организация&lt;/h2&gt;
+&lt;p&gt;Мероприятие проводили совместно &lt;strong&gt;Erlang Solutions&lt;/strong&gt;&amp;nbsp;(международная
+организация, которая регулярно проводит подобные Erlang-мероприятия,
+сертификации и т.п.) и &lt;strong&gt;Яндекс&lt;/strong&gt;. Проходило все в двух шагах от офиса
+Яндекса, плюс они же занимались собственно всеми организационными
+вопросами. Единственный представитель Erlang Solutions видимо не знал
+что в Москве бывают пробки и сильно опоздал, к слову у меня на телефоне
+его фотка нашлась, заодно можно оценить масштабы мероприятия (весь
+единственный зал):&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Фотография с Erlang Factory Lite" class="responsive-img" src="https://www.insight-it.ru/images/erlang-factory-lite-photo.jpg" title="Фотография с Erlang Factory Lite"/&gt;&lt;/p&gt;
+&lt;p&gt;Конференция по задумке должна была быть полностью на английском, без
+перевода, так как якобы трансляцию могли смотреть и не русские. Но по
+факту докладчики были к этому не готовы, у примерно трети докладчиков
+был английский с кошмарным акцентом, не говоря уже о длинных паузах
+"э-э-э" пока вспоминались подходящие слова.&lt;/p&gt;
+&lt;p&gt;Еще из косяков к началу конференции никто не удосужился проверить звук и
+удаленный&amp;nbsp;переключатель&amp;nbsp;слайдов.&lt;/p&gt;
+&lt;p&gt;А в остальном все ок, простенько и со вкусом. Едем дальше.&lt;/p&gt;
+&lt;h2 id="doklady"&gt;Доклады&lt;/h2&gt;
+&lt;h3 id="iandeks"&gt;Яндекс&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;В Яндексе всего три Erlang-программиста, кажется все присутствовали&lt;/li&gt;
+&lt;li&gt;Используют свой форк &lt;a href="/tag/ejabberd/"&gt;ejabberd&lt;/a&gt;&amp;nbsp;примерно пятилетней
+    давности для их мессенджера и пуш-уведомлений:&lt;ul&gt;
+&lt;li&gt;С момента своего создания изменения из основной ветки развития
+    не мерджились и обратно выкладываться в opensource не собираются
+    из-за "сильной интеграции с другими сервисами Яндекса"&lt;/li&gt;
+&lt;li&gt;Для хранения постоянных данных используют
+    &lt;a href="/tag/mongodb/"&gt;MongoDB&lt;/a&gt;, на вопрос почему именно докладчик так
+    честно ответил "не знаю"&lt;/li&gt;
+&lt;li&gt;Основная часть доклада ушла на рассказ об оптимизациях внутри
+    самого ejabberd, реализованных в их форке, в частности:&lt;ul&gt;
+&lt;li&gt;Добавили проверку на то, жив ли процесс перед тем как
+    отправлять ему сообщение, изначально ejabberd в этом плане
+    был более оптимистичен и их это по непонятным причинам не
+    устроило.&lt;/li&gt;
+&lt;li&gt;Уменьшили объем используемой оперативной памяти за счет
+    "ленивой подгрузки" части данных, которые редко
+    используются. Из зала, кстати, кто-то добавил что у
+    аналогичного форка от Erlang Solutions повсеместное
+    &amp;nbsp;использование бинарных строк вместо обычных дало очень
+    ощутимую экономию оперативной памяти.&lt;/li&gt;
+&lt;li&gt;И, кажется, объединили принимающий и отправляющий сообщения
+    процессы в один.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;На вопрос о цифрах выдали только порядки: несколько десятков
+    серверов обслуживают несколько сотен тысяч пользователей онлайн.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="fedora-project_1"&gt;Fedora Project&lt;/h2&gt;
+&lt;p&gt;Обсуждался вопрос сильного "отставания" доступных по-умолчанию в
+&lt;a href="/tag/linux/"&gt;Linux&lt;/a&gt;-дистрибутивах версий Erlang, да и не только Erlang,
+от последней стабильной. Я думаю очень актуальный вопрос для тех, кто
+занимается продажей коммерческого софта для Linux, или для тех, кто
+занимается сборкой и поддержкой пакетов для opensource проектов.&lt;/p&gt;
+&lt;p&gt;Erlang сделан так, что подход &lt;em&gt;"все свое ношу с собой"&lt;/em&gt;, &lt;strong&gt;существенно&lt;/strong&gt;
+проще и удобнее, чем управление зависимостями. Хотя докладчик приводил
+пример, что &lt;a href="/tag/couchdb/"&gt;CouchDB&lt;/a&gt; как раз использует альтернативный
+подход требования точных версий зависимостей и у них в Fedora были
+большие заморочки с тем, что они обновили
+&lt;a href="/tag/javascript/"&gt;JavaScript&lt;/a&gt;-движок на одну версию выше, чем от
+которого зависела последняя версия CouchDB. Я так и не уловил как в
+итоге эту ситуацию решили, наверное пришлось оставить в репозитории две
+версии зависимости или дождаться и&amp;nbsp;обновления&amp;nbsp;CouchDB.&lt;/p&gt;
+&lt;h2 id="mochi-media"&gt;Mochi Media&lt;/h2&gt;
+&lt;p&gt;Вместо рассказа о &lt;strong&gt;mochiweb&lt;/strong&gt; речь шла о различных вариантах как можно
+реализовать случайный выбор элемента из списка и их слабых и сильных
+сторонах. Причем для примера использовался не реальный проект, где они
+подобным занимаются (баннерная сеть), а IRC-бот&amp;nbsp;написанный&amp;nbsp;для
+развлечения. Да и к Erlang практически никакого отношения, единственной
+что узнал полезного: стандартный модуль &lt;strong&gt;random&lt;/strong&gt; написан по не самому
+удачному алгоритму, созданному в начале 80-х, и если это сколько-либо
+критично для приложения - лучше вместо него использовать &lt;strong&gt;crypto&lt;/strong&gt; или
+сторонние библиотеки.&lt;/p&gt;
+&lt;h3 id="maks-lapshin"&gt;Макс Лапшин&lt;/h3&gt;
+&lt;p&gt;Докладчик является, пожалуй, самым активным участником российского
+Erlang-сообщества, известен в узких кругах как автор &lt;strong&gt;Erlyvideo&lt;/strong&gt;,
+opensource решения для потокового вещания видео. Рассказывал про
+какой-то другой проект, в частности о парсере протокола FIX,
+использующегося на фондовых биржах и отличающегося огромной
+спецификацией с более чем сотней типов сообщений. Основная идея доклада:
+если нужно написать много однотипного кода, его лучше сгенерировать, чем
+копипастить.&lt;/p&gt;
+&lt;p&gt;К счастью, авторы этого протокола заботятся о разработчиках и публикуют
+спецификацию в виде &lt;a href="/tag/xml/"&gt;XML&lt;/a&gt;-файла, который Макс предлагает
+парсить и генерировать на его основе необходимые .erl файлы, не дерево
+синтаксиса, а прямо текстовые .erl файлы. В конкретно этом случае ему
+нужно было из proplist-ов создавать record'ы, а сам парсинг сообщений он
+решил написать на &lt;a href="/tag/c/"&gt;C&lt;/a&gt;.&amp;nbsp;Хотя мне кажется эту конвертацию тоже
+можно было бы убрать в C.&lt;/p&gt;
+&lt;h3 id="aleks-gunin"&gt;Алекс Гунин&lt;/h3&gt;
+&lt;p&gt;Это был единственный доклад на 80% на русском, так как попытка начать
+его на английском закончилась полным провалом. Хотя заголовок у доклада
+был самый, пожалуй, интересный - &lt;em&gt;"как сделать Erlang по-настоящему
+распределенным и отказоустойчивым"&lt;/em&gt;. Основная идея была использовать
+часть распределенной СУБД &lt;a href="/tag/riak/"&gt;Riak&lt;/a&gt;, отвечающую за
+распределение и поиск данных в кластере &lt;em&gt;(Riak Core)&lt;/em&gt;, для маршрутизации
+простых Erlang сообщений и &amp;nbsp;по аналогии с несколькими репликами данных
+запускать несколько копий одинаковых процессов. Для реализации этой
+затеи они написали совместимые со стандартными модули gen_server2,
+gen_fsm2 и т.п. &lt;em&gt;(что, кстати, плохая практика - из-за таких названий
+можно легко столкнуться с конфликтами в пространстве имен модулей,
+например в &lt;a href="/tag/rabbitmq/"&gt;RabbitMQ&lt;/a&gt; и каком-то еще популярном проекте
+тоже есть gen_server2, как-то сталкивался)&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Задумка явно толковая и думаю для многих систем актуальная, но
+подробностей очень мало, плюс докладчик очень смутно излагал свои мысли
+даже на русском. Он не сказал для какой компании он все это
+разрабатывал, но пообещал выложить саму систему маршрутизации сообщений
+в opensource. Когда и где - не ясно.&lt;/p&gt;
+&lt;h3 id="lev-valkin"&gt;Лев Валкин&lt;/h3&gt;
+&lt;p&gt;Это был последний доклад, где я присутствовал, в оставшейся секции из
+трех докладов мне совсем ничего не приглянулось, но зато этот мне больше
+всего понравился. Думаю в первую очередь так как Лев косвенно
+пропагандировал&amp;nbsp;очень близкую мне тему использования &lt;strong&gt;Erlang&lt;/strong&gt; для
+создания &lt;a href="https://www.insight-it.ru/interactive/"&gt;интерактивных веб-сайтов&lt;/a&gt;. Большинство докладов были все же про другие предметные области. Раньше про его компанию &lt;strong&gt;Echo&lt;/strong&gt; ничего не слышал, но список клиентов на главной у них солидный, надо будет почитать на досуге.&lt;/p&gt;
+&lt;p&gt;Сам доклад был про выбор и оценку языков программирования и
+связанных&amp;nbsp;платформ по относительно объективным критериям (сообщество,
+ассортимент opensource библиотек, возможности в тестировании,
+интроспекции и дебаге, плюшки вроде горячей замены кода и пр.). Правда в
+итоге все свелось к тому, что главное, чтобы разработчикам &lt;em&gt;нравилось
+что они делают&lt;/em&gt; - иначе как бы не была объективно&amp;nbsp;хороша та или иная
+технология все равно получится черти что :)&lt;/p&gt;
+&lt;p&gt;Изначально Лев планировал доклад на тему &lt;strong&gt;Erlang vs node.js&lt;/strong&gt;, но её
+забраковали организаторы, видимо за холиварность. В итоге она все же
+местами затрагивалась, да и вопросы после доклада в основном были по
+ней.&lt;/p&gt;
+&lt;p&gt;Основные моменты:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Повторное использование кода между серверным JavaScript и
+    клиентским - в большинстве случаев &lt;strong&gt;миф&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Легко найти серверного node.js-разработчика, так как все и так уже
+    знают JavaScript &amp;nbsp;- тоже &lt;strong&gt;миф&lt;/strong&gt;, клиентская разработка
+    концептуально сильно отличается от серверной, намного больше
+    node.js-разработчиков приходит с других серверных платформ, а не с
+    клиентского JavaScript.&lt;/li&gt;
+&lt;li&gt;node.js хоть и сильно проигрывает Erlang по ряду объективных
+    показателей применительно к веб разработке, благодаря своей
+    популярности именно среде молодых веб-разработчиков (во многом
+    благодаря вышеизложенным мифам) сильно угрожает популяризации Erlang
+    в этой же самой среде.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Свое мнение про JavaScript в целом и node.js в частности оставлю за
+кадром, недавно в одном из постов высказывался уже на эту тему.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sat, 23 Jun 2012 02:40:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-06-23:event/2012/moscow-erlang-factory-lite-2012/</guid><category>ejabberd</category><category>Erlang</category><category>Erlang Solutions</category><category>конференции</category><category>мероприятия</category><category>Яндекс</category></item><item><title>Основы Erlang: синтаксис и пунктуация</title><link>https://www.insight-it.ru//erlang/2012/osnovy-erlang-sintaksis-i-punktuaciya/</link><description>&lt;p&gt;Мои теоретичесие рассуждения о &lt;a href="https://www.insight-it.ru/erlang/2012/erlang-v-internet-proektakh/"&gt;месте Erlang в &lt;del&gt;современном мире&lt;/del&gt;
+Интернете&lt;/a&gt;&amp;nbsp;Вы
+можете почитать в отдельной статье. Если сомневаетесь интересно Вам это
+все или нет - то прочтите сначала её. Сегодня я постараюсь вернуться с
+небес на землю и пройтись по азам этого пугающего многих языка
+программирования. Коротко и по делу.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Установка ничем особым не выделяется, дистрибутив рекомендую брать
+&lt;a href="https://www.insight-it.ru/goto/d3cd3653/" rel="nofollow" target="_blank" title="http://www.erlang-solutions.com/section/98/download-erlang-packages"&gt;отсюда&lt;/a&gt;,
+если до сих пор пользуетесь отсутствующей в списке ОС - лучше сначала
+исправить этот факт.&lt;/p&gt;
+&lt;p&gt;После установки в &lt;code&gt;$PATH&lt;/code&gt; окажутся исполняемые файлы:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;erl&lt;/strong&gt; - одновременно интерактивная консоль и запуск приложений;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;erlc&lt;/strong&gt; - компилятор в байт-код для виртуальной машины BEAM или
+    нативный код посредством HiPE, напрямую использовать не придется
+    практически.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Со всем что будет обсуждаться в этой статье можно эксперементировать
+просто в интерактивной консоли, которая запускается просто командой
+&lt;strong&gt;erl&lt;/strong&gt; без аргументов.&lt;/p&gt;
+&lt;h2 id="punktuatsiia"&gt;Пунктуация&lt;/h2&gt;
+&lt;p&gt;Сразу скажу, что пунктуация в Erlang довольно своеобразна, больше похожа
+на русский язык, чем на другие языки программирования. По крайней мере я
+именно этой ассоциацией пользовался, когда запоминал.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Все функции заканчиваются &lt;strong&gt;точкой&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;После каждого выражения в функции - &lt;strong&gt;запятая;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Все ветви кода &lt;code&gt;(case, if, ...)&lt;/code&gt;, кроме последней, заканчиваются
+    &lt;strong&gt;точкой с запятой&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;После заголовка функции и условий ветвления пишется &lt;strong&gt;стрелка&lt;/strong&gt; &lt;code&gt;-&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Маленькая демонстрация:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nf"&gt;foo&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;X&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nv"&gt;Y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;
+  &lt;span class="nv"&gt;Z&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nv"&gt;X&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="nv"&gt;X&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt;
+    &lt;span class="nv"&gt;Y&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;
+      &lt;span class="nv"&gt;Z&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="nv"&gt;Y&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;true&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;
+      &lt;span class="nv"&gt;Z&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nv"&gt;Y&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;К слову, функции возвращают результат выполнения последнего выражения, в
+данном случае оно представляет собой весь блок &lt;code&gt;if&lt;/code&gt;, а &lt;code&gt;end&lt;/code&gt;
+обозначает его окончание (не функции).&lt;/p&gt;
+&lt;h2 id="sintaksis"&gt;Синтаксис&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Foo&lt;/code&gt; - все что начинается с английской заглавной буквы -
+    переменная, специально объявлять ничего не нужно&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;_&lt;/code&gt;&amp;nbsp;- сам знак нижнего подчеркивания и все что с него
+    начинается - особый случай переменной, значение которой не значимо
+    для программы и при первой возможности "выкидывается"&lt;/li&gt;
+&lt;li&gt;Цифры в основном как обычно, есть научная нотация в духе &lt;code&gt;1.23e4&lt;/code&gt;
+    (1.23 умножить на 10 в степени 4) и системы исчисления с другим
+    основанием, скажем двоичная - &lt;code&gt;2#101010&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;foo&lt;/code&gt; - с строчной буквы начинаются &lt;em&gt;атомы&lt;/em&gt;, по сути константы,
+    используются повсеместно:&lt;ul&gt;
+&lt;li&gt;названия функций и модулей&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;true&lt;/code&gt; и &lt;code&gt;false&lt;/code&gt; - булевые значения&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ok&lt;/code&gt; - типичный результат успешный результат выполнения&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;?FOO&lt;/code&gt;&amp;nbsp;- хоть официально и называются константами, но по сути -
+    макросы, перед компиляцией заменяются на заранее определенный кусок
+    кода&lt;strong&gt;&amp;nbsp;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;{foo, bar}&lt;/code&gt; - кортеж, набор данных фиксированной длины&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;[foo, bar]&lt;/code&gt; - простой однонаправленный список произвольной длины&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;"foo"&lt;/code&gt; - текстовая строка, представленная в виде
+    однонаправленного списка (что не эффективно с точки зрения
+    потребления памяти, до 4 байт на символ)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;&amp;lt;"foo"&amp;gt;&amp;gt;&lt;/code&gt; - бинарная строка, может содержать что угодно,
+    в.т.ч. и текст; все что не цифры по возможности лучше хранить в этом
+    типе данных.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="sopostavlenie-pattern-matching"&gt;Сопоставление &lt;em&gt;(pattern matching)&lt;/em&gt;&lt;/h2&gt;
+&lt;p&gt;Очень мощная концепция &lt;em&gt;сопоставления&lt;/em&gt; используется в &lt;strong&gt;Erlang&lt;/strong&gt; на
+каждом углу. В базовом варианте работает примерно так:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;ok&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nv"&gt;Result&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;foo&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Если в функции foo все прошло нормально, то она возвращает, например
+&lt;code&gt;{ok, 123}&lt;/code&gt;, и переменной &lt;code&gt;Result&lt;/code&gt; окажется лишь значение &lt;code&gt;123&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Если же возникла какая-то проблема, то она вернет что-то другое, скажем
+&lt;code&gt;{error, timeout}&lt;/code&gt;, приложение столкнется с несоответствием левой и
+правой части (атомы &lt;strong&gt;ok&lt;/strong&gt; и &lt;strong&gt;error&lt;/strong&gt; разные) и прекращает свое
+выполнение (если бы было чего выполнять).&lt;/p&gt;
+&lt;p&gt;Базовый принцип, надеюсь, понятен. Подобным образом выбирается какую из
+реализаций функции использовать, в какую ветвь &lt;strong&gt;case&lt;/strong&gt; идти и т.п. В
+общем есть много других более сложных применений, но о них в другой раз.&lt;/p&gt;
+&lt;h2 id="spiski"&gt;Списки&lt;/h2&gt;
+&lt;p&gt;Со списками есть три особые операции:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;[Head | Tail ] = [1, 2, 3, 4]&lt;/code&gt; - вытащить элемент с головы
+    списка, работает по принципу сопоставления, в &lt;code&gt;Head&lt;/code&gt; окажется
+    &lt;code&gt;1&lt;/code&gt;, а в &lt;code&gt;Tail&lt;/code&gt; - &lt;code&gt;[2, 3, 4]&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;[1, 2] ++ [3, 4]&lt;/code&gt; - конкатенация, результатом будет &lt;code&gt;[1, 2, 3, 4]&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;[N&amp;nbsp;*&amp;nbsp;N&amp;nbsp;|| N&amp;nbsp;&amp;lt;- [1,&amp;nbsp;2,&amp;nbsp;3], N &amp;gt; 1]&lt;/code&gt; - выглядит замороченно, по
+    сути это обычный отображение &lt;em&gt;(map)&lt;/em&gt; с фильтрацией &lt;em&gt;(filter)&lt;/em&gt; - то
+    есть выражение перед &lt;code&gt;||&lt;/code&gt; применяется к каждому элементу списка,
+    значение которых попадает в переменную &lt;strong&gt;N&lt;/strong&gt;, а после запятой -
+    условие, накладываемое на &lt;strong&gt;N&lt;/strong&gt;; таким образом результат будет &lt;strong&gt;[4,
+    9]&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="binarnye-stroki"&gt;Бинарные строки&lt;/h2&gt;
+&lt;p&gt;C ними намного больше всяких трюков и преобразований, приведу наиболее
+значимые:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Binary = &amp;lt;&amp;lt;Integer:64&amp;gt;&amp;gt;&lt;/code&gt; - преобразовать целое число Integer
+    в бинарную строку Binary длиной 64 бита (для примера, может быть
+    любой&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;&amp;lt;Integer1:32, Integer2:32&amp;gt;&amp;gt; =&amp;nbsp;Binary&lt;/code&gt; - распокавать обратно
+    бинарную строку в целые числа, но уже два по 32 бита; чем-то похоже
+    на операцию &lt;code&gt;[H | T]&lt;/code&gt; у списков, но намного более гибко&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Binary3 = &amp;lt;&amp;lt;Binary1/binary, Binary2/binary&amp;gt;&amp;gt;&lt;/code&gt; - конкатенация
+    бинарных строк, результат окажется в &lt;code&gt;Binary3&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;&amp;lt; &amp;lt;&amp;lt;(N * N)/integer&amp;gt;&amp;gt; || &amp;lt;&amp;lt;N&amp;gt;&amp;gt; &amp;lt;= &amp;lt;&amp;lt;1, 2, 3&amp;gt;&amp;gt;, N &amp;gt; 1 &amp;gt;&amp;gt;&lt;/code&gt;&amp;nbsp;- аналог последнего примера для списков, только для
+    бинарных данных; результат аналогичен - &lt;code&gt;&amp;lt;&amp;lt;4, 9&amp;gt;&amp;gt;&lt;/code&gt;; к слову
+    официально это называется &lt;em&gt;binary comprehensions&lt;/em&gt;, а для списков -
+    &lt;em&gt;list comprehensions&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="zakliuchenie"&gt;Заключение&lt;/h2&gt;
+&lt;p&gt;Очень многое пришлось опустить, иначе самое главное затерялось бы, да и
+объем статьи сильно вырос. Подробности всегда можно найти на
+&lt;a href="https://www.insight-it.ru/goto/547f742d/" rel="nofollow" target="_blank" title="http://www.erlang.org/"&gt;официальном сайте&lt;/a&gt;, в man'ах, да и просто
+погуглив.&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Удачного освоения Erlang!&lt;/em&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Fri, 22 Jun 2012 01:27:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-06-22:erlang/2012/osnovy-erlang-sintaksis-i-punktuaciya/</guid><category>Erlang</category><category>Программирование</category><category>разработка</category></item><item><title>Серверная часть интерактивного сайта и потоки сообщений</title><link>https://www.insight-it.ru//interactive/2012/servernaya-chast-interaktivnogo-sajjta-i-potoki-soobshhenijj/</link><description>&lt;p&gt;Вернемся к теме &lt;a href="https://www.insight-it.ru/interactive/"&gt;интерактивных сайтов&lt;/a&gt; с обратной стороны, серверной. В ней есть огромный простор для творчества, так как
+в отличии от клиентской части отсутствуют ограничения, накладываемыми
+браузерами. С "простором" же приходит и неоднозначность/неопределенность, вариантов как реализовать одно и то же множество, так что возможно приводимые мной примеры Вам окажутся не по душе &amp;nbsp;- и это нормально, правильный путь не единственный, их много :)&lt;/p&gt;
+&lt;p&gt;Приступим!&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h2 id="vnutrennie-servisy"&gt;Внутренние сервисы&lt;/h2&gt;
+&lt;p&gt;Напомню, что обычно на внутренние сервисы ложится реализация всей или
+большей части бизнес-логики приложения. Они получают пользовательские
+запросы в стандартизированном виде через прослойки в виде внешних
+интерфейсов и, при необходимости взаимодействуя друг с другом и
+остальными компонентами системы, определяют какой ответ необходимо
+отправить и какие другие действия предпринять.&lt;/p&gt;
+&lt;p&gt;Я не буду здесь особо вдаваться в возможные детали реализации самой
+бизнес-логики - она практически всегда уникальна, скорее заслуживает
+внимания её "обертка" - сам процесс, принимающий и создающий внутренние
+запросы.&lt;/p&gt;
+&lt;p&gt;Вообще создание внутренних сервисов очень хорошо ложится на так
+называемую &lt;a href="https://www.insight-it.ru/goto/7e699ecd/" rel="nofollow" target="_blank" title="http://ru.wikipedia.org/wiki/%D0%9C%D0%BE%D0%B4%D0%B5%D0%BB%D1%8C_%D0%B0%D0%BA%D1%82%D0%BE%D1%80%D0%BE%D0%B2"&gt;модель "акторов"&lt;/a&gt;,
+система разбивается на некие логические примитивы, общающиеся между
+собой исключительно передачей сообщений. По сути процессы с
+определенными разработчиками наборами входящих и исходящих сообщений и
+алгоритмом преобразования одних в другие. При таком подходе группа
+одинаково функционирующих акторов (вероятно распределенная по нескольким
+серверам для отказоустойчивости и возможности масштабирования) и
+образует внутренний сервис.&lt;/p&gt;
+&lt;p&gt;На практике есть масса способов воплотить эту модель в жизнь,
+перечислю&amp;nbsp;с пояснениями наиболее заслуживающие внимания&amp;nbsp;на мой взгляд:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Функциональные языки программирования,&lt;/strong&gt;&amp;nbsp;в &lt;a href="/tag/erlang/"&gt;Erlang&lt;/a&gt;
+    и &lt;a href="/tag/scala/"&gt;Scala&lt;/a&gt; модель акторов является практически "сердцем"
+    всего языка и связанной платформы; у обоих есть библиотеки для
+    реализации надежных, высокопроизводительных и масштабируемых акторов
+    (&lt;strong&gt;OTP&lt;/strong&gt; и &lt;strong&gt;Akka&lt;/strong&gt;, соответственно). Если не боитесь кардинально
+    отличающейся от нынче модного ООП парадигмы разработки, этот вариант
+    наиболее жизнеспособный, &lt;em&gt;рекомендую&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Асинхронный HTTP-сервер&lt;/strong&gt;, в частности &lt;a href="/tag/tornado/"&gt;Tornado&lt;/a&gt; и
+    &lt;a href="/tag/node-js/"&gt;node.js&lt;/a&gt;&amp;nbsp;- они основаны на &lt;a href="https://www.insight-it.ru/linux/2012/kak-rabotaet-epoll/"&gt;epoll&lt;/a&gt; и помимо эффективной обработки HTTP-запросов умеют и эффективно их отправлять посредством идущего в комплекте асинхронного же клиента.
+    При таком подходе по сути получается несколько "уровней"
+    HTTP-серверов, первый из которых публично доступен для общения с
+    внешним миром и в ответ на каждый входящий запрос обращается сразу к
+    нескольким внутренним HTTP-сервисам (вероятно параллельно) и на их
+    основе составляет ответ пользователю. Этот подход одно время активно
+    пропагандировали на конференциях ребята из одного крупного
+    отечественного сайта с вакансиями. Особенным бонусом этого варианта
+    является возможность использовать в роли внутреннего сервиса
+    какую-то старую, доставшуюся по наследству &lt;em&gt;(legacy)&lt;/em&gt;, систему,
+    которая с одной стороны по-прежнему нужна, а с другой - человек,
+    который в ней&amp;nbsp;разбирался уже давно уволился.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/c/"&gt;С++&lt;/a&gt; и &lt;a href="/tag/thrift/"&gt;Thrift&lt;/a&gt;&lt;/strong&gt; - хоть одного из
+    участников этой пары можно легко заменить на альтернативу, вместе
+    они смотрятся наиболее органично: потенциально
+    высокопроизводительная реализация бизнес-логики на С++ плюс
+    проверенная в деле многими крупными и очень крупными проектами
+    обертка для создания серверов и клиентов, легко общающихся из разных
+    языков программирования (речь о Thrift, если не очевидно). Если в
+    команде проекта есть гуру C++ - этот вариант Ваш, в противном случае
+    не рекомендую, т.к. &lt;em&gt;очень&lt;/em&gt; легко накосячить.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Иногда внутренние сервисы возможно сделать совсем изолированными, то
+есть без взаимодействия с другими компонентами системы. Но в большинстве
+случаев это не так, зачастую для принятия решения им необходимы внешние
+данные.&lt;/p&gt;
+&lt;h2 id="baza-dannykh-i-keshirovanie"&gt;База данных и кэширование&lt;/h2&gt;
+&lt;p&gt;По большому счету интерактивные сайты не особо сильно отличаются от
+статичных с точки зрения организации хранения данных.&lt;/p&gt;
+&lt;p&gt;Из особенностей хочу отметить более-менее четкое разграничение
+&lt;strong&gt;стабильной&lt;/strong&gt; информации и &lt;strong&gt;свежей&lt;/strong&gt;, актуальной лишь короткое время.
+Для социальной сети это могут быть, например, профили пользователей
+(стабильная) и сообщения (свежая).&lt;/p&gt;
+&lt;p&gt;В соответствии с этим стоит выбирать хранилище данных и политику
+кэширования:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Стабильная информация, которая редко обновляется и в тысячи раз чаще
+    читается, прекрасно поддается кэшированию и возможно даже прекрасно
+    будет себя чувствовать в реляционной СУБД.&lt;/li&gt;
+&lt;li&gt;Свежую информацию вероятно вообще важнее доставить в кратчайшие
+    сроки получателю, а сохранять в персистентном виде можно вообще
+    постфактум для архива, на маловероятный случай когда она повторно
+    понадобится. Про кэширование лучше вообще забыть. Для этого самого
+    "архива" часто используют нереляционные распределенные базы данных
+    вроде &lt;a href="/tag/hbase/"&gt;HBase&lt;/a&gt;, &lt;a href="/tag/cassandra/"&gt;Cassandra&lt;/a&gt; или
+    &lt;a href="/tag/riak/"&gt;Riak&lt;/a&gt;. А про оперативную доставку получателю поговорим
+    в следующем разделе.&lt;/li&gt;
+&lt;li&gt;Хранилища данных в памяти вроде &lt;a href="/tag/memcached/"&gt;memcached&lt;/a&gt; или
+    &lt;a href="/tag/redis/"&gt;Redis&lt;/a&gt; с отключенной персистентностью можно
+    использовать независимо для временного хранения каких-то побочных
+    данных (восстановимых производных данных или просто чего-то не особо
+    важного, вроде счетчиков пользователей онлайн).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="potoki-soobshchenii"&gt;Потоки сообщений&lt;/h2&gt;
+&lt;p&gt;Одной из ключевых задач интерактивного сайта является доставка сообщений
+пользователем в реальном времени, причем их источник может быть как
+внешний, так и внутренний, зачастую это просто другие пользователи.&lt;/p&gt;
+&lt;p&gt;Часть системы, отвечающую за маршрутизацию таких сообщений, обычно
+назвают &lt;strong&gt;брокером сообщений&lt;/strong&gt;&amp;ensp;&lt;em&gt;(message broker)&lt;/em&gt;. Для доставки
+сообщений в браузер чаще всего используют &lt;strong&gt;интерфейс сериализованных
+данных&lt;/strong&gt;, подробно обсуждавшийся в &lt;a href="https://www.insight-it.ru/interactive/2012/postoyannoe-soedinenie-mezhdu-brauzerom-i-serverom/"&gt;одной из предыдущих статей серии&lt;/a&gt;. Когда пользователь устанавливает соединение с этим интерфейсом, он, в
+свою очередь, напрямую или через внутренний сервис регистрируется в
+брокере сообщений для оперативного получения сообщений, предназначенных
+соответствующему пользователю.&lt;/p&gt;
+&lt;p&gt;Предлагаю рассмотреть типичные сценарии маршрутизации сообщений, они
+довольно просты:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Конкретный получатель&lt;/strong&gt;, к сообщению (которое обычно никак не
+    анализируется брокером) прикрепляется метка-идентификатор,
+    обозначающий кому именно оно предназначено. Такое сообщение получит
+    только процесс, зарегистрировавшийся с аналогичным идентификатором.
+    Типичный пример использования - личные сообщения от пользователя к
+    пользователю.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Группа получателей&lt;/strong&gt;, актуально для проектов, где пользователи
+    взаимодействуют не на глобальном пространстве, а разбиты на части по
+    какому-то признаку. Скажем это может быть какой-то B2B сервис и
+    сообщения ходят только между сотрудниками одной компании-клиента.
+    Обычно используется такие же метки, как и при конкретном получателе,
+    только с одной из сторон (обычно принимающей) вместо конкретного
+    идентификатора указывается какой-то паттерн, вроде &lt;code&gt;CompanyA.*&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Публичные сообщения&lt;/strong&gt; - получают все пользователи, метки не
+    используются. Обычно это уведомления о глобальных для сайта событиях
+    или публикации каких-то материалов.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Реализаций брокеров сообщений есть много разных, общий принцип работы у
+всех примерно одинаковый и соответствует трем изложенным выше пунктам.
+Для интернет-проектов очень рекомендую &lt;a href="/tag/rabbitmq/"&gt;RabbitMQ&lt;/a&gt;, в нем
+эти стратегии маршрутизации называются &lt;em&gt;direct&lt;/em&gt;, &lt;em&gt;topic&lt;/em&gt; и &lt;em&gt;fanout&lt;/em&gt;
+exchange, соответственно.&lt;/p&gt;
+&lt;p&gt;Отправлять сообщения через брокер в большинстве случаев будут различные
+внутренние сервисы в случае возникновения определенных событий &lt;em&gt;(читай:
+получения ими определенных входящих сообщений и попадания в определенную
+ветвь алгоритма их обработки)&lt;/em&gt;. Какую стратегию маршрутизации
+использовать - тоже на их совести.&lt;/p&gt;
+&lt;p&gt;К слову, внутренние сервисы также могут подписываться на получение части
+сообщений из брокера, например для асинхронного создания "архива"
+событий, отправки почтовых уведомлений или выполнения ресурсоемких задач
+вроде конвертации медиа-файлов.&lt;/p&gt;
+&lt;p&gt;При получении сообщения клиентская часть меняет соответствующим образом
+текущую версию открытой страницы. От открытия дополнительного
+всплывающего окна до просто смены цифры в количестве чего-нибудь.&lt;/p&gt;
+&lt;p&gt;Будьте аккуратны с публичными сообщениями - их количество в единицу
+времени может рости очень быстро с увеличением размеров аудитории.
+Горизонтально масштабируемый брокер сообщений очень важен, если в Вашем
+проекте в основном используются именно публичные сообщения.&lt;/p&gt;
+&lt;h2 id="zakliuchenie"&gt;Заключение&lt;/h2&gt;
+&lt;p&gt;Таким образом наша цепь замыкается - между браузерами любых
+пользователей можно в "мягком" реальном времени пересылать любые
+сообщения, пропуская их через бизнес-логику для регулирования данного
+процесса, и, при необходимости, использовать постоянные и временные
+хранилища данных.&lt;/p&gt;
+&lt;p&gt;Как я уже упоминал&amp;nbsp;&lt;a href="https://www.insight-it.ru/interactive/2012/arkhitektura-interaktivnykh-sajjtov/"&gt;в первой статье серии&lt;/a&gt;, серверная часть у интерактивного сайта не так уж и кардинально отличается от любого другого - примерно те же компоненты, примерно так же работают и взаимодействуют. Разница в деталях.&lt;/p&gt;
+&lt;p&gt;В следующей, заключительной, статье серии мы по второму кругу пройдемся
+по ключевым моментам и попробуем рассмотреть наиболее перспективные
+моменты для улучшений и оптимизации, хотя, как говорится, заранее
+оптимизировать - плохая примета :)&lt;/p&gt;
+&lt;div class="card green"&gt;
+&lt;p&gt;&lt;div class="card-content white-text"&gt;
+Эта статья - пятая в &lt;a class="green-text text-lighten-4" href="https://www.insight-it.ru/interactive/"&gt;серии про Интерактивные сайты&lt;/a&gt;, автор - &lt;a class="green-text text-lighten-4" href="https://www.insight-it.ru/goto/b03d9116/" rel="nofollow" target="_blank" title="http://blinkov.ru"&gt;Иван&amp;nbsp;Блинков&lt;/a&gt;, основано на личном опыте.
+До встречи &lt;a class="green-text text-lighten-4" href="/feed/"&gt;на страницах Insight IT&lt;/a&gt;!
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Mon, 04 Jun 2012 05:38:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-06-04:interactive/2012/servernaya-chast-interaktivnogo-sajjta-i-potoki-soobshhenijj/</guid><category>Akka</category><category>C++</category><category>Cassandra</category><category>Erlang</category><category>HBase</category><category>Memcached</category><category>OTP</category><category>RabbitMQ</category><category>Redis</category><category>Riak</category><category>Scala</category><category>Thrift</category></item><item><title>Erlang в интернет-проектах</title><link>https://www.insight-it.ru//erlang/2012/erlang-v-internet-proektakh/</link><description>&lt;p&gt;С моей точки зрения,&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/4b2ebe6b/" rel="nofollow" target="_blank" title="http://www.erlang.org"&gt;&lt;strong&gt;Erlang&lt;/strong&gt;&lt;/a&gt; - один из
+наиболее продуманных языков программирования. Его создатели выбирали
+каждую деталь и особенность реализации так, чтобы сделать его идеальным
+для решения вполне конкретных телекоммуникационных задач, с которыми они
+сталкивались в 80-90-х годах. Во многом из-за этого он так и не стал
+универсальным языком программирования как &lt;a href="/tag/c/"&gt;C++&lt;/a&gt;,
+&lt;a href="/tag/python/"&gt;Python&lt;/a&gt; и другие, а так и остался спустя многие годы
+специализированным инструментом. Сегодня спрос и предложение на
+специалистов по &lt;a href="/tag/erlang/"&gt;Erlang&lt;/a&gt; на рынке труда относительно малы,
+что для большинства проектов является основным аргументом &lt;em&gt;против
+Erlang&lt;/em&gt;, хотя порой они и сталкиваются с задачами, где он запросто бы
+стал тем самым &lt;em&gt;"идеальным инструментом"&lt;/em&gt;. В этой статье я хотел бы
+обсудить, в каких именно ситуациях применительно к интернет-проектам
+использование &lt;strong&gt;Erlang&lt;/strong&gt; оправдано и почему. Но начать придется
+издалека - с того, чем же он так &lt;em&gt;уникален&lt;/em&gt;.
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;h2 id="chto-takoe-erlang"&gt;Что такое Erlang?&lt;/h2&gt;
+&lt;p&gt;Под словом Erlang обычно подразумевают совокупность сразу нескольких
+компонентов:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Сам одноименный язык программирования - по сути синтаксис и
+    идеологию;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ERTS&lt;/strong&gt; &lt;em&gt;(Erlang Run-Time System)&lt;/em&gt; - реализация всех низкоуровневых
+    абстракций на &lt;a href="/tag/c/"&gt;C&lt;/a&gt;. Подробнее о них ниже.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;BEAM&lt;/strong&gt; &lt;em&gt;(Bogdans' Erlang Abstract Machine)&lt;/em&gt; - стандартная
+    реализация виртуальной машины, с помощью которой обычно исполняются
+    программы на Erlang после компиляции в байт-код (она очень
+    эффективна; хотя компиляция Erlang в нативный код и возможна, оно
+    того чаще всего не стоит). BEAM используется по-умолчанию в основных
+    дистрибутивах &lt;a href="/tag/linux/"&gt;Linux&lt;/a&gt; и других операционных системах.
+    Когда говорят "виртуальная машина Erlang" обычно подразумевается
+    совокупность ERTS и BEAM.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;OTP&lt;/strong&gt; &lt;em&gt;(Open Telecom Platform)&lt;/em&gt; - набор качественно реализованных
+    высокоуровневых абстракций, использование которых стало почти
+    стандартом де-факто в мире Erlang, так как оно позволяет не
+    изобретать велосипеды и избегать типичных ошибок при реализации
+    типичных же паттернов. Немного забегая вперед, приведу несколько
+    примеров:&amp;nbsp;&lt;strong&gt;gen_server&lt;/strong&gt; (просто процесс, который принимает
+    какие-то запросы и как-то на них реагирует), &lt;strong&gt;gen_fsm&lt;/strong&gt; (конечный
+    автомат), &lt;strong&gt;supervisor&lt;/strong&gt; (мониторинг других процессов).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="kliuchevye-osobennosti"&gt;Ключевые особенности&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Параллельное программирование&lt;/strong&gt; &lt;em&gt;(concurrent programming)&lt;/em&gt; - программы
+на Erlang состоят из независимых задач, которые &lt;em&gt;могут&lt;/em&gt; выполняться
+параллельно, что на практике дает свободу виртуальной машине планировать
+их выполнение наиболее эффективным образом с учетом доступных системных
+ресурсов.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Процессная модель&lt;/strong&gt; &lt;em&gt;(process model)&lt;/em&gt; - единицей параллельного
+выполнения в Erlang является &lt;em&gt;процесс&lt;/em&gt;, который технически представляет
+собой лишь часть потока исполнения &lt;em&gt;(thread)&lt;/em&gt; операционной системы и
+обладает нижеизложенными свойствами, которые обеспечивает их реализация
+в ERTS:&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Параллельность&lt;/strong&gt; &lt;em&gt;(concurrency)&lt;/em&gt; - каждый процесс выполняет свою
+часть кода вне зависимости от других процессов, со своим темпом.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Изоляция процессов&lt;/strong&gt; &lt;em&gt;(process isolation)&lt;/em&gt;&amp;nbsp;- в отличии от
+потоков исполнения в операционных системах и других языках
+программирования, между процессами Erlang'а нет общей памяти. Помимо
+этого сбой в одном из процессов напрямую не влияет на другие
+процессы в системе. Именно по-этому они называются &lt;em&gt;процессами&lt;/em&gt;, так
+как в этом ключе скорее похожи на полноценные процессы операционной
+системы.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Низкое потребление ресурсов&lt;/strong&gt;&amp;nbsp;&lt;em&gt;(low resource consumption)&lt;/em&gt; - так
+как процессы Erlang являются лишь абстракцией внутри потока
+исполнения операционной системы, используют зачастую &lt;em&gt;меньше
+килобайта&lt;/em&gt; оперативной памяти и требует минимальных вычислительных
+ресурсов, то один сервер может при необходимости иметь сотни тысяч
+и даже миллионы&amp;nbsp;запущенных процессов (теоретически возможный
+максимум - 268435456, хотя по-умолчанию стоит ограничение в&amp;nbsp;32768
+процессов). Для сравнения: суммарное количество потоков выполнения
+на сервере обычно измеряется сотнями и редко превышает тысячу.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Слабая связанность&lt;/strong&gt;&amp;nbsp;&lt;em&gt;(loose coupling)&lt;/em&gt; - процессы общаются друг с
+другом посредством асинхронного обмена сообщениями &lt;em&gt;(message
+passing)&lt;/em&gt;,&amp;nbsp;для чего часть памяти каждого процесса выделяется под
+"почтовый ящик". При отправке сообщения в списке входящих сообщений
+процесса-получателя создается копия сообщения, составленного в
+процессе-отправителе. При этом протокол отправки сообщений между
+процессами скрыт от разработчика и не зависит от того, находится ли
+получатель в той же виртуальной машине или в удаленной (на другом
+сервере), что позволяет легко и практически прозрачно распределять
+приложения по многим физическим серверам &lt;em&gt;(горизонтальное
+масштабирование, scale out)&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Дерево ответственности&lt;/strong&gt; &lt;em&gt;(responsibility tree)&lt;/em&gt; - создаваемые
+внутри системы процессы образуют иерархию, где родители несут
+ответственность за потомков.&amp;nbsp;В упомянутом чуть выше примере сбой
+одного из процессов вызывает его завершение и рассылку уведомлений
+связанным процессам-соседям по иерархии (с информацией о том, где и
+почему произошел сбой), на которые они могут как-то реагировать.
+Типичных сценария реагирования два: также завершить работу и
+разослать аналогичные уведомления, вызывая цепную реакцию (такие
+процессы называют исполнителями, &lt;em&gt;worker&lt;/em&gt;), либо на основе
+уведомления принять какое-то действие, например попытаться заново
+запустить часть дерева процессов, аналогичную остановленной (такие
+называют надсмотрщиками, &lt;em&gt;supervisor&lt;/em&gt;). Использование этого
+механизма позволяет приложению добиться &lt;em&gt;отказоустойчивости&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Ссылочная прозрачность&lt;/strong&gt; &lt;em&gt;(referential transparency)&lt;/em&gt;&amp;nbsp;- как только
+переменная получила какое-то значение его уже нельзя изменить &lt;em&gt;(single
+assignment)&lt;/em&gt;, для нового значения нужно заводить новую переменную. На
+первый взгляд выглядит полным бредом, но именно эту цену нужно заплатить
+для гарантии того, что какая-то другая часть кода втихаря не "испортит"
+значение. Плюс отсутствие изменений в структурах данных в памяти дает
+большую свободу для применения различных оптимизаций компилятору,
+сборщику мусора и планировщику процессов.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Планировщик процессов&lt;/strong&gt; &lt;em&gt;(scheduler)&lt;/em&gt; - виртуальная машина Erlang с
+точки зрения операционной системы выглядит как один процесс с
+несколькими потоками исполнения &lt;em&gt;(threads)&lt;/em&gt;, каждый из которых имеет
+собственный планировщик, управляющий группой Erlang-процессов. Процессы
+могут прозрачно перемещаться из одного потока в другой для &lt;em&gt;балансировки
+нагрузки&lt;/em&gt;. Помимо этого планировщик берет на себя управление
+вводом-выводом, которые на низком уровне реализованы в неблокирующей,
+основанной на событиях, манере с использованием&amp;nbsp;&lt;a href="/tag/epoll/"&gt;epoll&lt;/a&gt;&amp;nbsp;или
+аналогов, но для конечного разработчика представляется в упрощенном
+виде.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Сборщик мусора в памяти&lt;/strong&gt; &lt;em&gt;(garbage collector)&lt;/em&gt; - в отличии от других
+виртуальных машин (в частности &lt;a href="/tag/jvm/"&gt;JVM&lt;/a&gt;) сборка мусора в Erlang
+не влечет за собой значимых задержек в работе приложений, так как
+благодаря изоляции процессов для сборки мусора они останавливаются по
+очереди, пока все остальные продолжают работать. Обычно область памяти
+выделенная под один процесс очень невелика (для сравнения: под новый
+процесс в Erlang выделяется около 1 килобайта, под новый поток
+исполнения в &lt;a href="/tag/java/"&gt;Java&lt;/a&gt; - более 512 килобайт в зависимости от
+реализации), так что сборка мусора для каждого процесса не занимает
+много времени. Планировщик может определить какие процессы нужно
+пропустить при очередной сборке мусора, если они не исполнялись с
+момента предыдущей сборки. Если процесс создается для выполнения
+кратковременной задачи, то он может успеть сделать свое дело и
+завершиться без единой сборки мусора, полностью освободив свою память по
+окончании работы.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Функциональное программирование&lt;/strong&gt;&amp;nbsp;&lt;em&gt;(functional programming)&lt;/em&gt;&amp;nbsp;-
+если рассмотреть один Erlang-процесс внутри, отбросив его связь с
+внешним миром (обмен сообщениями), то можно увидеть программу, полностью
+соответствующую функциональной парадигме: алгоритмы выражаются в виде
+вызовов функций, которые, в свою очередь, являются единицами данных
+наравне с числами и сложными структурами. На практике же это означает
+другой стиль программирования и используемые абстракции (рекурсия вместо
+циклов, поведения вместо интерфейсов и т.п.), по сравнению с более
+распространенными &lt;a href="/tag/oop/"&gt;объектно-ориентированными&lt;/a&gt; языками;
+подробно это будет интересно лишь программистам, так что оставим это для
+другой статьи про &lt;a href="/tag/erlang/"&gt;Erlang&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Доступно три механизма хранения данных вне памяти процессов:&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;ETS&lt;/strong&gt; &lt;em&gt;(erlang term storage)&lt;/em&gt; - очень похожий на хранилище пар
+ключ-значение механизм, работающий в оперативной памяти самой
+виртуальной машины и доступный всем или части её процессов (есть
+ограничения доступа). Данные хранятся в пространствах имен (таблицы
+без жесткой структуры), а доступ осуществляется по ключу, который
+являются частью значения (обычно первым элементом в хранящейся
+структуре данных).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;DETS&lt;/strong&gt;&amp;nbsp;&lt;em&gt;(disk erlang term storage)&lt;/em&gt;&amp;nbsp;- предоставляется аналогичный
+ETS интерфейс и формат хранения данных, с той лишь разницей, что
+данные хранятся в файлах на диске, а не в памяти виртуальной машины.
+При использовании &lt;strong&gt;не&lt;/strong&gt;твердотельных дисков операции поиска данных
+значительно медленнее аналогов из модуля ETS.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Mnesia&lt;/strong&gt; - полноценная СУБД на основе ETS/DETS, с поддержкой
+атомарных транзакций &lt;em&gt;(atomic transactions)&lt;/em&gt;, репликации
+&lt;em&gt;(replication)&lt;/em&gt; и партиционирования &lt;em&gt;(sharding)&lt;/em&gt;. Позволяет
+абстрагироваться от физического расположения данных, осуществлять
+поиск/выборки данных в реальном времени, а также вносить изменения в
+конфигурацию и схему данных без перезапуска.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Горячее обновление кода&lt;/strong&gt; &lt;em&gt;(hot code loading)&lt;/em&gt; - виртуальная машина
+может держать в памяти и параллельно выполнять две версии одного и того
+же кода (единицей измерения здесь является &lt;em&gt;модуль&lt;/em&gt;, то есть один
+скомпилированный файл исходного кода), процесс переключается со старого
+кода на новый при выполнении &lt;em&gt;внешнего&lt;/em&gt; вызова к одной из его функций
+(что в целом полностью в руках разработчика). Эта возможность позволяет
+полностью избежать недоступности приложения при обновлениях, что очень
+важно для всех приложений, работающих в реальном времени, к которым
+также относятся все сайты и интернет-сервисы.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="primenenie-na-praktike"&gt;Применение на практике&lt;/h2&gt;
+&lt;p&gt;Телекоммуникации и Интернет на сегодняшний день хоть и являются
+совершенно разными областями &lt;em&gt;информационных технологий&lt;/em&gt;, но все же
+глобальная цель у них общая: позволять людям легко общаться удаленно.
+Предлагаю вернуться к изначальной теме статьи: в каких конкретно
+ситуациях &lt;strong&gt;Erlang&lt;/strong&gt;, вместе со своими изложенными выше особенностями и
+ограничениями, может оказаться уместным решением задач интернет-проекта?
+Примеры могут показаться субъективными, так что с удовольствием готов
+обсудить их и другие ситуации в комментариях.&lt;/p&gt;
+&lt;h3 id="vkhodiashchie-polzovatelskie-soedineniia"&gt;Входящие пользовательские соединения&lt;/h3&gt;
+&lt;p&gt;Еще в далеком 2002 году в сети часто мелькал
+сравнительный&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/669f1a19/" rel="nofollow" target="_blank" title="http://www.sics.se/~joe/apachevsyaws.html"&gt;бенчмарк&lt;/a&gt;&amp;nbsp;&lt;strong&gt;Apache&lt;/strong&gt;
+&lt;em&gt;(C)&lt;/em&gt; и &lt;strong&gt;Yaws&lt;/strong&gt; &lt;em&gt;(Erlang)&lt;/em&gt;&amp;nbsp;по обработке HTTP-запросов, где Yaws
+представлялся "победителем" с огромным отрывом. С тех пор конечно же
+многое поменялось, появился стремительно набирающий обороты
+&lt;a href="/tag/nginx/"&gt;nginx&lt;/a&gt; и "популярные в узких кругах" решения вроде
+&lt;a href="/tag/node-js/"&gt;node.js&lt;/a&gt; или &lt;a href="/tag/tornado/"&gt;Tornado&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Но &lt;strong&gt;Erlang&lt;/strong&gt; тоже не стоит на месте. Благодаря целенаправленной работе
+по оптимизации ERTS в целом и планировщика процессов в частности,
+современные реализации HTTP-серверов на Erlang по-прежнему легко &lt;a href="https://www.insight-it.ru/goto/fdb93d75/" rel="nofollow" target="_blank" title="http://www.ostinelli.net/a-comparison-between-misultin-mochiweb-cowboy-nodejs-and-tornadoweb"&gt;дают фору&lt;/a&gt;&amp;nbsp;более распространенным решениям.&lt;/p&gt;
+&lt;p&gt;В последние годы появляется все больше интернет-проектов, использующие
+постоянные соединения &lt;em&gt;(websocket, long polling, etc.)&lt;/em&gt;&amp;nbsp;между браузером
+и HTTP-сервером для обновления страниц сайта в реальном времени. Здесь
+также Erlang легко справляется с задачей, так как для поддержания
+постоянного соединения обычно используется лишь 1 Erlang-процесс (хотя
+иногда 2), которые, как уже упоминалось, потребляют минимум &amp;nbsp;оперативной
+памяти и вычислительных ресурсов. Как следствие, HTTP-сервер на Erlang
+способен поддерживать очень постоянное соединение с онлайн
+пользователями, даже если их количество измеряется десятками тысяч.&lt;/p&gt;
+&lt;p&gt;Хочется отметить, что в этом примере речь идет именно об обработке
+соединений с пользователями, то есть внутри HTTP-сервера минимум логики,
+он просто "разбирает" запрос и, вероятно, передает его дальше внутрь
+системы через брокер сообщений или напрямую внутренним сервисам. К
+вопросу с сколько-либо сложной бизнес-логикой вернемся чуть позже.&lt;/p&gt;
+&lt;h3 id="otdacha-statiki"&gt;Отдача статики&lt;/h3&gt;
+&lt;p&gt;Для отдачи статики в Erlang часто используют тот же системный вызов
+&lt;strong&gt;sendfile&lt;/strong&gt;, что и в &lt;a href="/tag/nginx/"&gt;nginx&lt;/a&gt;.&amp;nbsp;Но на практике ситуация
+здесь неоднозначна:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;прямой доступ к sendfile через встроенные вызовы&amp;nbsp;&lt;em&gt;(BIF, Built-In
+    Functions)&lt;/em&gt;&amp;nbsp;появился в Erlang только в самом последнем на
+    сегодняшний день релизе - R15B;&lt;/li&gt;
+&lt;li&gt;раньше использовалась
+    &lt;a href="https://www.insight-it.ru/goto/e9f4e5cf/" rel="nofollow" target="_blank" title="https://github.com/tuncer/sendfile"&gt;обертка&lt;/a&gt;&amp;nbsp;с использованием
+    нативных функций &lt;em&gt;(NIF, native implemented functions)&lt;/em&gt;&amp;nbsp;или просто
+    чтение файла, что &lt;a href="https://www.insight-it.ru/goto/317549c0/" rel="nofollow" target="_blank" title="http://www.erlang-factory.com/upload/presentations/71/JoeWilliams-Web_Server_Deathmatch.pdf"&gt;работало не очень хорошо&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="card blue lighten-4"&gt;
+&lt;p&gt;&lt;div class="card-content"&gt;
+На готовые бенчмарки по отдаче статики из последних версий Erlang'а я не
+натыкался, так что могу предложить взглянуть на небольшой тест
+&lt;strong&gt;cowboy&lt;/strong&gt; vs &lt;strong&gt;nginx&lt;/strong&gt;&amp;nbsp;на обычном домашнем оборудовании: Ubuntu в роли
+сервера, iMac в роли клиента (JMeter), 100Мбит между ними. Какого-либо
+тюнинга настроек не производилось.
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;1.1Мб картинка в 10 потоков &lt;em&gt;(нехитрая математика говорит о том, что все
+упираются в сеть)&lt;/em&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/images/cowboy-static.jpg"&gt;Cowboy без sendfile&lt;/a&gt;: 853мс. в среднем, 639 запросов в минуту, отклонение 428мс.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/images/cowboyR15B-static.jpg"&gt;Cowboy с sendfile&lt;/a&gt;: 853мс. в среднем, 639 запросов в минуту, отклонение 395мс.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/images/nginx-static.jpg"&gt;Nginx&lt;/a&gt;: 882мс. в среднем, 638 запросов в минуту, отклонение 515мс.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;112б текстовый файл в 1000 потоков:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/images/cowboy-static2.jpg"&gt;Cowboy без sendfile&lt;/a&gt;: 37мс. в среднем (но медиана - 3мс., то есть небольшая часть запросов сильно тормозит, а с остальной все нормально), 259 тыс. запросов в минуту, отклонение 234мс.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/images/cowboyR15B-static.jpg"&gt;Cowboy с sendfile&lt;/a&gt;: 17 мс. в среднем, 267 тыс. запросов в минуту, отклонение 27мс.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/images/nginx-static2.jpg"&gt;Nginx&lt;/a&gt;: 2мс. в среднем, 315 тыс. запросов в минуту, отклонение 3мс.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Не претендуя на хоть на какую-либо точность и применимость в боевых
+условиях, эти цифры и графики показывают, что&amp;nbsp;в деле отдачи статики
+&lt;strong&gt;nginx&lt;/strong&gt;&amp;nbsp;хоть и по-прежнему лидер, но в не-экстремальных ситуациях
+особой разницы можно и не заметить. Хотя при использовании решений на
+Erlang определенно можно начать "скучать" по нестандартным конфигурациям nginx с какой-нибудь компрессией на лету, rewrite'ами и пр.
+В любом случае, для отдачи статики в сколько-либо серьезных
+интернет-проектов рекомендую пользоваться услугами&amp;nbsp;&lt;a href="/tag/cdn/"&gt;CDN&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id="balansirovka-nagruzki"&gt;Балансировка нагрузки&lt;/h3&gt;
+&lt;p&gt;Откровенно говоря, я не слышал о каком-либо проекте на Erlang для
+балансировки HTTP и/или TCP запросов, хотя бы отдаленно сравнимом по
+возможностям, надежности и производительности с &lt;a href="/tag/haproxy/"&gt;HAProxy&lt;/a&gt;
+и "железными" решениями.&lt;/p&gt;
+&lt;p&gt;Хотя по мне так сами свойства Erlang прекрасно подходят для решения этой
+задачи, но те проекты, на которые я натыкался (&lt;a href="https://www.insight-it.ru/goto/53f5a8f4/" rel="nofollow" target="_blank" title="https://github.com/mdaguete/tcpbalance"&gt;пример&lt;/a&gt;), выглядят просто как "поделки" по сравнению с проверенными временем решениями.&lt;/p&gt;
+&lt;p&gt;В любом случае HTTP/TCP балансировщик нагрузки на Erlang - отличная
+тема для нового opensource проекта, если вдруг кому-то нечем заняться в
+свободное время :)&lt;/p&gt;
+&lt;h3 id="broker-soobshchenii"&gt;Брокер сообщений&lt;/h3&gt;
+&lt;p&gt;В статье про &lt;strong&gt;&lt;a href="https://www.insight-it.ru/erlang/2012/rabbitmq/"&gt;RabbitMQ&lt;/a&gt;&lt;/strong&gt;&amp;nbsp;я
+уже подробно рассказывал о том, как Erlang вписывается в роль &lt;em&gt;брокера
+сообщений&lt;/em&gt;, то есть посредника между различными компонентами системы,
+обеспечивающего их слабую связанность путем обмена сообщениями.&lt;/p&gt;
+&lt;p&gt;В дополнение хочется сказать, что хоть изобретать велосипед и редко
+когда оказывается хорошей затеей, Erlang отлично подошел бы и для
+реализации собственной схемы обмена сообщениями внутри системы, например
+без использования централизованного брокера, как это в итоге получается
+с использованием RabbitMQ или аналогов.&lt;/p&gt;
+&lt;h3 id="biznes-logika"&gt;Бизнес-логика&lt;/h3&gt;
+&lt;p&gt;Этот аспект является практически уникальным от проекта к проекту, так
+что здесь придется ограничиться лишь какими-то общими рекомендациями.&lt;/p&gt;
+&lt;p&gt;Основной слабой стороной Erlang является &lt;strong&gt;обработка данных&lt;/strong&gt;, в
+частности:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Текстовые строки в Erlang реализованы как
+    &lt;em&gt;однонаправленный&lt;/em&gt;&amp;nbsp;&lt;em&gt;связанный список целых чисел&lt;/em&gt;, то есть на каждый
+    символ выделяется &lt;strong&gt;восемь байт&lt;/strong&gt; памяти: четыре на код символа,
+    четыре - на указатель на следующий символ; плюс еще четыре байта для
+    указателя на начало списка. Для 64-битных систем эти цифры нужно
+    удвоить, так как машинное слово вдвое длиннее. Помимо неоправданных
+    расходов памяти, эта схема усложняет различные операции со строками,
+    например чтобы посчитать длину строки нужно "пройтись" по ней
+    целиком. А чтобы приписать один символ в конец строки, нужно сделать
+    её полную копию (для записи в начало это не так, как не трудно
+    догадаться).&lt;/li&gt;
+&lt;li&gt;Бинарные строки хранятся в памяти последовательно, так что объем не
+    удваивается из-за указателей. Изменения в итоге также создают копии
+    данных, что для больших строк накладно. В любом случае там где это
+    возможно я бы рекомендовал использовать бинарные строки вместо
+    текстовых.&lt;/li&gt;
+&lt;li&gt;С математическими задачами все не так плачевно: хоть и реализация
+    базовых операций в виртуальной машине несколько отстает по
+    производительности от чистого &lt;a href="/tag/c/"&gt;С&lt;/a&gt;, при желании его можно
+    практически догнать средствами нативной компиляции, грамотной
+    реализации алгоритма и отсутствия "палок в колесах" у компилятора.
+    Альтернативный сценарий: использование NIF.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Для не-англоязычных проектов трудностью может оказаться довольно
+сомнительная &lt;a href="https://www.insight-it.ru/goto/2568aa73/" rel="nofollow" target="_blank" title="http://www.erlang.org/doc/apps/stdlib/unicode_usage.html"&gt;поддержка Unicode&lt;/a&gt;:
+особого типа данных нет, в тех же текстовых строках код символа может
+выходить за пределы таблицы ASCII (не зря же на него 32 или 64 бита
+выделили), а в бинарных строках можно хранить что угодно, в т.ч. и
+Unicode-текст. Как прореагирует на Unicode тот или иной встроенный
+модуль или используемая библиотека никто не гарантирует, но обычно все
+более-менее нормально.&lt;/p&gt;
+&lt;p&gt;Хоть на самом деле это и является роскошью, но при реализации
+бизнес-логики на Erlang порой недостает ORM-подобных механизмов в духе
+"вытащил объект из базы, поменял в нем что-нибудь, положил обратно". Не
+то чтобы таких библиотек нет, просто эта схема не очень хорошо "ложится"
+на функциональную парадигму и реализуется обычно через не особо
+предназначенные для этого механизмы словарей &lt;em&gt;(dict)&lt;/em&gt; или именованных
+кортежей &lt;em&gt;(record)&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;В качестве резюме хочется сказать, что на &lt;strong&gt;Erlang&lt;/strong&gt; можно реализовать
+бизнес-логику практически любого интернет-проекта. Просто если она
+сложнее, чем просто передать какие-то данные от одного пользователя
+другому, то вероятно из-за&amp;nbsp;искусственных&amp;nbsp;ограничений и недостаточной
+выразительности языка для эффективной её разработки на Erlang может
+потребоваться существенно больше времени и усилий, чем на более
+приспособленных для этого языках вроде &lt;a href="/tag/ruby/"&gt;Ruby&lt;/a&gt;,
+&lt;a href="/tag/php/"&gt;PHP&lt;/a&gt; и &lt;a href="/tag/python/"&gt;Python&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id="bazy-dannykh"&gt;Базы данных&lt;/h3&gt;
+&lt;p&gt;Здесь все довольно просто: обычно &lt;strong&gt;Erlang&lt;/strong&gt; используется как
+распределенная надстройка над встраиваемыми &lt;a href="/tag/subd/"&gt;СУБД&lt;/a&gt;&amp;nbsp;или
+особыми форматами файлов. Основные
+представители:&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/2a0c794c/" rel="nofollow" target="_blank" title="http://basho.com/products/riak-overview"&gt;Riak&lt;/a&gt;&amp;nbsp;&lt;em&gt;(Google LevelDB)&lt;/em&gt;,&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/4cab48f4/" rel="nofollow" target="_blank" title="http://couchdb.apache.org"&gt;CouchDB&lt;/a&gt;&amp;nbsp;&lt;em&gt;(свой
+формат)&lt;/em&gt;,&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/5d81862f/" rel="nofollow" target="_blank" title="http://www.erlang.org/doc/man/mnesia.html"&gt;Mnesia&lt;/a&gt;&amp;nbsp;&lt;em&gt;(DETS)&lt;/em&gt;,&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/2d0bf326/" rel="nofollow" target="_blank" title="http://www.couchbase.com"&gt;Couchbase&lt;/a&gt;&amp;nbsp;&lt;em&gt;(memcached
+и SQLite)&lt;/em&gt; - все совершенно разные, обсуждать и сравнивать можно до
+бесконечности, так что оставим это на другой раз.&lt;/p&gt;
+&lt;p&gt;Из общих особенностей вышеперечисленных решений можно выделить:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Прозрачная &lt;em&gt;горизонтальная масштабируемость&lt;/em&gt;;&lt;/li&gt;
+&lt;li&gt;Настраиваемый уровень &lt;em&gt;репликации&lt;/em&gt; данных;&lt;/li&gt;
+&lt;li&gt;Обычно &lt;em&gt;доступность&lt;/em&gt; и &lt;em&gt;персистентность&lt;/em&gt; в ущерб строгой целостности
+    (AP из CAP-теоремы);&lt;/li&gt;
+&lt;li&gt;Поддержка &lt;em&gt;сложных распределенных выборок&lt;/em&gt;
+    (&lt;a href="/tag/mapreduce/"&gt;MapReduce&lt;/a&gt;, многокритериальная
+    фильтрация,&amp;nbsp;полнотекстный&amp;nbsp;поиск и т.п., за исключением Couchbase)&lt;/li&gt;
+&lt;li&gt;Способность легко справляться с большим &lt;em&gt;потоком изменений данных&lt;/em&gt;
+    (за исключением, пожалуй, CouchDB);&lt;/li&gt;
+&lt;li&gt;Отсутствие строгой схемы данных и SQL-подобного интерфейса.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="podvodim-itogi_1"&gt;Подводим итоги&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Erlang&lt;/strong&gt; в умелых руках может послужить и правда удачным решением для
+реализации многих аспектов интернет-проектов, благодаря качественной,
+проверенной временем, основе в виде виртуальной машины и OTP, а также
+продуманной модели легковесных процессов. &lt;em&gt;В результате получаются
+высокопроизводительные, горизонтально масштабируемые приложения,
+полностью приспособленные для стабильной бесперебойной работы в боевых
+условиях.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Высокий барьер обучения специалистов по-прежнему остается весомым
+аргументом "против", но если в проекте команда разработчиков уровня выше
+среднего -&amp;nbsp;вряд ли&amp;nbsp;это станет серьезным препятствием. Недостаток
+"готовых" квалифицированных специалистов по Erlang на трудовом рынке
+также не особо радует, но ситуация определенно постепенно улучшается.&lt;/p&gt;
+&lt;p&gt;В комментариях предлагаю обсудить по каким еще причинам на сегодняшний
+день Erlang столь редко можно увидеть в технологическом стеке
+интернет-проектов? Какие еще вопросы смущают руководство и
+разработчиков? В каких ситуациях преодоление сложностей и ограничений,
+связанных с Erlang, того стоит?&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Эта статья определенно будет далеко не последней про Erlang, так что
+если эта тема Вам близка - рекомендую &lt;a href="/feed/"&gt;подписаться на RSS&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sat, 17 Mar 2012 19:43:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-03-17:erlang/2012/erlang-v-internet-proektakh/</guid><category>Beam</category><category>DETS</category><category>Erlang</category><category>ERTS</category><category>ETS</category><category>EVM</category><category>Mnesia</category><category>OTP</category><category>VM</category></item><item><title>RabbitMQ</title><link>https://www.insight-it.ru//erlang/2012/rabbitmq/</link><description>&lt;p&gt;Когда веб-приложение перестает быть просто коллекцией скриптов,
+генерирующих HTML, встает вопрос о взаимодействии различных компонентов
+системы. Есть два основных подхода:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;обращение &lt;strong&gt;напрямую&lt;/strong&gt; посредством протоколов вроде
+    &lt;a href="/tag/thrift/"&gt;Thrift&lt;/a&gt; или &lt;a href="/tag/protocol-buffers/"&gt;Protocol Buffers&lt;/a&gt;;&lt;/li&gt;
+&lt;li&gt;либо посредством &lt;strong&gt;брокера сообщений&lt;/strong&gt;, посредника, берущего на себя
+    вопросы их маршрутизации и доставки одному или нескольким
+    получателям, даже в случае сбоев оборудования и недоступности
+    сетевого соединения.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Сегодня я хотел бы рассказать об одной из лучших, на мой взгляд,
+реализаций брокера сообщений, &lt;strong&gt;RabbitMQ&lt;/strong&gt;. Хотите узнать почему я так
+считаю? - Дочитайте до конца :)&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h2 id="osnovnye-poniatiia"&gt;Основные понятия&lt;/h2&gt;
+&lt;p&gt;Слоганом &lt;a href="https://www.insight-it.ru/goto/4799c299/" rel="nofollow" target="_blank" title="http://www.rabbitmq.com"&gt;&lt;strong&gt;RabbitMQ&lt;/strong&gt;&lt;/a&gt; является &lt;em&gt;"обмен
+сообщениями, который просто работает"&lt;/em&gt;. Отчасти с этим утверждением
+можно согласиться, для того чтобы сервис обмена сообщениями "просто
+заработал" достаточно простой команды &lt;code&gt;aptitude install rabbitmq-server&lt;/code&gt; или аналога для операционных систем, не основанных на
+&lt;a href="/tag/debian/"&gt;Debian&lt;/a&gt;. Но кому этого будет достаточно? Как минимум
+нужно научить свой проект эти сообщения отправлять и принимать, а как
+максимум - обрабатывать десятки и сотни тысяч сообщений в секунду, но
+обо всем по порядку.&lt;/p&gt;
+&lt;p&gt;В основе RabbitMQ лежит протокол &lt;a href="https://www.insight-it.ru/goto/4d3139fc/" rel="nofollow" target="_blank" title="http://www.amqp.org"&gt;AMQP&lt;/a&gt;, который
+вводит&amp;nbsp;три основных понятия:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Сообщение&lt;/strong&gt; &lt;em&gt;(message)&lt;/em&gt;&amp;nbsp;- единица информации, которая передается
+    от отправителя к получателю(ям); состоит из набора заголовков и
+    содержания, которое брокером никак не интерпретируются.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Точка обмена&lt;/strong&gt; &lt;em&gt;(exchange)&lt;/em&gt;&amp;nbsp;- распределяет отправленные сообщения
+    между одной или несколькими очередями в соответствии с их
+    заголовками.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Очередь&lt;/strong&gt; &lt;em&gt;(queue)&lt;/em&gt;&amp;nbsp;- место, где хранятся сообщения до тех пор,
+    пока их не заберет получатель.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Базовые механизмы взаимодействия с брокером очень просты:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Отправить сообщение&lt;/strong&gt; &lt;em&gt;(publish)&lt;/em&gt; - сообщение сериализуется в
+    определенный формат, при необходимости снабжается маршрутной меткой
+    &lt;em&gt;(routing key)&lt;/em&gt;&amp;nbsp;и передается в RabbitMQ;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Получать сообщение&lt;/strong&gt; &lt;em&gt;(consume или subscribe)&lt;/em&gt; - приложение
+    регистрируется в RabbitMQ с указанием какие именно сообщения оно
+    готово получать и обрабатывать, после чего ожидает их доставки.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Перед началом любого взаимодействия с брокером клиент должен указать
+какая точка обмена должна заниматься обработкой его сообщений, что при
+необходимости её и зарегистрирует. При этом он указывает её название и
+тип, которых доступно три:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Отправка всем&lt;/strong&gt; &lt;em&gt;(fanout)&lt;/em&gt; - как следует из названия, каждое
+    сообщение получат все очереди, связанные с данной точкой обмена,
+    типичная публикация-подписка &lt;em&gt;(publish-subscribe)&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Прямая&lt;/strong&gt; &lt;em&gt;(direct)&lt;/em&gt;&amp;nbsp;- сообщение получит только та очередь, которая
+    имеет название, соответствующее маршрутной метке сообщения, типичная
+    очередь сообщений &lt;em&gt;(message queue).&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Тематическая&lt;/strong&gt; &lt;em&gt;(topic)&lt;/em&gt; - очереди при регистрации указывают
+    паттерн маршрутных меток сообщений, которые они хотели бы получать.
+    Этот механизм позволяет наиболее гибко управлять маршрутизацией
+    сообщений и строить нетривиальные схемы доставки. Вместо регулярных
+    выражений используется очень простая схема: метки в виде слов,
+    разделенных точками; в паттерне &lt;code&gt;*&lt;/code&gt; заменяет ровно одно слово, &lt;code&gt;#&lt;/code&gt; -
+    ноль или больше; при отсутствии этих символов работает как прямая
+    точка обмена.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="card blue lighten-4"&gt;
+&lt;p&gt;&lt;div class="card-content"&gt;
+Если Вашему приложению достаточно простых подписки-публикации или
+очереди сообщений, а также нет необходимости гарантировать доставку
+сообщений или обрабатывать потоки сообщений, превышающие возможности
+одного сервера, то можно рассмотреть более простые в эксплуатации
+решения, не основанные на AMQP. В такой ситуации я рекомендовал бы
+первым делом взглянуть на &lt;a href="/tag/redis/"&gt;Redis&lt;/a&gt;. Если это не про Вас, то
+продолжаем разбираться с RabbitMQ.
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;h2 id="tipichnye-stsenarii"&gt;Типичные сценарии&lt;/h2&gt;
+&lt;h3 id="vypolnenie-dlitelnykh-operatsii"&gt;Выполнение длительных операций&lt;/h3&gt;
+&lt;p&gt;Представим себя интернет-проектом, который размещает у себя
+пользовательские видео или фото. Когда он получает по HTTP очередной
+файл, ему требуется сконвертировать его в стандартный формат для
+просмотра другими пользователями, а также, например, сделать несколько
+превью разного размера.&lt;/p&gt;
+&lt;p&gt;По-старинке эти операции делают последовательно в том же обработчике
+запроса, который и принял от пользователя файл. В схеме с брокером же
+после принятия файла он отправляет сообщение, в содержании которого
+будет, вероятно, ссылка на файла-оригинал, после чего он возвращает
+браузеру сообщение об успешной загрузке файла. Для отправки таких
+сообщений используют &lt;strong&gt;прямую точку обмена&lt;/strong&gt;, с какой-то стандартной
+маршрутной меткой и соответствующим именем очереди, например
+&lt;code&gt;process_video&lt;/code&gt; или &lt;code&gt;create_thumbnails&lt;/code&gt;. Процессы, реализующие совершенно
+независимый сервис по выполнению этих длительных операций, будут по
+очереди забирать сообщения с "заданиями" из брокера, позволяя легко
+создавать любое количество исполнителей c &lt;strong&gt;балансировкой нагрузки&lt;/strong&gt;,
+что обеспечит горизонтальное масштабирование этой подсистемы.&lt;/p&gt;
+&lt;p&gt;Еще один доступный механизм, который вписывается в эту задачу -
+&lt;strong&gt;подтверждение о получении сообщения&lt;/strong&gt; &lt;em&gt;(acknowledgement)&lt;/em&gt;. Получатель
+должен отправить брокеру&amp;nbsp;дополнительное сообщение о том, что такое-то
+сообщение было успешно получено, в противном случае оно останется в
+очереди ожидать следующего получателя. Если процессы-исполнители будут
+подтверждать получение только после успешного выполнения длительной
+операции, это будет гарантировать, что все задания будут успешно
+выполнены вне зависимости от сбоев на каждом конкретном исполнителе, что
+обеспечивает &lt;strong&gt;отказоустойчивость&lt;/strong&gt;.&lt;/p&gt;
+&lt;h3 id="udalennyi-vyzov-rpc"&gt;Удаленный вызов (RPC)&lt;/h3&gt;
+&lt;p&gt;Для некоторых приложений важно не только отправить запрос на выполнение
+какой-то операции, но и получить в ответ какой-то результат. На самом
+деле использование брокера сообщений в этой ситуации не всегда является
+удачным решением, проще делать это напрямую посредством других
+технологий. Но если в системе итак присутствует брокер, а для удаленного
+вызова нет строгих требований по времени выполнения, плюс хочется
+подобно предыдущему примеру легко получить отказоустойчивость и
+балансировку нагрузки, то можно реализовать удаленный вызов и через
+брокер сообщений.&lt;/p&gt;
+&lt;p&gt;Для этого предусмотрено два заголовка сообщений:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Обратный адрес&lt;/strong&gt; &lt;em&gt;(reply to)&lt;/em&gt; - исполнитель должен отправить
+    результат в очередь с указанным именем; отравитель сразу же после
+    передачи сообщения-запроса брокеру начинает получать сообщения из
+    указанной в этом заголовке очереди.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Идентификатор запроса&lt;/strong&gt; &lt;em&gt;(correlation id)&lt;/em&gt; - должен быть
+    уникальным среди запросов, чтобы отправитель мог сопоставить
+    результаты с запросами.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="soobshcheniia-polzovateliam"&gt;Сообщения пользователям&lt;/h3&gt;
+&lt;p&gt;Очереди можно использовать как входящие почтовые ящики для пользователей
+веб-приложений. Какие-то компоненты системы или другие пользователи с
+использованием &lt;em&gt;прямой точки обмена&lt;/em&gt; отправляют сообщения в очереди,
+содержащие в названии уникальный идентификатор пользователя-получателя.
+Там они ожидают пока он их не прочитает, например, зайдя на определенную
+страницу сайта.&lt;/p&gt;
+&lt;p&gt;В этом примере очень важно использовать режим постоянных сообщений
+&lt;em&gt;(persistant, путем установки заголовка &lt;code&gt;delivery_mode=2&lt;/code&gt;)&lt;/em&gt;, так как
+получатель сообщения может появиться очень не скоро и важно чтобы
+сообщения "переживали" даже полный перезапуск брокера сообщений. Для
+более короткоживущих сообщений это менее критично, но тоже порой
+актуально, особенно как еще одна мера для обеспечения
+&lt;strong&gt;отказоустойчивости&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Пример хоть и немного оторванный от реальности из-за очистки почтового
+ящика после каждого прочтения, но в каких-то ситуациях все же может
+иметь право на существование.&lt;/p&gt;
+&lt;h3 id="dvustoronnee-soedinenie-s-brauzerom"&gt;Двустороннее соединение с браузером&lt;/h3&gt;
+&lt;p&gt;Пожалуй, самый "вкусный" пример, хоть и лежащий на поверхности. На
+многих крупных &lt;a href="https://www.insight-it.ru/highload/"&gt;интернет-проектах&lt;/a&gt;, особенно социальной направленности можно увидеть уведомления &lt;em&gt;в реальном времени&lt;/em&gt; о событиях на сайте - кто-то что-то написал, поставил +1, проголосовал и т.п.&lt;/p&gt;
+&lt;p&gt;Реализация этого функционала требует довольно серьезной работы как на
+стороне браузера, так и на серверной стороне. Браузерный вопрос выходит
+за рамки этой статьи (хотя тут у меня тоже есть что рассказать,
+отдельным постом когда-нибудь обязательно напишу), а вот на серверной
+стороне брокер сообщений окажется очень даже кстати, особенно в
+реализации RabbitMQ.&lt;/p&gt;
+&lt;p&gt;На серверной части эта задача делится на две части:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Поддерживать &lt;strong&gt;постоянное соединение&lt;/strong&gt; со всеми пользователями, кто
+    находится онлайн - здесь на помощь обычно приходит либо
+    &lt;a href="/tag/erlang/"&gt;Erlang&lt;/a&gt;, либо неблокирующий сервер на
+    &lt;a href="/tag/epoll/"&gt;epoll&lt;/a&gt;. Оба варианта очень неплохие, выбирайте сами.&lt;/li&gt;
+&lt;li&gt;Дальше нужно как-то организовать &lt;strong&gt;доставку сообщений&lt;/strong&gt; (информацию
+    о событиях в системе) между пользователями, где и вступает в игру
+    брокер. Обработчик соединения подписывается на сообщения о публичных
+    событиях (точка обмена "отправить всем"), и туда же отправляет
+    информацию о действиях пользователя-владельца.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Чем больше пользователей онлайн, тем больше сообщений в единицу времени
+будет проходить через брокер. Один сервер перестанет справляться
+довольно быстро, так что следующий раздел статьи окажется очень кстати.&lt;/p&gt;
+&lt;h2 id="klasterizatsiia_1"&gt;Кластеризация&lt;/h2&gt;
+&lt;p&gt;Многое из вышеизложенного справедливо и для других реализаций
+&lt;a href="/tag/amqp/"&gt;AMQP&lt;/a&gt;, но в вопросе кластеризации &lt;strong&gt;RabbitMQ&lt;/strong&gt; предстает во
+всей красе. Залогом этого в первую очередь является использование
+&lt;a href="/tag/erlang/"&gt;Erlang&lt;/a&gt;, не знаю почему я до сих пор не написал статью
+про этот язык программирования, здесь достаточно было бы на нее
+сослаться и все стало бы ясно.&lt;/p&gt;
+&lt;p&gt;Если вкратце, то в Erlang реализована внутренняя система легковесных
+процессов, не имеющая общего состояния и взаимодействующая друг с другом
+&lt;em&gt;исключительно&lt;/em&gt; посредством обменом сообщений. При этом с точки
+разработчика отправка сообщений другому процессу на том же физическом
+сервером и на удаленном выглядит одинаково, и даже является одним из
+операторов языка - "!", наравне с "=", "+" и.т.п. Этот факт позволяет
+приложениям или их частям взаимодействовать по сети так же легко, как и
+в рамках одного сервера.&lt;/p&gt;
+&lt;p&gt;Чтобы определить разрешено ли разным Erlang-сервера взаимодействовать
+друг с другом, они обмениваются хэшем пароля (который правда называют
+&lt;strong&gt;cookie&lt;/strong&gt;, хотя с одноименным механизмом браузеров он ничего общего не
+имеет)&amp;nbsp;и продолжают работу только если он совпал. Он должен быть
+одинаковым на всех узлах и хранится в файле &lt;code&gt;~/.erlang.cookie&lt;/code&gt;, для
+RabbitMQ это обычно &lt;code&gt;/var/lib/rabbitmq/.erlang.cookie&lt;/code&gt; - первым делом
+нужно решить этот вопрос, а также убедиться, что используется
+нестандартное значение.&lt;/p&gt;
+&lt;p&gt;Узлы в RabbitMQ кластере могут быть двух типов: работающие только &lt;strong&gt;в
+памяти&lt;/strong&gt; и сохраняющие данные &lt;strong&gt;на диск&lt;/strong&gt;. Так как состояние системы
+реплицируется между узлами кластера, в большинстве случаев достаточно
+иметь лишь 2-3 дисковых узла, а остальные избавить от необходимости
+работать с дисковой подсистемой для увеличения производительности.&lt;/p&gt;
+&lt;p&gt;Важно понимать, что под состоянием системы здесь имеются ввиду лишь
+привязки и настройки брокеров, каждая же очередь и хранящиеся в ней
+сообщения располагаются на одном конкретном узле, что приведет к потери
+части сообщений при сбое одного из серверов. Этот вопрос можно решить и
+средствами операционной системы, но чаще всего правильнее выделить
+критически-важные для системы очереди сообщений и включить их репликацию
+средствами RabbitMQ, этот механизм называется &lt;a href="https://www.insight-it.ru/goto/3ff295d5/" rel="nofollow" target="_blank" title="http://www.rabbitmq.com/ha.html"&gt;&lt;strong&gt;зеркальные очереди&lt;/strong&gt;&lt;/a&gt; &lt;em&gt;(mirrored queues)&lt;/em&gt;. &amp;nbsp;Репликация происходит по принципу &lt;strong&gt;мастер-слуга&lt;/strong&gt; &lt;em&gt;(master-slave)&lt;/em&gt;,
+как и в реляционных СУБД: все операции осуществляются на основном
+сервере (мастере), он транслирует их на один или несколько вторичных
+серверов (слуги), при каком-либо сбое на основном один из слуг
+"повышается" до статуса мастера и берет на себя его функции. Очереди
+могут быть объявлены зеркальными только при создании, но новые узлы в
+роли слуг могут добавляться и позже, в таком случае новый слуга начнет
+получать входящие сообщения и рано или поздно начнет полностью отражать
+его состояние, механизма синхронизации при подключении дополнительного
+слуги не предусмотрено. Последним шагом для гарантированной доставки
+сообщений, не упоминавшимся ранее, является механизм&amp;nbsp;&lt;strong&gt;уведомления
+отправителя об успешной записи сообщения&lt;/strong&gt; в очередь (на все сервера для
+зеркальных).&lt;/p&gt;
+&lt;p&gt;В кластерном окружении может понадобиться &lt;strong&gt;объединение точек обмена&lt;/strong&gt;
+&lt;em&gt;(exchange federation)&lt;/em&gt;, что реализуется посредством пересылки сообщений
+по однонаправленным связям. При этом учитывается наличие на принимающей
+стороне очередей, готовых принять каждое конкретное сообщение.
+Практического применения в веб-проектах этому пока особо не вижу, разве
+что при кросс-датацентровой работе. Кстати, для этого поддерживается
+работа поверх &lt;a href="https://www.insight-it.ru/goto/c397c12c/" rel="nofollow" target="_blank" title="http://www.rabbitmq.com/ssl.html"&gt;SSL&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Для подключения узлов к кластеру можно использовать консольную утилиту
+(для временных изменений) или конфигурационные файлы (для постоянных
+настроек), подробно &lt;a href="https://www.insight-it.ru/goto/db4a1208/" rel="nofollow" target="_blank" title="http://www.rabbitmq.com/clustering.html"&gt;останавливаться не буду&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id="podvodim-itogi"&gt;Подводим итоги&lt;/h2&gt;
+&lt;p&gt;Используя брокер сообщений при технической реализации интернет-проекта,
+можно перевести его на совершенно новый уровень с точек зрения
+&lt;em&gt;отказоустойчивости&lt;/em&gt; и &lt;em&gt;горизонтальной масштабируемости&lt;/em&gt;. Во многих
+случаях он становится "сердцем" приложения, без которого его
+существование было бы немыслимо, но в то же время благодаря
+кластеризации не становится &lt;strong&gt;единственной точкой отказа&lt;/strong&gt; &lt;em&gt;(single
+point of failure)&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Хоть многое из упомянутого в статье можно реализовать и с помощью других
+технологий, &lt;strong&gt;RabbitMQ&lt;/strong&gt; является наиболее приспособленной к реалиям
+современного Интернета реализацией брокера сообщений и AMQP в частности,
+в первую очередь благодаря распределенной природе Erlang и качественно
+спроектированной архитектуре этого продукта.&lt;/p&gt;
+&lt;p&gt;В комментариях с удовольствием обсудил бы применение RabbitMQ и других
+брокеров сообщения в различных практических ситуациях; еще можно
+подискутировать по поводу его преимуществ и недостатков по сравнению с
+альтернативами, в каких ситуациях это проявляется.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Жду Вас среди &lt;a href="/feed/"&gt;постоянных читателей Insight IT&lt;/a&gt;, число
+которых недавно перевалило за 14 тысяч :)&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sat, 10 Mar 2012 01:19:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-03-10:erlang/2012/rabbitmq/</guid><category>AMQP</category><category>Erlang</category><category>RabbitMQ</category><category>брокер</category><category>брокер сообщений</category><category>обмен сообщениями</category><category>сообщения</category></item><item><title>Архитектура Twitter</title><link>https://www.insight-it.ru//highload/2008/arkhitektura-twitter/</link><description>&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/c2919313/" rel="nofollow" target="_blank" title="https://www.twitter.com"&gt;Twitter&lt;/a&gt; стартовал как побочный подпроект, но
+не смотря на это темпы его роста были впечатляющими: путь от 0 до
+миллионов просмотров страниц занял всего несколько коротких месяцев.
+Ранние решения о проектировании системы неплохо справлялись с небольшими
+нагрузками, но они быстро таяли под напором огромного количества
+пользователей, желающих разослать весточки всем своим друзьям с ответом
+на простой вопрос: а чем ты занимаешься?&lt;/p&gt;
+&lt;p&gt;Поначалу все винили &lt;a href="/tag/ror/"&gt;Ruby on Rails&lt;/a&gt; во всех проблемах с
+масштабированием, но Blaine Cook, главный архитектор Twitter, встал на
+его защиту:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Основной для нас на самом деле является проблема горизонтального
+масштабирования, с этой точки зрения &lt;a href="/tag/ror/"&gt;Ruby on Rails&lt;/a&gt; ничем
+не хуже других языков программирования или framework'ов: переход на
+"более быстрый" язык программирования дал бы нам 10-20% прирост
+производительности, в то время архитектурные преобразования, легко
+реализованные средствами &lt;a href="/tag/ror/"&gt;Ruby on Rails&lt;/a&gt;, сделали Twitter
+быстрее на 10000%.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Даже если &lt;a href="/tag/ror/"&gt;Ruby on Rails&lt;/a&gt; оказался невиновен, как же тогда
+Twitter научился с его помощью рости до все больших и больших высот?
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;h3 id="istochniki-informatsii"&gt;Источники информации&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;Этот текст является продолжением &lt;a href="https://www.insight-it.ru/highload/"&gt;серии переводов&lt;/a&gt;, автор
+&lt;a href="https://www.insight-it.ru/goto/9736f7f8/" rel="nofollow" target="_blank" title="http://highscalability.com/scaling-twitter-making-twitter-10000-percent-faster"&gt;оригинала&lt;/a&gt; -
+Todd Hoff. На этот раз написать что-либо своими силами у меня не
+сложилось, все мысли ушли на другой пост, который я скоро опубликую, а
+перевод этот получился несколько менее строгим, чем обычно, но я думаю
+ничего страшного.&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/1a76cc37/" rel="nofollow" target="_blank" title="http://video.google.com/videoplay?docid=-7846959339830379167"&gt;Scaling Twitter Video&lt;/a&gt;
+    от Blaine Cook.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/a004222e/" rel="nofollow" target="_blank" title="http://www.slideshare.net/Blaine/scaling-twitter"&gt;Scaling Twitter Slides&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/7541c4c6/" rel="nofollow" target="_blank" title="http://talklikeaduck.denhaven2.com/articles/2007/06/22/good-news"&gt;Good News&lt;/a&gt;
+    блог пост от Rick Denatale&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/96735c2c/" rel="nofollow" target="_blank" title="http://pragmati.st/2007/5/20/scaling-twitter"&gt;Scaling Twitter&lt;/a&gt; блог
+    пост от Patrick Joyce&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/7267856d/" rel="nofollow" target="_blank" title="http://readwritetalk.com/2007/09/05/biz-stone-co-founder-twitter/"&gt;Twitter API Traffic is 10x Twitter&amp;rsquo;s Site&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/5eb63819/" rel="nofollow" target="_blank" title="http://www.slideshare.net/britt/a-small-talk-on-getting-big-113066"&gt;A Small Talk on Getting Big. Scaling a Rails App &amp;amp; all that Jazz&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="platforma"&gt;Платформа&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/ruby-on-rails/"&gt;Ruby on Rails&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/erlang/"&gt;Erlang&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/mongrel/"&gt;Mongrel&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/munin/"&gt;Munin&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/nagios/"&gt;Nagios&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/google-analytics/"&gt;Google Analytics&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/awstats/"&gt;AWStats&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/memcached/"&gt;Memcached&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="statistika"&gt;Статистика&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Более 350000 пользователей. Точная цифра, как обычно, держится в
+    секрете.&lt;/li&gt;
+&lt;li&gt;Около 600 запросов в секунду.&lt;/li&gt;
+&lt;li&gt;В среднем система поддерживает 200-300 соединений в секунду.
+    Максимум обычно достигается при значении 800.&lt;/li&gt;
+&lt;li&gt;MySQL обрабатывает примерно 2400 запросов в секунду.&lt;/li&gt;
+&lt;li&gt;180 экземпляров приложений на Rails, использующих Mongrel как
+    веб-сервер.&lt;/li&gt;
+&lt;li&gt;1 MySQL сервер (одна большая машина с 8 ядрами) и 1 slave,
+    используемый лишь для статистики и отчетов.&lt;/li&gt;
+&lt;li&gt;30+ процессов для выполнения произвольных работ.&lt;/li&gt;
+&lt;li&gt;8 Sun X4100&lt;/li&gt;
+&lt;li&gt;Обработка запроса обычно занимает у Rails 200 миллисекунд.&lt;/li&gt;
+&lt;li&gt;В среднем ответ на запрос к базе данных занимает 50-100 миллисекунд.&lt;/li&gt;
+&lt;li&gt;Более 16 GB выделено под &lt;a href="/tag/memcached/"&gt;memcached&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="arkhitektura"&gt;Архитектура&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Проект столкнулся с массой проблем, связанных с масштабируемостью.
+    Маленькая птичка частенько давала сбои.&lt;/li&gt;
+&lt;li&gt;Изначально не было реализовано никаких форм мониторинга, графиков
+    или статистики, это очень затрудняло обнаружение м решение
+    возникающих проблем. Впоследствии были внедрены &lt;a href="/tag/munin/"&gt;Munin&lt;/a&gt;
+    и &lt;a href="/tag/nagios/"&gt;Nagios&lt;/a&gt;. Разработчики столкнулись с некоторыми
+    трудностями при использовании этих продуктов в
+    &lt;a href="/tag/solaris/"&gt;Solaris&lt;/a&gt;. Помимо этого был использован сервис Google
+    Analytics, но от него обычно мало толку, особенно когда страницы
+    даже не загружаются.&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Активное использование кэширования средствами &lt;a href="/tag/memcached/"&gt;memcached&lt;/a&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Например, если подсчет количества чего-либо выполняется медленно,
+намного эффективнее один раз запомнить результат в
+&lt;a href="/tag/memcached/"&gt;memcached&lt;/a&gt;, чем каждый раз считать его заново.&lt;/li&gt;
+&lt;li&gt;Получение информации о статусе своих друзей - непростая задача.
+Вместо использования запросов информация о статусе друзей
+обновляется в кэше. База данных совсем не используется. Такой подход
+позволяет получить предсказуемое время отклика (ограниченное сверху примерно 20 миллисекундами).&lt;/li&gt;
+&lt;li&gt;Объекты ActiveRecord настолько велики, что кэширование их
+нецелесообразно. Критичные атрибуты хранятся в хэше, а остальная их часть подвергается "ленивой загрузке" в момент запроса на доступ.&lt;/li&gt;
+&lt;li&gt;90% запросов являются запросами к API. Таким образом кэширование
+страниц или их фрагментов становится бессмысленным, зато никто не мешает им кэшировать сами API запросы.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Внутренняя организация работы с сообщениями:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Сообщения очень активно используются: производители генерируют
+сообщения, они образуются в очереди, а затем распространяются по
+потребителем.&lt;/li&gt;
+&lt;li&gt;Основная функция Twitter заключается в реализации
+своеобразного моста между различными форматами электронных сообщений
+(SMS, электронная почта, сервисы мгновенного обмена сообщениями и так далее).&lt;/li&gt;
+&lt;li&gt;Чтобы инвалидировать в кэше информацию можно просто отправить внутреннее сообщение, зачем выполнять все действия синхронно?&lt;/li&gt;
+&lt;li&gt;Изначально этот механизм основывался на DRb (distributed Ruby) -
+библиотека, позволяющая отправлять и принимать сообщения сообщения
+между удаленными Ruby-объектами по TCP/IP. Но она была несколько
+странноватой, да и являлось потенциально слабым местом с точки зрения стабильности.&lt;/li&gt;
+&lt;li&gt;Со временем сервис перевели на Rinda, представляющую собой набор
+общих для всей системы очередей. Но и у нее были недостатки: все очереди были постоянными, а данные терялись при сбоях.&lt;/li&gt;
+&lt;li&gt;Следующей попыткой был Erlang. Но однажды возникла проблема: каким
+образом сломавшийся сервер может продолжать работать, но при этом в
+очереди откуда-то возникли целых 20000 ожидающих пользователей? Разработчики не знали. На лицо явный недостаток документации...&lt;/li&gt;
+&lt;li&gt;В конце концов решение было разработано своими силами: Twitter
+выпустил &lt;a href="/tag/starling/"&gt;Starling&lt;/a&gt;, распределенный легковесный
+сервер очередей, написанный на Ruby и поддерживающий протокол memcache. Сейчас серверная часть Twitter управляется именно им.&lt;/li&gt;
+&lt;li&gt;Распределенные очереди позволяют переживать сбои путем записи их
+на диск в критических ситуациях. Другие крупные интернет-проекты также часто пользуются таким подходом.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Работа с SMS осуществляется с помощью сторонних сервисов и
+    предоставляемых ими шлюзов. Достаточно дорогое удовольствие.&lt;/li&gt;
+&lt;li&gt;Развертывание:&lt;ul&gt;
+&lt;li&gt;Просто запускаются дополнительные сервера с mongrel, более элегантного решения пока нет.&lt;/li&gt;
+&lt;li&gt;Все внутренние ошибки выдаются пользователям, если обслуживающий
+их mongrel сервер на данный момент заменяется.&lt;/li&gt;
+&lt;li&gt;Все сервера останавливаются одновременно. Отключение их по одному
+по определенным причинам не используется.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Неправильное использование сервиса:&lt;ul&gt;
+&lt;li&gt;Много времени сервис был не доступен, так как люди проходились
+специальными программами по сайту с целью добавить всех кто
+попадался под руку в друзья. 9000 друзей за 24 часа. Это
+просто-напросто останавливало работу сайта.&lt;/li&gt;
+&lt;li&gt;Были разработаны средства для своевременного обнаружения таких
+ситуаций.&lt;/li&gt;
+&lt;li&gt;Будте беспощадными, таких пользователей нужно просто удалять.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Сегментирование:&lt;ul&gt;
+&lt;li&gt;Пока оно только в планах, сейчас оно не используется.&lt;/li&gt;
+&lt;li&gt;В будущем оно будет основываться на времени, а не на
+пользователях, так как запросы обычно очень локальны по времени.&lt;/li&gt;
+&lt;li&gt;Сегментирование будет не так просто реализовать благодаря
+автоматическому запоминанию результатов выполнения функций для
+последующего повторного их использования. Никто не даст гарантии,
+что операции "только для чтения" на самом деле будут таковыми
+являться. Запись в slave, работающий в режиме read-only, - не самая
+лучшая идея.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;API Twitter генерирует в 10 раз больше трафика, чем сам сайт.&lt;ul&gt;
+&lt;li&gt;Их API - самая важная вещь из всех, что они разработали.&lt;/li&gt;
+&lt;li&gt;Простота сервиса позволила разработчикам строить свои приложения
+поверх инфраструктуры Twitter, привнося все новые и новые идеи.
+Например, Twitterrific - красивый способ использовать Twitter в
+небольшой команде.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Мониторинг используется для остановки слишком больших процессов.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="podvodim-itogi"&gt;Подводим итоги&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Общайтесь со своим сообществом. Не прячьтесь и не пытайтесь решить
+    абсолютно все проблемы самостоятельно. Много отличных людей будут
+    готовы помочь, достаточно лишь попросить.&lt;/li&gt;
+&lt;li&gt;Рассматривайте вашу стратегию масштабирования как бизнес-план.
+    Соберите советы помощников для того чтобы облегчить для себя
+    принятие решений.&lt;/li&gt;
+&lt;li&gt;Стройте свой проект сами. Twitter потратил много времени, пытаясь
+    приспособить готовые решения других людей, которые казалось бы
+    должны работать, но это оказалось не совсем так. Лучше построить
+    какие-то вещи самостоятельно, чтобы иметь высокую степень контроля
+    над ситуацией и иметь возможность привносить новые возможности как
+    только они понадобились.&lt;/li&gt;
+&lt;li&gt;Ставьте перед своими пользователями разумные ограничения. На обычных
+    пользователей это не повлияет, но когда кому-нибудь взбредет в
+    голову попытаться сломать систему (а такой человек рано или поздно
+    найдется) - они сыграют свою роль и спасут работоспособность
+    системы.&lt;/li&gt;
+&lt;li&gt;Не делайте базу данных центральным узким местом системы, врядли Ваше
+    приложение на самом деле требует гигантских операций по объединению
+    данных из нескольких таблиц. Используйте кэширование, или проявите
+    свою смекалку для поиска альтернативных способов достижения того же
+    результата.&lt;/li&gt;
+&lt;li&gt;Предусмотрите возможность сегментирования с самого начала, тогда
+    перед Вами всегда будут открыты пути для дальнейшего
+    масштабирования.&lt;/li&gt;
+&lt;li&gt;Очень важно вовремя осознать, что сайт начинает работать медленно.
+    Сразу стоит задуматься о системе отчетов для отслеживания
+    потенциальных проблем.&lt;/li&gt;
+&lt;li&gt;Оптимизируйте базу данных:&lt;ul&gt;
+&lt;li&gt;Индексируйте все таблицы, Rails не будет делать это за Вас.&lt;/li&gt;
+&lt;li&gt;Используйте "explain" для анализа выполнения запросов. Результаты
+могут не совпадать с Вашими ожиданиями.&lt;/li&gt;
+&lt;li&gt;Денормализуйте данные. Один только этот совет порой может спасти
+ситуацию. Для примера, в Twitter хранят все ID друзей каждого
+пользователя вместе, это позволило избежать многих ресурсоемких
+запросов.&lt;/li&gt;
+&lt;li&gt;Избегайте комплексного объединения данных из нескольких таблиц.&lt;/li&gt;
+&lt;li&gt;Избегайте сканирования больших наборов данных.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Кэшируйте все, что только можно.&lt;/li&gt;
+&lt;li&gt;Тестируйте все максимально тщательно:&lt;ul&gt;
+&lt;li&gt;Когда Вы развертываете приложение, Вы должно быть уверены, что оно
+будет работать корректно.&lt;/li&gt;
+&lt;li&gt;Они используют полный набор средств для тестирования. Таким
+образом, когда произошла неполадка в кэшировании, они узнали о ней
+еще до того как она на самом деле произошла.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Длительно функционирующие процессы стоит оформить в виде daemon'ов.&lt;/li&gt;
+&lt;li&gt;Используйте уведомления об исключительных ситуациях в совокупности с
+    ведением логов, это необходимо для своевременного реагирования на
+    них.&lt;/li&gt;
+&lt;li&gt;Не делайте глупостей!&lt;ul&gt;
+&lt;li&gt;Масштаб проект несколько меняет понятие "глупость".&lt;/li&gt;
+&lt;li&gt;Пытаться загрузить 3000 друзей в память одновременно может
+заставить сервер временно перестать функционировать, хотя когда
+друзей было всего 4 - этот механизм прекрасно работал.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Большая часть производительности зависит не от использованного языка
+    программирования, а от продуманной структуры приложения.&lt;/li&gt;
+&lt;li&gt;Превратите свой сайт в открытый сервис с помощью создания API. Их
+    API является ключом к успеху Twitter. Он позволяет пользователям
+    создавать постоянно расширяющуюся экосистему вокруг Twitter,
+    соревноваться с которой не так-то просто. Вы никогда не сможете
+    сделать столько же работы, сколько смогут Ваши пользователи для Вас,
+    Вам просто не хватит креативных идей. Так что не стесняйтесь,
+    откройте свое приложение и сделайте интеграцию Вашего приложения с
+    другими максимально простой и удобной!&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sat, 10 May 2008 12:36:00 +0400</pubDate><guid>tag:www.insight-it.ru,2008-05-10:highload/2008/arkhitektura-twitter/</guid><category>AWStats</category><category>Erlang</category><category>Google Analytics</category><category>Memcached</category><category>mongrel</category><category>Munin</category><category>MySQL</category><category>Nagios</category><category>Ruby on Rails</category><category>Solaris</category><category>Starling</category><category>Twitter</category><category>архитектура</category><category>архитектура Twitter</category></item></channel></rss>

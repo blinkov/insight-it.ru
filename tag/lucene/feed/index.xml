@@ -1,0 +1,1153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/lucene/feed/index.xml" rel="self"></atom:link><lastBuildDate>Fri, 15 Apr 2011 23:03:00 +0400</lastBuildDate><item><title>Кардинальный переворот в архитектуре поиска Twitter</title><link>https://www.insight-it.ru//highload/2011/kardinalnyjj-perevorot-v-arkhitekture-poiska-twitter/</link><description>&lt;p&gt;Не успел я опубликовать &lt;a href="https://www.insight-it.ru/highload/2011/arkhitektura-twitter-dva-goda-spustya/"&gt;обновление об архитектуре Twitter&lt;/a&gt;, как
+они снова перекроили половину проекта =) На этот раз к паре
+&lt;a href="/tag/ruby/"&gt;Ruby&lt;/a&gt;+&lt;a href="/tag/scala/"&gt;Scala&lt;/a&gt; активно вплелись технологии из
+мира &lt;a href="/tag/java/"&gt;Java&lt;/a&gt;. Наибольшим изменениям подверглась подсистема
+поиска твитов , о которой сегодня и пойдет речь.
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;h2 id="novaia-arkhitektura-poiska-tvitov"&gt;Новая архитектура поиска твитов&lt;/h2&gt;
+&lt;h3 id="backend"&gt;Backend&lt;/h3&gt;
+&lt;p&gt;Поиск осуществляется теперь не с помощью&amp;nbsp;&lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt;-кластера, а посредством версии &lt;a href="/tag/lucene/"&gt;Lucene&lt;/a&gt;, адаптированной для работы в реальном времени. Разработка этой подсистемы началась весной прошлого года, но полноценно использоваться она начала лишь недавно.&lt;/p&gt;
+&lt;p&gt;Так как поиск в Twitter является одной из самых часто используемых поисковых систем в мире (более миллиарда поисковых запросов в день), то требования к новой
+системе поиска были сопоставимо строгими:
+-   Обработка более 12000 запросов в секунду
+-   Индексация потока в 1000 новых твитов в секунду
+-   Задержка между написанием твита и его появлением в индексе должна
+    быть менее 10 секунд&lt;/p&gt;
+&lt;p&gt;Lucene была взята за основу, так как на сегодняшний день это одно из
+лучших решений для реализации поиска в мире opensource. Но в текущей ее
+реализации она не была приспособлена к поиску в реальном времени.
+Команде Twitter пришлось переписать существенную часть основных структур
+в памяти, особенно списки записей. При этом внешний API Lucene остался
+неизменным, что позволило использовать поисковые алгоритмы в практически
+неизменном виде. Среди основных изменений в Lucene можно выделить:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;значительно улучшена производительность сбора мусора;&lt;/li&gt;
+&lt;li&gt;структуры и алгоритмы более не используют блокировки;&lt;/li&gt;
+&lt;li&gt;списки записей с поддержкой обхода в обратном направлении;&lt;/li&gt;
+&lt;li&gt;эффективное раннее прекращение обработки запроса.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Все вышеперечисленные изменения находятся в процессе публикации обратно
+в Lucene, какие-то прямо в основную ветку, какие-то в отдельную для
+поиска в реальном времени.&lt;/p&gt;
+&lt;p&gt;После внедрения этой системы поиск стал потреблять лишь 5% доступных ему
+ресурсов, что оставило приличный запас для роста даже по меркам
+невероятно быстро развивающегося Twitter. Новая подсистема индексации
+способна обрабатывать в 50 раз больше твитов в секунду, чем они получали
+на момент запуска, что также является очень позитивным показателем.
+Помимо улучшения производительности, Lucene повысила и качество поиска,
+а также открыла простор для новых улучшений в этом направлении.&lt;/p&gt;
+&lt;h3 id="frontend"&gt;Frontend&lt;/h3&gt;
+&lt;p&gt;Кардинальный переворот в этой части системы можно описать одной
+фразой:&amp;nbsp;&lt;a href="/tag/ror/"&gt;Ruby on Rails&lt;/a&gt; заменен на Java-сервер, который они
+назвали&amp;nbsp;&lt;a href="/tag/blender/"&gt;Blender&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;За неделю до развертывания Blender, количество поисков по твитам
+существенно возросло из-за &lt;code&gt;#tsunami&lt;/code&gt; в Японии. Среднее время поиска
+достигало 800-900мс.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Blender и #tsunami" class="left" src="https://www.insight-it.ru/images/blender-tsunami.jpg" title="Blender и #tsunami"/&gt;&lt;/p&gt;
+&lt;p&gt;После введения Blender в эксплуатацию среднее время отклика 95% запросов
+упало втрое: до 250мс, при этом уровень использования вычислительных
+ресурсов на frontend серверах упал вдвое. Тот же поток запросов стало
+возможным обрабатывать меньшим количеством серверов.&lt;/p&gt;
+&lt;p&gt;Чтобы понять, откуда взялся такой прирост производительности, необходимо
+показать в чем были слабые стороны старого поиска на Ruby on Rails. На
+каждом frontend сервере было запущено фиксированное количество
+однопоточных Rails процессов, каждый из которых занимался следующим:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;обработкой поисковых запросов&lt;/li&gt;
+&lt;li&gt;синхронным обращением к серверам с индексами&lt;/li&gt;
+&lt;li&gt;агрегацией и составлением результатов&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Они давно понимали, что синхронные запросы ведут к неэффективному
+использованию вычислительных ресурсов. Со временем накопилось много
+технически неудачных моментов, что делало все сложнее введение нового
+функционала и поддержание надежности системы. Blender позволил
+преодолеть эти функции следующим образом:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Создание полностью асинхронного сервиса агрегации.&lt;/strong&gt; Ни один поток
+    не ждет пока осуществятся сетевые операции.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Агрегация результатов с различных сервисов:&lt;/strong&gt; индексы поиска в
+    реальном времени, топа твитов и гео-информации, а также базы данных
+    пользователей и твитов.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Элегантная работа с зависимостями сервисов.&lt;/strong&gt; Алгоритм обработки
+    запросов автоматически обрабатывает зависимости между используемыми
+    сервисами.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="chto-zhe-sobstvenno-predstavliaet-soboi-blender"&gt;Что же, собственно, представляет собой Blender?&lt;/h3&gt;
+&lt;p&gt;Это HTTP и &lt;a href="/tag/thrift/"&gt;Thrift&lt;/a&gt; сервер, разработанный на основе
+&lt;a href="/tag/netty/"&gt;Netty&lt;/a&gt;, масштабируемой неблокирующей клиент-серверной
+библиотеки на Java, позволяющей легко и быстро разрабатывать клиенты и
+серверы для различных протоколов. Выбор пал именно на неё, а не на
+аналоги (например Jetty или Mina) из-за более чистого API, детальной
+документации и, что более важно, так как некоторые другие сервисы в
+Twitter уже используют её. Интеграции с Thrift у нее не было, но этот
+вопрос решился написанием простого кодека, обрабатывающего сообщения на
+низком уровне.&lt;/p&gt;
+&lt;p&gt;Обработка поисковых запросов представляет собой цепочку запросов к
+внутренним сервисами, обработку ответов и генерацию результата.
+Внутренние сервисы имеют зависимости, которые можно представить в виде
+ацикличного направленного графа. После топологической сортировки графа
+Blender получает последовательность выполнения запросов, которые
+назначаются к выполнению в поток Netty, что в совокупности с
+обработчиками событий и образует workflow обработки поисковых запросов.&lt;/p&gt;
+&lt;h2 id="zakliuchenie_1"&gt;Заключение&lt;/h2&gt;
+&lt;p&gt;&lt;img alt="Blender - схема работы" class="right" src="https://www.insight-it.ru/images/blender-workflow.jpg" title="Blender - схема работы"/&gt;
+Эта диаграмма демонстрирует текущую архитектуру поиска с использованием
+Blender и Lucene: все входящие поисковые запросы проходят через
+аппаратный балансировщик нагрузки и попадают в Blender, где они
+анализируются и перераспределяются между внутренними сервисами с
+использованием workflow для обработки зависимостей и генерации
+результатов.&lt;/p&gt;
+&lt;p&gt;На моей памяти эти нововведения в Twitter - практически единственный
+случай, когда крупный успешный проект настолько кардинально поменял
+основную часть стека используемых технологий. Да, они получили
+существенный выигрыш в производительности не в ущерб масштабируемости,
+но не поменяли же они большую часть команды разработчиков с
+Ruby-программистов на Java-программистов... Понятно, что это лишь
+инструменты, но довольно приличная часть людей, особенно те, кто в
+возрасте, не способны резко переключиться с привычных технологий на
+что-то совершенно новое. Хотя, скорее всего, в команде Twitter особо не
+было разработчиков "за 40", так что для них это не было особой
+проблемой.&lt;/p&gt;
+&lt;h2 id="istochnik-informatsii"&gt;Источник информации&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/681764e5/" rel="nofollow" target="_blank" title="http://engineering.twitter.com/2011/04/twitter-search-is-now-3x-faster_1656.html"&gt;Twitter Search 3x Faster&lt;/a&gt; (cпасибо Сергею Гуляеву за предоставленную ссылку)&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/1abfdd46/" rel="nofollow" target="_blank" title="http://engineering.twitter.com/2010/10/twitters-new-search-architecture.html"&gt;Twitter's New Search Architecture&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Fri, 15 Apr 2011 23:03:00 +0400</pubDate><guid>tag:www.insight-it.ru,2011-04-15:highload/2011/kardinalnyjj-perevorot-v-arkhitekture-poiska-twitter/</guid><category>Blender</category><category>Lucene</category><category>netty</category><category>Twitter</category></item><item><title>Архитектура Stack Exchange Network</title><link>https://www.insight-it.ru//highload/2011/arkhitektura-stack-exchange-network/</link><description>&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/8d9e30a4/" rel="nofollow" target="_blank" title="http://stackexchange.com/"&gt;Stack Exchange Network&lt;/a&gt; представляет собой
+сеть из 46 сайтов вопросов-ответов на совершенно разные темы от
+программирования до кулинарии. Проект вырос из известной в узких кругах
+тусовки программистов &lt;a href="https://www.insight-it.ru/goto/dd7cd9bb/" rel="nofollow" target="_blank" title="http://stackoverflow.com/"&gt;Stack Overflow&lt;/a&gt;, об
+архитектуре которой &lt;a href="https://www.insight-it.ru/highload/2010/arkhitektura-stack-overflow/"&gt;я уже рассказывал&lt;/a&gt; чуть больше года назад. Проект активно развивается и уже появилось приличное количество новой информации, которой я и спешу с Вами поделиться.
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;h2 id="statistika"&gt;Статистика&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;95 миллионов просмотров страниц в месяц&lt;/li&gt;
+&lt;li&gt;800 HTTP запросов в секунду&lt;/li&gt;
+&lt;li&gt;180 DNS запросов в секунду&lt;/li&gt;
+&lt;li&gt;Загруженность интернет-канала в 55 Мбит/с&lt;/li&gt;
+&lt;li&gt;16 миллионов уникальных пользователей в месяц&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="tekhnologii"&gt;Технологии&lt;/h2&gt;
+&lt;h3 id="razrabotka"&gt;Разработка&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/c/"&gt;C#&lt;/a&gt; - основной язык программирования&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/visual-studio/"&gt;Visual Studio 2010 Team Suite&lt;/a&gt; -&amp;nbsp;IDE&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/asp-net/"&gt;Microsoft ASP.NET 4.0&lt;/a&gt; - framework&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/asp-net-mvc/"&gt;ASP.NET MVC 3&lt;/a&gt; -&amp;nbsp;web Framework&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/razor/"&gt;Razor&lt;/a&gt; - генератор шаблонов&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/jquery/"&gt;jQuery 1.4.2&lt;/a&gt; - JavaScript framework&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/linq-to-sql/"&gt;LINQ to SQL&lt;/a&gt; и немного чистого SQL - доступ к
+    данным&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/mercurial/"&gt;Mercurial&lt;/a&gt; и &lt;a href="/tag/kiln/"&gt;Kiln&lt;/a&gt; - контроль версий
+    исходного кода&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/beyond-compare/"&gt;Beyond Compare 3&lt;/a&gt; - инструмент для сравнения&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="programmnoe-obespechenie"&gt;Программное обеспечение&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/886b3540/" rel="nofollow" target="_blank" title="http://stackoverflow.com/questions/177901/what-does-wisc-stack-mean"&gt;WISC&lt;/a&gt;
+    стек получен условно-бесплатно с
+    помощью&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/b478b941/" rel="nofollow" target="_blank" title="http://blog.stackoverflow.com/2009/03/stack-overflow-and-bizspark/"&gt;BizSpark&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/windows-server/"&gt;Windows Server&lt;/a&gt;&lt;a href="/tag/windows-server-2008/"&gt;2008 R2
+    x64&lt;/a&gt; - основная операционная система&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/ms-sql-server-2008/"&gt;MS SQL Server 2008 R2&lt;/a&gt; на&amp;nbsp;&lt;a href="/tag/windows-server-2008/"&gt;Windows Server
+    2008 Enterprise Edition x64&lt;/a&gt; - база
+    данных&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/ubuntu-server/"&gt;Ubuntu Server&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/centos/"&gt;CentOS&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/iis/"&gt;IIS 7.0&lt;/a&gt; - веб-сервер&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/haproxy/"&gt;HAProxy&lt;/a&gt; - балансировка нагрузки&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/redis/"&gt;Redis&lt;/a&gt; - используется как распределенная система
+    кэширования&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/cruisecontrol-net/"&gt;CruiseControl.NET&lt;/a&gt; - сборки и
+    автоматическая система развертывания кода&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/lucene/"&gt;Lucene.NET&lt;/a&gt; - полнотекстовый поиск&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/bacula/"&gt;Bacula&lt;/a&gt; - резервное копирование&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/nagios/"&gt;Nagios&lt;/a&gt; (с
+    плагинами&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/d576a9fc/" rel="nofollow" target="_blank" title="http://n2rrd.diglinks.com/cgi-bin/trac.fcgi"&gt;n2rrd&lt;/a&gt; и
+    &lt;a href="https://www.insight-it.ru/goto/9b00fbb3/" rel="nofollow" target="_blank" title="http://web.taranis.org/drraw/"&gt;drraw&lt;/a&gt;) для мониторинга&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/splunk/"&gt;Splunk&lt;/a&gt; - сбор и агрегация логов&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/sql-monitor/"&gt;SQL Monitor&lt;/a&gt; от&amp;nbsp;Red Gate - мониторинг SQL Server&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/bind/"&gt;Bind&lt;/a&gt; -&amp;nbsp;DNS&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/dotnetopenid/"&gt;DotNetOpenId&lt;/a&gt; - реализация OpenID на .NET&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/wmd/"&gt;WMD&lt;/a&gt; - текстовый редактор&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/prettify/"&gt;Prettify&lt;/a&gt; - подсветка синтаксиса&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/markdownsharp/"&gt;MarkdownSharp&lt;/a&gt; - обработчик разметки Markdown
+    на C#&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/flot/"&gt;Flot&lt;/a&gt; - построение графиков на JavaScript&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="vneshnie-servisy"&gt;Внешние сервисы&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/recaptcha/"&gt;reCAPTCHA&lt;/a&gt; - защита от спама&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/google-analytics/"&gt;Google Analytics&lt;/a&gt; - веб-аналитика&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/kiln/"&gt;Kiln&lt;/a&gt; - Mercurial хостинг&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/pingdom/"&gt;Pingdom&lt;/a&gt; - внешний мониторинг и уведомления&lt;/li&gt;
+&lt;li&gt;CDN не используется, его роль выполняет&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/a5057c7b/" rel="nofollow" target="_blank" title="http://sstatic.net/"&gt;sstatic.net&lt;/a&gt;, отдельный домен для статичных файлов SEN без cookie&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="oborudovanie_1"&gt;Оборудование&lt;/h2&gt;
+&lt;h3 id="datatsentry"&gt;Датацентры&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;1 стойка в Peak Internet, штат Орегон (чат и обнаружение данных)&lt;/li&gt;
+&lt;li&gt;2 стойки в Peer 1, Нью-Йорк (остальная часть SEN)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="servery"&gt;Серверы&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;10 веб-серверов:&lt;ul&gt;
+&lt;li&gt;Dell R610&lt;/li&gt;
+&lt;li&gt;1x Intel Xeon Processor E5640 @ 2.66 GHz&lt;/li&gt;
+&lt;li&gt;16 GB RAM&lt;/li&gt;
+&lt;li&gt;Windows Server 2008 R2&lt;/li&gt;
+&lt;li&gt;IIS&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;2 сервера баз данных:&lt;ul&gt;
+&lt;li&gt;Dell R710&lt;/li&gt;
+&lt;li&gt;2x Intel Xeon Processor X5680 @ 3.33 GHz&lt;/li&gt;
+&lt;li&gt;64 GB RAM&lt;/li&gt;
+&lt;li&gt;8 жестких дисков&lt;/li&gt;
+&lt;li&gt;MS SQL Server 2008 R2&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;2 виртуальных сервера для балансировки нагрузки:&lt;ul&gt;
+&lt;li&gt;1x Intel Xeon Processor E5640 @ 2.66 GHz&lt;/li&gt;
+&lt;li&gt;4 GB RAM&lt;/li&gt;
+&lt;li&gt;Ubuntu Server&lt;/li&gt;
+&lt;li&gt;HAProxy&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;2 сервера для кэша:&lt;ul&gt;
+&lt;li&gt;Dell R610&lt;/li&gt;
+&lt;li&gt;2x Intel Xeon Processor E5640 @ 2.66 GHz&lt;/li&gt;
+&lt;li&gt;16 GB RAM&lt;/li&gt;
+&lt;li&gt;CentOS&lt;/li&gt;
+&lt;li&gt;Redis&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;1 сервер для резервного копирования:&lt;ul&gt;
+&lt;li&gt;Dell R610&lt;/li&gt;
+&lt;li&gt;1x Intel Xeon Processor E5640 @ 2.66 GHz&lt;/li&gt;
+&lt;li&gt;32 GB RAM&lt;/li&gt;
+&lt;li&gt;Linux&lt;/li&gt;
+&lt;li&gt;Bacula&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;1 сервер для мониторинга, управления и сбора логов:&lt;ul&gt;
+&lt;li&gt;Dell R610&lt;/li&gt;
+&lt;li&gt;1x Intel Xeon Processor E5640 @ 2.66 GHz&lt;/li&gt;
+&lt;li&gt;32 GB RAM&lt;/li&gt;
+&lt;li&gt;Linux&lt;/li&gt;
+&lt;li&gt;Nagios&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;2 сервера для виртуализации:&lt;ul&gt;
+&lt;li&gt;Dell R610&lt;/li&gt;
+&lt;li&gt;1x Intel Xeon Processor E5640 @ 2.66 GHz&lt;/li&gt;
+&lt;li&gt;16 GB RAM&lt;/li&gt;
+&lt;li&gt;VMWare ESXi&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="setevoe-oborudovanie"&gt;Сетевое оборудование&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2 маршрутизатора на Linux&lt;/li&gt;
+&lt;li&gt;5 свитчей &amp;nbsp;Dell PowerConnect&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="prochee"&gt;Прочее&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/aa5532bf/" rel="nofollow" target="_blank" title="http://www.wowwee.com/en/products/tech/telepresence/rovio/rovio"&gt;Rovio&lt;/a&gt; -
+    маленький робот, позволяющий удаленным разработчиком посетить офис
+    "виртуально"&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="komanda_1"&gt;Команда&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;14 разработчиков&lt;/li&gt;
+&lt;li&gt;2 системных администратора&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="chto-novogo"&gt;Что нового?&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;HAProxy стал использоваться вместо Windows NLB так как HAProxy
+    является быстрым, нересурсоемким, бесплатным решением, которое
+    работает. Полностью прозрачен для серверов, легче обслуживать по
+    сравнению со старым решением, располагается на виртуальных машинах.&lt;/li&gt;
+&lt;li&gt;CDN не используется, так как даже "недорогие" решения обходятся в
+    очень приличную сумму по сравнению с тем трафиком, который входит в
+    тарифный план хостинг-провайдера. Самое дешевой решение CDN от
+    Amazon обошлось бы как минимум на тысячу долларов в месяц дороже при
+    текущем уровне использования трафика.&lt;/li&gt;
+&lt;li&gt;Резервное копирование на диски для быстрого восстановления и на
+    кассеты для "истории".&lt;/li&gt;
+&lt;li&gt;Полнотекстный поиск в SQL Server плохо интегрируется, нестабилен и
+    обладает низким качеством результатов, так что они перешли на
+    Lucene.&lt;/li&gt;
+&lt;li&gt;Все сайты в SEN теперь работают на общей платформе: используется
+    общее оборудование и программное обеспечение.&lt;/li&gt;
+&lt;li&gt;Проект разделен на разные сайты для разных ниш, чтобы полностью
+    изолировать группы аудитории, специализирующиеся в каждой конкретной
+    области.&lt;/li&gt;
+&lt;li&gt;Используется агрессивное кэширование, большинство страниц кэшируются
+    в виде HTML для анонимных пользователей средствами IIS.&lt;/li&gt;
+&lt;li&gt;Используется три уровня кэширования: локальный, относящийся к
+    каждому сайту и глобальный.&lt;/li&gt;
+&lt;li&gt;Локальный кэш доступен только для каждой пары сайт/сервер:&lt;ul&gt;
+&lt;li&gt;Используется для уменьшения сетевых задержек, по сути просто
+    через&amp;nbsp;HttpRuntime.Cache.&lt;/li&gt;
+&lt;li&gt;Содержит такие вещи как пользовательские сессии, будущие
+    обновления счетчиков просмотров страниц.&lt;/li&gt;
+&lt;li&gt;Располагается полностью в оперативной памяти веб-сервера.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Кэш сайта доступен для каждого сервера, обрабатывающий запрос к
+    конкретному сайту:&lt;ul&gt;
+&lt;li&gt;Большинство кэшируемых данных располагаются здесь.&lt;/li&gt;
+&lt;li&gt;Располагается в Redis.&lt;/li&gt;
+&lt;li&gt;Redis настолько быстр, что большую часть времени доступа к кэшу
+    занимает передача данных по сети.&lt;/li&gt;
+&lt;li&gt;Данные сжимаются перед отправкой в Redis, так как большинство
+    данных являются строками и у них есть масса свободных
+    вычислительных ресурсов.&lt;/li&gt;
+&lt;li&gt;Использование процессорных ресурсов на серверах с Redis
+    стремится к нулю.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Глобальный кэш является общим для всех серверов и сайтов:&lt;ul&gt;
+&lt;li&gt;Личные сообщения, квоты по API и несколько других по-настоящему
+    глобальных вещей располагаются здесь.&lt;/li&gt;
+&lt;li&gt;Также используется Redis.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Большинство данных в кэше удаляются через заданный период времени
+    (обычно в районе нескольких минут) и практически никогда явно не
+    удаляются.&lt;/li&gt;
+&lt;li&gt;Когда требуется инвалидация кэша на уровне готовых страниц,
+    используется система подписки внутри Redis для отправки сообщений в
+    соответствующую часть системы кэширования.&lt;/li&gt;
+&lt;li&gt;Для системы ввода-вывода они выбрали Intel X25 SSD в RAID10. RAID
+    решил многие вопросы с надежностью, а SSD показывают отличную
+    производительностью по сравнению с&amp;nbsp;FusionIO при существенно более
+    низкой цене.&lt;/li&gt;
+&lt;li&gt;Стоимость лицензий используемых продуктов Microsoft составила бы 242
+    тысячи долларов. Но так как они используют программу BizSpark, им не
+    пришлось платить большую часть этой суммы.&lt;/li&gt;
+&lt;li&gt;Сетевые карты от Broadcom заменяются на сетевые карты от Intel на
+    основных production серверах. Это решило большинство проблем с
+    потерями соединений, пакетов и таблицами ARP.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="istochniki-informatsii"&gt;Источники информации&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/8a78f426/" rel="nofollow" target="_blank" title="http://highscalability.com/blog/2011/3/3/stack-overflow-architecture-update-now-at-95-million-page-vi.html"&gt;Stack Overflow Architecture Update - Now At 95 Million Page Views
+    A&amp;nbsp;Month&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/ac2efccd/" rel="nofollow" target="_blank" title="http://blog.stackoverflow.com/"&gt;Stack Overflow Blog&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/83742213/" rel="nofollow" target="_blank" title="http://blog.serverfault.com/post/1432571770/"&gt;Stack Overflow&amp;rsquo;s New York Data
+    Center&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/7241f829/" rel="nofollow" target="_blank" title="http://blog.serverfault.com/post/1097492931/"&gt;Designing For Scalability of Management and Fault
+    Tolerance&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/955af379/" rel="nofollow" target="_blank" title="http://blog.stackoverflow.com/2011/01/stack-overflow-search-now-81-less-crappy/"&gt;Stack Overflow Search &amp;mdash; Now 81% Less
+    Crappy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/7ab0ab00/" rel="nofollow" target="_blank" title="http://blog.stackoverflow.com/2011/01/state-of-the-stack-2010-a-message-from-your-ceo/"&gt;State of the Stack 2010 (a message from your
+    CEO)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/f4755d56/" rel="nofollow" target="_blank" title="http://blog.stackoverflow.com/2010/01/stack-overflow-network-configuration/"&gt;Stack Overflow Network
+    Configuration&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/d29680fc/" rel="nofollow" target="_blank" title="http://meta.stackoverflow.com/questions/69164/does-stackoverflow-use-caching-and-if-so-how"&gt;Does StackOverflow use caching and if so,
+    how?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/a1f157a/" rel="nofollow" target="_blank" title="http://meta.stackoverflow.com/questions/6435/how-does-stackoverflow-handle-cache-invalidation"&gt;How does StackOverflow handle cache
+    invalidation?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/4812040a/" rel="nofollow" target="_blank" title="http://meta.stackoverflow.com/questions/10369/which-tools-and-technologies-build-the-stack-exchange-network"&gt;Which tools and technologies build the Stack Exchange
+    Network?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/d1cfeccf/" rel="nofollow" target="_blank" title="http://meta.stackoverflow.com/questions/2765/how-does-stack-overflow-handle-spam"&gt;How does Stack Overflow handle
+    spam?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/58e28ee2/" rel="nofollow" target="_blank" title="http://blog.serverfault.com/post/our-storage-decision/"&gt;Our Storage
+    Decision&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/6a63689c/" rel="nofollow" target="_blank" title="http://meta.stackoverflow.com/questions/4766/how-are-hot-questions-selected"&gt;How are &amp;ldquo;Hot&amp;rdquo; Questions
+    Selected?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/90fef20/" rel="nofollow" target="_blank" title="http://blog.stackoverflow.com/2010/04/stack-overflow-and-dvcs/"&gt;Stack Overflow and
+    DVCS&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/fe105178/" rel="nofollow" target="_blank" title="http://chat.stackexchange.com/rooms/127/the-comms-room"&gt;Server Fault Chat
+    Room&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Спасибо за внимание! Для оперативного получения свежей информации о
+&lt;a href="https://www.insight-it.ru/highload/"&gt;высоконагруженных интернет-проектах&lt;/a&gt; рекомендую &lt;a href="/feed/"&gt;подписаться на RSS&lt;/a&gt;.&lt;/strong&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Thu, 31 Mar 2011 16:05:00 +0400</pubDate><guid>tag:www.insight-it.ru,2011-03-31:highload/2011/arkhitektura-stack-exchange-network/</guid><category>ASP .NET</category><category>ASP .NET MVC</category><category>Bacula</category><category>Beyond Compare 3</category><category>Bind</category><category>C++</category><category>CentOS</category><category>CruiseControl.NET</category><category>DotNetOpenId</category><category>Flot</category><category>Google Analytics</category><category>HAProxy</category><category>IIS</category><category>JQuery</category><category>Kiln</category><category>LINQ to SQL</category><category>Lucene</category><category>MarkdownSharp</category><category>Mercurial</category><category>MS SQL Server 2008</category><category>Nagios</category><category>Pingdom</category><category>Prettify</category><category>Razor</category><category>reCAPTCHA</category><category>Redis</category><category>Splunk</category><category>SQL Monitor</category><category>Ubuntu Server</category><category>Visual Studio</category><category>Windows Server</category><category>Windows Server 2008</category><category>WMD</category></item><item><title>Архитектура Одноклассников</title><link>https://www.insight-it.ru//highload/2011/arkhitektura-odnoklassnikov/</link><description>&lt;p&gt;Сегодня представители &lt;a href="https://www.insight-it.ru/goto/2c99aef2/" rel="nofollow" target="_blank" title="http://www.odnoklassniki.ru"&gt;Одноклассников&lt;/a&gt;
+рассказали о накопленном за 5 лет опыте по поддержанию высоконагруженного
+проекта. Была опубликована довольно детальная информация о том, как
+устроена эта социальная сеть для аудитории "постарше". Далее можно
+прочитать мою версию материала, либо перейти на оригинал &lt;a href="https://www.insight-it.ru/goto/b762a864/" rel="nofollow" target="_blank" title="http://habrahabr.ru/company/odnoklassniki/blog/115881/"&gt;по сссылке&lt;/a&gt;.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h2 id="platforma"&gt;Платформа&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/windows/"&gt;Windows&lt;/a&gt; и &lt;a href="/tag/opensuse/"&gt;openSUSE&lt;/a&gt; - основные
+    операционные системы&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/java/"&gt;Java&lt;/a&gt; - основной язык программирования&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/c/"&gt;С/С++&lt;/a&gt; - для некоторых модулей&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/gwt/"&gt;GWT&lt;/a&gt; - реализация динамического веб-интерфейса&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/tomcat/"&gt;Apache Tomcat&lt;/a&gt; - сервера приложений&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/jboss/"&gt;JBoss 4&lt;/a&gt; - сервера бизнес-логики&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/lvs/"&gt;LVS&lt;/a&gt; и &lt;a href="/tag/ipvs/"&gt;IPVS&lt;/a&gt; - балансировка нагрузки&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/mssql/"&gt;MS SQL 2005 и 2008&lt;/a&gt; - основная СУБД&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/berkleydb/"&gt;BerkleyDB&lt;/a&gt; - дополнительная СУБД&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/lucene/"&gt;Apache Lucene&lt;/a&gt; - индексация и поиск текстовой
+    информации&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="statistika"&gt;Статистика&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;До 2.8 млн. пользователей онлайн в часы пик&lt;/li&gt;
+&lt;li&gt;7,5 миллиардов запросов в день (150 000 запросов в секунду в часы
+    пик)&lt;/li&gt;
+&lt;li&gt;2 400 серверов и систем хранения данных, из которых 150 являются
+    веб-серверами&lt;/li&gt;
+&lt;li&gt;Сетевой трафик в час пик: 32 Gb/s&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="oborudovanie"&gt;Оборудование&lt;/h2&gt;
+&lt;p&gt;Сервера используются двухпроцессорные с 4 ядрами, объемом памяти от 4 до
+48 Гб. В зависимости от роли сервера данные хранятся либо в памяти, либо
+на дисках, либо на внешних системах хранения данных.&lt;/p&gt;
+&lt;p&gt;Все оборудование размещено в 3 датацентрах, объединенных в оптическое
+кольцо. На данный момент на каждом из маршрутов пропускная способность
+составляет 30Гбит/с. Каждый из маршрутов состоит из физически
+независимых друг от друга оптоволоконных пар, которые агрегируются в
+общую &amp;ldquo;трубу&amp;rdquo; на корневых маршрутизаторах.&lt;/p&gt;
+&lt;p&gt;Сеть физически разделена на внутреннюю и внешнюю, разные интерфейсы
+серверов подключены в разные коммутаторы и работают в разных сетях. По
+внешней сети HTTP сервера, общаются с Интернетом, по внутренней сети все
+сервера общаются между собой.&amp;nbsp;Топология внутренней сети &amp;ndash; звезда.
+Сервера подключены в L2 коммутаторы (access switches), которые, в свою
+очередь, подключены как минимум двумя гигабитными линками к aggregation
+стеку маршрутизаторов. Каждый линк идет к отдельному коммутатору в
+стеке. Для того, чтобы эта схема работала, используется
+протокол&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/a03e0548/" rel="nofollow" target="_blank" title="http://ru.wikipedia.org/wiki/RSTP"&gt;RSTP&lt;/a&gt;. При необходимости,
+подключения access коммутаторов к agregation стеку осуществляются более
+чем двумя линками с использованием link aggregation портов.&amp;nbsp;Aggregation
+коммутаторы подключены 10Гб линками в корневые маршрутизаторы, которые
+обеспечивают как связь между датацентрами, так и связь с внешним
+миром.&amp;nbsp;Используются коммутаторы и маршрутизаторы от компании Cisco.&lt;/p&gt;
+&lt;p&gt;Для связи с внешним миром используются прямые подключения с несколькими
+крупнейшими операторами связи, общий сетевой&amp;nbsp;трафик в часы пик доходит
+до 32Гбит/с.&lt;/p&gt;
+&lt;h2 id="arkhitektura"&gt;Архитектура&lt;/h2&gt;
+&lt;p&gt;Архитектура проекта имеет традиционную многоуровневую структуру:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;презентационный уровень;&lt;/li&gt;
+&lt;li&gt;уровень бизнес-логики;&lt;/li&gt;
+&lt;li&gt;уровень кэширования;&lt;/li&gt;
+&lt;li&gt;уровень баз данных;&lt;/li&gt;
+&lt;li&gt;уровень инфраструктуры (логирование, конфигурация и мониторинг).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Код проекта в целом написан на Java, но есть исключения в виде модулей
+для кэширования на C и C++.
+Java был выбран так как он является удобным языком для разработки,
+доступно множество наработок в различных сферах, библиотек и opensource
+проектов.&lt;/p&gt;
+&lt;h3 id="prezentatsionnyi-uroven"&gt;Презентационный уровень&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Используем собственный фреймворк, позволяющий строить композицию
+    страниц на языке Jаvа, с использованием собственные GUI фабрик (для
+    оформления текста, списков, таблиц и портлетов).&lt;/li&gt;
+&lt;li&gt;Страницы состоят из независимых блоков (обычно портлетов), что
+    позволяет обновлять информацию на них частями с помощью AJAX
+    запросов.&lt;/li&gt;
+&lt;li&gt;При данном подходе одновременно обеспечивается минимум перезагрузок
+    страниц для пользователей с включенным JavaScript, так и полная
+    работоспособность сайта для пользователей, у которых он отключен.&lt;/li&gt;
+&lt;li&gt;Google Web Toolkit используется для реализации функциональные
+    компонент, таких как Сообщения, Обсуждения и Оповещения, а также все
+    динамических элементов (меню шорткатов, метки на фотографиях,
+    сортировка фотографий,&amp;nbsp;ротация подарков и.т.д.).&amp;nbsp;В GWT используются
+    UIBinder и HTMLPanel для создания интерфейсов.&lt;/li&gt;
+&lt;li&gt;Кешируются все внешние ресурсы (Expires и Cache-Control заголовки).
+    CSS и JavaScript файлы минимизируются и сжимаются (gzip).&lt;/li&gt;
+&lt;li&gt;Для уменьшения количества HTTP запросов с браузера, все JavaScript и
+    CSS файлы объединяются в один. Маленькие графические изображения
+    объединяются в спрайты.&lt;/li&gt;
+&lt;li&gt;При загрузке страницы скачиваются только те ресурсы, которые на
+    самом деле необходимы для начала работы.&lt;/li&gt;
+&lt;li&gt;Никаких универсальных CSS селекторов. Стараются не использовать
+    типовые селекторы (по имени тэга), что повышает скорость отрисовки
+    страниц внутри браузера.&lt;/li&gt;
+&lt;li&gt;Если необходимы CSS expressions, то пишутся &amp;laquo;одноразовые&amp;raquo;. По
+    возможности избегаются фильтры.&lt;/li&gt;
+&lt;li&gt;Кешируется обращения к DOM дереву, а так же свойства элементов,
+    приводящие к reflow. Обновляется DOM дерево в &amp;laquo;оффлайне&amp;raquo;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="uroven-biznes-logiki_1"&gt;Уровень бизнес-логики&lt;/h2&gt;
+&lt;p&gt;На уровне бизнес логики располагаются около 25 типов серверов и
+компонентов, общающихся между собой через удаленные интерфейсы. Каждую
+секунду происходит около 3 миллионов удаленных запросов между этими
+модулями.
+Сервера на уровне бизнес логики разбиты на группы. Каждая группа
+обрабатывает различные события. Есть механизм маршрутизации событий, то
+есть любое событие или группу событий можно выделить и направить на
+обработку на определенную группу серверов.&amp;nbsp;При общении серверов между
+собой используется свое решение, основанное на&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/5e85a755/" rel="nofollow" target="_blank" title="http://www.jboss.org/jbossremoting"&gt;JBoss
+Remoting&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id="uroven-keshirovaniia"&gt;Уровень кэширования&lt;/h2&gt;
+&lt;p&gt;Для кэширования данных используется самописный модуль
+odnoklassniki-cache. Он предоставляет возможность хранения данных в
+памяти средствами Java Unsafe. Кэшируются все данные, к которым
+происходит частое обращение, например: профили пользователей, списки
+участников сообществ, информация о самих сообществах, граф связей
+пользователей и групп, праздники, мета информация о фотографиях и многое
+другое.Для хранения больших объемов данных в памяти используется память
+Java off heap memory для снятия ненужной нагрузки с сборщика
+мусора.&amp;nbsp;Кеши могут использовать локальный диск для хранения данных, что
+превращает их в высокопроизводительный сервер БД.&amp;nbsp;Кеш сервера, кроме
+обычных операций ключ-значение, могут выполнять запросы по данным,
+хранящимся в памяти, минимизируют таким образом передачу данных по сети.
+Используется map-reduce для выполнения запросов и операций на кластере.
+В особо сложных случаях, например для реализации запросов по социальному
+графу, используется язык C. Это помогает повысить производительность.&lt;/p&gt;
+&lt;p&gt;Данные распределяются между кластерами кеш серверов, а также
+используется репликация партиций для обеспечения надежности.&amp;nbsp;Иногда
+требования к быстродействию настолько велики, что используются локальные
+короткоживущие кеши данных полученных с кеш серверов, расположенные
+непосредственно в памяти серверов бизнес логики.&lt;/p&gt;
+&lt;p&gt;Для примера, один сервер, кэширующий граф связей пользователей, в час
+пик может обработать около 16 600 запросов в секунду. Процессоры при
+этом заняты до 7%, максимальный load average за 5 минут &amp;mdash; 1.2.
+Количество вершин графа - более 85 миллионов, связей 2.5 миллиарда. В
+памяти граф занимает 30 GB.&lt;/p&gt;
+&lt;h2 id="uroven-baz-dannykh"&gt;Уровень баз данных&lt;/h2&gt;
+&lt;p&gt;Суммарный объем данных без резервирования составляет 160Тб. Используются
+два решения для хранения данных: MS SQL и BerkeleyDB. Данные хранятся в
+нескольких копиях, в зависимости от их типа от двух до четырех. Полное
+резервное копирование всех данных осуществляется раз в сутки, плюс
+каждые 15 минут делаются резервные копии новых данных. В результате
+максимально возможная потеря данных составляет 15 минут.&lt;/p&gt;
+&lt;p&gt;Сервера с MS SQL объединены в failover кластера, при выходе из строя
+одного из серверов, находящийся в режиме ожидания сервер берет на себя
+его функции. Общение с MS SQL происходит посредством JDBC драйверов.&lt;/p&gt;
+&lt;p&gt;Используются как вертикальное, так и горизонтальное разбиение данных,
+т.е. разные группы таблиц располагаются на разных серверах (вертикальное
+партиционирование), а данные больших таблицы дополнительно
+распределяются между серверами (горизонтальное партиционирование).
+Встроенный в СУБД аппарат партиционирования не используется &amp;mdash; весь
+процесс реализован на уровне бизнес-логики.&amp;nbsp;Распределенные транзакции не
+используются &amp;mdash; всё только в пределах одного сервера. Для обеспечения
+целостности, связанные данные помещаются на один сервер или, если это
+невозможно, дополнительно разрабатывается логика обеспечения целостности
+данных.&amp;nbsp;В запросах к БД не используются JOIN даже среди локальных таблиц
+для минимизации нагрузки на CPU. Вместо этого используется
+денормализация данных или JOIN происходят на уровне бизнес сервисов, что
+позволяет осуществлять JOIN как с данными из баз данных, так и с данными
+из кэша.&amp;nbsp;При проектировании структуры данных не используются внешние
+ключи, хранимые процедуры и триггеры. Опять же для снижения потребления
+вычислительных ресурсов на серверах баз данных.
+SQL операторы DELETE также используются с осторожностью &amp;mdash; это самая
+тяжелая операция. Данные удаляются чаще всего через маркер: запись
+сначала отмечается как удаленная, а потом удаляется окончательно с
+помощью фонового процесса.&amp;nbsp;Широко используются индексы, как обычные, так
+и кластерные. Последние для оптимизации наиболее высокочастотных
+запросов в таблицу.&lt;/p&gt;
+&lt;p&gt;Используется C реализация BerkleyDB версии 4.5. Для работы с BerkleydDB
+используется своя библиотека, позволяющая организовывать двухнодовые
+master-slave кластера с использованием родной BDB репликация. Запись
+происходит только в master, чтение происходит с обеих нод. Данные
+хранятся в tmpfs, transaction логи сохраняются на дисках. Резервная
+копия логов делается каждые 15 минут. Сервера одного кластера размещены
+на разных лучах питания дабы не потерять обе копии одновременно. Помимо
+прочего, BerkleyDB используется и в роли очереди заданий.&lt;/p&gt;
+&lt;p&gt;Внутри системы используется взвешенный round robin, а также вертикальное
+и горизонтальное разбиение данных как на уровне СУБД, так и на уровне
+кэширования.&lt;/p&gt;
+&lt;p&gt;В разработке новое решение для хранения данных, так как необходим еще
+более быстрый и надежный доступ к данным.&lt;/p&gt;
+&lt;h2 id="uroven-infrastruktury"&gt;Уровень инфраструктуры&lt;/h2&gt;
+&lt;p&gt;Для агрегации статистики используется собственная библиотека, основанная
+на log4j. Сохраняется такая информация, как количество вызовов, среднее,
+максимальное и минимальное время выполнения, количество ошибок. Данные
+сохраняются во временные базы, но раз в минуту данные переносятся из них
+в общий склад данных (data warehouse), а временные базы очищаются. Сам
+склад реализован на базе решений от Microsoft: MS SQL 2008 и сиситема
+генерации отчетов Reporting Services. Он расположен на 13 серверах,
+находящихся в отдельной от production среде. Некоторые из них отвечают
+за статистику в реальном времени, а некоторые за ведение и
+предоставление доступа к архиву. Общий объем статистических данных
+составляет 13Тб.&amp;nbsp;Планируется внедрение многомерного анализа статистики
+на основе OLAP.&lt;/p&gt;
+&lt;p&gt;Управление сервисами происходит через самописную централизованную
+систему конфигурации. Через веб-интерфейс доступно изменение
+расположения портлетов, конфигурации кластеров, изменение логики
+сервисов и прочее. Вся конфигурация сохраняется в базе данных. Каждый из
+серверов периодически проверяет, есть ли обновления для приложений,
+которые на нем запущены, и, если есть, применяет их.&lt;/p&gt;
+&lt;p&gt;Мониторинг логически разделен на две части:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Мониторинг сервисов и компонентов&lt;/li&gt;
+&lt;li&gt;Мониторинг ресурсов, оборудования и сети&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Система мониторинга сервисов также самописная и основывается на
+оперативных данных с упомянутого выше склада. Мониторинг ресурсов и
+здоровья оборудования же онован на Zabbix, а статистика по
+использованию ресурсов серверов и сети накапливаетя в Cacti.&amp;nbsp;Для
+предпринятия мер по устранению чрезвычайных ситуаций работают дежурные,
+которые следят за всеми основными параметрами.&amp;nbsp;Оповещения о наиболее
+критичных аномалиях приходят по смс, остальные оповещения отсылаются по
+емейлу.&lt;/p&gt;
+&lt;h2 id="komanda"&gt;Команда&lt;/h2&gt;
+&lt;p&gt;Над проектом работают около 70 технических специалистов:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;40 разработчиков;&lt;/li&gt;
+&lt;li&gt;20 системных администраторов и инженеров;&lt;/li&gt;
+&lt;li&gt;8 тестеров.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Все разработчики разделены на небольшие команды до 3х человек. Каждая из
+команд работает автономно и разрабатывает либо какой-то новый сервис,
+либо работает над улучшением существующих. В каждой команде есть
+технический лидер или архитектор, который ответственен за архитектуру
+сервиса, выбор технологий и подходов. На разных этапах к команде могут
+примыкать дизайнеры, тестеры и системные администраторы.&lt;/p&gt;
+&lt;p&gt;Разработка ведется итерациями в несколько недель. Как пример жизненного
+цикла разработки можно привести 3х недельный цикл:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;определение архитектуры;&lt;/li&gt;
+&lt;li&gt;разработка, тестирование на компьютерах разработчиков;&lt;/li&gt;
+&lt;li&gt;тестирование на pre-production среде, релиз на production среду.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Практически весь новый функционал делается &amp;laquo;отключаемым&amp;raquo;, типичный
+процесс запуска новой функциональной возможности:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Функционал разрабатывается и попадает в production релиз;&lt;/li&gt;
+&lt;li&gt;Через централизованную систему конфигурации функционал включается
+    для небольшой части пользователей;&lt;/li&gt;
+&lt;li&gt;Анализируется статистика активности пользователей, нагрузка на
+    инфраструктуру;&lt;/li&gt;
+&lt;li&gt;Если предыдущий этап прошел успешно, функционал включается
+    постепенно для все большей аудитории;&lt;/li&gt;
+&lt;li&gt;Если в процессе запуска собранная статистика выглядет
+    неудовлетворительно, либо непозволительно вырастает нагрузка на
+    инфраструктуру, то функционал отключается, анализируются причины,
+    исправляются ошибки, происходит оптимизация и все повторяется с
+    начала.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="podvodim-itogi"&gt;Подводим итоги&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;В отличии от остальных популярных социальных сетей в Одноклассниках
+    используются технологии, рассчитанные в первую очередь на
+    корпоративный рынок, начиная от обоих СУБД и заканчивая
+    операционными системами.&lt;/li&gt;
+&lt;li&gt;Во многом этот факт обуславливает комплексный подход к генерации
+    пользовательского интерфейса, не слишком высокую производительность
+    и многие другие особенности этой социальной сети.&lt;/li&gt;
+&lt;li&gt;Использование "тяжелых" технологий с самого начала оставило
+    Одноклассники с большим количеством доставшегося по наследству от
+    ранних версий устаревшего кода и купленных давно лицензий на
+    проприетарный софт, которые выступают в роли оков, от которых
+    довольно сложно избавиться.&lt;/li&gt;
+&lt;li&gt;Возможно эти факторы и являются одними из основных препятствий на
+    пути к завоеванию большей доли рынка и быстрому развитию платформы
+    как в функциональном, так и техническом плане.&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Tue, 22 Mar 2011 00:17:00 +0300</pubDate><guid>tag:www.insight-it.ru,2011-03-22:highload/2011/arkhitektura-odnoklassnikov/</guid><category>BerkleyDB</category><category>C. GWT</category><category>IPVS</category><category>Java</category><category>Jboss</category><category>Lucene</category><category>LVS</category><category>MSSQL</category><category>openSUSE</category><category>Tomcat</category><category>Windows</category><category>Архитектура Одноклассников</category><category>Масштабируемость</category><category>Одноклассники</category></item><item><title>Архитектура LinkedIn</title><link>https://www.insight-it.ru//highload/2008/arkhitektura-linkedin/</link><description>&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/801d7bb4/" rel="nofollow" target="_blank" title="https://www.linkedin.com"&gt;LinkedIn&lt;/a&gt; является крупнейшей в мире
+социальной сетью для профессионалов. Популярность этого проекта может
+быть далека, от более общетематических социальных сетей, таких как,
+скажем Facebook, но, тем не менее, нагрузка на серверную часть проекта
+создается пользователями серьезная. О том как этот проект с ней
+справляется и пойдет речь далее.
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;h3 id="predislovie"&gt;Предисловие&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;Сообщение о публикации двух презентаций c JavaOne 2008 о LinkedIn и их
+&lt;a href="https://www.insight-it.ru/goto/36e64126/" rel="nofollow" target="_blank" title="http://hurvitz.org/blog/2008/06/linkedin-architecture"&gt;обобщении&lt;/a&gt; от
+Overn Hurvitz пронеслось по русскоязычным новостным ресурсам уже
+достаточно давно, но время черкнуть пару строк обо всем этом нашлось у
+меня только сейчас.&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/aef5ee94/" rel="nofollow" target="_blank" title="http://www.slideshare.net/linkedin/linkedins-communication-architecture"&gt;LinkedIn - A Professional Social Network Built with Java&amp;trade; Technologies and Agile Practices&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/515b891c/" rel="nofollow" target="_blank" title="http://www.slideshare.net/linkedin/linked-in-javaone-2008-tech-session-comm"&gt;LinkedIn Communication Architecture&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="statistika"&gt;Статистика&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;22 миллиона пользователей;&lt;/li&gt;
+&lt;li&gt;4+ миллиона уникальных посетителей в день;&lt;/li&gt;
+&lt;li&gt;40 миллионов просмотров страниц в день;&lt;/li&gt;
+&lt;li&gt;2 миллиона поисковых запросов в день;&lt;/li&gt;
+&lt;li&gt;ежедневно отправляются 250 тысяч приглашений;&lt;/li&gt;
+&lt;li&gt;1 миллион ответов в день;&lt;/li&gt;
+&lt;li&gt;2 миллиона электронных сообщений ежедневно.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="platforma"&gt;Платформа&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/solaris/"&gt;Solaris&lt;/a&gt; (как x86, так и SPARC)&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/tomcat/"&gt;Tomcat&lt;/a&gt; и &lt;a href="/tag/jetty/"&gt;Jetty&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/oracle/"&gt;Oracle&lt;/a&gt; и &lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Никакого ORM&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/activemq/"&gt;ActiveMQ&lt;/a&gt; для JMS&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/lucene/"&gt;Lucene&lt;/a&gt; в качестве основы для поиска&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/spring/"&gt;Spring&lt;/a&gt; в роли "клея"&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="servernaia-arkhitektura"&gt;Серверная архитектура&lt;/h3&gt;
+&lt;h4&gt;2003-2005&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;одно монолитное веб-приложение;&lt;/li&gt;
+&lt;li&gt;одна общая база данных;&lt;/li&gt;
+&lt;li&gt;сетевой граф кэшируется в памяти в "Облаке";&lt;/li&gt;
+&lt;li&gt;поиск пользователей реализован с помощью &lt;a href="/tag/lucene/"&gt;Lucene&lt;/a&gt;, он
+    работал на той же машине, что и "Облако", так как поиск был
+    отфильтрован в соответствии с сетью пользователя, таким образом было
+    удобно совмещать эти две функции на одной машине;&lt;/li&gt;
+&lt;li&gt;веб-приложение напрямую обновляет базу данных, а она, в свою
+    очередь, обновляет "Облако".&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;2006&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Добавлена репликация для уменьшения нагрузки на основную базу
+    данных. Реплики предоставляют данные в режиме "только для чтения", а
+    репликация ведется в асинхронном режиме с помощью дополнительного
+    компонента под названием Databus, с его появлением обновление данных
+    стало выглядеть следующим образом:&lt;ul&gt;
+&lt;li&gt;сначала какие-либо изменения происходят в веб-приложении;&lt;/li&gt;
+&lt;li&gt;веб-приложение обновляет основную базу данных;&lt;/li&gt;
+&lt;li&gt;она, в свою очередь, отправляет обновления на Databus;&lt;/li&gt;
+&lt;li&gt;далее уже Databus обновляет: реплики, Облако и поисковый индекс.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Поиск был вынесен на отдельный сервер.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;2008&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;веб-приложение само по себе практически ничего не делает: бизнес
+    логика распределена по отдельным сервисам;&lt;/li&gt;
+&lt;li&gt;веб-приложение все так же предоставляет пользователям графический
+    интерфейс, но для его генерации она теперь вызывает сервисы;&lt;/li&gt;
+&lt;li&gt;каждый сервис имеет свою специфическую базу данных (т.е.
+    вертикальное сегментирование);&lt;/li&gt;
+&lt;li&gt;такой подход позволяет другим приложениям (помимо основного)
+    получать доступ к LinkedIn, такие приложения были созданы для
+    работодателей, рекламных служб, и так далее.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="oblako"&gt;Облако&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;"Облаком" в LinkedIn называют сервер, который кэширует весь граф
+    социальной сети в памяти;&lt;/li&gt;
+&lt;li&gt;его размеры: 22 миллиона вершин и 120 миллионов ребер;&lt;/li&gt;
+&lt;li&gt;занимает 12GB оперативной памяти;&lt;/li&gt;
+&lt;li&gt;одновременно держится в памяти в 40 экземплярах;&lt;/li&gt;
+&lt;li&gt;построение Облака из данных, в дисковой системе, занимает 8 часов;&lt;/li&gt;
+&lt;li&gt;обновления происходят в режиме реального времени с помощью Databus;&lt;/li&gt;
+&lt;li&gt;во время остановки данные записываются на диск;&lt;/li&gt;
+&lt;li&gt;кэш реализован с помощью C++, а доступ предоставляется по JNI;&lt;/li&gt;
+&lt;li&gt;они выбрали именно C++ так как требовалось использовать минимум
+    оперативной памяти, а также, задержки, связанные с Garbage
+    Collection, были неприемлемыми.&lt;/li&gt;
+&lt;li&gt;размещение всех данных в памяти является ограничением, но, как
+    удалось выяснить в LinkedIn, разбиение графов на части - не самая
+    тривиальная задача.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Облако кэширует целиком весь граф социальной сети LinkedIn, но на
+практике же пользователям требуется видеть его со своей точки зрения.
+Данная задача является вычислительно сложной, по-этому она выполняется
+лишь один раз при создании новой сессии, а затем система поддерживает
+результат в кэше. Такой подход требует 2 MB оперативной памяти на
+каждого активного пользователя. В течении сессии такой кэш обновляется
+только если сам пользователь сделал какие-либо изменения в нем, если же
+изменение вызвано другими пользователями - владелец сессии не заметит
+изменений.&lt;/p&gt;
+&lt;p&gt;Помимо этого используется кэширование профилей пользователей средствами
+&lt;a href="/tag/ehcache/"&gt;EHcache&lt;/a&gt;. Одновременно в памяти хранится до 2 миллионов
+профилей (из 22 миллионов). Изначально планировалось использовать
+алгоритм &lt;abbr title="Least Frequently Used"&gt;LFU&lt;/abbr&gt;, но оказалось,
+что иногда &lt;a href="/tag/ehcache/"&gt;EHcache&lt;/a&gt; зависал секунд на 30 во время
+перерасчета &lt;abbr title="Least Frequently Used"&gt;LFU&lt;/abbr&gt;, таким
+образом было принято решение о использовании вместо него алгоритма
+&lt;abbr title="Least Recently Used"&gt;LRU&lt;/abbr&gt;.&lt;/p&gt;
+&lt;h3 id="arkhitektura-kommunikatsii"&gt;Архитектура коммуникации&lt;/h3&gt;
+&lt;p&gt;Как известно, пользователи практически любой социальной сети генерируют
+огромное количество сообщений в единицу времени, причем каждый тип
+сообщений обычно требует индивидуального подхода, но в целом их можно
+разделить на две категории: постоянные и временные. В LinkedIn
+разработчики построили по отдельному сервису, для обработки каждой из
+этих категорий. Каждый из них определенно заслуживает отдельного
+внимания, так как общего в них мало.&lt;/p&gt;
+&lt;h4&gt;Сервис постоянных сообщений&lt;/h4&gt;
+&lt;p&gt;Этот коммуникационный сервис выполняет все операции, связанные с
+постоянными сообщениями: приватными сообщениями и электронной почтой.
+Перед ним ставится вполне тривиальный ряд задач: доставлять сообщения
+получателям и сохранять их на постоянной основе, но на самом деле этим
+все не ограничивается: должны также поддерживаться, скажем, доставка
+сообщений с задержкой, массовые рассылки, отмена отправки сообщения,
+возможность добавления в сообщения какого-либо интерактивного контента.
+Реализован он был примерно следующим образом:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;вся система работает асинхронно и активно использует JMS;&lt;/li&gt;
+&lt;li&gt;клиенты отправляют сообщения так же через JMS;&lt;/li&gt;
+&lt;li&gt;далее сообщения перенаправляются с помощью сервиса маршрутизации в
+    соответствующий почтовый ящик или напрямую в обработку электронной
+    почты;&lt;/li&gt;
+&lt;li&gt;доставка сообщений происходит как с помощью Pull (клиенты
+    запрашивают свои сообщения), так и с использованием Push (т.е.
+    отправки сообщений);&lt;/li&gt;
+&lt;li&gt;помимо этого используется &lt;a href="/tag/spring/"&gt;Spring&lt;/a&gt; с их собственными
+    закрытыми расширениями, использующими HTTP-RPC.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5&gt;Приемы, способствующие масштабируемости&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Функциональное сегментирование:&lt;/strong&gt; отправленные, полученные,
+    архивные сообщения. &lt;em&gt;(т.е. вертикальное сегментирование)&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Классовое сегментирование:&lt;/strong&gt; пользовательские, гостевые,
+    корпоративные почтовые ящики.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Сегментирование по диапазонам:&lt;/strong&gt; по идентификаторам пользователей
+    или по лексикографическим диапазонам самих сообщений. &lt;em&gt;(т.е.
+    горизонтальное сегментирование)&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Асинхронное выполнение операций&lt;/strong&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Сервис сетевых обновлений&lt;/h4&gt;
+&lt;p&gt;Этот сервис обеспечивает работу любых временных уведомлений, например,
+вызванных изменением статуса пользователей в контакт-листах. Такие
+сообщения должны с течением времени удаляться из-за быстрой потери
+актуальности, а также должна поддерживаться группировка и приоритезация
+сообщений. Функционирование этого сервиса оказалось не настолько
+очевидно, по сравнению с предыдущим, так что до итогового варианта было
+перепробовано масса менее удачных решений, но обо всем по порядку.&lt;/p&gt;
+&lt;h5&gt;Изначальная архитектура (до 2007 года)&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;используется много серверов, которые могут содержать обновления;&lt;/li&gt;
+&lt;li&gt;клиенты отправляют запросы на каждый сервис отдельно: вопросы,
+    обновления профилей и т.д.&lt;/li&gt;
+&lt;li&gt;на сбор всех данных требовалось относительно много времени.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;В 2008 году вся эта система поэтапно эволюционировала собственно в сам
+сервис сетевых обновлений:&lt;/p&gt;
+&lt;h5&gt;Первая итерация&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;клиент отправляет единственный запрос сервису сетевых обновлений;&lt;/li&gt;
+&lt;li&gt;этот сервис в свою очередь параллельно отправляет всем остальным сервисам соответствующие запросы.&lt;/li&gt;
+&lt;li&gt;результаты агрегируются и все вместе возвращаются клиенту;&lt;/li&gt;
+&lt;li&gt;весь процесс основывается на Pull.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5&gt;Вторая итерация&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;стал использоваться метод Push: каждый раз, когда происходит
+    какое-либо событие, они помещаются в пользовательский "почтовый
+    ящик", в момент запроса пользователя ему возвращается просто
+    содержимое, уже ожидающее своего звездного часа в специально том
+    самом "ящике";&lt;/li&gt;
+&lt;li&gt;такой подход сильно ускоряет процесс чтения, так как на тот
+    момент данные уже готовы;&lt;/li&gt;
+&lt;li&gt;с другой стороны, какая-то часть данных может так никогда и не
+    понадобиться, что приводит к бесполезным передвижениям данных и
+    лишнему используемому дисковому пространству;&lt;/li&gt;
+&lt;li&gt;небольшая часть обработки данных все же производится уже в
+    момент запроса пользователя (например, объединение нескольких
+    обновлений от определенного пользователя в одно);&lt;/li&gt;
+&lt;li&gt;обновления хранятся в &lt;abbr title="Character Large OBject"&gt;CLOB&lt;/abbr&gt;'ах: по одному &lt;abbr title="Character Large OBject"&gt;CLOB&lt;/abbr&gt;'у на каждый тип
+    обновления для каждого пользователя (то есть в сумму около 15 &lt;abbr title="Character Large OBject"&gt;CLOB&lt;/abbr&gt;'ов на каждого пользователя);&lt;/li&gt;
+&lt;li&gt;сначала использовался размер &lt;abbr title="Character Large OBject"&gt;CLOB&lt;/abbr&gt;'ов равный 8 KB,
+    что было явно больше требуемого и приводило к существенному
+    количеству неиспользуемого дискового пространства.&lt;/li&gt;
+&lt;li&gt;вместо &lt;abbr title="Character Large OBject"&gt;CLOB&lt;/abbr&gt;'ов можно
+    было бы использовать дополнительные таблици по одной на каждый
+    тип обновлений, но в этом случае пришлось бы постоянно удалять
+    из них устаревшие записи, что было бы чрезвычайно неэффективно.&lt;/li&gt;
+&lt;li&gt;в дополнение к этому использовался &lt;abbr title="Java Management eXtensions"&gt;JMX&lt;/abbr&gt; для
+    мониторинга и изменения конфигурации в реальном времени, что
+    оказалось очень удобным и полезным.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5&gt;Третья итерация&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;Цель: повысить производительность путем сокращения количества
+    обновлений &lt;abbr title="Character Large OBject"&gt;CLOB&lt;/abbr&gt;'ов,
+    так как они требуют много вычислительных ресурсов.&lt;/li&gt;
+&lt;li&gt;Был добавлен буфер: колонки в таблицах типа &lt;code&gt;varchar(4000)&lt;/code&gt;, в
+    которых данные помещались изначально. При полном заполнении
+    ячейки данные перемещаются в &lt;abbr title="Character Large OBject"&gt;CLOB&lt;/abbr&gt;; это позволило
+    на порядок сократить количество их обновлений.&lt;/li&gt;
+&lt;li&gt;Уменьшен размер самих сообщений об обновлениях.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="i-naposledok-paru-sovetov-ot-linkedin"&gt;И напоследок пару советов от LinkedIn&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;нельзя бесконечно долго ограничиваться одной базой данных:
+    используйте много баз данных как с вертикальным, так и с
+    горизонтальным сегментированием данных;&lt;/li&gt;
+&lt;li&gt;забудьте о ссылочной целостности и кросс-серверных JOIN'ах;&lt;/li&gt;
+&lt;li&gt;забудьте о 100% целостности данных;&lt;/li&gt;
+&lt;li&gt;при большом масштабе издержки могут стать проблемой: оборудование,
+    базы данных, лицензии, системы хранения данных, электроэнергия и так
+    далее;&lt;/li&gt;
+&lt;li&gt;как только вы станете достаточно крупны и популярны, спаммеры и
+    прочие злые люди не заставят себя долго ждать;&lt;/li&gt;
+&lt;li&gt;не забывайте про кэширование!!!&lt;/li&gt;
+&lt;li&gt;используйте асинхронные потоки данных;&lt;/li&gt;
+&lt;li&gt;аналитика и построение отчетов может стать непростой задачей,
+    постарайтесь задуматься о них заранее в процессе планирования
+    системы;&lt;/li&gt;
+&lt;li&gt;имейте всегда ввиду, что Ваша система может упасть в любой момент;&lt;/li&gt;
+&lt;li&gt;не стоит недооценивать траекторию своего роста.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="p-s"&gt;P.S.&lt;/h3&gt;
+&lt;p&gt;Когда уже закончил переводить в голову пришла мысль, что если читателям
+будет интересно взглянуть на оригинальные презентации (хотябы ради
+иллюстрационного материала, который там вполне нагляден), то было бы
+проще сделать это прямо здесь, так что вот, для Вашего же удобства:&lt;/p&gt;
+&lt;div class="video-container"&gt;&lt;iframe allowfullscreen="" frameborder="0" height="355" marginheight="0" marginwidth="0" scrolling="no" src="//www.slideshare.net/slideshow/embed_code/key/uHbsRNnQFZwThD" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" width="425"&gt; &lt;/iframe&gt;&lt;/div&gt;
+&lt;div class="video-container"&gt;&lt;iframe allowfullscreen="" frameborder="0" height="355" marginheight="0" marginwidth="0" scrolling="no" src="//www.slideshare.net/slideshow/embed_code/key/16CML2N96CDeWv" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" width="425"&gt; &lt;/iframe&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Кстати если Вы еще не успели подписаться на &lt;a href="/feed/"&gt;RSS&lt;/a&gt; - сейчас
+самое время!&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Thu, 11 Sep 2008 04:00:00 +0400</pubDate><guid>tag:www.insight-it.ru,2008-09-11:highload/2008/arkhitektura-linkedin/</guid><category>ActiveMQ</category><category>C++</category><category>EHcache</category><category>Java</category><category>Jetty</category><category>LinkedIn</category><category>Lucene</category><category>MySQL</category><category>Oracle</category><category>Solaris</category><category>Spring</category><category>Tomcat</category><category>архитектура</category><category>архитектура LinkedIn</category><category>Масштабируемость</category></item><item><title>Архитектура Digg</title><link>https://www.insight-it.ru//highload/2008/arkhitektura-digg/</link><description>&lt;p&gt;Трафик, генерируемый более чем 1.2 миллионами пользователей
+&lt;a href="https://www.insight-it.ru/goto/e072c5ff/" rel="nofollow" target="_blank" title="http://www.digg.com"&gt;Digg&lt;/a&gt;, знаменитых своей жаждой информации,
+способен загнать любой невинный сайт за рамки его вычислительных
+ресурсов и пропускной способности канала. Как же сам Digg справляется с
+такой нагрузкой?
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;h3 id="istochniki-informatsii"&gt;Источники информации&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;Этот текст - перевод
+&lt;a href="https://www.insight-it.ru/goto/83eb8e27/" rel="nofollow" target="_blank" title="http://highscalability.com/digg-architecture"&gt;статьи&lt;/a&gt;, автор - &lt;a href="https://www.insight-it.ru/goto/f3f1b405/" rel="nofollow" target="_blank" title="http://highscalability.com/user/todd-hoff"&gt;Todd
+Hoff&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/3c9da0db/" rel="nofollow" target="_blank" title="http://www.computerworld.com/action/article.do?command=viewArticleBasic&amp;amp;articleId=9017778"&gt;Как Digg.com использует LAMP для масштабирования&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/fa3d3949/" rel="nofollow" target="_blank" title="http://www.oreillynet.com/onlamp/blog/2006/04/digg_phps_scalability_and_perf.html"&gt;Масштабируемость и производительность PHP в Digg&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="platforma"&gt;Платформа&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/linux/"&gt;Linux&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/php/"&gt;PHP&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/lucene/"&gt;Lucene&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/apc/"&gt;APC PHP Accelerator&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/memcached/"&gt;Memcached&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="statistika"&gt;Статистика&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Проект стартовал в конце 2004 года на одном сервере под управлением
+    &lt;a href="/tag/linux/"&gt;Linux&lt;/a&gt; с использованием &lt;a href="/tag/apache/"&gt;Apache 1.3&lt;/a&gt;, &lt;a href="/tag/php/"&gt;PHP
+    4&lt;/a&gt; и &lt;a href="/tag/mysql/"&gt;MySQL 4.0&lt;/a&gt; (со стандартной системой
+    хранения данных - MyISAM).&lt;/li&gt;
+&lt;li&gt;Более 1.2 миллиона пользователей.&lt;/li&gt;
+&lt;li&gt;Более 200 миллионов просмотров страниц в месяц.&lt;/li&gt;
+&lt;li&gt;100 серверов расположены в нескольких датацентрах, из них:
+    &amp;ndash; 20 серверов баз данных;
+    &amp;ndash; 30 веб-серверов;
+    &amp;ndash; несколько поисковых серверов, использующих Lucene;
+    &amp;ndash; остальные используются для обеспечения избыточности.&lt;/li&gt;
+&lt;li&gt;30 GB данных.&lt;/li&gt;
+&lt;li&gt;Ни одна из проблем, с которыми пришлось столкнуться проекту не была
+    связана с &lt;a href="/tag/php/"&gt;PHP&lt;/a&gt;, в основном они касались базы данных.&lt;/li&gt;
+&lt;li&gt;Легковесная природа &lt;a href="/tag/php/"&gt;PHP&lt;/a&gt; позволила переместить
+    вычислительные работы из базы данных в приложение для улучшения
+    производительности.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="chto-vnutri"&gt;Что внутри?&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Балансировщик нагрузки равномерно распределяет запросы между
+    &lt;a href="/tag/php/"&gt;PHP&lt;/a&gt; серверами.&lt;/li&gt;
+&lt;li&gt;MySQL используется по принципу master-slave:
+    -&amp;nbsp; Сервера, обрабатывающие большое количество транзакций, используют
+    движок InnoDB.
+    -&amp;nbsp; Сервера, выполняющие аналитическую обработку данных в реальном
+    времени, используют MyISAM.
+    -&amp;nbsp; Снижения производительности при переходе с &lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt; 4.1
+    на версию 5 замечено не было.&lt;/li&gt;
+&lt;li&gt;Для кэширования используется &lt;a href="/tag/memcached/"&gt;Memcached&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Используется сегментирование баз данных.&lt;/li&gt;
+&lt;li&gt;Особенности использования Digg существенно облегчают процесс
+    масштабирования. Большинство посетителей просто просматривают
+    главную страницу и уходят. Это приводит к тому, что 98% запросов к
+    базе данных являются операциями чтения. Такое соотношение операций
+    чтения и записи позволяет не беспокоиться о комплексной работе по
+    проектированию операций записи, что позволяет намного проще
+    масштабировать проект.&lt;/li&gt;
+&lt;li&gt;Возникали проблемы, связанные с системой хранения данных, которые
+    сообщали, что данные уже записаны на диск, когда на самом деле это
+    было не так. Контроллеры делали это для создания впечатления более
+    высокой производительности. Но на практике это приводило лишь к
+    проблемам с целостностью данных. Это достаточно распространенная
+    проблема, которую порой не так уж просто решить, правда все зависит
+    от используемого оборудования.&lt;/li&gt;
+&lt;li&gt;Для облегчения нагрузки на базы данных используется кэширование и
+    &lt;a href="/tag/apc/"&gt;APC PHP Accelerator&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;С использованием рабочих потоков &lt;a href="/tag/apache/"&gt;Apache2&lt;/a&gt;, FastCGI и
+    &lt;a href="/tag/php/"&gt;PHP&lt;/a&gt; акселератора возможно избежать необходимости каждый
+    раз заново интерпретировать и компилировать PHP скрипты: скрипт
+    компилируется только при первом обращении, что существенно ускоряет
+    скорость его выполнения при последующих обращениях.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="podvodim-itogi"&gt;Подводим итоги&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Используйте возможность выбора движка для &lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt;. Если
+    Вам нужны транзакции - используйте InnoDB, если нет - MyISAM.
+    Например, если на master сервере расположены транзакционные таблицы,
+    то для slave серверов можно использовать и MyISAM.&lt;/li&gt;
+&lt;li&gt;В определенный момент рост стал невозможен путем добавления
+    дополнительной оперативной памяти, пришлось продолжать рост путем
+    изменения архитектуры.&lt;/li&gt;
+&lt;li&gt;Люди часто жалуются, что Digg медлителен. Скорее это вызвано их
+    огромными &lt;a href="/tag/javascript/"&gt;JavaScript&lt;/a&gt; библиотеками, чем работой их
+    серверной системы.&lt;/li&gt;
+&lt;li&gt;Стоит тщательно выбирать какие именно приложения развертывать. Они
+    приложили все усилия, чтобы не использовать приложения, требующие
+    больших вычислительных мощностей. Очевидно, что Digg работает на
+    совершенно стандартной &lt;a href="/tag/lamp/"&gt;LAMP&lt;/a&gt; архитектуре, но тем не
+    менее реализована она достаточно интересно. У инженеров часто
+    возникает желание реализовать какой-либо дополнительный функционал,
+    но всегда стоит иметь ввиду, что они могут разрушить инфраструктуру,
+    если она не сможет расти теми же темпами. Так что с этим стоит
+    повременить до тех пор пока система сможет выдерживать все
+    необходимые нагрузки. Это приводит к планированию ресурсов, особенно
+    большое внимание этому аспекту уделяет &lt;a href="/tag/flickr/"&gt;Flickr&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Вам остается лишь догадываться, сможет ли &lt;a href="/tag/digg/"&gt;Digg&lt;/a&gt; удержать
+    свои позиции, если и дальше будет ограничивать добавление новых
+    возможностей, или уступит более активно развивающимся сервисам
+    социальных закладок? Возможно если бы была возможность увеличивать
+    масштабы более простыми методами, более быстрое добавление новых
+    функций и возможностей позволило бы более эффективно конкурировать
+    на этом рынке? С другой стороны, просто добавление новых
+    возможностей может и не поменять ситуацию кардинальным образом.&lt;/li&gt;
+&lt;li&gt;Основные проблемы с масштабируемостью и производительностью связаны
+    с обработкой данных и в большинстве случаев они не зависят от
+    используемого языка программирования. Вы столкнетесь с ними при
+    работе с &lt;a href="/tag/java/"&gt;Java&lt;/a&gt;, &lt;a href="/tag/php/"&gt;PHP&lt;/a&gt;, &lt;a href="/tag/ruby/"&gt;Ruby&lt;/a&gt;, или
+    подставьте сюда Ваш любимый язык программирования.&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Tue, 01 Apr 2008 20:49:00 +0400</pubDate><guid>tag:www.insight-it.ru,2008-04-01:highload/2008/arkhitektura-digg/</guid><category>APC</category><category>Digg</category><category>LAMP</category><category>Linux</category><category>Lucene</category><category>Memcached</category><category>MySQL</category><category>online</category><category>PHP</category><category>архитектура</category><category>архитектура Digg</category><category>интернет</category></item><item><title>Архитектура Wikimedia</title><link>https://www.insight-it.ru//highload/2008/arkhitektura-wikimedia/</link><description>&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/687b5b81/" rel="nofollow" target="_blank" title="http://wikimedia.org"&gt;Wikimedia&lt;/a&gt; является платформой для
+&lt;a href="https://www.insight-it.ru/goto/35f4fea7/" rel="nofollow" target="_blank" title="http://wikipedia.org"&gt;Wikipedia&lt;/a&gt;, &lt;a href="https://www.insight-it.ru/goto/389e980c/" rel="nofollow" target="_blank" title="http://wiktionary.org"&gt;Wiktionary&lt;/a&gt; и
+еще семи менее крупных wiki-проектов. Этот документ очень пригодится
+новичкам, пытающимся довести свои проекты до масштабов гигантских
+вебсайтов. Здесь можно найти множество интересных деталей и
+инновационных идей, которые уже успели доказать свою работоспособность
+на самых посещаемых сайтах всего Интернета.
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;h3 id="istochniki-informatsii"&gt;Источники информации&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;Перевод &lt;a href="https://www.insight-it.ru/goto/cd47c021/" rel="nofollow" target="_blank" title="http://highscalability.com/wikimedia-architecture"&gt;статьи&lt;/a&gt;.
+Автор - &lt;a href="https://www.insight-it.ru/goto/f3f1b405/" rel="nofollow" target="_blank" title="http://highscalability.com/user/todd-hoff"&gt;Todd Hoff&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/c8e5f8d0/" rel="nofollow" target="_blank" title="http://www.nedworks.org/~mark/presentations/san/Wikimedia%20architecture.pdf"&gt;Архитектура Wikimedia&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/62eceab/" rel="nofollow" target="_blank" title="http://meta.wikimedia.org/wiki/Wikimedia_servers"&gt;Серверы Wikimedia&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/c56ad62f/" rel="nofollow" target="_blank" title="http://oracle2mysql.wordpress.com/2007/08/22/12/"&gt;scale-out vs scale-up&lt;/a&gt; из блога "Oracle to MySQL"&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="platforma"&gt;Платформа&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/apache/"&gt;Apache&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/linux/"&gt;Linux&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/php/"&gt;PHP&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/squid/"&gt;Squid&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/lvs/"&gt;LVS&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/lucene/"&gt;Lucene&lt;/a&gt; для поиска&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/memcached/"&gt;Memcached&lt;/a&gt; для распределенного кэширования объектов&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/lighttpd/"&gt;lighttpd&lt;/a&gt; для работы с изображениями&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="statitstika"&gt;Статитстика&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;8 миллионов статей распределены по сотням языковых подпроектов
+    (английские, голландские, ...)&lt;/li&gt;
+&lt;li&gt;В десятке самых высоконагруженных проектов по данным
+    &lt;a href="https://www.insight-it.ru/goto/3b390e59/" rel="nofollow" target="_blank" title="http://alexa.com"&gt;Alexa&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Экспоненциальный рост: в терминах посетителей, трафика и серверов
+    удвоение происходит каждые 4-6 месяцев&lt;/li&gt;
+&lt;li&gt;30000 HTTP запросов в секунду в периоды пиковой нагрузки&lt;/li&gt;
+&lt;li&gt;3 GBps трафик данных&lt;/li&gt;
+&lt;li&gt;3 датацентра: Тампа, Амстердам, Сеул&lt;/li&gt;
+&lt;li&gt;350 серверов, конфигурации варьируются от однопроцессорных Pentium 4
+    с 512 MB оперативной памяти до двухпроцессорных Xeon Quad-Core с 16
+    GB RAM.&lt;/li&gt;
+&lt;li&gt;Управляется ~6 людьми&lt;/li&gt;
+&lt;li&gt;Три кластера на трех разных континентах&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="arkhitektura"&gt;Архитектура&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Географическая балансировка нагрузки, основываясь на IP клиента,
+    перенаправляет их на ближайший кластер. Происходит статическое
+    отображение множества IP адресов на множество стран, а затем и на
+    множество кластеров.&lt;/li&gt;
+&lt;li&gt;Кэширование с помощью &lt;a href="/tag/squid/"&gt;Squid&lt;/a&gt; группируется по типу
+    контента: текст для wiki отдельно от изображений и больших
+    статических файлов.&lt;/li&gt;
+&lt;li&gt;На данный момент функционирует 55 &lt;a href="/tag/squid/"&gt;Squid&lt;/a&gt; серверов, плюс
+    еще 20 подготавливается к запуску.&lt;/li&gt;
+&lt;li&gt;1000 HTTP запросов в секунду на каждый сервер, в периоды повышенной
+    нагрузки эта цифра может достигать 2500.&lt;/li&gt;
+&lt;li&gt;~ 100-250 MBps на сервер.&lt;/li&gt;
+&lt;li&gt;~ 14000-32000 открытых соединений на каждом сервере.&lt;/li&gt;
+&lt;li&gt;До 40 GB дискового кэша на каждом Squid сервере.&lt;/li&gt;
+&lt;li&gt;До 4 дисков в каждом сервере (1U серверы).&lt;/li&gt;
+&lt;li&gt;8 GB оперативной памяти, половину использует &lt;a href="/tag/squid/"&gt;Squid&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/e669c01a/" rel="nofollow" target="_blank" title="http://www.powerdns.com"&gt;PowerDNS&lt;/a&gt; предоставляет геораспределение.&lt;/li&gt;
+&lt;li&gt;В основном и региональных датацентрах текстовые и медиа кластеры
+    построены на &lt;a href="/tag/lvs/"&gt;LVS&lt;/a&gt;,
+    &lt;abbr title="Common Address Redundancy Protocol"&gt;CARP&lt;/abbr&gt;
+&lt;a href="/tag/squid/"&gt;Squid&lt;/a&gt;, кэш &lt;a href="/tag/squid/"&gt;Squid&lt;/a&gt;. В основном датацентре
+    также находится хранилище медиа-данных.&lt;/li&gt;
+&lt;li&gt;Для того, чтобы обеспечить предоставление только последних версий
+    страниц, всем Squid-серверам отправляются инвалидационные запросы.&lt;/li&gt;
+&lt;li&gt;Централизованно управляемая и синхронизированная установка
+    программного обеспечения для сотен серверов.&lt;/li&gt;
+&lt;li&gt;MediaWiki отлично масштабируется с несколькими процессорами, так что
+    закупаются двухпроцессорный четырех ядерные серверы (8 ядер на
+    сервер).&lt;/li&gt;
+&lt;li&gt;Одно и то же оборудование выполняет как задачи внешнего хранения
+    данных, так и кэширования &lt;a href="/tag/memcached/"&gt;Memcached&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/memcached/"&gt;Memcached&lt;/a&gt; используется для кэширования метаданных
+    изображений, данных парсера, различий между ревизиями,
+    пользователей, сессий. Метаданные, такие как история ревизий,
+    отношений статей (ссылки, категории и так далее), учетные записи
+    пользователей хранятся в основных базах данных&lt;/li&gt;
+&lt;li&gt;Сам текст находится во внешних хранилищах данных.&lt;/li&gt;
+&lt;li&gt;Статические (загруженные пользователями) файлы, например
+    изображения, хранятся отдельно на сервере изображений, а метаданные
+    (размер, тип и так далее) кэшируются в основной базе данных и
+    объектном кэше.&lt;/li&gt;
+&lt;li&gt;Отдельная база данных для каждой вики (не отдельный сервер!).&lt;/li&gt;
+&lt;li&gt;Один master и много реплицированных slave серверов.&lt;/li&gt;
+&lt;li&gt;Операции чтения равномерно распределяются по slave серверам,
+    операции записи направляются на master.&lt;/li&gt;
+&lt;li&gt;Иногда master используется и для операция чтения, когда репликация
+    на slave еще не завершена.&lt;/li&gt;
+&lt;li&gt;Внешнее хранение данных:&lt;ul&gt;
+&lt;li&gt;Текст статей хранится на отдельных кластерах, которые представляют
+собой простой средство хранения данных с возможностью только
+дописывания новых данных. Такой подход позволяет сохранить
+дорогостоящее место в высоконагруженных основных базах данных от
+редко используемой информации.&lt;/li&gt;
+&lt;li&gt;Благодаря этому появляются дополнительные неиспользованные ресурсы
+на серверах приложений (порой 250-500 GB на сервер).&lt;/li&gt;
+&lt;li&gt;На данной момент используются реплицируемые кластеры из 3
+&lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt; серверов, но в будущем это может измениться, так
+как требуется более удобное управление ими.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="podvodim-itogi"&gt;Подводим итоги&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Сфокусируйтесь на архитектуре, а не на операциях или чем-то другом.&lt;/li&gt;
+&lt;li&gt;Иногда кэширование обходится дороже, чем повторные вычисление или
+    поиск данных в исходном источнике.&lt;/li&gt;
+&lt;li&gt;Старайтесь избегать сложных алгоритмов, запросов к базе данных и
+    тому подобного.&lt;/li&gt;
+&lt;li&gt;Кэшируйте каждый результат, который дорого вам обошелся и является
+    относительно локальным.&lt;/li&gt;
+&lt;li&gt;Сфокусируйтесь на "горячих точках" в коде.&lt;/li&gt;
+&lt;li&gt;Масштабируйтесь разделением:&lt;ul&gt;
+&lt;li&gt;операций чтения и записи (master/slave);&lt;/li&gt;
+&lt;li&gt;сложных операций и более частых и простых (группы запросов);&lt;/li&gt;
+&lt;li&gt;больших, популярных вики и более мелких.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Улучшайте кэширование: временная и пространственная локализация
+    данных, а также уменьшение набора данных на каждом сервере.&lt;/li&gt;
+&lt;li&gt;Выполняйте компрессию текстовых данных, храните только изменения в
+    статьях.&lt;/li&gt;
+&lt;li&gt;Казалось бы простые вызовы библиотечных функций порой на практике
+    могут занимать слишком много времени.&lt;/li&gt;
+&lt;li&gt;Скорость поиска данных на диске ограничена, так что чем больше
+    дисков - тем лучше!&lt;/li&gt;
+&lt;li&gt;Масштабирование с использованием обычного оборудование не означает
+    использование самых дешевых вещей, которые удастся найти. Серверы
+    баз данных Wikipedia сегодня представляют собой 16GB RAM, двух- или
+    четырех-ядерные серверы с 6 15000 rpm SCSI дисками, организованными
+    в RAID 0. Возможно они бы и использовали более дешевые системы, но
+    16 GB как раз хватает для размещения основного объема данных, а
+    остальное берут на себя жесткие диски, это вполне соответствует
+    потребностям системы, которую они построили. Примерно по таким же
+    причинам их веб-сервера имеют 8 ядер, так как это позволяет достичь
+    неплохой производительности &lt;a href="/tag/php/"&gt;PHP&lt;/a&gt; при достаточно простой
+    организации балансировки нагрузки.&lt;/li&gt;
+&lt;li&gt;Для масштабирования требуется выполнение массы работы, но если
+    заранее этого не предусмотреть - понадобится сделать еще больше.
+    MediaWiki изначально была написана для одного master сервера баз
+    данных. Затем добавилась поддержка slave. Затем добавилось
+    распределение по языкам и проектам. Дизайн системы с тех пор
+    прекрасно выдерживает все нагрузки, но без очистки от новых узких
+    мест системы не обошлось.&lt;/li&gt;
+&lt;li&gt;Каждый, кто хочет разработать свою базу данных таким образом, чтобы
+    она позволила недорого масштабироваться с уровня одного сервера до
+    уровня десятки лучших сайтов Интернета, должен начать с обработки
+    слегка устаревших данных на реплицированных slave серверах, при этом
+    не забывать балансировать нагрузку операций чтения между slave
+    серверами. Если это возможно - блоки данных (группы пользователей,
+    учетных записей, или чего угодно) должны размещаться каждый на
+    разных серверах. Можно делать это с самого начала используя
+    виртуализацию, чтобы удостовериться в работоспособности архитектуры,
+    когда вы еще "маленькие". Это &lt;strong&gt;намного&lt;/strong&gt; проще, чем когда вы
+    делаете то же самое, но под ежемесячно удваивающейся нагрузкой.&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Fri, 28 Mar 2008 15:32:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-03-28:highload/2008/arkhitektura-wikimedia/</guid><category>Apache</category><category>lighttpd</category><category>Linux</category><category>Lucene</category><category>LVS</category><category>Memcached</category><category>MySQL</category><category>PHP</category><category>Squid</category><category>архитектура</category><category>архитектура Wikimedia</category><category>геораспределение</category><category>Масштабируемость</category></item></channel></rss>

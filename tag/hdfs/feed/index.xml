@@ -1,0 +1,645 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/hdfs/feed/index.xml" rel="self"></atom:link><lastBuildDate>Sun, 17 Aug 2008 23:15:00 +0400</lastBuildDate><item><title>Hadoop возвращается</title><link>https://www.insight-it.ru//storage/2008/hadoop-vozvrashhaetsya/</link><description>&lt;p&gt;Если Вы являетесь постоянным читателем моего блога, то вполне вероятно,
+что Вы помните мой &lt;a href="https://www.insight-it.ru/storage/2008/hadoop/"&gt;старый пост&lt;/a&gt; об этом
+замечательном проекте от &lt;a href="https://www.insight-it.ru/goto/e3b03afc/" rel="nofollow" target="_blank" title="http://apache.org"&gt;Apache Foundation&lt;/a&gt;. С тех
+пор он развивался невероятными темпами и очень многое успело измениться,
+об этом я и хотел бы сегодня поделиться своими впечатлениями. В
+дополнение к этому планируется небольшая инструкция по развертыванию
+Hadoop на кластере из большого количества машин, который послужит
+неплохим развитием темы, начатой в посте &lt;a href="https://www.insight-it.ru/storage/2008/hadoop-dlya-razrabotchika/"&gt;"Hadoop для разработчика"&lt;/a&gt;.
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;h3 id="chto-novogo"&gt;Что нового?&lt;/h3&gt;
+&lt;p&gt;Для начала вкратце напомню что их себя представляет данный продукт,
+всего в нем три компонента:&lt;/p&gt;
+&lt;dl&gt;
+&lt;dt&gt;&lt;strong&gt;HDFS&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;кластерная файловая система.&lt;/dd&gt;
+&lt;dt&gt;&lt;strong&gt;MapReduce framework&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;программная основа для построения приложений, работающих по
+одноименной модели.&lt;/dd&gt;
+&lt;dt&gt;&lt;strong&gt;HBase&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;нереляционная база данных.&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;p&gt;Повторно повторяться смысла не вижу, все уже давно &lt;a href="https://www.insight-it.ru/storage/2008/hadoop/"&gt;разложено по полочкам&lt;/a&gt;. Так что сразу перейдем к глобальным
+изменениям в проекте, произошедшим с написания вышеупомянутого поста, то
+есть с февраля. Сразу хочу сказать, что подробно пересказывать &lt;a href="https://www.insight-it.ru/goto/81620ac0/" rel="nofollow" target="_blank" title="http://svn.apache.org/repos/asf/hadoop/core/trunk/CHANGES.txt"&gt;release notes&lt;/a&gt; у
+меня нет никакого желания, если Вам интересны все подробности о каждом
+bugfix'е или изменении в API, то имеет смысл почитать их в оригинале.&lt;/p&gt;
+&lt;p&gt;Наиболее значительным событием в развитии Apache Hadoop было, пожалуй,
+отделение &lt;a href="/tag/hbase/"&gt;HBase&lt;/a&gt; в отдельный проект. Какие же это повлекло
+последствия? С точки зрения простого смертного наиболее заметен тот
+факт, что HBase пропал из основного архива или репозитория Hadoop и его
+теперь нужно качать отдельно :) На самом же деле такое обособление лишь
+ускорило ее развитие, совсем недавно HBase отпраздновала свой релиз
+версии 0.2.0, включающий в себя массу нововведений и исправленных
+проблем, например язык запросов HQL был полностью заменен на jirb/jython
+shell, а также было добавлено кэширование данных в памяти. Помимо этого
+сильно изменилось API, очень рекомендую заглянуть в
+&lt;a href="https://www.insight-it.ru/goto/f059ad5e/" rel="nofollow" target="_blank" title="http://hadoop.apache.org/hbase/docs/current/api/index.html"&gt;javadoc&lt;/a&gt;
+проекта, если Вас это интересует.&lt;/p&gt;
+&lt;p&gt;На уровне файловой системы наиболее значительным изменением стало
+добавление еще одного типа узлов - &lt;strong&gt;Secondary NameNode&lt;/strong&gt;. Это
+нововведение является первым шагом на пути к устранению узких мест в
+системе (так называемых single points of failure). Название этого типа
+узлов говорит само за себя: они подстраховывают основной &lt;em&gt;NameNode&lt;/em&gt; на
+случай непредвиденных сбоев. Они создают резервную копию образа
+метаданных файловой системы и лога транзакций (то есть всех операций с
+файлами и директориями в HDFS) и периодически ее обновляют. Полноценного
+автоматического восстановления системы они в случае сбоя на сервере с
+&lt;em&gt;NameNode&lt;/em&gt; они на данный момент не обеспечивают, но сохранность данных
+на случай, скажем, разрушившегося RAID обеспечить могут.&lt;/p&gt;
+&lt;p&gt;MapReduce framework тоже несомненно развивается и дорабатывается, но
+каких-либо особо выдающихся изменений в нем не произошло: появляются
+дополнительные возможности, исправляются ошибки, снимаются те или иные
+ограничения. В общем все идет своим чередом.&lt;/p&gt;
+&lt;h3 id="podnimaem-klaster"&gt;Поднимаем кластер&lt;/h3&gt;
+&lt;div class="card blue lighten-4"&gt;
+&lt;div class="card-content"&gt;
+&lt;h5&gt;ВНИМАНИЕ!&lt;/h5&gt;
+&lt;p&gt;Перед продолжением чтения этого раздела, настоятельно рекомендуется
+прочитать &lt;a href="https://www.insight-it.ru/storage/2008/hadoop-dlya-razrabotchika/"&gt;статью о запуске псевдо-кластера из одного компьютера&lt;/a&gt;.
+&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Для начала нам понадобится некоторое количество компьютеров (хотя если у
+Вас серьезные намерения, то лучше все же гордо называть их серверами, а
+для "побаловаться" сойдут и обычные рабочие станции с
+&lt;a href="/tag/linux/"&gt;Linux&lt;/a&gt;). Конкретное количество на самом деле роли не
+играет, продолжать можно как с 2 серверами, так и с 20 тысячами (по
+крайней мере теоретически). Хотя пару рекомендаций все же могу дать: при
+использовании в "боевых" условиях стоит стараться избегать физического
+совмещения мастер-узлов компонентов системы (&lt;em&gt;NameNode, JobTracker,
+HMaster&lt;/em&gt;) с "рядовыми" серверами, таким образом желательно начинать с,
+как минимум, 5-7 серверов.&lt;/p&gt;
+&lt;p&gt;Удостоверившись, что на всем оборудовании установлен какой-нибудь
+дистрибутив &lt;a href="/tag/linux/"&gt;Linux&lt;/a&gt; или &lt;a href="/tag/unix/"&gt;Unix&lt;/a&gt; (любители особо
+поизвращаться могут попытать счастья с "окнами" в совокупности с Cygwin)
+и 5 или 6 версия JRE/JDK (желательно от Sun), можно приступать к
+настройке каждого узла по тому же принципу, что и для псевдо-кластера
+(да-да, предупреждение в начале раздела было написано не для мебели).
+Кстати не забудьте, что &lt;a href="/tag/hbase/"&gt;HBasе&lt;/a&gt; теперь нужно скачивать
+отдельно. О небольших присутствующих особенностях я расскажу чуть позже,
+а пока дам маленький совет, который позволит несколько облегчить это
+непростое дело.&lt;/p&gt;
+&lt;p&gt;Вручную выполнять одни и те же операции на паре десятков/сотен/тысяч
+серверов мало того что долго, но и чрезвычайно утомительно. Уже на
+втором-третьем сервере начнет появляться желание каким-либо образом
+автоматизировать процесс установки. Конечно же можно воспользоваться
+специализированным программным обеспечением, скажем
+&lt;a href="https://www.insight-it.ru/goto/65d64e55/" rel="nofollow" target="_blank" title="http://www.theether.org/gexec/"&gt;gexec&lt;/a&gt;, но есть и более простой способ:
+существенно упростить жизнь может простой скрипт на bash в 5 строчек:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; x in &lt;span class="sb"&gt;`&lt;/span&gt;cat ~/nodes&lt;span class="sb"&gt;`&lt;/span&gt;
+&lt;span class="k"&gt;do&lt;/span&gt;
+ssh hadoop@&lt;span class="nv"&gt;$x&lt;/span&gt; &lt;span class="nv"&gt;$1&lt;/span&gt;
+&lt;span class="k"&gt;done&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;В файле &lt;code&gt;~/nodes&lt;/code&gt; должен располагаться список IP-адресов всех
+серверов, тогда получив первым параметром произвольную консольную
+команду скрипт выполнит ее на каждом сервере. С его помощью можно
+существенно сократить время, требуемое на выполнение всех необходимых
+действий для запуска кластера.&lt;/p&gt;
+&lt;p&gt;После небольшого лирического отступления вернемся собственно к
+&lt;a href="/tag/hadoop/"&gt;Hadoop&lt;/a&gt;. Как Вы уже, надеюсь, знаете, система использует
+&lt;strong&gt;ssh&lt;/strong&gt; для управления всеми компонентами системы, причем очень
+желателен беспарольный доступ между всеми узлами. Для этого необходимо
+собрать в один файл все публичные ключи &lt;code&gt;~/.ssh/id_rsa.pub&lt;/code&gt; на
+каждом из узлов (по одному на строчку) и разместить его под именем
+&lt;code&gt;~/.ssh/authorized_keys&lt;/code&gt; тоже на каждом из узлов. Кстати для
+упоминавшегося выше скрипта беспарольный доступ тоже очень желателен.&lt;/p&gt;
+&lt;p&gt;Следующим этапом нужно подготовить конфигурационные файлы, они должны
+быть идентичными на всех узлах, так что заполнив их все на одном из
+узлов нужно скопировать их по всем остальным серверам (очень удобно
+делать это с помощью &lt;strong&gt;rsync&lt;/strong&gt;). Теперь пройдемся по необходимым
+изменениям в каждом из них:&lt;/p&gt;
+&lt;h4&gt;hadoop-site.xml&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;fs.default.name&lt;span class="nt"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;hdfs://namenode:54310&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;description&amp;gt;&lt;/span&gt;
+    The name of the default file system.  A URI whose
+    scheme and authority determine the FileSystem implementation.  The
+    uri's scheme determines the config property (fs.SCHEME.impl) naming
+    the FileSystem implementation class.  The uri's authority is used to
+    determine the host, port, etc. for a filesystem.
+  &lt;span class="nt"&gt;&amp;lt;/description&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;mapred.job.tracker&lt;span class="nt"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;jobtracker:54311&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;description&amp;gt;&lt;/span&gt;
+    The host and port that the MapReduce job tracker runs
+    at.  If "local", then jobs are run in-process as a single map
+    and reduce task.
+  &lt;span class="nt"&gt;&amp;lt;/description&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Каждый сервер должен знать где расположен &lt;em&gt;NameNode&lt;/em&gt;, по-этому он
+  явно указывается в полном пути к файловой системе, практически
+  аналогичная ситуация и с &lt;em&gt;JobTracker&lt;/em&gt;. Вместо namenode и jobtracker
+  необходимо указать их IP-адреса или доменные имена (или в крайнем
+  случае - имя в &lt;code&gt;/etc/hosts&lt;/code&gt;)&lt;/p&gt;
+&lt;h4&gt;masters&lt;/h4&gt;
+&lt;p&gt;Вопреки логике, здесь указывается список всех &lt;em&gt;SecondaryNameNode&lt;/em&gt;.
+Одного-двух серверов здесь будет вполне достаточно, самое главное не
+указывать здесь адрес основного &lt;em&gt;NameNode&lt;/em&gt;, лучше всего подойдет
+какой-нибудь другой мастер-сервер, может быть дополненный одним из
+обычных узлов кластера. Выделять под это отдельный сервер смысла не
+много, так как нагрузка на них минимальна.&lt;/p&gt;
+&lt;h4&gt;slaves&lt;/h4&gt;
+&lt;p&gt;Список всех рядовых серверов, по одному на строку (опять же: IP или доменное имя). На них будут запущенны &lt;em&gt;DataNode&lt;/em&gt; и &lt;em&gt;TaskTracker&lt;/em&gt;.&lt;/p&gt;
+&lt;h4&gt;hbase-site.xml&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;hbase.master&lt;span class="nt"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;localhost:60000&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;description&amp;gt;&lt;/span&gt;
+    the host and port that the HBase master runs at
+  &lt;span class="nt"&gt;&amp;lt;/description&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Первое изменение достаточно очевидно: &lt;em&gt;HRegionServer&lt;/em&gt; должны знать
+где находится &lt;em&gt;HMaster&lt;/em&gt;, о чем им и сообщает первое свойство
+(заменяем hmaster на соответствующий адрес). А вот второе свойство
+является следствием "обособления" HBase от Hadoop, о котором шла
+речь ранее. Теперь имеется возможность использовать их отдельно (с
+локальной файловой системой вместо HDFS), а так как появился выбор
+файловой системы - ее адрес необходимо указывать полностью. В данном
+случае указан адрес HDFS (такой же как в &lt;strong&gt;hadoop-site.xml&lt;/strong&gt;).&lt;/p&gt;
+&lt;h4&gt;regionservers&lt;/h4&gt;
+&lt;p&gt;Вполне очевидный конфигурационный файл, по аналогии со &lt;strong&gt;slaves&lt;/strong&gt;,
+заполняется списком адресов для запуска &lt;em&gt;HRegionServer&lt;/em&gt;. Часто
+совпадает с упомянутым &lt;strong&gt;slaves&lt;/strong&gt;, обычно достаточно просто
+скопировать.&lt;/p&gt;
+&lt;h3 id="zapusk"&gt;Запуск&lt;/h3&gt;
+&lt;p&gt;Удостоверившись, что с конфигурационными файлами все нормально и что они
+на всех серверах совпадают, можно приступать собственно к запуску. Этот
+процесс практически полностью совпадает с запуском на одном узле, хотя
+обычно проще желать это тоже простеньким скриптом примерно такого вида:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/bin/bash&lt;/span&gt;
+ssh hadoop@namenode ~/hadoop/bin/start-dfs.sh
+ssh hadoop@jobtracker ~/hadoop/bin/start-mapred.sh
+ssh hadoop@hmaster ~/hbase/bin/start-hbase.sh
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Если мы нигде не ошиблись и все сделано правильно, то кластер
+благополучно запустится, что легко проследить выполнив на каждом узле
+команду &lt;code&gt;jps&lt;/code&gt; и проверив соответствие запущенных компонентов
+запланированному (читай: указанному в конфигурационных файлах).&lt;/p&gt;
+&lt;p&gt;В целом процесс достаточно прост и не занимает много времени, если Вы
+все же столкнулись с какими-либо проблемами в процессе - обращайтесь,
+вполне возможно, что я смогу помочь. Удостовериться, что все нормально
+можно абсолютно так же, как и для псевдо-кластера - с помощью MapReduce
+задач, идущих в комплекте с Hadoop. Выглядеть это может, например, вот
+так:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;~/hadoop/bin/hadoop jar hadoop-*-examples.jar pi &lt;span class="m"&gt;4&lt;/span&gt; 10000
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;По-хорошему надо было бы написать подобную инструкцию сразу после
+первой, но почему-то как-то не сложилось...&lt;/p&gt;
+&lt;h3 id="zakliuchenie"&gt;Заключение&lt;/h3&gt;
+&lt;p&gt;На данный момент &lt;a href="/tag/hadoop/"&gt;Hadoop&lt;/a&gt; стал еще более работоспособным,
+по сравнению с его февральским состоянием. Сообщество использующих его
+разработчиков растет с каждым днем, а все ошибки и проблемы исправляются
+очень и очень оперативно, многие коммерческие проекты могут позавидовать
+таким темпам развития. Хоть до по-настоящему стабильного релиза еще
+далеко, данный продукт уже сейчас очень активно используется в
+достаточно большом количестве крупных интернет-проектов.&lt;/p&gt;
+&lt;p&gt;Если Вы еще не успели подписаться на &lt;a href="/feed/"&gt;RSS&lt;/a&gt; - сейчас самое время!&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sun, 17 Aug 2008 23:15:00 +0400</pubDate><guid>tag:www.insight-it.ru,2008-08-17:storage/2008/hadoop-vozvrashhaetsya/</guid><category>Apache</category><category>Hadoop</category><category>HBase</category><category>HDFS</category><category>MapReduce</category></item><item><title>Hypertable</title><link>https://www.insight-it.ru//storage/2008/hypertable/</link><description>&lt;p&gt;&lt;img alt="Hypertable" class="right" src="https://www.insight-it.ru/images/hypertable-logo.gif" title="Hypertable"/&gt;
+&lt;a href="https://www.insight-it.ru/goto/63463036/" rel="nofollow" target="_blank" title="http://www.hypertable.org"&gt;Hypertable&lt;/a&gt; является еще одним opensource
+проектом, направленным на воспроизведение функционала
+&lt;a href="/tag/bigtable/"&gt;BigTable&lt;/a&gt; от &lt;a href="/tag/google/"&gt;Google&lt;/a&gt;. Поставленная перед
+проектом цель заключается в реализации системы хранения данных на базе
+распределенной файловой системы, позволяющей перейти на новый уровень
+производительности при работе с гигантскими объемами данных.
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;Принцип работы &lt;a href="/tag/hypertable/"&gt;Hypertable&lt;/a&gt; прост до безобразия:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Hypertable хранит данные в табличном формате, сортируя записи по
+    основному ключу;&lt;/li&gt;
+&lt;li&gt;для хранимых данных не используются какие-либо типы данных, любая
+    ячейка интерпретируется как байтовая строка;&lt;/li&gt;
+&lt;li&gt;масштабируемость достигается путем разбиения таблиц на смежные
+    интервалы строк и хранения их на разных физических машинах;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;в системе используется два типа серверов:&lt;/p&gt;
+&lt;dl&gt;
+&lt;dt&gt;&lt;strong&gt;Master Server&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;&amp;ndash; как и во многих других подобных системах мастер-сервер
+выполняет обязанности скорее административного характера: он
+управляет работой Range серверов, работает с метаданными
+(которые хранятся просто в отдельной таблице, наравне с
+остальными).&lt;/dd&gt;
+&lt;dt&gt;&lt;strong&gt;Range Server&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;&amp;ndash; их задача стоит в собственно в хранении диапазонов строк из
+различных таблиц. Каждый сервер может хранить несколько
+несмежных диапазонов строк, если диапазон превышает по объему
+определенный лимит (по-умолчанию - 200 MB), то он разбивается на
+пополам и одна половина обычно перемещяется на другой сервер.
+Если же на одном из серверов подходит к концу дисковое
+пространство, то под руководством мастер-сервера часть
+диапазонов с него перераспределяется на менее загруженные Range
+серверы.&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Еще одним компонентом системы является Hyperspace, этот сервер
+    предоставляет указатель на основную таблицу с метаданными, а также
+    пространство имен. Помимо этого этот сервис выступает в роли
+    lock-механизма для клиентов системы.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;В качестве основы для этой системы может использоваться как входящая в
+состав &lt;a href="/tag/hadoop/"&gt;Hadoop&lt;/a&gt; файловая система &lt;a href="/tag/hdfs/"&gt;HDFS&lt;/a&gt;, так и
+&lt;a href="/tag/kfs/"&gt;KosmosFS&lt;/a&gt;, о которой я недавно
+&lt;a href="https://www.insight-it.ru/storage/2008/fajjly-v-kosmose/"&gt;рассказывал&lt;/a&gt;. Это позволяет
+Hypertable выступать в роли конкурента для &lt;a href="/tag/hbase/"&gt;HBase&lt;/a&gt; в рамках
+проекта &lt;a href="/tag/hadoop/"&gt;Hadoop&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;HBase и Hypertable выполняют достаточно похожие функции и преследуют
+практически одни и те же цели, но есть некоторые ньюансы. Одним из
+глобальных различий в этих системах является языки программирования, с
+использованием которого они реализованы. HBase написана на
+&lt;a href="/tag/java/"&gt;Java&lt;/a&gt;, в то время как разработчики Hypertable предпочли
+&lt;a href="/tag/c/"&gt;C++&lt;/a&gt;. Это повлекло за собой массу различий в инкапсулированной
+реализации различных операций.&lt;/p&gt;
+&lt;p&gt;Для доступа к данным каждая из систем использует язык HQL, только в
+одном случае аббревиатура расшифровывается как HBase Query Language, а в
+другом - Hypertable Query Language (как эгоистично :) ). По сути и то и
+другое является сильно упрощенным диалектом &lt;a href="/tag/sql/"&gt;SQL&lt;/a&gt;, что
+позволяет сократить знакомство с синтаксисом HQL до пары минут при
+достаточном знании классического SQL. Хотелось бы отметить, что вся
+простота в сравнении с классическим SQL и реляционными СУБД вполне
+обоснована: обе системы хранения данных предназначены для использования
+в совокупности с &lt;a href="/tag/mapreduce/"&gt;MapReduce&lt;/a&gt; программами, что делает их
+просто хранилищем данных, а не средством их обработки.&lt;/p&gt;
+&lt;p&gt;После небольшого лирического отступления в виде сравнения с HBase
+хотелось бы все же вернуться к теме нашего разговора, а именно к
+организации хранения данных в Hypertable. Данные хранятся в виде пар
+ключ:значение, причем храняться все версии строк с указанием времени,
+когда они были созданы. Таким образом легко проследить за процессом
+изменения данных во времени, а также узнать какие именно операции
+проводились над ними в прошлом. Стандартный механизм работы с версиями
+данных может быть переопределен на хранения лишь фиксированного
+количества версий строки, позволяя использовать удаление устаревших
+записей для освобождения дополнительного дискового пространства.&lt;/p&gt;
+&lt;p&gt;Для более эффективной работы с обновлением случайных ячеек таблиц
+используется кэширование. Поступающие данные собираются в оперативной
+памяти и при достижении определенного лимита сжимаются и записываются на
+диск.&lt;/p&gt;
+&lt;p&gt;Для более эффективной работы с распределенной файловой системой
+используется механизм под названием &lt;em&gt;Access Groups&lt;/em&gt;. Суть заключается в
+объединении колонок таблиц в группы, в которых они чаще всего
+используется вместе. Такие группы данных по возможности храняться вместе
+на физических носителях. Если запрос включает в себя только данные из
+колонок одной группы доступа, то с дисков считывается только эти
+колонки, в противном случае приходиться работать со всей строкой
+целиком. Такой подход позволяет существенно оптимизировать работу
+операций ввода/вывода.&lt;/p&gt;
+&lt;p&gt;Проект еще находится в стадии разработки и до стабильного релиза ему еще
+далеко, но тем не менее он уже вполне может себя показать в качестве
+конкурента как для других систем подобного класса, так и для более
+стандартных реляционных баз данных. Основными недостающими моментами в
+этой системе в данной системе является отсутствие некоторого порой
+необходимого функционала в HQL, а такжы некоторые проблемы с
+отказоустойчивостью, вызванные единственностью в рамках системы Master и
+Hyperspace серверов.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sat, 05 Apr 2008 20:27:00 +0400</pubDate><guid>tag:www.insight-it.ru,2008-04-05:storage/2008/hypertable/</guid><category>C++</category><category>GPL</category><category>Hadoop</category><category>HDFS</category><category>HQL</category><category>Hypertable</category><category>KFS</category><category>opensource</category></item><item><title>Hadoop для разработчика</title><link>https://www.insight-it.ru//storage/2008/hadoop-dlya-razrabotchika/</link><description>&lt;p&gt;Для разработки приложений, работающих с использованием Hadoop, или же
+алгоритмов для MapReduce framework'а совсем не нужен полномасштабный
+кластер. На самом же деле для запуска всей системы, описанной мной в
+&lt;a href="https://www.insight-it.ru/storage/2008/hadoop/"&gt;одном из предыдущих постов&lt;/a&gt;, вполне
+достаточно одного компьютера и буквально минут 15 свободного времени,
+как потратить их для решения этой задачи я Вам и поведаю.
+&lt;!--more--&gt;
+Рассказывать я буду на примере своего &lt;a href="/tag/gentoo-linux/"&gt;Gentoo
+Linux&lt;/a&gt;, но большая часть этого повествования будет
+справедлива и для других unix-like операционных систем.&lt;/p&gt;
+&lt;h3 id="podgotovka"&gt;Подготовка&lt;/h3&gt;
+&lt;p&gt;Перед тем, как приступить собственно говоря к установке
+&lt;a href="https://www.insight-it.ru/goto/30a7481/" rel="nofollow" target="_blank" title="http://hadoop.apache.org/core/"&gt;Hadoop&lt;/a&gt;, необходимо выполнить два
+элементарных действия, необходимых для правильного функционирования
+системы:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;открыть доступ одному из пользователей по &lt;code&gt;ssh&lt;/code&gt; к этому же
+    компьютеру без пароля, можно например создать отдельного
+    пользователя для этого &lt;code&gt;hadoop&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$$&lt;/span&gt; useradd -m -n hadoop
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Далее действия выполняем от его имени:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$$&lt;/span&gt; su hadoop
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Генерируем RSA-ключ для обеспечения аутентификации в условиях
+отсутствия возможности использовать пароль:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$$&lt;/span&gt; hadoop@localhost ~ &lt;span class="nv"&gt;$ &lt;/span&gt;ssh-keygen -t rsa -P &lt;span class="s2"&gt;""&lt;/span&gt;
+Generating public/private rsa key pair.
+Enter file in which to save the key &lt;span class="o"&gt;(&lt;/span&gt;/home/hadoop/.ssh/id_rsa&lt;span class="o"&gt;)&lt;/span&gt;:
+Your identification has been saved in /home/hadoop/.ssh/id_rsa.
+Your public key has been saved in /home/hadoop/.ssh/id_rsa.pub.
+The key fingerprint is:
+7b:5c:cf:79:6b:93:d6:d6:8d:41:e3:a6:9d:04:f9:85 hadoop@localhost
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;И добавляем его в список авторизованных ключей:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$$&lt;/span&gt; cat ~/.ssh/id_rsa.pub &amp;gt;&amp;gt; ~/.ssh/authorized_keys
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Этого должно быть более чем достаточно, проверить работоспособность
+соединения можно просто написав:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$$&lt;/span&gt; ssh localhost
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Не забываем предварительно инициализировать &lt;strong&gt;sshd&lt;/strong&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$$&lt;/span&gt; /etc/init.d/sshd start
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Помимо этого необходимо убедиться в наличии установленной JVM версии
+    1.5.0 или выше, а также узнать директорию, где она располагается,
+    вариантов сделать это множество, я нашел ее просто заглянув в самое
+    логичное место - &lt;code&gt;/usr/lib&lt;/code&gt;, но при желании никто не может Вам
+    помешать воспользоваться услугами, например, &lt;code&gt;slocate&lt;/code&gt;. Найденную
+    директорию с JVM лучше запомнить или записать куда-нибудь, для меня
+    она оказалась: &lt;code&gt;/usr/lib/jvm/sun-jdk-1.6&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="ustanovka"&gt;Установка&lt;/h3&gt;
+&lt;p&gt;Установка начинается с получения копии исходного кода системы, способов
+для этого существует несколько. Я перепробовал практически все, самую
+адекватную версию мне удалось получить из SVN. Для ее получения
+необходимо выполнить следующую команду:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;svn checkout http://svn.apache.org/repos/asf/hadoop/core/branches/branch-0.16 ~
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;branch-0.16&lt;/strong&gt; - последняя доступная версия на данный момент, для
+определения ее номера достаточно заглянуть &lt;a href="https://www.insight-it.ru/goto/99e3d37e/" rel="nofollow" target="_blank" title="http://svn.apache.org/repos/asf/hadoop/core/branches/"&gt;по тому же адресу&lt;/a&gt;
+браузером. Предполагается, что Hadoop будет располагаться прямо в
+&lt;code&gt;/home/hadoop&lt;/code&gt;, но запросто можно использовать и другую директорию.&lt;/p&gt;
+&lt;p&gt;Сразу же стоит скомпилировать различные дополнительные компоненты
+системы, особенно это актуально из-за &lt;a href="/tag/hbase/"&gt;HBase&lt;/a&gt;, но и помимо
+него соберется много чего интересного, например plug-in для отличной IDE
+под названием &lt;strong&gt;&lt;a href="https://www.insight-it.ru/goto/b7976bc5/" rel="nofollow" target="_blank" title="http://www.eclipse.org"&gt;Eclipse&lt;/a&gt;&lt;/strong&gt; или &lt;a href="https://www.insight-it.ru/goto/9253da15/" rel="nofollow" target="_blank" title="http://hadoop.apache.org/core/docs/r0.16.0/hod.html"&gt;Hadoop On
+Demand&lt;/a&gt;. Задача
+также элементарна:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; ~ &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; ant clean jar compile-contrib
+&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id="nastroika"&gt;Настройка&lt;/h3&gt;
+&lt;p&gt;Конфигурационные файлы можно редактировать в произвольном порядке, самое
+главное ничего не забыть :)&lt;/p&gt;
+&lt;h4&gt;conf/hadoop-env.sh&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;JAVA_HOME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/usr/lib/jvm/sun-jdk-1.6
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Единственная обязательная переменная окружения - &lt;code&gt;JAVA_HOME&lt;/code&gt;,
+здесь как раз пригодится заранее найденный путь до JVM, все
+остальное - по желанию.&lt;/p&gt;
+&lt;h4&gt;conf/hadoop-site.xml&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;hadoop.tmp.dir&lt;span class="nt"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;/home/hadoop/data/${user.name}&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;description&amp;gt;&lt;/span&gt;A base for other temporary directories.&lt;span class="nt"&gt;&amp;lt;/description&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;fs.default.name&lt;span class="nt"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;hdfs://localhost:54310&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;description&amp;gt;&lt;/span&gt;The name of the default file system.  A URI whose
+  scheme and authority determine the FileSystem implementation.  The
+  uri's scheme determines the config property (fs.SCHEME.impl) naming
+  the FileSystem implementation class.  The uri's authority is used to
+  determine the host, port, etc. for a filesystem.&lt;span class="nt"&gt;&amp;lt;/description&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;mapred.job.tracker&lt;span class="nt"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;localhost:54311&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;description&amp;gt;&lt;/span&gt;The host and port that the MapReduce job tracker runs
+  at.  If "local", then jobs are run in-process as a single map
+  and reduce task.
+  &lt;span class="nt"&gt;&amp;lt;/description&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;dfs.replication&lt;span class="nt"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;1&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;description&amp;gt;&lt;/span&gt;Default block replication.
+  The actual number of replications can be specified when the file is created.
+  The default is used if replication is not specified in create time.
+  &lt;span class="nt"&gt;&amp;lt;/description&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Этот конфигурации файл является одним из ключевых, таким образом он
+выглядит для конфигурации, состоящей из одного компьютера
+(позаимствован из &lt;a href="https://www.insight-it.ru/goto/f1c9004a/" rel="nofollow" target="_blank" title="http://www.michael-noll.com/tutorials/running-hadoop-on-ubuntu-linux-single-node-cluster/"&gt;англоязычного мануала&lt;/a&gt;
+на ту же тему).&lt;/p&gt;
+&lt;h4&gt;src/contrib/hbase/conf/hbase-site.xml&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;hbase.master&lt;span class="nt"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;localhost:60000&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;description&amp;gt;&lt;/span&gt;The host and port that the HBase master runs at&lt;span class="nt"&gt;&amp;lt;/description&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;hbase.rootdir&lt;span class="nt"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;/hbase&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;description&amp;gt;&lt;/span&gt;location of HBase instance in dfs&lt;span class="nt"&gt;&amp;lt;/description&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Как не сложно заметить, этот файл необходим для функционирования
+&lt;strong&gt;HBase&lt;/strong&gt;, по-моему все просто и очевидно, &lt;code&gt;&amp;lt;description&amp;gt;&lt;/code&gt; говорят
+сами за себя.&lt;/p&gt;
+&lt;h3 id="zapusk"&gt;Запуск&lt;/h3&gt;
+&lt;p&gt;Начать стоит с ознакомления с кратким описанием доступных команд Hadoop,
+сделать это можно просто набрав &lt;code&gt;~/bin/hadoop&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;Usage: hadoop &lt;span class="o"&gt;[&lt;/span&gt;--config confdir&lt;span class="o"&gt;]&lt;/span&gt; COMMAND
+where COMMAND is one of:
+  namenode -format     format the DFS filesystem
+  secondarynamenode    run the DFS secondary namenode
+  namenode             run the DFS namenode
+  datanode             run a DFS datanode
+  dfsadmin             run a DFS admin client
+  fsck                 run a DFS filesystem checking utility
+  fs                   run a generic filesystem user client
+  balancer             run a cluster balancing utility
+  jobtracker           run the MapReduce job Tracker node
+  pipes                run a Pipes job
+  tasktracker          run a MapReduce task Tracker node
+  job                  manipulate MapReduce &lt;span class="nb"&gt;jobs&lt;/span&gt;
+&lt;span class="nb"&gt;  &lt;/span&gt;version              print the version
+  jar             run a jar file
+  distcp   copy file or directories recursively
+  daemonlog            get/set the log level &lt;span class="k"&gt;for&lt;/span&gt; each daemon
+ or
+  CLASSNAME            run the class named CLASSNAME
+Most commands print &lt;span class="nb"&gt;help &lt;/span&gt;when invoked w/o parameters.
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Первым делом необходимо отформатировать &lt;em&gt;Namenode&lt;/em&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;~/bin/hadoop namenode -format
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;И дело останется лишь за малым, запустить на выполнение пару
+bash-скриптов, которые без вашего дальнейшего участия &lt;em&gt;инициализируют&lt;/em&gt;
+всю систему, включая HBase:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;~/bin/hadoop/start-all.sh &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; ~/src/contrib/hbase/bin/start-hbase.sh
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Как только они закончат все необходимые действия, у Вас появится
+возможность удостовериться, что все в порядке. Самым простым способом
+является запуск клиента &lt;em&gt;Hbase Shell&lt;/em&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;~/bin/src/contrib/hbase/bin/hbase shell
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Если в ответ Вы получили соответствующее приглашение клиента, значит все
+было сделано верно!&lt;/p&gt;
+&lt;p&gt;Вот собственно говоря и все, псевдо-кластер функционирует, доступ к
+HBase имеется, можно приступать к разработке :)&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;P.S.:&lt;/strong&gt; Остановка системы производится по тому же принципу скриптами
+&lt;code&gt;stop-all.sh&lt;/code&gt; и &lt;code&gt;stop-hbase.sh&lt;/code&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Tue, 26 Feb 2008 00:15:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-02-26:storage/2008/hadoop-dlya-razrabotchika/</guid><category>gentoo linux</category><category>Hadoop</category><category>HBase</category><category>HDFS</category><category>MapReduce</category><category>ПО</category><category>развертывание</category><category>разработка</category><category>установка</category></item><item><title>Hadoop</title><link>https://www.insight-it.ru//storage/2008/hadoop/</link><description>&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/30a7481/" rel="nofollow" target="_blank" title="http://hadoop.apache.org/core/"&gt;Hadoop&lt;/a&gt; представляет собой платформу
+для построения приложений, способных обрабатывать огромные объемы
+данных. Система основывается на распределенном подходе к вычислениям и
+хранению информации, основными ее особенностями являются:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Масштабируемость:&lt;/strong&gt; с помощью &lt;a href="/tag/hadoop/"&gt;Hadoop&lt;/a&gt; возможно
+    надежное хранение и обработка огромных объемов данных, которые могут
+    измеряться петабайтами;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Экономичность:&lt;/strong&gt; информация и вычисления распределяются по
+    &lt;a href="/tag/klaster/"&gt;кластеру&lt;/a&gt;, построенному на самом обыкновенном
+    оборудовании. Такой кластер может состоять из тысяч узлов;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Эффективность:&lt;/strong&gt; распределение данных позволяет выполнять их
+    обработку параллельно на множестве компьютеров, что существенно
+    ускоряет этот процесс;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Надежность:&lt;/strong&gt; при хранении данных возможно предоставление
+    избыточности, благодаря хранению нескольких копий. Такой подход
+    позволяет гарантировать отсутствие потерь информации в случае сбоев
+    в работе системы;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Кроссплатформенность:&lt;/strong&gt; так как основным языком программирования,
+    используемым в этой системе является &lt;a href="/tag/java/"&gt;Java&lt;/a&gt;, развернуть
+    ее можно на базе любой операционной системы, имеющей &lt;abbr title="Java Virtual Machine"&gt;JVM&lt;/abbr&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!--more--&gt;
+&lt;h3 id="hdfs"&gt;HDFS&lt;/h3&gt;
+&lt;p&gt;В основе всей системы лежит распределенная файловая система под
+незамысловатым названием &lt;strong&gt;Hadoop Distributed File System&lt;/strong&gt;.
+Представляет она собой вполне стандартную распределенную файловую
+систему, но все же она обладает рядом особенностей:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Устойчивость к сбоям, разработчики рассматривали сбои в оборудовании
+    скорее как норму, чем как исключение;&lt;/li&gt;
+&lt;li&gt;Приспособленность к развертке на самом обыкновенном ненадежном
+    оборудовании;&lt;/li&gt;
+&lt;li&gt;Предоставление высокоскоростного потокового доступа ко всем данным;&lt;/li&gt;
+&lt;li&gt;Настроена для работы с большими файлами и наборами файлов;&lt;/li&gt;
+&lt;li&gt;Простая модель работы с данными: &lt;em&gt;один раз записали - много раз
+    прочли&lt;/em&gt;;&lt;/li&gt;
+&lt;li&gt;Следование принципу: &lt;em&gt;переместить вычисления проще, чем переместить
+    данные&lt;/em&gt;;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Архитектура HDFS&lt;/h4&gt;
+&lt;p&gt;Проще всего ее демонстрирует схема,
+&lt;a href="https://www.insight-it.ru/goto/9c57006b/" rel="nofollow" target="_blank" title="http://hadoop.apache.org/core/docs/current/images/hdfsarchitecture.gif"&gt;позаимствованная&lt;/a&gt; с официального сайта проекта и переведенная мной на руский:
+&lt;img alt="Архитектура HDFS" class="responsive-img" src="https://www.insight-it.ru/images/hdfsarchitecture.jpg" title="Архитектура HDFS"/&gt;&lt;/p&gt;
+&lt;p&gt;Действующие лица:&lt;/p&gt;
+&lt;dl&gt;
+&lt;dt&gt;&lt;strong&gt;Namenode&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;Этот компонент системы осуществляет всю работу с метаданными. Он
+должен быть запущен только на одном компьютере в кластере. Именно он
+управляет размещением информации и доступом ко всем данным,
+расположенным на ресурсах кластера. Сами данные проходят с остальных
+машин кластера к клиенту мимо него.&lt;/dd&gt;
+&lt;dt&gt;&lt;strong&gt;Datanode&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;На всех остальных компьютерах системы работает именно этот
+компонент. Он располагает сами блоки данных в локальной файловой
+системе для последующей передачи или обработки их по запросу
+клиента. Группы узлов данных принято называть Rack, они
+используются, например, в схемах репликации данных.&lt;/dd&gt;
+&lt;dt&gt;&lt;strong&gt;Клиент&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;Просто приложение или пользователь, работающий с файловой системой.
+В его роли может выступать практически что угодно.&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;p&gt;Пространство имен &lt;a href="/tag/hdfs/"&gt;HDFS&lt;/a&gt; имеет классическую иерархическую
+структуру: пользователи и приложения имеют возможность создавать
+директории и файлы. Файлы хранятся в виде блоков данных произвольной (но
+одинаковой, за исключением последнего; по-умолчанию 64 mb) длины,
+размещенных на &lt;strong&gt;Datanode&lt;/strong&gt;'ах. Для обеспечения отказоустойчивости блоки
+хранятся в нескольких экземплярах на разных узлах, имеется возможность
+настройки количества копий и алгоритма их распределения по системе.
+Удаление файлов происходит не сразу, а через какое-то время после
+соответствующего запроса, так как после получения запроса файл
+перемещается в директорию &lt;strong&gt;/trash&lt;/strong&gt; и хранится там определенный период
+времени на случай если пользователь или приложение передумают о своем
+решении. В этом случае информацию можно будет восстановить, в противном
+случае - физически удалить.&lt;/p&gt;
+&lt;p&gt;Для обнаружения возникновения каких-либо неисправностей, &lt;strong&gt;Datanode&lt;/strong&gt;
+периодически отправляют &lt;strong&gt;Namenode&lt;/strong&gt;'у сигналы о своей
+работоспособности. При прекращении получения таких сигналов от одного из
+узлов &lt;strong&gt;Namenode&lt;/strong&gt; помечает его как &lt;em&gt;"мертвый"&lt;/em&gt;, и прекращает какой-либо
+с ним взаимодействие до возвращения его работоспособности. Данные,
+хранившиеся на &lt;em&gt;"умершем"&lt;/em&gt; узле реплицируются дополнительный раз из
+оставшихся &lt;em&gt;"в живых"&lt;/em&gt; копий и система продолжает свое функционирование
+как ни в чем не бывало.&lt;/p&gt;
+&lt;p&gt;Все коммуникации между компонентами файловой системы проходят по
+специальным протоколам, основывающимся на стандартном &lt;strong&gt;TCP/IP&lt;/strong&gt;.
+Клиенты работают с &lt;strong&gt;Namenode&lt;/strong&gt; с помощью так называемого
+&lt;strong&gt;ClientProtocol&lt;/strong&gt;, а передача данных происходит по
+&lt;strong&gt;DatanodeProtocol&lt;/strong&gt;, оба они &lt;em&gt;обернуты&lt;/em&gt; в &lt;strong&gt;Remote Procedure Call
+(RPC)&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Система предоставляет несколько интерфейсов, среди которых командная
+оболочка &lt;strong&gt;DFSShell&lt;/strong&gt;, набор ПО для администрирования &lt;strong&gt;DFSAdmin&lt;/strong&gt;, а
+также простой, но эффективный веб-интерфейс. Помимо этого существуют
+несколько API для языков программирования: Java API, C pipeline, WebDAV
+и так далее.&lt;/p&gt;
+&lt;h3 id="mapreduce"&gt;MapReduce&lt;/h3&gt;
+&lt;p&gt;Помимо файловой системы, &lt;a href="/tag/hadoop/"&gt;Hadoop&lt;/a&gt; включает в себя framework
+для проведения масштабных вычислений, обрабатывающих огромные объемы
+данных. Каждое такое вычисление называется Job (задание) и состоит оно,
+как видно из названия, из двух этапов:&lt;/p&gt;
+&lt;dl&gt;
+&lt;dt&gt;&lt;strong&gt;Map&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;Целью этого этапа является представление произвольных данных (на
+практике чаще всего просто пары ключ-значение) в виде промежуточных
+пар ключ-значение. Результаты сортируются и групируются по ключу и
+передаются на следующий этап.&lt;/dd&gt;
+&lt;dt&gt;&lt;strong&gt;Reduce&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;Полученные после &lt;strong&gt;map&lt;/strong&gt; значения используются для финального
+вычисления требуемых данных. Практические любые данные могут быть
+получены таким образом, все зависит от требований и функционала
+приложения.&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;p&gt;Задания выполняются, подобно файловой системе, на всех машинах в
+кластере (чаще всего одних и тех же). Одна из них выполняет роль
+управления работой остальных - &lt;strong&gt;JobTracker&lt;/strong&gt;, остальные же ее
+бесприкословно слушаются - &lt;strong&gt;TaskTracker&lt;/strong&gt;. В задачи &lt;strong&gt;JobTracker&lt;/strong&gt;'а
+входит составление расписания выполняемых работ, наблюдение за ходом
+выполнения, и перераспределение в случае возникновения сбоев.&lt;/p&gt;
+&lt;p&gt;В общем случае каждое приложение, работающее с этим framework'ом,
+предоставляет методы для осуществления этапов &lt;strong&gt;map&lt;/strong&gt; и &lt;strong&gt;reduce&lt;/strong&gt;, а
+также указывает расположения входных и выходных данных. После получения
+этих данных &lt;strong&gt;JobTracker&lt;/strong&gt; распределяет задание между остальными
+машинами и предоставляет клиенту полную информацию о ходе работ.&lt;/p&gt;
+&lt;p&gt;Помимо основных вычислений могут выполняться вспомогательные процессы,
+такие как составление отчетов о ходе работы, кэширование, сортировка и
+так далее.&lt;/p&gt;
+&lt;h3 id="hbase"&gt;HBase&lt;/h3&gt;
+&lt;p&gt;&lt;img alt="HBase Logo" class="right" src="https://www.insight-it.ru/images/hbase-logo.png" title="HBase"/&gt;
+В рамках &lt;a href="/tag/hadoop/"&gt;Hadoop&lt;/a&gt; доступна еще и система хранения данных,
+которую правда сложно назвать &lt;a href="/tag/subd/"&gt;СУБД&lt;/a&gt; в традиционном смысле
+этого слова. Чаще проводят аналогии с проприетарной системой этого же
+плана от &lt;a href="/tag/google/"&gt;Google&lt;/a&gt; - &lt;a href="/tag/bigtable/"&gt;BigTable&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/12419d3d/" rel="nofollow" target="_blank" title="http://hadoop.apache.org/hbase"&gt;HBase&lt;/a&gt; представляет собой
+распределенную систему хранения больших объемов данных. Подобно
+реляционным СУБД данные хранятся в виде таблиц, состоящих из строк и
+столбцов. И даже для доступа к ним предоставляется язык запросов &lt;strong&gt;HQL&lt;/strong&gt;
+(как ни странно - &lt;strong&gt;Hadoop Query Language&lt;/strong&gt;), отдаленно напоминающий
+более распространенный &lt;a href="/tag/sql/"&gt;SQL&lt;/a&gt;. Помимо этого предоставляется
+итерирующмй интерфейс для сканирования наборов строк.&lt;/p&gt;
+&lt;p&gt;Одной из основных особенностей хранения данных в &lt;strong&gt;HBase&lt;/strong&gt; является
+возможность наличия нескольких значений, соответствующих одной
+комбинации таблица-строка-столбец, для их различения используется
+информация о времени добавления записи. На концептуальном уровне таблицы
+обычно представляют как набор строк, но физически же они хранятся по
+столбцам, достаточно важный факт, который стоит учитывать при разработки
+схемы хранения данных. Пустые ячейки не отображаются каким-либо образом
+физически в хранимых данных, они просто отсутствуют. Существуют конечно
+и другие нюансы, но я постарался упомянуть лишь основные.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;HQL&lt;/strong&gt; очень прост по своей сути, если Вы уже знаете &lt;a href="/tag/sql/"&gt;SQL&lt;/a&gt;,
+то для изучения его Вам понадобится лишь просмотреть по диагонали
+коротенький вывод команды &lt;strong&gt;help;&lt;/strong&gt;, занимающий всего пару экранов в
+консоли. Все те же &lt;strong&gt;SELECT&lt;/strong&gt;, &lt;strong&gt;INSERT&lt;/strong&gt;, &lt;strong&gt;UPDATE&lt;/strong&gt;, &lt;strong&gt;DROP&lt;/strong&gt; и так
+далее, лишь со слегка измененным синтаксисом.&lt;/p&gt;
+&lt;p&gt;Помимо обычно командной оболочки &lt;strong&gt;HBase Shell&lt;/strong&gt;, для работы с &lt;strong&gt;HBase&lt;/strong&gt;
+также предоставлено несколько API для различных языков программирования:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/f059ad5e/" rel="nofollow" target="_blank" title="http://hadoop.apache.org/hbase/docs/current/api/index.html"&gt;Java&lt;/a&gt;,&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/e44fcd5/" rel="nofollow" target="_blank" title="http://wiki.apache.org/hadoop/Hbase/Jython"&gt;Jython&lt;/a&gt;,&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/8282e2e2/" rel="nofollow" target="_blank" title="http://wiki.apache.org/hadoop/Hbase/HbaseRest"&gt;REST&lt;/a&gt; и&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/185bb3f7/" rel="nofollow" target="_blank" title="http://wiki.apache.org/hadoop/Hbase/ThriftApi"&gt;Thrift&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="zakliuchenie"&gt;Заключение&lt;/h3&gt;
+&lt;p&gt;&lt;a href="/tag/hadoop/"&gt;Hadoop&lt;/a&gt; является отличным решением для построения
+высоконагруженных приложений, которое уже активно используется
+&lt;a href="https://www.insight-it.ru/goto/ab057c2a/" rel="nofollow" target="_blank" title="http://wiki.apache.org/hadoop/PoweredBy"&gt;множеством интернет-проектов&lt;/a&gt;.
+В последующих постах на эту тему я постараюсь описать процесс
+развертывания этой системы и написания приложений, работающих по
+принципу &lt;a href="/tag/mapreduce/"&gt;MapReduce&lt;/a&gt;. Не пропустить момент их публикации
+Вам может помочь подписка на &lt;a href="/feed/"&gt;RSS-ленту&lt;/a&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Fri, 22 Feb 2008 22:41:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-02-22:storage/2008/hadoop/</guid><category>Hadoop</category><category>HBase</category><category>HDFS</category><category>Java</category><category>MapReduce</category><category>архитектура</category><category>информационные технологии</category><category>кластер</category><category>Масштабируемость</category><category>распределенные вычисления</category><category>технология</category></item></channel></rss>

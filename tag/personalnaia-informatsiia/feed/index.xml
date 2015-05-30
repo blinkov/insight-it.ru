@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/personalnaia-informatsiia/feed/index.xml" rel="self"></atom:link><lastBuildDate>Sun, 13 Apr 2008 22:51:00 +0400</lastBuildDate><item><title>hCard</title><link>https://www.insight-it.ru//theory/2008/hcard/</link><description>&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/7ed2e6a8/" rel="nofollow" target="_blank" title="http://microformats.org/wiki/hcard"&gt;hCard&lt;/a&gt; представляет собой
+реализацию спецификации &lt;a href="https://www.insight-it.ru/goto/9d8165cb/" rel="nofollow" target="_blank" title="http://www.ietf.org/rfc/rfc2426.txt"&gt;RFC 2426&lt;/a&gt;
+(более известной как vCard) в виде микроформата. Основной его целью
+является предоставление стандарта оформления персональных данных на
+просторах Сети, но помимо этого имеется возможность указания информации
+об компаниях, организациях или местах.
+&lt;!--more--&gt;
+Как и любой другой микроформат, hCard реализуется без нарушения
+стандартов XHTML с помощью атрибутов тэга &lt;code&gt;class&lt;/code&gt;, причем какие именно
+тэги используются - не важно. Для оформления данных используя этот
+микроформат достаточно лишь объявить какой-либо тэг hCard объектом с
+помощью &lt;code&gt;class="vcard"&lt;/code&gt; и разместить внутри него все тэги,
+обозначающие какое-либо свойство объекта. Большая часть информации,
+предоставляемой в соответствии с этим микроформатом является
+опциональной, единственным обязательным свойством является имя объекта -
+&lt;code&gt;class="fn"&lt;/code&gt;. Помимо этого в атрибуте &lt;strong&gt;profile&lt;/strong&gt; тэга &lt;code&gt;&amp;lt;head&amp;gt;&lt;/code&gt;
+принято указывать адрес &lt;code&gt;http://www.w3.org/2006/03/hcard&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;В целом все свойства объектов hCard можно поделить на семь групп:&lt;/p&gt;
+&lt;dl&gt;
+&lt;dt&gt;&lt;strong&gt;идентификационные&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;&amp;ndash; различные варианты имен объекта.&lt;/dd&gt;
+&lt;dt&gt;&lt;strong&gt;адресные&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;&amp;ndash; указания различных адресов, каким-либо образом ассоциирующихся с
+объектом: место жительство, работы и тому подобные.&lt;/dd&gt;
+&lt;dt&gt;&lt;strong&gt;телекоммуникационные&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;&amp;ndash; любые формы контактной информации: номера телефонов, факс, адреса
+электронной почты и так далее.&lt;/dd&gt;
+&lt;dt&gt;&lt;strong&gt;географические&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;&amp;ndash; месторасположение объекта.&lt;/dd&gt;
+&lt;dt&gt;&lt;strong&gt;организационные&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;&amp;ndash; информация о должности и компании или организации, в которой
+работает объект.&lt;/dd&gt;
+&lt;dt&gt;&lt;strong&gt;уточняющие&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;&amp;ndash; любая дополнительная информация об объекте.&lt;/dd&gt;
+&lt;dt&gt;&lt;strong&gt;безопасность&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;&amp;ndash; ограничение доступа к информации в hCard.&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;p&gt;Значением каждого свойства является видимый пользователю текст,
+получающийся в результате обработки документа браузером (или другим
+парсером данных). Но стоит несколько остановиться на свойстве photo, так
+как для него действуют несколько другие правила размещения значения:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;при использовании свойства photo в тэге &lt;code&gt;&amp;lt;a&amp;gt;&lt;/code&gt;, значением
+    является адрес из атрибута &lt;code&gt;href&lt;/code&gt;;&lt;/li&gt;
+&lt;li&gt;в тэге &lt;code&gt;&amp;lt;img&amp;gt;&lt;/code&gt;, значением является само изображение, то есть
+    значение атрибута &lt;code&gt;src&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;в &lt;code&gt;&amp;lt;object&amp;gt;&lt;/code&gt;, значением является атрибут &lt;code&gt;`data&lt;/code&gt;, то есть его
+    источник данных.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Раз уж зашла речь об размещении значений свойств, то сразу хочется
+сказать об небольшом исключении в виде тэга &lt;code&gt;&amp;lt;abbr&amp;gt;&lt;/code&gt;, где оно
+задается в атрибуте &lt;code&gt;title&lt;/code&gt;, а внутри самого тэга - некое более
+удобное для чтения людьми его представление.&lt;/p&gt;
+&lt;p&gt;Если тэг, обозначенный любым свойством, содержит какую-либо информацию
+помимо самого значения свойства, то для отделения релевантного контента
+от лишней информации можно разместить внутри тэга свойства дочерние
+объекты, обозначив их атрибутом &lt;code&gt;class="value"&lt;/code&gt;. Это даст понять
+парсеру микроформата, что собрав воедино (методом конкатенации) все
+значения помеченных таким образом объектов он сможет получить значение
+исходного свойства. Описание получилось несколько запутанным, так что
+лучше продемонстрировать этот принцип на примере, в котором значению
+свойства &lt;strong&gt;fn&lt;/strong&gt; будет присвоено значение "Иван Блинков":&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;"vcard"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;"fn"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;span&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;"value"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;Иван &lt;span class="nt"&gt;&amp;lt;/span&amp;gt;&lt;/span&gt;подпрыгнул три раза на месте,
+    обернулся и увидел написанную на стене
+    свою фамилию: &lt;span class="nt"&gt;&amp;lt;span&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;"value"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;Блинков&lt;span class="nt"&gt;&amp;lt;/span&amp;gt;&lt;/span&gt;.
+  &lt;span class="nt"&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Как не трудно заметить, значение свойства разбавлено массой ненужной
+информации, но с помощью тэгов с атрибутом &lt;code&gt;class="value"&lt;/code&gt; мне удалось
+выделить лишь важную информацию, не поменяв при этом внешний вид
+документа. Парсер микроформатов, читая этот документ, соединит обе части
+и получит в итоге как раз "Иван Блинков", что и будет соответствовать
+желаемому имени объекта.&lt;/p&gt;
+&lt;p&gt;Вы заметили в предыдущем примере пробел после моего имени? Он был
+поставлен для того, чтобы при конкатенации составные части значения не
+слились в одно слово "ИванБлинков", не самый удобный подход к решению
+проблемы, но у него есть альтернатива в виде тэга &lt;code&gt;&amp;lt;abbr&amp;gt;&lt;/code&gt; (не
+забываем про упомянутое чуть выше исключение):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;"vcard"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;abbr&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;"fn"&lt;/span&gt; &lt;span class="na"&gt;title=&lt;/span&gt;&lt;span class="s"&gt;"Иван Блинков"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    Иван
+  &lt;span class="nt"&gt;&amp;lt;/abbr&amp;gt;&lt;/span&gt;
+  подпрыгнул три раза на месте,
+  обернулся и увидел написанную на стене
+  свою фамилию: Блинков.
+&lt;span class="nt"&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Общей информации на сегодня хватит, так что перейду к деталям
+реализации.&lt;/p&gt;
+&lt;h4&gt;Идентификационные свойства&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;strong&gt;Свойство&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;Описание&lt;/strong&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;fn&lt;/td&gt;
+&lt;td&gt;полное имя объекта &lt;em&gt;(formatted name)&lt;/em&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;n&lt;/td&gt;
+&lt;td&gt;имя, используется для идентификации составных частей fn &lt;em&gt;(name)&lt;/em&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;nickname&lt;/td&gt;
+&lt;td&gt;прозвище&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;bday&lt;/td&gt;
+&lt;td&gt;день рождения в формате &lt;strong&gt;YYYY-MM-DD&lt;/strong&gt; &lt;em&gt;(birthday)&lt;/em&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;photo&lt;/td&gt;
+&lt;td&gt;фотография&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Свойство &lt;strong&gt;fn&lt;/strong&gt; уже успели слегка обсудить, так что перейдем сразу к
+&lt;strong&gt;n&lt;/strong&gt;. Как уже было сказано, используется он для детализации составных
+частей полного имени объекта, для чего оно имеет ряд подсвойств,
+используемых в дочерних элементах:&lt;/p&gt;
+&lt;dl&gt;
+&lt;dt&gt;&lt;strong&gt;given-name&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;&amp;ndash; имя.&lt;/dd&gt;
+&lt;dt&gt;&lt;strong&gt;additional-name&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;&amp;ndash; отчество.&lt;/dd&gt;
+&lt;dt&gt;&lt;strong&gt;family-name&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;&amp;ndash; фамилия.&lt;/dd&gt;
+&lt;dt&gt;&lt;strong&gt;honorific-preffix&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;&amp;ndash; какой-либо префикс к имени, отображающий социальный статус
+человек.&lt;/dd&gt;
+&lt;dt&gt;&lt;strong&gt;honorific-suffix&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;&amp;ndash; суффикс с тем же смыслом.&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;p&gt;Выглядит это все примерно так, ничего сложного:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;"vcard"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;"n"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;span&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;"given-name"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;Иван&lt;span class="nt"&gt;&amp;lt;/span&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;span&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;"additional-name"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;Иванович&lt;span class="nt"&gt;&amp;lt;/span&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;span&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;"family-name"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;Блинков&lt;span class="nt"&gt;&amp;lt;/span&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;h4&gt;Адресные свойства&lt;/h4&gt;
+&lt;p&gt;Адрес может быть указан в двух формах:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;adr&lt;/strong&gt; - структурированной (с указанием составных частей);&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;label&lt;/strong&gt; - не структурированной.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Для структурированного адреса используются подсвойства по аналогии с
+&lt;strong&gt;n&lt;/strong&gt;:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;strong&gt;Свойство&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;Описание&lt;/strong&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;post-office-box&lt;/td&gt;
+&lt;td&gt;почтовый адрес&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;extended-address&lt;/td&gt;
+&lt;td&gt;полный адрес (с номером подъезда, квартиры и т.д.)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;street-address&lt;/td&gt;
+&lt;td&gt;улица&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;locality&lt;/td&gt;
+&lt;td&gt;город&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;region&lt;/td&gt;
+&lt;td&gt;регион, штат или провинция&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;postal-code&lt;/td&gt;
+&lt;td&gt;индекс&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;type&lt;/td&gt;
+&lt;td&gt;тип адреса, то есть то, как он связан с исходным идивидом, должен принимать одно из значений: dom, parcel, home, work, pref&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;label&lt;/strong&gt; же используется просто для написания адреса по тому же
+принципу, как если бы Вы писали его, например, на конверте традиционного
+письма. Возможно использование подсвойства &lt;strong&gt;type&lt;/strong&gt; как и в &lt;strong&gt;adr&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;С телекоммуникационными свойствами все проще:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;телефон - &lt;strong&gt;tel&lt;/strong&gt;;&lt;/li&gt;
+&lt;li&gt;адрес электронной почты - &lt;strong&gt;email&lt;/strong&gt;;&lt;/li&gt;
+&lt;li&gt;почтовый клиент - &lt;strong&gt;mailer&lt;/strong&gt; (не понятно - и зачем он тут сдался?).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Телефонный номер может иметь тип (&lt;strong&gt;type&lt;/strong&gt;):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;home&lt;/strong&gt; - домашний&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;msg&lt;/strong&gt; - имеется автоответчик&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;work&lt;/strong&gt; - рабочий&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;pref&lt;/strong&gt; - предпочтительный&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;voice&lt;/strong&gt; - голосовой&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;fax&lt;/strong&gt; - факс&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;cell&lt;/strong&gt; - мобильный aka сотовый&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;video&lt;/strong&gt; - для видеоконференций&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;pager&lt;/strong&gt; - пэйджер&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;bbs&lt;/strong&gt; - bulletin board system&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;modem&lt;/strong&gt; - возможно использование модема&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;isdn&lt;/strong&gt; - integrated services digital network&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;pcs&lt;/strong&gt; - personal communication service&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Географические свойства также не отличаются особой сложностью:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;tz&lt;/strong&gt; - временная зона&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;long&lt;/strong&gt; - широта&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;lat&lt;/strong&gt; - долгота&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;С ручным заполнением этих свойств могут возникнуть некоторые проблемы,
+но при интеграции веб-приложения с сервисом вроде Google Earth - должно
+быть вполне удобно.&lt;/p&gt;
+&lt;p&gt;Свойства, описывающие индивида с точки зрения работы, немногочисленны:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;title&lt;/strong&gt; - должность&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;role&lt;/strong&gt; - роль&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;logo&lt;/strong&gt; - ссылка на логотип компании&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;agent&lt;/strong&gt; - указание представителя индивида, например секретаря,
+    например в виде ссылки на его hCard&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;org&lt;/strong&gt; - название компании&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Дополнительные свойства:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;category&lt;/strong&gt; - категория, то есть чем по сути является данный hCard,
+    например - визитка&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;note&lt;/strong&gt; - какие-либо замечания к остальным свойствам&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;rev&lt;/strong&gt; - время последнего редактирования hCard, то есть время на
+    которое данная информация является актуальной&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;sort-string&lt;/strong&gt; - отмечает какая часть hCard (обычно часть имени),
+    которая будет использована при сортировке списка из нескольких hCard&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;sound&lt;/strong&gt; - адрес, указывающий на звуковой файл с правильным
+    произношением имени индивида&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;url&lt;/strong&gt; - адрес персонального или корпоративного сайта&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;uid&lt;/strong&gt; - уникальный идентификационный номер в каком-либо
+    специфицированном IANA формате (подсвойство &lt;strong&gt;type&lt;/strong&gt; указывает в
+    каком именно)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Для обеспечения ограничения доступа к данным из &lt;a href="/tag/hcard/"&gt;hCard&lt;/a&gt;
+используется два свойства - &lt;strong&gt;class&lt;/strong&gt; и &lt;strong&gt;key&lt;/strong&gt;. &lt;strong&gt;class&lt;/strong&gt; определяет
+уровень доступа по примерно тому же принципу, что и в &lt;a href="/tag/oop/"&gt;ООП&lt;/a&gt;:
+&lt;em&gt;public&lt;/em&gt; или &lt;em&gt;confidentional&lt;/em&gt;. А свойство &lt;strong&gt;key&lt;/strong&gt; предоставляет
+публичный ключ, для расшифровки данных с закрытым доступом.&lt;/p&gt;
+&lt;p&gt;Хочется добавить, что благодаря своей структурированной архитектуре
+данный микроформат может использоваться в более широком спектре случаев,
+чем просто предоставление персональных данных, например, можно описывать
+и просто организацию или какое-либо место. Те же самые принципы могут
+быть использованы и при оформление персональных данных в формате
+&lt;a href="/tag/xml/"&gt;XML&lt;/a&gt; - достаточно лишь использовать те же самые атрибуты
+hCard для произвольных тэгов &lt;a href="/tag/xml/"&gt;XML&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;В заключение хочу сказать, что в качестве источников информации для
+данной статьи были использованы &lt;a href="https://www.insight-it.ru/goto/7ed2e6a8/" rel="nofollow" target="_blank" title="http://microformats.org/wiki/hcard"&gt;официальная вики&lt;/a&gt; и &lt;a href="https://www.insight-it.ru/goto/1161c09e/" rel="nofollow" target="_blank" title="http://www.xfront.com/microformats/hCard.html"&gt;презентация от Robert Costello&lt;/a&gt;, а подписаться на &lt;a href="/feed/"&gt;&lt;strong&gt;RSS&lt;/strong&gt;&lt;/a&gt; можно вот &lt;a href="/feed/"&gt;&lt;strong&gt;ТУТ&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sun, 13 Apr 2008 22:51:00 +0400</pubDate><guid>tag:www.insight-it.ru,2008-04-13:theory/2008/hcard/</guid><category>hcard</category><category>online</category><category>XHTML</category><category>интернет</category><category>Микроформаты</category><category>персональная информация</category></item></channel></rss>

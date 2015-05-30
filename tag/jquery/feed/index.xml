@@ -1,0 +1,1000 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/jquery/feed/index.xml" rel="self"></atom:link><lastBuildDate>Fri, 08 Feb 2013 10:20:00 +0400</lastBuildDate><item><title>Вакансии: команда Python разработчиков в EVAplacer</title><link>https://www.insight-it.ru//vacancy/2013/vakansii-komanda-python-razrabotchikov-v-evaplacer/</link><description>&lt;div class="card orange darken-3"&gt;
+&lt;p&gt;&lt;div class="card-content white-text center"&gt;
+&lt;strong&gt;Вакансии более не актуальны&lt;/strong&gt;
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Новая &lt;em&gt;международная геоинформационная социальная сеть&lt;/em&gt; EVAplacer
+набирает команду разработчиков.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h2 id="vedushchii-razrabotchik-servernoi-chasti-na-python"&gt;Ведущий разработчик серверной части на Python&lt;/h2&gt;
+&lt;h3 id="zadachi"&gt;Задачи&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Разработка серверной части проекта на Python&lt;/li&gt;
+&lt;li&gt;Проектирование архитектуры системы и схемы базы данных&lt;/li&gt;
+&lt;li&gt;Организация взаимодействия серверной части проекта с клиентской&lt;/li&gt;
+&lt;li&gt;Принятие технических решений&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="trebovaniia"&gt;Требования&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Свежий опыт веб-разработки на Python &lt;em&gt;без использования Django&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Суммарный опыт веб-разработки от 5 лет&lt;/li&gt;
+&lt;li&gt;Самостоятельность и заинтересованность в качестве результата своей
+    работы&lt;/li&gt;
+&lt;li&gt;Умение делегировать часть работы коллегам&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="tekhnologii"&gt;Технологии&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Предстоит работать со следующими технологиями:&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/2e568974/" rel="nofollow" target="_blank" title="http://flask.pocoo.org/"&gt;Flask&lt;/a&gt; +
+    &lt;a href="https://www.insight-it.ru/goto/35c21496/" rel="nofollow" target="_blank" title="http://jinja.pocoo.org/"&gt;Jinja2&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/bf2b1e00/" rel="nofollow" target="_blank" title="http://www.mongodb.org/"&gt;MongoDB&lt;/a&gt; +
+    &lt;a href="https://www.insight-it.ru/goto/a6920afe/" rel="nofollow" target="_blank" title="http://lucene.apache.org/solr/"&gt;Solr&lt;/a&gt; +
+    &lt;a href="https://www.insight-it.ru/goto/9ecaff4c/" rel="nofollow" target="_blank" title="http://memcached.org/"&gt;memcached&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/39ecae7b/" rel="nofollow" target="_blank" title="http://www.zeromq.org/"&gt;ZeroMQ&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Опыт работы именно с ними очень желателен, но не обязателен&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="zarplata"&gt;Зарплата&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;В диапазоне 100-150 тысяч рублей в месяц в зависимости от опыта&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="klientskii-razrabotchik_1"&gt;Клиентский разработчик&lt;/h2&gt;
+&lt;h3 id="zadachi_1"&gt;Задачи&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Разработка клиентской части проекта&lt;/li&gt;
+&lt;li&gt;Работа на стыке с серверной частью (Python), создание HTML и других
+    шаблонов на Jinja2&lt;/li&gt;
+&lt;li&gt;Оптимизация скорости загрузки страниц&lt;/li&gt;
+&lt;li&gt;Принятие технических решений по клиентской части&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="trebovaniia_1"&gt;Требования&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Опыт разработки на JavaScript/CoffeeScript и валидной верстки на
+    HTML5&lt;/li&gt;
+&lt;li&gt;Понимание основных принципов клиентской оптимизации&lt;/li&gt;
+&lt;li&gt;Суммарный опыт веб-разработки от 3 лет&lt;/li&gt;
+&lt;li&gt;Усидчивость, самостоятельность и заинтересованность в качестве
+    результата своей работы&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="tekhnologii_1"&gt;Технологии&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Предстоит работать со следующими технологиями:&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/35c21496/" rel="nofollow" target="_blank" title="http://jinja.pocoo.org/"&gt;Jinja2&lt;/a&gt; +
+    &lt;a href="https://www.insight-it.ru/goto/312f4825/" rel="nofollow" target="_blank" title="http://elsdoerfer.name/docs/webassets/"&gt;webassets&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/834fa52/" rel="nofollow" target="_blank" title="http://coffeescript.org/"&gt;CoffeeScript&lt;/a&gt; +
+    &lt;a href="https://www.insight-it.ru/goto/dca1748a/" rel="nofollow" target="_blank" title="http://sass-lang.com/"&gt;SASS&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/f573c764/" rel="nofollow" target="_blank" title="http://twitter.github.com/bootstrap/"&gt;Twitter Bootstrap&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/3b02d98c/" rel="nofollow" target="_blank" title="http://jquery.com/"&gt;jQuery&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/96340c7c/" rel="nofollow" target="_blank" title="http://leafletjs.com/"&gt;Leaflet&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Опыт работы именно с ними очень желателен, но не обязателен&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="zarplata_1"&gt;Зарплата&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;В диапазоне 60-100 тысяч рублей в месяц в зависимости от опыта&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="spetsialist-po-testirovaniiu_1"&gt;Специалист по тестированию&lt;/h2&gt;
+&lt;h3 id="zadachi_2"&gt;Задачи&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Основные:&lt;ul&gt;
+&lt;li&gt;Разработка автоматических тестов для серверной части проекта на
+    Python&lt;/li&gt;
+&lt;li&gt;Регрессионное тестирование сайта с помощью
+    &lt;a href="https://www.insight-it.ru/goto/561c2b8c/" rel="nofollow" target="_blank" title="http://seleniumhq.org/"&gt;Selenium&lt;/a&gt; или альтернатив&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Дополнительные:&lt;ul&gt;
+&lt;li&gt;Нагрузочное тестирование с использованием
+    &lt;a href="https://www.insight-it.ru/goto/52bdc53f/" rel="nofollow" target="_blank" title="http://jmeter.apache.org/"&gt;JMeter&lt;/a&gt; или альтернатив&lt;/li&gt;
+&lt;li&gt;Ручное визуальное тестирование, в т.ч. на кроссбраузерность&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="trebovaniia_2"&gt;Требования&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Свежий опыт тестирования интернет-проектов, желательно на Python&lt;/li&gt;
+&lt;li&gt;Суммарный опыт в тестировании от 3 лет&lt;/li&gt;
+&lt;li&gt;Внимательность, самостоятельность и заинтересованность в качестве
+    результата работы команды&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="zarplata_2"&gt;Зарплата&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;В диапазоне 50-100 тысяч рублей в месяц в зависимости от опыта&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="usloviia_1"&gt;Условия&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Премии по достижении ключевых вех проекта&lt;/li&gt;
+&lt;li&gt;Офис в центре Москвы (м. Охотный ряд, меньше 5 минут пешком)&lt;/li&gt;
+&lt;li&gt;Работа на MacBook Pro&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="card orange darken-3"&gt;
+&lt;p&gt;&lt;div class="card-content white-text center"&gt;
+&lt;strong&gt;Вакансии более не актуальны&lt;/strong&gt;
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Fri, 08 Feb 2013 10:20:00 +0400</pubDate><guid>tag:www.insight-it.ru,2013-02-08:vacancy/2013/vakansii-komanda-python-razrabotchikov-v-evaplacer/</guid><category>CoffeeScript</category><category>EVAplacer</category><category>Flask</category><category>html5</category><category>JavaScript</category><category>Jinja2</category><category>JMeter</category><category>JQuery</category><category>Leaflet</category><category>MacBook Pro</category><category>Memcached</category><category>MongoDB</category><category>Python</category><category>sass</category><category>Selenium</category><category>Solr</category><category>Twitter Bootstrap</category><category>webassets</category><category>ZeroMQ</category><category>вакансии</category><category>разработчик</category><category>тестировщик</category></item><item><title>Вакансии: команда IT-звезд</title><link>https://www.insight-it.ru//vacancy/2012/vakansii-komanda-it-zvezd/</link><description>&lt;div class="card orange darken-3"&gt;
+&lt;p&gt;&lt;div class="card-content white-text center"&gt;
+&lt;strong&gt;Вакансии более не актуальны&lt;/strong&gt;
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Благодаря сайту &lt;strong class="trebuchet"&gt;Insight IT&lt;/strong&gt;, компания
+RDM-Soft нашла ОТЛИЧНОГО тимлида! Теперь, &lt;a href="https://www.insight-it.ru/vacancy/2012/vakansiya-php-polkovodec/"&gt;тимлидер&lt;/a&gt; ищет в свою команду&amp;nbsp;единомышленников и просто IT-звезд.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h2 id="o-kompanii"&gt;О компании&lt;/h2&gt;
+&lt;p&gt;История компании началась в 2003 году. С этого момента выпущено много
+проектов. Некоторыми из них Вы, возможно, так или иначе пользовались.
+Сейчас запускается еще один проект:&amp;nbsp;&lt;strong&gt;SEO-биржа&lt;/strong&gt;. У Вас
+есть прекрасная возможность оказаться у истоков будущего хита!&lt;/p&gt;
+&lt;h2 id="kto-nuzhen"&gt;Кто нужен?&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Mr. Backend.&lt;/strong&gt; Он же программист.&amp;nbsp;&lt;em&gt;(вакансия закрыта)&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Мастер-ломастер.&lt;/strong&gt; Он же инженер по контролю качества, проще
+    говоря тестер.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Dr. Frontend.&lt;/strong&gt; Он же фронтендщик. &lt;em&gt;(вакансия закрыта)&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="mr-backend"&gt;Mr. Backend&lt;/h3&gt;
+&lt;h4&gt;Требования&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Отличные знания: &lt;strong&gt;PHP&lt;/strong&gt;, &lt;strong&gt;ООП&lt;/strong&gt;, &lt;strong&gt;SQL&lt;/strong&gt;, &lt;strong&gt;MVC&lt;/strong&gt;,
+    &lt;strong&gt;ZendFramework&lt;/strong&gt; (либо альтернатив), &lt;strong&gt;Linux&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Опыт работы по специальности: от 3 лет.&lt;/li&gt;
+&lt;li&gt;Опыт работы в команде.&lt;/li&gt;
+&lt;li&gt;Желание развиваться и изучать новое.&lt;/li&gt;
+&lt;li&gt;Отсутствие желания искать работу в ближайшие 3 года.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Задачи&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Разработка серверной части проекта.&amp;nbsp;Включает в себя :&lt;ul&gt;
+&lt;li&gt;бухгалтерия;&lt;/li&gt;
+&lt;li&gt;бизнес-логика;&lt;/li&gt;
+&lt;li&gt;статистика;&lt;/li&gt;
+&lt;li&gt;различные парсеры.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="master-lomaster-sqa"&gt;Мастер-Ломастер (SQA)&lt;/h3&gt;
+&lt;h4&gt;Требования&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Хорошие знания: &lt;strong&gt;PHP&lt;/strong&gt;, &lt;strong&gt;SQL&lt;/strong&gt;, &lt;strong&gt;Linux&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Отличные знания принципов whitebox и blackbox тестирования.&lt;/li&gt;
+&lt;li&gt;Опыт работы по специальности: от 2 лет.&lt;/li&gt;
+&lt;li&gt;Опыт работы в команде.&lt;/li&gt;
+&lt;li&gt;Желание развиваться и изучать новое.&lt;/li&gt;
+&lt;li&gt;Отсутствие желания искать работу в ближайшие 3 года.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Задачи&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Написание юнит-тестов, автотестов.&lt;/li&gt;
+&lt;li&gt;Тестирование:&lt;ul&gt;
+&lt;li&gt;бекенда;&lt;/li&gt;
+&lt;li&gt;фронтенда;&lt;/li&gt;
+&lt;li&gt;бизнес-логики;&lt;/li&gt;
+&lt;li&gt;производительности;&lt;/li&gt;
+&lt;li&gt;безопасности.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;В общем, тоже очень много интересной работы.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="dr-frontend"&gt;Dr. Frontend&lt;/h3&gt;
+&lt;h4&gt;Требования&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Понимание, как сделать интерфейс удобным и приятным для пользователя&lt;/li&gt;
+&lt;li&gt;Отличные знания: &lt;strong&gt;HTML&lt;/strong&gt;, &lt;strong&gt;CSS&lt;/strong&gt;, &lt;strong&gt;JavaScript&lt;/strong&gt;&amp;nbsp;(jQuery, ExtJS
+    или других распространенных библиотек)&lt;/li&gt;
+&lt;li&gt;Опыт проектирования и реализации пользовательского интерфейса&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Задачи&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Прототипирование UI сервиса&lt;/li&gt;
+&lt;li&gt;Реализация спроектированного UI&lt;/li&gt;
+&lt;li&gt;Разработка расширений&amp;nbsp;для Firefox и Chrome.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="usloviia_1"&gt;Условия&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Удаленная работа.&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Работа в профессиональной команде.&lt;/li&gt;
+&lt;li&gt;Полный рабочий день (5 дней в неделю по 8 часов).&lt;/li&gt;
+&lt;li&gt;Карьерный и профессиональный рост.&lt;/li&gt;
+&lt;li&gt;Прислушивание к Вашему мнению.&lt;/li&gt;
+&lt;li&gt;Зарплата по результатам собеседования:&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Mr. Backend:&lt;/strong&gt;&amp;nbsp;от $1500 до $2000&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Мастер-Ломастер:&lt;/strong&gt;&amp;nbsp;от $700 до $1500&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Dr. Frontend:&lt;/strong&gt; от $1000 до $2000&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="card orange darken-3"&gt;
+&lt;p&gt;&lt;div class="card-content white-text center"&gt;
+&lt;strong&gt;Вакансии более не актуальны&lt;/strong&gt;
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Fri, 04 May 2012 18:20:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-05-04:vacancy/2012/vakansii-komanda-it-zvezd/</guid><category>css</category><category>html</category><category>JavaScript</category><category>JQuery</category><category>PHP</category><category>RDM-soft</category><category>SQA</category><category>ZendFramework</category><category>вакансии</category></item><item><title>Клиентская часть интерактивного сайта</title><link>https://www.insight-it.ru//interactive/2012/klientskaya-chast-interaktivnogo-sajjta/</link><description>&lt;p&gt;Клиентская часть сайта играет ключевую роль в обеспечении
+его&amp;nbsp;&lt;em&gt;интерактивности&lt;/em&gt;. Именно на нее возлагается переопределение
+стандартного поведения для создания впечатления живого организма вместо
+кучки бездушных страниц. В статье про
+&lt;a href="https://www.insight-it.ru/interactive/2012/arkhitektura-interaktivnykh-sajjtov/"&gt;архитектуру&lt;/a&gt;
+интерактивных сайтов я подробно изложил основные функции и требования,
+которые перед ним стоят. Сегодня же я представлю свое видение того, как
+его грамотно реализовать. На статус единственно-правильного-решения не
+претендую, статью можно воспринимать просто как набор практических
+советов и рекомендаций.
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;Итак, сегодня мы будем обсуждать создание JavaScript-клиента для
+интерактивного сайта. Начнем, пожалуй, с организации кода проекта с
+целью облегчения его сопровождения при росте кодовой базы, перейдем к
+переопределению ключевых обработчиков событий, затем к сохранению
+стандартного поведения браузера и закончим синхронизацией состояния
+между клиентом и сервером.&lt;/p&gt;
+&lt;h2 id="organizatsiia-koda"&gt;Организация кода&lt;/h2&gt;
+&lt;h3 id="sborka"&gt;Сборка&lt;/h3&gt;
+&lt;p&gt;Первое, чем стоит обзавестись перед разработкой сложного
+JavaScript-приложения, это системой его сборки. С точки зрения
+клиентской оптимизации весь &lt;a href="/tag/javascript/"&gt;JavaScript&lt;/a&gt;-код по
+возможности должен быть минифицирован и собран в один файл, подключенный
+в конце &lt;a href="/tag/html/"&gt;HTML&lt;/a&gt;, желательно асинхронно. Работать с ним в
+таком виде невозможно, соответственно надо иметь возможность легко
+собирать его из набора красиво отформатированных файлов, используемых
+при&amp;nbsp;разработке.&lt;/p&gt;
+&lt;p&gt;На вопрос &lt;em&gt;"Какую систему сборки использовать?"&lt;/em&gt;&amp;nbsp;в большинстве случаев
+правильный ответ: ту же, что и для сборки серверной части. Make, rake,
+maven, ant, rebar... - любому из них без труда можно поручить эту
+задачу. Для конкатенации можно использовать хоть консольную команду
+&lt;code&gt;&amp;gt;&amp;gt;&lt;/code&gt;, для минимизации есть много альтернативных библиотек, в порядке
+моих симпатий:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/ec53b5fa/" rel="nofollow" target="_blank" title="https://developers.google.com/closure/compiler/"&gt;&lt;strong&gt;Google Closure&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/6ccc0709/" rel="nofollow" target="_blank" title="http://developer.yahoo.com/yui/compressor/"&gt;&lt;strong&gt;YUI Compressor&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/28795a57/" rel="nofollow" target="_blank" title="https://github.com/mishoo/UglifyJS"&gt;&lt;strong&gt;UglifyJS&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Если хочется чего-то более гибкого, могу порекомендовать воспользоваться
+&lt;a href="https://www.insight-it.ru/goto/5908cea6/" rel="nofollow" target="_blank" title="https://github.com/miracle2k/webassets"&gt;&lt;strong&gt;Webassets&lt;/strong&gt;&lt;/a&gt;, который я уже
+упоминал в статье про
+&lt;a href="https://www.insight-it.ru/python/2012/jinja2/"&gt;Jinja2&lt;/a&gt;. В
+консольном режиме прекрасно подключается к любой системе сборки и языку
+программирования. Описать процесс сборки &lt;a href="/tag/javascript/"&gt;JavaScript&lt;/a&gt;
+и &lt;a href="/tag/css/"&gt;CSS&lt;/a&gt; можно очень подробно и именно так, как считаете
+нужным, естественно на &lt;a href="/tag/python/"&gt;Python&lt;/a&gt;. Сопоставимый по
+возможностям проект из мира &lt;a href="/tag/ruby/"&gt;Ruby&lt;/a&gt; - &lt;a href="https://www.insight-it.ru/goto/5b3a9a97/" rel="nofollow" target="_blank" title="http://synthesis.sbecker.net/pages/asset_packager"&gt;Asset Packager&lt;/a&gt;, наверняка
+есть много других.&lt;/p&gt;
+&lt;h3 id="chitabelnyi-kod"&gt;Читабельный код&lt;/h3&gt;
+&lt;p&gt;Не знаю как Вы, а я тихо ненавижу &lt;strong&gt;JavaScript&lt;/strong&gt; все ~10 лет, которые я
+с ним знаком. Так как он по сути является монополией на рынке браузерных
+приложений (Flash, Java апплеты и ActiveX за альтернативы можно даже не
+считать), использовать его так или иначе приходится в любом сколько-либо
+серьезном интернет-проекте. Даже Google Dart&amp;nbsp;вряд ли&amp;nbsp;всерьез приживется.&lt;/p&gt;
+&lt;p&gt;При полном отсутствии конкуренции совершенно не удивительно, что у него
+никуда не годящийся синтаксис и набор не знаю откуда взявшихся
+абстракций в виде прототипов и замыканий. С этим всем определенно можно
+мириться и работать, особенно если только им и заниматься, но привыкший
+к серверным языкам программирования мозг определенно чувствует себя&amp;nbsp;не
+комфортно.&lt;/p&gt;
+&lt;p&gt;Если Вас тоже не раз посещали подобные мысли, то Вы вероятно как и я при
+первой же возможности пересядете (или уже пересели) на
+&lt;a href="/tag/coffeescript/"&gt;&lt;strong&gt;CoffeeScript&lt;/strong&gt;&lt;/a&gt;, компилируемый в JavaScript язык
+программирования.&amp;nbsp;Немного рекламы этого проекта:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Золотое правило CoffeeScript: &lt;strong&gt;"It's just Javascript"&lt;/strong&gt; &lt;em&gt;(это
+    просто JavaScript)&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Прямое преобразование кода в JavaScript&lt;/li&gt;
+&lt;li&gt;Доступны абсолютно все JavaScript-библиотеки&lt;/li&gt;
+&lt;li&gt;Никаких точек с запятой в конце каждой строки&lt;/li&gt;
+&lt;li&gt;Структурирование кода на основе отступов, как в Python&lt;/li&gt;
+&lt;li&gt;Объявление функций просто стрелочкой &lt;code&gt;-&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;При вызове методов даже скобки писать не обязательно&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Человеческое наследование: простое &lt;strong&gt;class MyClass extends
+    MyParent&lt;/strong&gt;&amp;nbsp;превращается в довольно хитрую конструкцию с
+    использованием прототипов и замыканий:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;MMyClass&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nx"&gt;__extends&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;MyClass&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;MyParent&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="nx"&gt;MyClass&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="nx"&gt;MyClass&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;__super__&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;constructor&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;apply&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+            &lt;span class="nx"&gt;arguments&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="nx"&gt;MyClass&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;prototype&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;initialize&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{};&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;MyClass&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;})();&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Много укороченных команд ветвления кода (&lt;strong&gt;if&lt;/strong&gt;, &lt;strong&gt;switch,&lt;/strong&gt; циклы&amp;nbsp;и
+    т.п.)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;В целом код выходит раза в полтора-два короче и намного приятнее для
+    глаз&lt;/li&gt;
+&lt;li&gt;Консольный компилятор с функцией наблюдения за директориями&lt;/li&gt;
+&lt;li&gt;Легко подключается как фильтр в Webassets&lt;/li&gt;
+&lt;li&gt;Подробнее с примерами на &lt;a href="https://www.insight-it.ru/goto/834fa52/" rel="nofollow" target="_blank" title="http://coffeescript.org/"&gt;официальном сайте&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;В общем рекомендую :)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="logicheskoe-razdelenie-koda"&gt;Логическое разделение кода&lt;/h3&gt;
+&lt;p&gt;Если Вы сталкивались со сколько-либо сложным пользовательским
+интерфейсом "на jQuery", то скорее всего не по наслышке понимаете откуда
+взялось выражение &lt;strong&gt;"спагетти-код"&lt;/strong&gt;. В связи с событийной парадигмой
+разработки браузерных приложений, очень часто JavaScript-код с
+использованием jQuery или альтернатив превращается в так называемый
+&lt;em&gt;"коллбек на коллбеке, коллбеком погоняет"&lt;/em&gt; (коллбек - транслит от
+английского callback - обработчик события).&amp;nbsp;При отсутствии четкой
+структуры такой код становится очень сложно поддерживать при его
+увеличении в объемах. Но это не повод отказываться от jQuery - от
+событий никуда не деться, и эта библиотека отлично справляется с
+абстракций от особенностей их реализации в различных браузерах.&lt;/p&gt;
+&lt;p&gt;На мой взгляд, одним из наиболее резонных способов решения (или
+заблаговременного предотвращения) этой проблемы является использование в
+разумных пределах &lt;a href="/tag/oop/"&gt;объектно-ориентированные&lt;/a&gt;&amp;nbsp;возможности
+&lt;strong&gt;JavaScript&lt;/strong&gt; &lt;em&gt;(благо CoffeeScript это дело сильно упрощает)&lt;/em&gt;.
+Соответственно, используемые классы можно разумно располагать в какой-то
+иерархии с точки зрения наследования (для обеспечения DRY, don't repeat
+yourself - "не повторяйся") и с точки зрения расположения в файловой
+системе (с разложенными по папкам файлами работать намного проще, чем с
+здоровенной вереницей обработчиков событий в одном файле).&lt;/p&gt;
+&lt;p&gt;Собственно никто не мешает начать заворачивать код в классы на пустом
+месте, но я позволю себе предложить немного более элегантное решение,
+которое помимо организации кода пригодится нам и в дальнейшем. Подобно
+серверным фреймворкам, для клиентских приложений есть библиотеки,
+предоставляющие базовые классы для решения типичных задач:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Модель&lt;/strong&gt;&amp;nbsp;&lt;em&gt;(Model)&lt;/em&gt; - как и в традиционном MVC представляет собой
+    класс, объект которого содержит локальную копию каких-то данных и
+    предоставляет механизмы для её синхронизации с внешним хранилищем.
+    Основное отличие от серверных моделей - хранилищем выступает не
+    СУБД, а либо локальное хранилище браузера через HTML5, либо
+    удаленный сервис через REST или другой интерфейс. Плюс так как они
+    находятся вне "зоны доверия", то полученные от них данные нужно
+    обязательно валидировать, фильтровать и проверять на серверной
+    стороне, прежде чем что-либо с ними делать.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Представление&lt;/strong&gt; &lt;em&gt;(View)&lt;/em&gt; или &lt;strong&gt;контроллер&lt;/strong&gt; &lt;em&gt;(Controller)&lt;/em&gt; - тут,
+    по моим впечатлениям, образовалась путаница и за обоими названиями в
+    нашем контексте имеют ввиду примерно одно и то же. Объект такого
+    класса следит за изменениями и событиями в связанных с ним моделях и
+    элементах DOM, каким-либо образом на них реагируя. Таким образом
+    большая часть кода, которая раньше была "вереницей обработчиков
+    событий", оказывается методами этого класса. При этом базовый класс
+    из библиотеки берет на себя нормальное поведение &lt;strong&gt;this&lt;/strong&gt;&amp;nbsp;и следит
+    за тем, чтобы обработчики автоматически добавлялись на динамические
+    созданные элементы DOM.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Маршрутизатор&lt;/strong&gt; &lt;em&gt;(Router)&lt;/em&gt;&amp;nbsp;- следит за состоянием адресной строки
+    и позволяет обрабатывать изменения, понадобится для восстановления
+    поведения браузера.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Коллекция&lt;/strong&gt; &lt;em&gt;(Collection)&lt;/em&gt; - отсортированный набор однотипных
+    моделей, с которым можно работать как с единым целым.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="card blue lighten-4"&gt;
+&lt;p&gt;&lt;div class="card-content"&gt;
+Не стоит рассматривать эти абстракций как единственный верный способ
+делать клиентские приложения, но при их использовании появляется хоть
+какая-то логика и становится более-менее понятно где какой кусок кода
+должен находиться и где его потом искать. Для абстракции особенностей
+реализаций браузеров они по-прежнему полагаются на &lt;code&gt;$&lt;/code&gt; в виде
+&lt;a href="https://www.insight-it.ru/goto/3b02d98c/" rel="nofollow" target="_blank" title="http://jquery.com/"&gt;jQuery&lt;/a&gt; или &lt;a href="https://www.insight-it.ru/goto/e6412e50/" rel="nofollow" target="_blank" title="http://zeptojs.com/"&gt;Zepto&lt;/a&gt;.
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Мне известны три библиотеки, предоставляющие большую часть изложенных
+выше абстракций. Вкратце о каждой:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/e1e90fac/" rel="nofollow" target="_blank" title="http://documentcloud.github.com/backbone/"&gt;&lt;strong&gt;Backbone.js&lt;/strong&gt;&lt;/a&gt;&amp;nbsp;-
+    самая&amp;nbsp;широко распространенная из трех, используется во многих
+    серьезных проектах.&amp;nbsp;Основана на библиотеке
+    &lt;a href="https://www.insight-it.ru/goto/48609b39/" rel="nofollow" target="_blank" title="http://documentcloud.github.com/underscore/"&gt;Underscore.js&lt;/a&gt;,
+    которая с одной стороны предоставляет массу удобных функций и
+    шаблонизатор, но с другой стороны - не особо-то и часто они
+    оказываются нужны.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/d7dc0253/" rel="nofollow" target="_blank" title="http://spinejs.com/"&gt;&lt;strong&gt;Spine.js&lt;/strong&gt;&lt;/a&gt;&amp;nbsp;- библиотека по-моложе, которая
+    очень похожа на Backbone.js, но написана на CoffeeScript и из-за
+    отсутствия внешних зависимостей вышла компактнее. Отличия в основном
+    в терминологии и деталях реализации.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/a115abb7/" rel="nofollow" target="_blank" title="http://knockoutjs.com/"&gt;&lt;strong&gt;Knockout.js&lt;/strong&gt;&lt;/a&gt; - эта
+    библиотека&amp;nbsp;пропагандирует использование &lt;code&gt;data-*&lt;/code&gt; атрибутов из HTML5
+    для хранения метаданных, которые как-то управляют изменениями
+    тегов-владельцев при определенных событиях, практически забирая на
+    себя роль представления. Концепция кажется мне мутноватой, так что
+    лично для себя я её использование всерьез и не рассматривал никогда.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Когда в этой статье дело будет доходить до примеров кода, я буду
+приводить их на основе &lt;strong&gt;Backbone.js&lt;/strong&gt;, так как в свое время я
+остановился именно на ней. Почему? В основном из-за того, что она
+используется в очень многих проектах и стоит за ней целая компания, а не
+просто один разработчик, которому однажды может надоесть поддерживать
+проект (как в случае с Spine.js). Но в глубине души я, конечно, надеюсь,
+что однажды они уберут эту жесткую зависимость от Underscore.js, а то и
+может быть тоже перепишут все на CoffeeScript.&lt;/p&gt;
+&lt;p&gt;В целом я стараюсь изложить общую концепцию: те же принципы можно
+реализовать и с использованием альтернатив, и с использованием
+разрозненных библиотек, решающих более узкие задачи, и вообще с нуля,
+самостоятельно занимаясь вопросами кроссбраузерности и прочих
+особенностей современного Интернета. Последний путь, кстати, не
+настолько уж и безумен, как кажется, крупные компании и интернет-проекты
+обычно по нему и идут, если человеческие и финансовые ресурсы позволяют.&lt;/p&gt;
+&lt;h2 id="obrabotchiki-sobytii_1"&gt;Обработчики событий&lt;/h2&gt;
+&lt;p&gt;В предыдущем разделе мы прилично так отвлеклись от основной темы -
+&lt;em&gt;интерактивных сайтов&lt;/em&gt;. Это было необходимо для того, чтобы достаточно
+комплексное JavaScript-приложение в итоге оказалось поддерживаемым и
+имело хоть какую-то структуру и логику.&lt;/p&gt;
+&lt;p&gt;Напомню, то, что раньше было просто независимым обработчиком событий
+становится методом представления (по терминологии Backbone.js). У
+каждого представления создается "оглавление" методов-обработчиков в
+атрибуте &lt;strong&gt;events&lt;/strong&gt;.&amp;nbsp;Наверное многим хотелось бы увидеть какой-то пример
+кода, но так как статьями с примерами примитивных приложений на
+Backbone.js пестрит весь Интернет, тратить на это время желания
+совершенно никакого, сошлюсь на самый популярный: &lt;a href="https://www.insight-it.ru/goto/fbd5c000/" rel="nofollow" target="_blank" title="http://documentcloud.github.com/backbone/docs/todos.html"&gt;список задач
+TODO&lt;/a&gt;, для
+сравнения &lt;a href="https://www.insight-it.ru/goto/28094239/" rel="nofollow" target="_blank" title="https://github.com/maccman/spine.todos"&gt;то же самое на Spine.js&lt;/a&gt;.&amp;nbsp;К слову, при использовании &lt;em&gt;CoffeeScript&lt;/em&gt; использовать стандартный механизм
+&lt;code&gt;Backbone.****.extend({ ... })&lt;/code&gt; не обязательно, &lt;code&gt;class MyClass extends Backbone.****&lt;/code&gt; прекрасно делает то же самое.&lt;/p&gt;
+&lt;p&gt;По мне, так намного интереснее не какие именно события обрабатываются
+(все равно 90% уникальны для проекта), а как их распределить по разным
+представлениям. Обычно получается что-то в этом духе:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Пользовательское&lt;/strong&gt; представление будет модифицировать страницу в
+    тех местах, где оно как-то связано с текущим пользователем: форма
+    авторизации, надпись "Привет, ****!", кнопка выхода и пр.
+    Вероятно, оно будет использовать &lt;em&gt;модель&lt;/em&gt; текущего пользователя или
+    в тривиальных случаях просто самостоятельно работать с cookie
+    сессии.&lt;/li&gt;
+&lt;li&gt;Классы &lt;em&gt;модели&lt;/em&gt; и &lt;em&gt;представления&lt;/em&gt;, а вероятно и &lt;em&gt;коллекции&lt;/em&gt;,
+    понадобятся каждой &lt;strong&gt;логической сущности&lt;/strong&gt;, которая каким-либо
+    образом отражается в пользовательском интерфейсе. Это может быть что
+    угодно, например задача в TODO-списке, статья, комментарий - все
+    зависит от тематики проекта.&lt;/li&gt;
+&lt;li&gt;Если &lt;strong&gt;навигация&lt;/strong&gt; по сайту каким-то образом динамически
+    видоизменяется, то представление понадобится и для нее. Например,
+    часто подсвечивают пункты в глобальной навигации на основе изменений
+    в текущем адресе страницы.&lt;/li&gt;
+&lt;li&gt;И, последний пункт, который собственно и относится к сегодняшней
+    теме - одно представление будет общим для всего сайта и будет
+    отвечать за его &lt;strong&gt;интерактивность&lt;/strong&gt;. Давайте его рассмотрим
+    подробнее.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Для отсутствия перезагрузок браузера внутри сайта, нам нужно
+переопределить:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;События клика на ссылки: по содержимому атрибута &lt;code&gt;href&lt;/code&gt; нужно определить,
+что ссылка внутренняя и вызвать "цепную реакцию" в других
+представлениях, чтобы в итоге пользователь увидел то, что должен.&lt;/li&gt;
+&lt;li&gt;При отправке формы есть два сценария:&lt;ul&gt;
+&lt;li&gt;Обновляется связанная &lt;em&gt;модель&lt;/em&gt; и синхронизируется с сервером. В
+таком сценарии при необходимости можно вообще скрыть кнопку отправки
+и "автосохранять" изменения в модели.&lt;/li&gt;
+&lt;li&gt;Связанной модели по каким-то причинам нет и нужно просто на основе
+данных формы что-то сделать, например выполнить поиск по указанной в
+форме фразе или отправить запрос на авторизацию.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Для отмены стандартной реакции браузера на события у jQuery есть два
+основных механизма: &lt;code&gt;event.preventDefault()&lt;/code&gt; и &lt;code&gt;return false&lt;/code&gt;. В
+данной ситуации (да и большинстве других), целесообразнее пользоваться
+последним, так как если вдруг в коде обработчика окажется какая-то
+ошибка, то пользователь просто увидит стандартную реакцию браузера, а не
+окажется в ситуации "некликающихся ссылок" и "неотправляющихся форм".&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="vosstanovlenie-povedeniia-brauzera"&gt;Восстановление поведения браузера&lt;/h2&gt;
+&lt;p&gt;В предыдущем разделе я даже не стал подробно останавливаться на том, как
+сделать так "чтобы пользователь увидел то, что должен". Наверняка можно
+придумать массу способов решения этой задачи, но единственный реально
+применимый на практике - воспроизвести визуально то же самое, что
+происходит при обычной&amp;nbsp;перезагрузке страницы.&lt;/p&gt;
+&lt;p&gt;И первое, с чего стоит начать - с адресной строки, именно там должен
+появиться тот адрес, который был в &lt;code&gt;href&lt;/code&gt; ссылки и action формы. Но на
+самом деле проще сказать, чем сделать:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Возможность просто полностью поменять текущий адрес в адресной
+    строке из JavaScript без инициализации открытия страницы есть только
+    в совсем свежих браузерах посредством &lt;strong&gt;HTML5 History API&lt;/strong&gt;
+    (&lt;a href="https://www.insight-it.ru/goto/61b4e54f/" rel="nofollow" target="_blank" title="https://developer.mozilla.org/en/DOM/Manipulating_the_browser_history#The_pushState().C2.A0method"&gt;pushState&lt;/a&gt;).&lt;/li&gt;
+&lt;li&gt;В старых браузерах переходы между внутренними страницами сайта можно
+    эмулировать через изменения якоря ссылки, который в URL идет после
+    &lt;code&gt;#&lt;/code&gt; и обычно используется для "перелистывания" на середину
+    HTML-документа. Для отслеживания таких изменений используется
+    событие
+    &lt;a href="https://www.insight-it.ru/goto/a35bb215/" rel="nofollow" target="_blank" title="https://developer.mozilla.org/en/DOM/window.onhashchange"&gt;onhashchange&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;В еще более старых браузерах это событие эмулируют разными трюками с
+    iframe и setInterval.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;code&gt;Backbone.history.start()&lt;/code&gt;&amp;nbsp;берет на себя абстракцию изменений в
+адресной строке, правда поддержку &lt;em&gt;pushState&lt;/em&gt; нужно явно включить в
+аргументах. Заодно восстанавливается нормальное поведение кнопок "Назад"
+и "Вперед" в браузере.&lt;/p&gt;
+&lt;p&gt;Для обработки и создания событий, отражающихся в адресной строке, нужно
+сделать подкласс &lt;strong&gt;Backbone.Router&lt;/strong&gt;. C ситуациями когда их имеет смысл
+создать несколько, я не сталкивался. По аналогии с серверными
+фреймворками в атрибуте &lt;strong&gt;routes&lt;/strong&gt;&amp;nbsp;задается соответствие паттернов
+адресов к методам-обработчикам, которые будут выполниться при переходе.
+В них вызываются необходимые изменения в коллекциях, моделях и
+представлениях, чтобы привести в нужное состояние текущий документ.&lt;/p&gt;
+&lt;p&gt;Для инициации "виртуального" перехода на новую внутреннюю страницу нужно
+вызвать метод &lt;strong&gt;navigate&lt;/strong&gt; у нашего объекта-маршрутизатора, первым
+аргументом передав её адрес без первого /, а вторым - настройки:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;trigger&lt;/strong&gt; - вызывать ли обработчик из маршрутизатора?&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;replace&lt;/strong&gt; - добавлять ли страницу, с которой мы уходим в историю
+    браузера, чтобы можно было на нее вернуться при нажатии кнопки
+    "назад"?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Таким образом, во внутренних ссылках мы используем нормальные
+относительные URL, начинающиеся с /. По ним будут нормально ходить
+роботы и браузеры без JavaScript. В обработчике кликов на них мы:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;проверяем правда ли она внутренняя (начинается ли она с /);&lt;/li&gt;
+&lt;li&gt;"отменяем" стандартный переход, вернув &lt;code&gt;false&lt;/code&gt;;&lt;/li&gt;
+&lt;li&gt;вызываем &lt;code&gt;router.navigate(href.substring(1), {trigger: true})&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Осталась еще несколько атрибутов поведения браузера, которые необходимо
+починить, чтобы визуально все выглядело "как обычно":&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Клик по ссылке с зажатым Shift должен открывать её &lt;em&gt;в новом окне&lt;/em&gt;, а
+    с зажатым Ctrl или при клике средней кнопкой мыши - &lt;em&gt;в новой
+    вкладке&lt;/em&gt;. Довольно не хитро делается на основе атрибутов
+    объекта-события, который передает обработчику jQuery (button,
+    shiftkey, metakey), для открытия окна или вкладки - window.open.&lt;/li&gt;
+&lt;li&gt;Если пользователь сделал какое-то действие, а прореагировать на него
+    мгновенно не получается (так как что-то грузится, вероятно) - нужно
+    включить курсор ожидания, установив в CSS &lt;strong&gt;cursor: wait&lt;/strong&gt;, и,
+    желательно, анимированный &lt;strong&gt;favicon.ico&lt;/strong&gt;. И, соответственно,
+    вернуть все как было, когда страница примет нужный вид. Для смены
+    favicon до сих пор пользуюсь каким-то довольно старым плагином к
+    jQuery, который не особо шикарно, но все же работает. Его сайт,
+    видимо, накрылся, так что продублировал:&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/d6f7fab3/" rel="nofollow" target="_blank" title="https://gist.github.com/2320740"&gt;https://gist.github.com/2320740&lt;/a&gt;, если кто знает более адекватные альтернативы - дайте знать в комментариях, пожалуйста, руки поискать все никак не доходят.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="sinkhronizatsiia-sostoianiia"&gt;Синхронизация состояния&lt;/h2&gt;
+&lt;p&gt;По-умолчанию Backbone.js предлагает хранить все состояние клиента в
+моделях и синхронизировать его с серверным посредством реализации
+простенького REST API на сервере
+(&lt;a href="https://www.insight-it.ru/goto/e85f288a/" rel="nofollow" target="_blank" title="http://documentcloud.github.com/backbone/#Sync"&gt;подробнее&lt;/a&gt;), к
+которому запросы отправляются посредством обычного &lt;code&gt;$.ajax&lt;/code&gt;. Чтобы
+инициировать процесс нужно вручную вызвать у экземпляра модели метод
+&lt;strong&gt;fetch&lt;/strong&gt;, чтобы обновить клиентское состояние данными с сервера, или
+метод &lt;strong&gt;save&lt;/strong&gt;, для обратного процесса.&lt;/p&gt;
+&lt;p&gt;Для многих приложений этого, в целом, достаточно. Но ограничение
+очевидно - нет возможности мгновенно узнать, что на сервере что-то
+изменилось. Чего-то близкого можно достичь вызовом &lt;strong&gt;fetch&lt;/strong&gt; раз в N
+секунд для каждой модели, но если пользователей предполагается хоть
+сколько-либо много, нагрузка на серверную часть будет неоправданно
+велика.&lt;/p&gt;
+&lt;p&gt;Резонным дополнением этой схемы является использование постоянного
+соединения между клиентом и сервером для синхронизации их состояний.
+Именно это мы и обсудим в следующей статье серии.&lt;/p&gt;
+&lt;div class="card green"&gt;
+&lt;p&gt;&lt;div class="card-content white-text"&gt;
+Эта статья - вторая в &lt;a class="green-text text-lighten-4" href="https://www.insight-it.ru/interactive/"&gt;серии про Интерактивные сайты&lt;/a&gt;, автор - &lt;a class="green-text text-lighten-4" href="https://www.insight-it.ru/goto/b03d9116/" rel="nofollow" target="_blank" title="http://blinkov.ru"&gt;Иван&amp;nbsp;Блинков&lt;/a&gt;, основано на личном опыте.
+До встречи &lt;a class="green-text text-lighten-4" href="/feed/"&gt;на страницах Insight IT&lt;/a&gt;!
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Fri, 06 Apr 2012 21:17:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-04-06:interactive/2012/klientskaya-chast-interaktivnogo-sajjta/</guid><category>AJAX</category><category>Backbone.js</category><category>CoffeeScript</category><category>JavaScript</category><category>JQuery</category><category>клиентская часть</category></item><item><title>Архитектура Stack Exchange Network</title><link>https://www.insight-it.ru//highload/2011/arkhitektura-stack-exchange-network/</link><description>&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/8d9e30a4/" rel="nofollow" target="_blank" title="http://stackexchange.com/"&gt;Stack Exchange Network&lt;/a&gt; представляет собой
+сеть из 46 сайтов вопросов-ответов на совершенно разные темы от
+программирования до кулинарии. Проект вырос из известной в узких кругах
+тусовки программистов &lt;a href="https://www.insight-it.ru/goto/dd7cd9bb/" rel="nofollow" target="_blank" title="http://stackoverflow.com/"&gt;Stack Overflow&lt;/a&gt;, об
+архитектуре которой &lt;a href="https://www.insight-it.ru/highload/2010/arkhitektura-stack-overflow/"&gt;я уже рассказывал&lt;/a&gt; чуть больше года назад. Проект активно развивается и уже появилось приличное количество новой информации, которой я и спешу с Вами поделиться.
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;h2 id="statistika"&gt;Статистика&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;95 миллионов просмотров страниц в месяц&lt;/li&gt;
+&lt;li&gt;800 HTTP запросов в секунду&lt;/li&gt;
+&lt;li&gt;180 DNS запросов в секунду&lt;/li&gt;
+&lt;li&gt;Загруженность интернет-канала в 55 Мбит/с&lt;/li&gt;
+&lt;li&gt;16 миллионов уникальных пользователей в месяц&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="tekhnologii"&gt;Технологии&lt;/h2&gt;
+&lt;h3 id="razrabotka"&gt;Разработка&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/c/"&gt;C#&lt;/a&gt; - основной язык программирования&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/visual-studio/"&gt;Visual Studio 2010 Team Suite&lt;/a&gt; -&amp;nbsp;IDE&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/asp-net/"&gt;Microsoft ASP.NET 4.0&lt;/a&gt; - framework&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/asp-net-mvc/"&gt;ASP.NET MVC 3&lt;/a&gt; -&amp;nbsp;web Framework&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/razor/"&gt;Razor&lt;/a&gt; - генератор шаблонов&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/jquery/"&gt;jQuery 1.4.2&lt;/a&gt; - JavaScript framework&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/linq-to-sql/"&gt;LINQ to SQL&lt;/a&gt; и немного чистого SQL - доступ к
+    данным&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/mercurial/"&gt;Mercurial&lt;/a&gt; и &lt;a href="/tag/kiln/"&gt;Kiln&lt;/a&gt; - контроль версий
+    исходного кода&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/beyond-compare/"&gt;Beyond Compare 3&lt;/a&gt; - инструмент для сравнения&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="programmnoe-obespechenie"&gt;Программное обеспечение&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/886b3540/" rel="nofollow" target="_blank" title="http://stackoverflow.com/questions/177901/what-does-wisc-stack-mean"&gt;WISC&lt;/a&gt;
+    стек получен условно-бесплатно с
+    помощью&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/b478b941/" rel="nofollow" target="_blank" title="http://blog.stackoverflow.com/2009/03/stack-overflow-and-bizspark/"&gt;BizSpark&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/windows-server/"&gt;Windows Server&lt;/a&gt;&lt;a href="/tag/windows-server-2008/"&gt;2008 R2
+    x64&lt;/a&gt; - основная операционная система&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/ms-sql-server-2008/"&gt;MS SQL Server 2008 R2&lt;/a&gt; на&amp;nbsp;&lt;a href="/tag/windows-server-2008/"&gt;Windows Server
+    2008 Enterprise Edition x64&lt;/a&gt; - база
+    данных&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/ubuntu-server/"&gt;Ubuntu Server&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/centos/"&gt;CentOS&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/iis/"&gt;IIS 7.0&lt;/a&gt; - веб-сервер&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/haproxy/"&gt;HAProxy&lt;/a&gt; - балансировка нагрузки&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/redis/"&gt;Redis&lt;/a&gt; - используется как распределенная система
+    кэширования&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/cruisecontrol-net/"&gt;CruiseControl.NET&lt;/a&gt; - сборки и
+    автоматическая система развертывания кода&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/lucene/"&gt;Lucene.NET&lt;/a&gt; - полнотекстовый поиск&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/bacula/"&gt;Bacula&lt;/a&gt; - резервное копирование&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/nagios/"&gt;Nagios&lt;/a&gt; (с
+    плагинами&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/d576a9fc/" rel="nofollow" target="_blank" title="http://n2rrd.diglinks.com/cgi-bin/trac.fcgi"&gt;n2rrd&lt;/a&gt; и
+    &lt;a href="https://www.insight-it.ru/goto/9b00fbb3/" rel="nofollow" target="_blank" title="http://web.taranis.org/drraw/"&gt;drraw&lt;/a&gt;) для мониторинга&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/splunk/"&gt;Splunk&lt;/a&gt; - сбор и агрегация логов&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/sql-monitor/"&gt;SQL Monitor&lt;/a&gt; от&amp;nbsp;Red Gate - мониторинг SQL Server&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/bind/"&gt;Bind&lt;/a&gt; -&amp;nbsp;DNS&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/dotnetopenid/"&gt;DotNetOpenId&lt;/a&gt; - реализация OpenID на .NET&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/wmd/"&gt;WMD&lt;/a&gt; - текстовый редактор&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/prettify/"&gt;Prettify&lt;/a&gt; - подсветка синтаксиса&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/markdownsharp/"&gt;MarkdownSharp&lt;/a&gt; - обработчик разметки Markdown
+    на C#&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/flot/"&gt;Flot&lt;/a&gt; - построение графиков на JavaScript&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="vneshnie-servisy"&gt;Внешние сервисы&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/recaptcha/"&gt;reCAPTCHA&lt;/a&gt; - защита от спама&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/google-analytics/"&gt;Google Analytics&lt;/a&gt; - веб-аналитика&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/kiln/"&gt;Kiln&lt;/a&gt; - Mercurial хостинг&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/pingdom/"&gt;Pingdom&lt;/a&gt; - внешний мониторинг и уведомления&lt;/li&gt;
+&lt;li&gt;CDN не используется, его роль выполняет&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/a5057c7b/" rel="nofollow" target="_blank" title="http://sstatic.net/"&gt;sstatic.net&lt;/a&gt;, отдельный домен для статичных файлов SEN без cookie&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="oborudovanie_1"&gt;Оборудование&lt;/h2&gt;
+&lt;h3 id="datatsentry"&gt;Датацентры&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;1 стойка в Peak Internet, штат Орегон (чат и обнаружение данных)&lt;/li&gt;
+&lt;li&gt;2 стойки в Peer 1, Нью-Йорк (остальная часть SEN)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="servery"&gt;Серверы&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;10 веб-серверов:&lt;ul&gt;
+&lt;li&gt;Dell R610&lt;/li&gt;
+&lt;li&gt;1x Intel Xeon Processor E5640 @ 2.66 GHz&lt;/li&gt;
+&lt;li&gt;16 GB RAM&lt;/li&gt;
+&lt;li&gt;Windows Server 2008 R2&lt;/li&gt;
+&lt;li&gt;IIS&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;2 сервера баз данных:&lt;ul&gt;
+&lt;li&gt;Dell R710&lt;/li&gt;
+&lt;li&gt;2x Intel Xeon Processor X5680 @ 3.33 GHz&lt;/li&gt;
+&lt;li&gt;64 GB RAM&lt;/li&gt;
+&lt;li&gt;8 жестких дисков&lt;/li&gt;
+&lt;li&gt;MS SQL Server 2008 R2&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;2 виртуальных сервера для балансировки нагрузки:&lt;ul&gt;
+&lt;li&gt;1x Intel Xeon Processor E5640 @ 2.66 GHz&lt;/li&gt;
+&lt;li&gt;4 GB RAM&lt;/li&gt;
+&lt;li&gt;Ubuntu Server&lt;/li&gt;
+&lt;li&gt;HAProxy&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;2 сервера для кэша:&lt;ul&gt;
+&lt;li&gt;Dell R610&lt;/li&gt;
+&lt;li&gt;2x Intel Xeon Processor E5640 @ 2.66 GHz&lt;/li&gt;
+&lt;li&gt;16 GB RAM&lt;/li&gt;
+&lt;li&gt;CentOS&lt;/li&gt;
+&lt;li&gt;Redis&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;1 сервер для резервного копирования:&lt;ul&gt;
+&lt;li&gt;Dell R610&lt;/li&gt;
+&lt;li&gt;1x Intel Xeon Processor E5640 @ 2.66 GHz&lt;/li&gt;
+&lt;li&gt;32 GB RAM&lt;/li&gt;
+&lt;li&gt;Linux&lt;/li&gt;
+&lt;li&gt;Bacula&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;1 сервер для мониторинга, управления и сбора логов:&lt;ul&gt;
+&lt;li&gt;Dell R610&lt;/li&gt;
+&lt;li&gt;1x Intel Xeon Processor E5640 @ 2.66 GHz&lt;/li&gt;
+&lt;li&gt;32 GB RAM&lt;/li&gt;
+&lt;li&gt;Linux&lt;/li&gt;
+&lt;li&gt;Nagios&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;2 сервера для виртуализации:&lt;ul&gt;
+&lt;li&gt;Dell R610&lt;/li&gt;
+&lt;li&gt;1x Intel Xeon Processor E5640 @ 2.66 GHz&lt;/li&gt;
+&lt;li&gt;16 GB RAM&lt;/li&gt;
+&lt;li&gt;VMWare ESXi&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="setevoe-oborudovanie"&gt;Сетевое оборудование&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2 маршрутизатора на Linux&lt;/li&gt;
+&lt;li&gt;5 свитчей &amp;nbsp;Dell PowerConnect&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="prochee"&gt;Прочее&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/aa5532bf/" rel="nofollow" target="_blank" title="http://www.wowwee.com/en/products/tech/telepresence/rovio/rovio"&gt;Rovio&lt;/a&gt; -
+    маленький робот, позволяющий удаленным разработчиком посетить офис
+    "виртуально"&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="komanda_1"&gt;Команда&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;14 разработчиков&lt;/li&gt;
+&lt;li&gt;2 системных администратора&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="chto-novogo"&gt;Что нового?&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;HAProxy стал использоваться вместо Windows NLB так как HAProxy
+    является быстрым, нересурсоемким, бесплатным решением, которое
+    работает. Полностью прозрачен для серверов, легче обслуживать по
+    сравнению со старым решением, располагается на виртуальных машинах.&lt;/li&gt;
+&lt;li&gt;CDN не используется, так как даже "недорогие" решения обходятся в
+    очень приличную сумму по сравнению с тем трафиком, который входит в
+    тарифный план хостинг-провайдера. Самое дешевой решение CDN от
+    Amazon обошлось бы как минимум на тысячу долларов в месяц дороже при
+    текущем уровне использования трафика.&lt;/li&gt;
+&lt;li&gt;Резервное копирование на диски для быстрого восстановления и на
+    кассеты для "истории".&lt;/li&gt;
+&lt;li&gt;Полнотекстный поиск в SQL Server плохо интегрируется, нестабилен и
+    обладает низким качеством результатов, так что они перешли на
+    Lucene.&lt;/li&gt;
+&lt;li&gt;Все сайты в SEN теперь работают на общей платформе: используется
+    общее оборудование и программное обеспечение.&lt;/li&gt;
+&lt;li&gt;Проект разделен на разные сайты для разных ниш, чтобы полностью
+    изолировать группы аудитории, специализирующиеся в каждой конкретной
+    области.&lt;/li&gt;
+&lt;li&gt;Используется агрессивное кэширование, большинство страниц кэшируются
+    в виде HTML для анонимных пользователей средствами IIS.&lt;/li&gt;
+&lt;li&gt;Используется три уровня кэширования: локальный, относящийся к
+    каждому сайту и глобальный.&lt;/li&gt;
+&lt;li&gt;Локальный кэш доступен только для каждой пары сайт/сервер:&lt;ul&gt;
+&lt;li&gt;Используется для уменьшения сетевых задержек, по сути просто
+    через&amp;nbsp;HttpRuntime.Cache.&lt;/li&gt;
+&lt;li&gt;Содержит такие вещи как пользовательские сессии, будущие
+    обновления счетчиков просмотров страниц.&lt;/li&gt;
+&lt;li&gt;Располагается полностью в оперативной памяти веб-сервера.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Кэш сайта доступен для каждого сервера, обрабатывающий запрос к
+    конкретному сайту:&lt;ul&gt;
+&lt;li&gt;Большинство кэшируемых данных располагаются здесь.&lt;/li&gt;
+&lt;li&gt;Располагается в Redis.&lt;/li&gt;
+&lt;li&gt;Redis настолько быстр, что большую часть времени доступа к кэшу
+    занимает передача данных по сети.&lt;/li&gt;
+&lt;li&gt;Данные сжимаются перед отправкой в Redis, так как большинство
+    данных являются строками и у них есть масса свободных
+    вычислительных ресурсов.&lt;/li&gt;
+&lt;li&gt;Использование процессорных ресурсов на серверах с Redis
+    стремится к нулю.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Глобальный кэш является общим для всех серверов и сайтов:&lt;ul&gt;
+&lt;li&gt;Личные сообщения, квоты по API и несколько других по-настоящему
+    глобальных вещей располагаются здесь.&lt;/li&gt;
+&lt;li&gt;Также используется Redis.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Большинство данных в кэше удаляются через заданный период времени
+    (обычно в районе нескольких минут) и практически никогда явно не
+    удаляются.&lt;/li&gt;
+&lt;li&gt;Когда требуется инвалидация кэша на уровне готовых страниц,
+    используется система подписки внутри Redis для отправки сообщений в
+    соответствующую часть системы кэширования.&lt;/li&gt;
+&lt;li&gt;Для системы ввода-вывода они выбрали Intel X25 SSD в RAID10. RAID
+    решил многие вопросы с надежностью, а SSD показывают отличную
+    производительностью по сравнению с&amp;nbsp;FusionIO при существенно более
+    низкой цене.&lt;/li&gt;
+&lt;li&gt;Стоимость лицензий используемых продуктов Microsoft составила бы 242
+    тысячи долларов. Но так как они используют программу BizSpark, им не
+    пришлось платить большую часть этой суммы.&lt;/li&gt;
+&lt;li&gt;Сетевые карты от Broadcom заменяются на сетевые карты от Intel на
+    основных production серверах. Это решило большинство проблем с
+    потерями соединений, пакетов и таблицами ARP.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="istochniki-informatsii"&gt;Источники информации&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/8a78f426/" rel="nofollow" target="_blank" title="http://highscalability.com/blog/2011/3/3/stack-overflow-architecture-update-now-at-95-million-page-vi.html"&gt;Stack Overflow Architecture Update - Now At 95 Million Page Views
+    A&amp;nbsp;Month&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/ac2efccd/" rel="nofollow" target="_blank" title="http://blog.stackoverflow.com/"&gt;Stack Overflow Blog&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/83742213/" rel="nofollow" target="_blank" title="http://blog.serverfault.com/post/1432571770/"&gt;Stack Overflow&amp;rsquo;s New York Data
+    Center&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/7241f829/" rel="nofollow" target="_blank" title="http://blog.serverfault.com/post/1097492931/"&gt;Designing For Scalability of Management and Fault
+    Tolerance&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/955af379/" rel="nofollow" target="_blank" title="http://blog.stackoverflow.com/2011/01/stack-overflow-search-now-81-less-crappy/"&gt;Stack Overflow Search &amp;mdash; Now 81% Less
+    Crappy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/7ab0ab00/" rel="nofollow" target="_blank" title="http://blog.stackoverflow.com/2011/01/state-of-the-stack-2010-a-message-from-your-ceo/"&gt;State of the Stack 2010 (a message from your
+    CEO)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/f4755d56/" rel="nofollow" target="_blank" title="http://blog.stackoverflow.com/2010/01/stack-overflow-network-configuration/"&gt;Stack Overflow Network
+    Configuration&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/d29680fc/" rel="nofollow" target="_blank" title="http://meta.stackoverflow.com/questions/69164/does-stackoverflow-use-caching-and-if-so-how"&gt;Does StackOverflow use caching and if so,
+    how?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/a1f157a/" rel="nofollow" target="_blank" title="http://meta.stackoverflow.com/questions/6435/how-does-stackoverflow-handle-cache-invalidation"&gt;How does StackOverflow handle cache
+    invalidation?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/4812040a/" rel="nofollow" target="_blank" title="http://meta.stackoverflow.com/questions/10369/which-tools-and-technologies-build-the-stack-exchange-network"&gt;Which tools and technologies build the Stack Exchange
+    Network?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/d1cfeccf/" rel="nofollow" target="_blank" title="http://meta.stackoverflow.com/questions/2765/how-does-stack-overflow-handle-spam"&gt;How does Stack Overflow handle
+    spam?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/58e28ee2/" rel="nofollow" target="_blank" title="http://blog.serverfault.com/post/our-storage-decision/"&gt;Our Storage
+    Decision&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/6a63689c/" rel="nofollow" target="_blank" title="http://meta.stackoverflow.com/questions/4766/how-are-hot-questions-selected"&gt;How are &amp;ldquo;Hot&amp;rdquo; Questions
+    Selected?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/90fef20/" rel="nofollow" target="_blank" title="http://blog.stackoverflow.com/2010/04/stack-overflow-and-dvcs/"&gt;Stack Overflow and
+    DVCS&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/fe105178/" rel="nofollow" target="_blank" title="http://chat.stackexchange.com/rooms/127/the-comms-room"&gt;Server Fault Chat
+    Room&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Спасибо за внимание! Для оперативного получения свежей информации о
+&lt;a href="https://www.insight-it.ru/highload/"&gt;высоконагруженных интернет-проектах&lt;/a&gt; рекомендую &lt;a href="/feed/"&gt;подписаться на RSS&lt;/a&gt;.&lt;/strong&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Thu, 31 Mar 2011 16:05:00 +0400</pubDate><guid>tag:www.insight-it.ru,2011-03-31:highload/2011/arkhitektura-stack-exchange-network/</guid><category>ASP .NET</category><category>ASP .NET MVC</category><category>Bacula</category><category>Beyond Compare 3</category><category>Bind</category><category>C++</category><category>CentOS</category><category>CruiseControl.NET</category><category>DotNetOpenId</category><category>Flot</category><category>Google Analytics</category><category>HAProxy</category><category>IIS</category><category>JQuery</category><category>Kiln</category><category>LINQ to SQL</category><category>Lucene</category><category>MarkdownSharp</category><category>Mercurial</category><category>MS SQL Server 2008</category><category>Nagios</category><category>Pingdom</category><category>Prettify</category><category>Razor</category><category>reCAPTCHA</category><category>Redis</category><category>Splunk</category><category>SQL Monitor</category><category>Ubuntu Server</category><category>Visual Studio</category><category>Windows Server</category><category>Windows Server 2008</category><category>WMD</category></item><item><title>Архитектура Stack Overflow</title><link>https://www.insight-it.ru//highload/2010/arkhitektura-stack-overflow/</link><description>&lt;p&gt;&lt;img alt="Stack Overflow" class="right" src="https://www.insight-it.ru/images/stack-overflow-logo.png" title="Stack Overflow"/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/33fc61d9/" rel="nofollow" target="_blank" title="https://stackoverflow.com/"&gt;Stack Overflow&lt;/a&gt; является любимым многими
+программистами сайтом, где можно задать профессиональный вопрос и
+получить ответы от коллег. Этот проект был написан двумя никому не
+известными парнями, о которых никто никогда раньше не слышал. Хорошо, не
+совсем так. Stack Overflow был создан топовыми программистами и звездами
+блогосферы:&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/374a081/" rel="nofollow" target="_blank" title="http://www.codinghorror.com/blog/"&gt;Jeff Atwood&lt;/a&gt; и&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/31657700/" rel="nofollow" target="_blank" title="http://www.joelonsoftware.com/"&gt;Joel Spolsky&lt;/a&gt;. В этом отношении Stack
+Overflow похож на ресторан, владельцами которого являются знаменитости.
+По оценкам Joel'а около 1/3 программистов всего мира использовали этот
+интернет-ресурс, так что должно быть он представляет собой что-то
+достаточно полезное и интересное.&lt;/p&gt;
+&lt;p&gt;Одним из ключевых моментов в истории Stack Overflow является
+использование вертикального масштабирования, как достаточно
+работоспособного решения достаточного большого класса проблем. Не смотря
+на то, что публика на сегодняшний день больше склоняется к подходу с
+использованием горизонтальным масштабирования и&amp;nbsp;не-SQL баз данных.&lt;/p&gt;
+&lt;p&gt;Если Вы стремитесь к масштабу Google, у Вас нет другого выхода, как
+двигаться в направлении не-SQL. Но Stack Overflow - это не Google, ровно
+как и подавляющее большинство других сайтов. Когда Вы задумываетесь о
+возможных вариантов дизайна Вашего проекта, попробуйте учесть и историю
+Stack Overflow, она тоже имеет право на жизнь. В этот век многоядерных
+машин с большим объемом оперативной памяти и невероятными темпами
+развития методов параллельного программирования, вертикальное
+масштабирование все еще является жизнеспособной стратегией и не должна
+сразу же отбрасываться в сторону просто так как это теперь больше не
+модно. Возможно в один прекрасный день мы получим лучшее из обоих миров,
+но на сегодняшний момент перед нами лежит большой болезненный выбор
+стратегии масштабирования, от которого определенно зависит судьба Вашего
+проекта.&lt;/p&gt;
+&lt;p&gt;Joel любит похвастаться тем, что они достигли производительности,
+сравнимой с другими сайтами аналогичных размеров, используя в 10 раз
+меньше оборудования. Он удивляется, работали над этими сайтами
+по-настоящему хорошие программисты. Давайте взглянем на то, как им это
+удалось, и дадим Вам возможность побыть судьей.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;&lt;em&gt;Перевод &lt;a href="https://www.insight-it.ru/goto/98b904e0/" rel="nofollow" target="_blank" title="http://highscalability.com/blog/2009/8/5/stack-overflow-architecture.html"&gt;статьи&lt;/a&gt;, автор оригинала - Todd Hoff. Возможно будет еще один пост с менее формальной информацией на ту же тему.&lt;/em&gt;&lt;/p&gt;
+&lt;h2 id="statistika"&gt;Статистика&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;16 миллионов просмотров страниц в месяц&lt;/li&gt;
+&lt;li&gt;3 миллионов уникальных пользователей в месяц (для сравнения: Facebook
+насчитывает около 77 миллионов уникальных пользователей в месяц)&lt;/li&gt;
+&lt;li&gt;6 миллионов посещений в месяц&lt;/li&gt;
+&lt;li&gt;86% трафика приходит с Google&lt;/li&gt;
+&lt;li&gt;9 миллионов активных программистов во всем мире и 30% пользуются Stack
+Overflow&lt;/li&gt;
+&lt;li&gt;Более дешевые лицензии были получены через программу
+Microsoft&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/205088ae/" rel="nofollow" target="_blank" title="http://www.microsoft.com/BizSpark"&gt;BizSpark&lt;/a&gt;. Скорее всего
+они заплатили около 11000\$ за лицензии на ОС и MSSQL.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Стратегия монетизации: ненавязчивая реклама, вакансии, конференции
+DevDays, достижения других смежных ниш (Server Fault, Super User),
+разработка&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/631e88c2/" rel="nofollow" target="_blank" title="https://stackexchange.com/"&gt;StackExchange&lt;/a&gt; и возможно
+каких-то других систем рейтингов для программистов.&lt;/p&gt;
+&lt;h2 id="platforma"&gt;Платформа&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Microsoft ASP.NET MVC&lt;/li&gt;
+&lt;li&gt;SQL Server 2008&lt;/li&gt;
+&lt;li&gt;C#&lt;/li&gt;
+&lt;li&gt;Visual Studio 2008 Team Suite&lt;/li&gt;
+&lt;li&gt;jQuery&lt;/li&gt;
+&lt;li&gt;LINQ to SQL&lt;/li&gt;
+&lt;li&gt;Subversion&lt;/li&gt;
+&lt;li&gt;Beyond Compare 3&lt;/li&gt;
+&lt;li&gt;VisualSVN 1.5&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Веб уровень:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;2 x Lenovo ThinkServer RS110 1U&lt;/li&gt;
+&lt;li&gt;4 ядра, 2.83 Ghz, 12 MB L2 cache&lt;/li&gt;
+&lt;li&gt;500 GB жесткие диски, зеркалирование RAID1&lt;/li&gt;
+&lt;li&gt;8 GB RAM&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Уровень базы данных:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;1 x Lenovo ThinkServer RD120 2U&lt;/li&gt;
+&lt;li&gt;8 ядер, 2.5 Ghz, 24 MB L2 cache&lt;/li&gt;
+&lt;li&gt;48 GB RAM&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Четвертый сервер был добавлен для запуска
+&lt;a href="https://www.insight-it.ru/goto/d3829019/" rel="nofollow" target="_blank" title="https://superuser.com/"&gt;superuser.com&lt;/a&gt;. Все сервера вместе обеспечивают
+работу &lt;a href="https://www.insight-it.ru/goto/33fc61d9/" rel="nofollow" target="_blank" title="https://stackoverflow.com/"&gt;Stack Overflow&lt;/a&gt;,&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/9b0a2d16/" rel="nofollow" target="_blank" title="https://serverfault.com/"&gt;Server
+Fault&lt;/a&gt;, и&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/d3829019/" rel="nofollow" target="_blank" title="https://superuser.com/"&gt;Super User&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;QNAP TS-409U NAS для резервного копирования данных. Было принято решение
+не использовать "облачные" решения, так как вызванные ими дополнительные
+5GB трафика ежедневно были бы накладными.&lt;/li&gt;
+&lt;li&gt;Сервера располагаются у&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/4f3f2e08/" rel="nofollow" target="_blank" title="http://www.peakinternet.com/"&gt;Peak Internet&lt;/a&gt;. В
+основном из-за впечатляющей детализации технических ответов и разумных
+расценок.&lt;/li&gt;
+&lt;li&gt;Полнотекстный поиск в SQL Server активно используется для реализации
+поиска по сайту и выявления повторных вопросов. Lucene .NET
+рассматривается как достаточно заманчивая альтернатива.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="podvodim-itogi"&gt;Подводим итоги&lt;/h2&gt;
+&lt;p&gt;Данный список является сборником уроков от Jeff и Joel, а также из
+комментариев к их записям:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Если Вы комфортно себя чувствуете в деле управления серверами - не
+бойтесь покупать их. Две основных проблемы с издержками аренды
+оборудования:&lt;ol&gt;
+&lt;li&gt;невероятные цены на дополнительную оперативную память и
+жесткие диски;&lt;/li&gt;
+&lt;li&gt;хостинг-провайдеры на самом деле не могут управлять
+чем-либо за Вас.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;Делайте одноразовые более крупные инвестиции в оборудование, чтобы
+избежать быстро растущих ежемесячных издержек по аренде, которые
+окажутся более высокими в долгосрочном периоде.&lt;/li&gt;
+&lt;li&gt;Обновляйте сетевые драйвера. Производительность запросто может
+удвоиться.&lt;/li&gt;
+&lt;li&gt;Использование 48GB RAM требует обновления до MS Enterprise edition.&lt;/li&gt;
+&lt;li&gt;Оперативная память невероятно дешевая. Используйте возможности по её
+расширению по максимуму для получения практически бесплатной
+производительности. У Dell, например, переход от 4GB памяти до 128GB
+стоит всего 4378\$.&lt;/li&gt;
+&lt;li&gt;Stack Overflow скопировали ключевую часть структуры базы данных у
+Wikipedia. Это обернулось огромной ошибкой, для исправления которой
+потребуется большой и болезненный рефакторинг базы данных. Основным
+направлением изменений будет избавление от излишних операций по
+объединению данных в большом количестве ключевых запросов. Это ключевой
+урок, который стоит усвоить у гигантских много-терабайтных схем (вроде
+Google BigTable), которые полностью избавлены от операций объединения
+данных. Этот вопрос был достаточно важен для Stack Overflow, так как их
+база данных практически полностью располагается в оперативной памяти и
+операции join по прежнему требуют относительно много вычислительных
+ресурсов.&lt;/li&gt;
+&lt;li&gt;Производительность CPU оказывается на удивление важным фактором для
+серверов баз данных. Переход от 1.86 GHz, к 2.5 GHz, и к 3.5 GHz
+процессорам дает практически линейный прирост к времени выполнения
+типичных запросов. Исключение: запросы, которые затрагивают не только
+оперативную память.&lt;/li&gt;
+&lt;li&gt;Когда оборудование арендуется, обычно никто не платит за дополнительную
+оперативную память, если только вы не на помесячном контракте.&lt;/li&gt;
+&lt;li&gt;В 90% случаев наиболее узким местом является база данных.&lt;/li&gt;
+&lt;li&gt;При небольшом количестве серверов, &amp;nbsp;ключевым компонентом издержек
+становится не место в стойках, электроэнергия, интернет-канал, сервера
+или программное обеспечение, а СЕТЕВОЕ ОБОРУДОВАНИЕ. Вам потребуется как
+минимум гигабитное соединение между уровнями веб-серверов и баз данных.
+Между интернетом и веб-серверами потребуется firewall, маршрутизатор и
+VPN. К моменту добавления второго веб-сервера понадобится решение для
+балансировки нагрузки. Суммарная стоимость такого оборудования может
+запросто вдвое превосходить стоимость пяти серверов.&lt;/li&gt;
+&lt;li&gt;EC2 предназначен для горизонтального масштабирования, для того чтобы
+нагрузка могла быть распределена между большим количеством машин
+(достаточно хорошая идея, если Вы планируете расширяться). Еще больше
+смысла в таком подходе появляется, если вы планируете масштабироваться
+по необходимости (то есть добавлять и убирать машины в зависимости от
+уровня нагрузки).&lt;/li&gt;
+&lt;li&gt;Горизонтальное масштабирование может проходить относительно
+безболезненно только при использовании open source программного
+обеспечения. В противном случае вертикальное масштабирование значит
+сокращение издержек, связанных с лицензиями, в ущерб стоимости
+оборудования, а горизонтальное масштабирование - наоборот: экономия на
+оборудовании, но требуется существенно больше лицензий на программное
+обеспечение.&lt;/li&gt;
+&lt;li&gt;RAID-10 отлично работает для баз данных с высокой нагрузкой операций
+чтения и записи.&lt;/li&gt;
+&lt;li&gt;Разделяйте работу приложений и баз данных таким образом, чтобы они могли
+масштабироваться независимо друг от друга. Например, базы данных могут
+масштабироваться вертикально, а сервера приложений - горизонтально.&lt;/li&gt;
+&lt;li&gt;Приложения должны хранить все информацию о своем состоянии в базе данных
+для обеспечения возможности роста путем простого добавления серверов
+приложений в кластер.&lt;/li&gt;
+&lt;li&gt;Одна из основных проблем со стратегией вертикального масштабирования -
+недостаток избыточности. Кластеризация добавляет надежности, но когда
+стоимость каждого сервера высока - это не так просто реализовать.&lt;/li&gt;
+&lt;li&gt;Некоторые приложения могут масштабироваться линейно относительно числа
+процессоров. Но зачастую будут использоваться механизмы блокировки, что
+приведет к сериализации вычислений и в итоге к существенному уменьшению
+эффективности приложения.&lt;/li&gt;
+&lt;li&gt;С более крупными серверами, занимающими от 7U в стойке, электроэнергия и охлаждение становятся критичными вопросами. Возможно использование
+чего-то среднего между 1U и 7U может облегчить Ваши взаимоотношения с
+датацентром.&lt;/li&gt;
+&lt;li&gt;С добавлением все новых и новых серверов баз данных издержки на лицензии SQL Server могут стать очень существенными. Если Вы начнете с
+вертикального масштабирования и постепенно начнете переходить к
+горизонтальному с использованием не open source продуктов, возможно это
+сильно ударит по Вашему финансовому состоянию. Это справедливо, что в
+этой заметке речь идет не совсем об архитектуре проекта. Мы знаем об их
+серверах, об используемом наборе инструментов, об их двухуровневой
+схеме, где база данных используется напрямую из кода веб-серверов. Но мы
+не знаем практически ничего о самой реализации, например таких мелочей
+как теги. Если Вам интересен этот вопрос, возможно Вам удастся получить
+интересующую Вас информацию из &lt;a href="https://www.insight-it.ru/goto/61237733/" rel="nofollow" target="_blank" title="http://sqlserverpedia.com/wiki/Understanding_the_StackOverflow_Database_Schema"&gt;описания их схемы базы данных&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Fri, 08 Jan 2010 00:31:00 +0300</pubDate><guid>tag:www.insight-it.ru,2010-01-08:highload/2010/arkhitektura-stack-overflow/</guid><category>ASP</category><category>ASP .NET</category><category>Beyond Compare 3</category><category>C++</category><category>highload</category><category>JQuery</category><category>Lenovo</category><category>Lenovo ThinkServer</category><category>LINQ</category><category>Microsoft</category><category>MSSQL</category><category>MVC</category><category>Server Fault</category><category>SQL Server 2008</category><category>Stack Overflow</category><category>Subversion</category><category>Super User</category><category>Visual Studio 2008 Team Suite</category><category>VisualSVN</category><category>архитектура</category><category>архитектура Stack Overflow</category><category>архитектура высоконагруженных сайтов</category><category>Масштабируемость</category></item></channel></rss>

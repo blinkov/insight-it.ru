@@ -1,0 +1,731 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/optimizatsiia/feed/index.xml" rel="self"></atom:link><lastBuildDate>Sat, 20 Oct 2012 12:32:00 +0400</lastBuildDate><item><title>Оптимизация интерактивных сайтов</title><link>https://www.insight-it.ru//interactive/2012/optimizaciya-interaktivnykh-sajjtov/</link><description>&lt;p&gt;Возвращаясь к теме&amp;nbsp;&lt;a href="https://www.insight-it.ru/interactive/"&gt;"Интерактивных сайтов"&lt;/a&gt;,&amp;nbsp;сегодня я хотел бы обсудить заключительную часть повествования, их
+&lt;strong&gt;оптимизацию&lt;/strong&gt;. Возможно вы уже успели реализовать все или часть
+обсуждавшихся в предыдущих статьях приемов, в этой статье я "подкину"
+Вам еще несколько.&amp;nbsp;Настоятельно рекомендую прежде чем читать дальше
+ознакомиться хотя бы с первой статьей про общую архитектуру, а лучше,
+конечно, со всеми предыдущими статьями серии. В этот раз мы пройдемся по
+всем обсуждавшимся в отдельных статьях компонентам, правда в другом
+порядке, и будем обсуждать возможные пути их улучшения.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h2 id="oglavlenie-serii-interaktivnye-saity"&gt;Оглавление серии "Интерактивные сайты"&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href="https://www.insight-it.ru/interactive/2012/arkhitektura-interaktivnykh-sajjtov/"&gt;Общая архитектура&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.insight-it.ru/interactive/2012/klientskaya-chast-interaktivnogo-sajjta/"&gt;Организация клиентской части&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.insight-it.ru/interactive/2012/postoyannoe-soedinenie-mezhdu-brauzerom-i-serverom/"&gt;Постоянное соединение между браузером и сервером&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.insight-it.ru/interactive/2012/povtornoe-ispolzovanie-shablonov/"&gt;Повторное использование шаблонов&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.insight-it.ru/interactive/2012/servernaya-chast-interaktivnogo-sajjta-i-potoki-soobshhenijj/"&gt;Серверная часть интерактивного сайта и потоки сообщений&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href="https://www.insight-it.ru/interactive/2012/optimizaciya-interaktivnykh-sajjtov/"&gt;Оптимизация&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id="servernaia-chast"&gt;Серверная часть&lt;/h2&gt;
+&lt;p&gt;На серверной стороне есть масса простора для оптимизации, но, чтобы не
+распыляться, постараюсь сосредоточиться лишь на том, что напрямую
+связано с темой &lt;em&gt;интерактивных сайтов&lt;/em&gt;. В частности на процессе
+маршрутизации сообщений и уведомлений между пользователями.&lt;/p&gt;
+&lt;p&gt;Когда разрабатывается первая версия сайта, то многие части функционала
+проще всего реализовать в виде массовых рассылок, как-то так: произошло
+какое-то публично-доступное событие, допустим кто-то куда-то поставил
+"мне нравится", отправляем его в брокер сообщений с пометкой "доставить
+всем" &lt;em&gt;(fanout)&lt;/em&gt;. В итоге все подключенные на данный момент клиенты
+получают это уведомление и каждый сам решает что с ним делать - что-то
+менять на текущей странице или просто проигнорировать.&lt;/p&gt;
+&lt;p&gt;Но при большом количестве соединений и потоке событий такой подход
+становится роскошью. Большинство подобных ситуаций можно реализовать
+подпиской на тематические &lt;em&gt;(topic)&lt;/em&gt; рассылки для каждого пользователя
+индивидуально, то есть когда пользователь открывает ту или иную
+страницу - серверная сторона должна подписать его на уведомления,
+связанные именно с тем контентом, который находится у него на экране.
+Это позволит свести к минимуму количество&amp;nbsp;доставленных&amp;nbsp;зря сообщений.&lt;/p&gt;
+&lt;p&gt;Ситуации, когда правда нужны массовые рассылки по всем пользователям,
+хоть и редки, но все же бывают. Если есть возможность их избежать, то
+лучшей ей воспользоваться.&lt;/p&gt;
+&lt;p&gt;Чтобы реализовать индивидуальные подписки как изложено выше, вероятно
+понадобится еще и изменить принцип установления соединений между
+брокером сообщений и сервером, поддерживающим постоянное соединение. Для
+схемы массовых рассылок достаточно одного такого соединения на сервер.
+Каждый сервер хранит список активных соединений с браузерами и, получив
+новое сообщение от брокера, просто итеративно проходится по нему,
+ретранслируя сообщение в каждое соединение. В таком случае для
+последнего соединения в списке задержка может достигать нескольких
+секунд, что не всегда приемлемо. Для схемы индивидуальных подписок есть
+два основных варианта:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Реализовать мини-брокер внутри каждого такого сервера, т.е. сам
+    сервер по-прежнему держит лишь одно соединение с настоящим брокером
+    и получает все подряд сообщения, но прежде чем ретранслировать
+    анализирует его и отправляет лишь части соединений.&lt;/li&gt;
+&lt;li&gt;Либо держать создавать много примитивных процессов, которые с одной
+    стороны держат соединение с браузером, с другой - с брокером. Каждый
+    из них подписан именно на те сообщения, которые нужны данному
+    пользователю, и ретранслируют их все без анализа.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="card blue lighten-4"&gt;
+&lt;p&gt;&lt;div class="card-content"&gt;
+Оба варианта имеют право на существование, какой окажется лучше -
+зависит от многих факторов, нужно тестировать. Лично мне больше по душе
+второй, но далеко не на каждой платформе его удастся эффективно
+реализовать - настоящих системных процессов для такого использования
+не&amp;nbsp;напасешься.
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;h2 id="postoiannoe-soedinenie-mezhdu-brauzerom-i-serverom"&gt;Постоянное соединение между браузером и сервером&lt;/h2&gt;
+&lt;p&gt;Помимо выбора удачной библиотеки абстракции протоколов для различных
+браузеров, о чем я уже довольно подробно писал в соответствующей статье
+серии, здесь я могу предложить еще два момента для значительного
+улучшения производительности.&lt;/p&gt;
+&lt;h3 id="mezhvkladochnoe-vzaimodeistvie-cross-tab-communication"&gt;Межвкладочное взаимодействие &lt;em&gt;(cross-tab communication)&lt;/em&gt;&lt;/h3&gt;
+&lt;p&gt;На эту тему в Интернете ходит масса слухов и разговоров, но адекватной
+инструкции о том как это можно кроссбраузерно организовать в разумные
+сроки я не встречал, если кто знает - дайте в ссылку в комментариях,
+пожалуйста. А я пока попробую поделиться своим опытом.&lt;/p&gt;
+&lt;p&gt;Вкратце для тех, кто не в курсе: в самой простой реализации постоянное
+соединение между браузером и сервером устанавливается для каждой вновь
+открытой вкладки заново. Так как каждое такое соединение ресурсоемко, то
+этого хотелось бы избежать. Помочь в этом может организация
+&lt;strong&gt;межвкладочного взаимодействия&lt;/strong&gt; или, другими словами, общения между
+вкладками/окнами браузера: одна вкладка избирается &lt;em&gt;главной&lt;/em&gt; и
+устанавливает соединение с сервером, когда она получает новое
+сообщение - она переправляет его конкретной открытой вкладке или же всем
+сразу; те же, в свою очередь, когда хотят отправить сообщение на сервер,
+отправляют его сначала &lt;em&gt;главной&lt;/em&gt; вкладке, а та уже пересылает на сервер.
+В итоге все работает как и раньше, но соединений не больше одного на
+браузер.&lt;/p&gt;
+&lt;p&gt;Вообще в явном виде общение между вкладками браузера, как Вы, вероятно,
+знаете, не предусмотрено. Именно из-за этого реализовать это все
+кроссбраузерно не просто. Для начала приведу список технологий, которые
+так или иначе можно для этого приспособить, большинство из них принято
+относить к нынче модному &lt;a href="/tag/html5/"&gt;HTML5&lt;/a&gt;, в порядке возрастания
+моих симпатий:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/704e1f8a/" rel="nofollow" target="_blank" title="http://en.wikipedia.org/wiki/Local_shared_object"&gt;Flash Local Shared Cookies&lt;/a&gt; - даже не рассматривал как вариант, так как требуется Adobe Flash, плюс, кажется, постоянно всплывает окно вроде
+    &lt;a href="https://www.insight-it.ru/goto/e9a669cc/" rel="nofollow" target="_blank" title="http://www.macromedia.com/support/documentation/en/flashplayer/help/help06.html"&gt;этого&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/732af670/" rel="nofollow" target="_blank" title="http://caniuse.com/#feat=x-doc-messaging"&gt;postMessage&lt;/a&gt;&amp;nbsp;-&amp;nbsp;отправка
+    сообщения указанному окну по его идентификатору. Поддержка
+    браузерами хорошая, но большинство примеров показывают общение с
+    iframe, а сопутствующего API для получения списка всех открытых
+    окон/вкладок я не нашел, может быть плохо искал.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/86256a54/" rel="nofollow" target="_blank" title="http://caniuse.com/#feat=webworkers"&gt;Web Workers&lt;/a&gt; - в браузере
+    создается не зависящий от вкладок поток, с которым можно общаться из
+    вкладок. Поддержка браузерами хромает, а там где её нет -
+    polyfill'ов пока не придумали.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/fc6c98e9/" rel="nofollow" target="_blank" title="http://caniuse.com/#feat=namevalue-storage"&gt;Web Storage&lt;/a&gt; -
+    локальное хранилище пар ключ-значение с ограничением в 5-10Мб на
+    домен. Хорошая поддержка браузерами, а там где её нет - есть
+    polyfill'ы. Еще бывает &lt;a href="https://www.insight-it.ru/goto/71a12fd0/" rel="nofollow" target="_blank" title="http://caniuse.com/#feat=sql-storage"&gt;Web SQL&lt;/a&gt;, но для данной задачи это уже перебор.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;В общем рекомендую последний вариант, из дополнительных плюсов хранилище
+можно использовать и для других целей, но об этом в следующих разделах.&lt;/p&gt;
+&lt;p&gt;Если есть желание и время можно работать напрямую с API хранилища, но
+все же самостоятельно разбираться с особенностями браузеров - занятие не
+благодарное, так что могу посоветовать взглянуть на имеющиеся opensource
+библиотеки-обертки. Из тех, что я пробовал, мне больше всего нравится
+&lt;strong&gt;&lt;a href="https://www.insight-it.ru/goto/288f4119/" rel="nofollow" target="_blank" title="http://www.jstorage.info/"&gt;jStorage&lt;/a&gt;&lt;/strong&gt;&amp;nbsp;из-за своей "зеленой" таблицы
+поддержки браузерами и готовому publish/subscribe API.&lt;/p&gt;
+&lt;p&gt;Итак, вкратце пройдемся по ориентировочному алгоритму реализации
+межвкладочного взаимодействия:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Каждая вкладка при своем открытии придумывает себе уникальный
+    идентификатор (проще всего на основе &lt;em&gt;Math.random&lt;/em&gt;), будем называть
+    его &lt;strong&gt;tab_id&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;В хранилище будут храниться список всех активных tab_id, допустим,
+    &lt;strong&gt;tabs&lt;/strong&gt; и tab_id &lt;em&gt;главной&lt;/em&gt; &lt;em&gt;вкладки&lt;/em&gt;, допустим,&amp;nbsp;&lt;strong&gt;master&lt;/strong&gt;. Каждая
+    новая вкладка смотрит есть ли другие открытые вкладки. Если есть -
+    просто дописывает себя в tabs, если нет - то еще и объявляет себя
+    главной и открывает соединение с браузером.&lt;/li&gt;
+&lt;li&gt;Далее она подписывается на сообщения отправленные лично ей (по её
+    tab_id) и на различные типы сообщений, которые могут быть интересны
+    всем вкладкам.&lt;/li&gt;
+&lt;li&gt;В обработчике события &lt;em&gt;window.onbeforeunload&lt;/em&gt;&amp;nbsp;(происходит сразу же
+    перед закрытием вкладки) каждая вкладка убирает себя из &lt;strong&gt;tabs&lt;/strong&gt;&amp;nbsp;и
+    если она была главной, то и из &lt;strong&gt;master&lt;/strong&gt; тоже. Альтернативный
+    вариант: &lt;strong&gt;master&lt;/strong&gt; сразу может выбирать себе "преемника". Так как
+    это событие срабатывает не всегда (когда компьютер жестко вырубился
+    питанием, фатальный сбой в браузере, плюс оно не поддерживается
+    неоправданно популярной в рунете Оперой и мобильным Safari), то
+    придется создать альтернативный механизм проверки активности
+    &lt;strong&gt;master&lt;/strong&gt; и очистки &lt;strong&gt;tabs&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Так как какого-либо API для проверки открыта ли вкладка по её
+    &lt;strong&gt;tab_id&amp;nbsp;&lt;/strong&gt;по очевидным причинам нет, нужно придумать свою схему.
+    Самый простой рабочий вариант, пришедший мне в голову:&lt;ul&gt;
+&lt;li&gt;Главная вкладка пишет каждые несколько сотен&amp;nbsp;миллисекунд&amp;nbsp;в
+    хранилище текущую дату/время, теоретически так как все
+    происходит на одном компьютере, то текущее время во всех
+    вкладках должно быть одно и то же;&lt;/li&gt;
+&lt;li&gt;Не-главные вкладки каждые 1-3 секунд читают значение из того же
+    места в хранилище и если оно отстает от текущего на, допустим,
+    больше чем секунду, то главную вкладку, вероятно, закрыли и надо
+    её "свергнуть" - удалить из &lt;strong&gt;tabs&lt;/strong&gt; и &lt;strong&gt;master&lt;/strong&gt;&amp;nbsp;и назначить,
+    например, первую или последнюю запись из списка&amp;nbsp;&lt;strong&gt;tabs&lt;/strong&gt; новой
+    главной вкладкой;&lt;/li&gt;
+&lt;li&gt;Если выбранная новая вкладка тоже оказалась уже закрыта, не
+    беда - во всех случаях, кроме совсем неадекватных, этот не
+    хитрый механизм переберет все&amp;nbsp;&lt;strong&gt;tabs&lt;/strong&gt; и найдет-таки нормальную
+    открытую;&lt;/li&gt;
+&lt;li&gt;Каждая вкладка подписывается на изменения значения &lt;strong&gt;master&lt;/strong&gt;,
+    чтобы если новое значение совпадет с её tab_id открыть
+    соединение с сервером.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Отправка сообщений происходит по простому publish/subscribe, где
+    master подписывается и ретранслирует в соединение с сервером, а
+    отправляют все остальные вкладки. Если вкладка отправляет запрос,
+    ответ на который хочет получить только она сама (чаще всего переход
+    на другую страницу сайта или отправка формы), то она указывает в
+    отправляемом запросе свой "обратный адрес" в виде tab_id. Master,
+    получив ответ на такое сообщение с указанным обратным адресом,
+    перенаправляет его отправителю.&lt;/li&gt;
+&lt;li&gt;Также в хранилище полезно иметь переменную-флаг (также с подпиской
+    на изменения), обозначающую открыто ли сейчас где-то постоянное
+    соединение, чтобы вместо того, чтобы отправлять сообщения&amp;nbsp;в
+    никуда&amp;nbsp;вкладки использовали какой-то альтернативный способ (AJAX или
+    переход по ссылке / отправка формы средствами браузера). В качестве
+    альтернативы можно реализовать очередь неотправленных сообщений, но
+    по факту когда с соединением проблемы, то неизвестно когда они
+    устранятся и устранятся ли вообще, так что смысла в ней чаще всего
+    мало.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Надеюсь вышеизложенное окажется кому-то полезным, если нужны какие-то
+уточнения - не стесняйтесь спрашивать в комментариях.&lt;/p&gt;
+&lt;h3 id="minimizatsiia-razmera-soobshchenii"&gt;Минимизация размера сообщений&lt;/h3&gt;
+&lt;p&gt;&lt;a href="/tag/json/"&gt;JSON&lt;/a&gt; хоть и сильно выигрывает у &lt;a href="/tag/xml/"&gt;XML&lt;/a&gt;&amp;nbsp;по объему
+сериализованных сообщений, но все же является текстовым форматом с
+указанием схемы (название для каждого значения) внутри самого сообщения.
+Почему минимизация объема передаваемых по постоянному соединению
+данных - дело полезное, объяснять, думаю, не стоит.&lt;/p&gt;
+&lt;p&gt;Первое, что приходит в голову, чтобы уменьшить объем сообщений -
+избавиться от включенной в них схемы, оставив только чистые данные.
+Изобретать свой формат ни к чему, есть неплохой&amp;nbsp;широко
+распространенный&amp;nbsp;кандидат в виде &lt;a href="/tag/google/"&gt;Google&lt;/a&gt;&amp;nbsp;&lt;a href="/tag/protocol-buffers/"&gt;Protocol
+Buffers&lt;/a&gt;. Кстати, недавно нашел библиотеку с
+&lt;a href="/tag/javascript/"&gt;JavaScript&lt;/a&gt; реализацией Protocol Buffers с хорошими
+отзывами, в ближайшее время думаю сам опробую:
+&lt;a href="https://www.insight-it.ru/goto/a420ea/" rel="nofollow" target="_blank" title="https://github.com/sirikata/protojs"&gt;protojs&lt;/a&gt;. Если кто уже работал с
+ней - буду рад, если поделитесь впечатлениями.&lt;/p&gt;
+&lt;p&gt;Но на практике оказалось, что эта самая схема обычно занимает максимум
+10-20% от сообщения, так как большинство данных все же текстовые.
+Использование Protocol Buffers было бы намного более выгодным, если бы
+было необходимо "упаковать" много чисел или флагов, для текстовых данных
+выигрыш намного меньше.&lt;/p&gt;
+&lt;p&gt;Экономии в разы можно добиться используя обычные алгоритмы компрессии
+(или, если так привычнее, архивации) данных.
+&lt;a href="/tag/javascript/"&gt;JavaScrtipt&lt;/a&gt; "из коробки" этого делать не умеет, но
+есть полно библиотек на любой вкус и цвет, правда все хромают и чаще
+всего не кроссбраузерные. Приведу несколько, которые запомнились после
+вечера, проведенного за изучением данного вопроса:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/be52f434/" rel="nofollow" target="_blank" title="http://rosettacode.org/wiki/LZW_compression"&gt;LZW&lt;/a&gt; - есть реализации
+    на большинстве языков программирования, но компрессия не очень
+    сильная (раза в полтора-два в лучшем случае), плюс реализация под
+    интересующий меня &lt;a href="/tag/erlang/"&gt;Erlang&lt;/a&gt; оказалась дико неэффективна
+    по памяти, а на бинарных строках сходу не нашлась.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/49c64f8e/" rel="nofollow" target="_blank" title="https://github.com/imaya/zlib.js"&gt;zlib.js&lt;/a&gt; - умеет &lt;em&gt;zlib (deflate)&lt;/em&gt;
+    и &lt;em&gt;gzip&lt;/em&gt;, но, к сожалению, в моем браузере не могла разжать обратно
+    то, что сжала, плюс объем кода библиотеки очень большой.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/730dabaf/" rel="nofollow" target="_blank" title="https://github.com/dankogai/js-deflate"&gt;js-deflate&lt;/a&gt; - не
+    обновлялась уже 4 года, отсутствует документация, но зато в целом
+    работает. Подбирать метод компрессии для серверной стороны пришлось
+    почти экспериментально, оказался &lt;em&gt;zlib (deflate)&lt;/em&gt; без заголовков и
+    контрольной суммы (в &lt;a href="/tag/erlang/"&gt;Erlang&lt;/a&gt; встроенная функция zlib:zip). Компрессия примерно в 3-4 раза.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Если все же решите использовать компрессию, то рекомендую реализовать
+флаг для ситуаций когда в клиенте все же декомпрессия по каким-то
+причинам сломана. Достаточно просто сжать-разжать короткую строку и
+сравнить с оригиналом, если не совпало или выскочило исключение -
+просить сервер отвечать без компрессии.&lt;/p&gt;
+&lt;p&gt;По поводу дополнительных вычислительных ресурсов, которые будут
+потребляться на компрессию/декомпрессию, вопрос, конечно, спорный, в
+целом надо все мерять и делать выводы. Но если учесть, что почти во всех
+современных устройствах, даже телефонах, как минимум 1Ггц процессор, а
+на сервере можно кэшировать уже сжатые данные, то это не особо большая
+проблема. К слову объем сообщений уменьшается тоже не гарантированно,
+бывает что "сжатая" версия оказывается такой же или даже чуть больше,
+чем оригинал. В общем, использовать компрессию нужно осторожно :)&lt;/p&gt;
+&lt;h2 id="povtornoe-ispolzovanie-shablonov_1"&gt;Повторное использование шаблонов&lt;/h2&gt;
+&lt;p&gt;Сообщение со списком шаблонов для использование на клиентской части,
+вероятно, будет самым большим по объему и больше других выиграет от
+компрессии. Но есть возможность легко минимизировать и количество таких
+сообщений. Помните, я писал, что локальное хранилище в браузере можно и
+для других целей использовать?&lt;/p&gt;
+&lt;p&gt;Кэширование шаблонов - идеальный пример. Получив от сервера шаблоны он
+кладет их не только в объект-обертку, но и в локальное хранилище. На
+сервере помимо самого JSON'а с шаблонами генерируем хэш (md5, sha или
+crc - не важно) текущей версии. Клиент, когда открывает соединение,
+сообщает серверу есть ли у него какая-то версия и если есть, то какая,
+сервер отправляет новую версию в ответ только если хэши не совпали.&lt;/p&gt;
+&lt;p&gt;Аналогичным образом можно кэшировать и другую редко меняющуюся объемную
+информацию, например данные для автодополнения в текстовых полях
+&lt;em&gt;(autocomplete)&lt;/em&gt;.&lt;/p&gt;
+&lt;h2 id="zakliuchenie"&gt;Заключение&lt;/h2&gt;
+&lt;p&gt;Надеюсь предложенные в этой статье приемы окажутся Вам полезны. Буду
+рад, если Вы поделитесь своим опытом и приемами по данной теме в
+комментариях, а также с удовольствием обсужу подробности.&lt;/p&gt;
+&lt;div class="card green"&gt;
+&lt;p&gt;&lt;div class="card-content white-text"&gt;
+Эта статья - шестая и заключительная в &lt;a class="green-text text-lighten-4" href="https://www.insight-it.ru/interactive/"&gt;серии про Интерактивные сайты&lt;/a&gt;, автор - &lt;a class="green-text text-lighten-4" href="https://www.insight-it.ru/goto/b03d9116/" rel="nofollow" target="_blank" title="http://blinkov.ru"&gt;Иван&amp;nbsp;Блинков&lt;/a&gt;, основано на личном опыте.
+До встречи &lt;a class="green-text text-lighten-4" href="/feed/"&gt;на страницах Insight IT&lt;/a&gt;!
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sat, 20 Oct 2012 12:32:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-10-20:interactive/2012/optimizaciya-interaktivnykh-sajjtov/</guid><category>deflate</category><category>html5</category><category>JavaScript</category><category>JSON</category><category>jStorage</category><category>Protocol Buffers</category><category>Web Storage</category><category>zlib</category><category>клиентская оптимизация</category><category>компрессия</category><category>кэширование</category><category>оптимизация</category></item><item><title>Инструменты для минимизации размера изображений</title><link>https://www.insight-it.ru//frontend/2011/instrumenty-dlya-minimizacii-razmera-izobrazhenijj/</link><description>&lt;p&gt;В то время как масштабируемость серверной части интернет проекта -
+сложное дело, требующее тщательного планирования, большинству сайтов
+можно обойтись существенно более простыми способами для повышения
+визуального быстродействия с точки зрения пользователей. О небольшой
+части из них я и хотел Вам сегодня рассказать.
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;h2 id="motivatsiia"&gt;Мотивация&lt;/h2&gt;
+&lt;p&gt;Если воспользоваться инструментами для анализа времени загрузки страницы
+(например Firebug или Chrome Developer Tools), то не сложно обратить
+внимание на тот факт, что во многих случаях существенную часть ожидания
+загрузки страницы проходит в процессе загрузки внешних файлов, требуемых
+для рендеринга страницы:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Изображения&lt;/li&gt;
+&lt;li&gt;Файлы стилей&lt;/li&gt;
+&lt;li&gt;Файлы JS-скриптов&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;На этот интервал времени абсолютно никак не влияет используемый язык
+программирования и баз данных, основных способов повлиять на него в
+меньшую сторону несколько:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Вынести на отдельный (под)домен (позволяет браузеру качать больше
+    файлов одновременно)&lt;/li&gt;
+&lt;li&gt;Отредактировать HTML для избежания блокировок (так называемого
+    "водопада")&lt;/li&gt;
+&lt;li&gt;Настроить HTTP-сервер на предмет правильных заголовков Expires и
+    Etags&lt;/li&gt;
+&lt;li&gt;Воспользоваться для отдачи статики nginx или аналогом&lt;/li&gt;
+&lt;li&gt;Сменить интернет-канал у сервера или сам сервер&lt;/li&gt;
+&lt;li&gt;Воспользоваться услугами CDN (Content Delivery Network)&lt;/li&gt;
+&lt;li&gt;Уменьшить размер передаваемых файлов&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Сейчас я хочу остановиться на последнем пункте в отношении изображений,
+про скрипты, стили и остальные методы стоит поговорить отдельно в другой
+раз.&lt;/p&gt;
+&lt;h2 id="vybor-pravilnogo-formata-izobrazhenii"&gt;Выбор правильного формата изображений&lt;/h2&gt;
+&lt;p&gt;Первым шагом по снижению объемов изображений должен быть выбор
+адекватного назначению изображения формата:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;JPEG&amp;nbsp;- для всех фотографий&lt;/li&gt;
+&lt;li&gt;GIF&amp;nbsp;- исключительно для анимации (например для крутящейся загрузки)&lt;/li&gt;
+&lt;li&gt;PNG - для всего, что не является фотографией или анимацией: иконки,
+    графики, элементы интерфейса&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="gif"&gt;GIF&lt;/h2&gt;
+&lt;p&gt;На многих сайтах до сих пор по старинке используется этот формат
+изображений, не смотря на то, что PNG при таком же качестве имеет
+меньший размер файлов.&lt;/p&gt;
+&lt;p&gt;Рецепт лежит на поверхности: конвертируйте все GIF в PNG. Проще всего
+это сделать с помощью &lt;a href="https://www.insight-it.ru/goto/71cf44a6/" rel="nofollow" target="_blank" title="http://www.imagemagick.org/"&gt;ImageMagick&lt;/a&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;# Конкретный файл&lt;/span&gt;
+&lt;span class="nv"&gt;$ &lt;/span&gt;convert foo.gif foo.png
+
+&lt;span class="c"&gt;# Все файлы в директории&lt;/span&gt;
+&lt;span class="nv"&gt;$ &lt;/span&gt;mogrify -format png *.gif
+
+&lt;span class="c"&gt;# Или&amp;nbsp;OptiPNG:&lt;/span&gt;
+&lt;span class="nv"&gt;$ &lt;/span&gt;optipng *.gif
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Дальше все просто: работаем с этими изображениями как и с остальными
+PNG, о чем пойдет речь ниже.&lt;/p&gt;
+&lt;h2 id="png"&gt;PNG&lt;/h2&gt;
+&lt;p&gt;К сожалению, многие редакторы изображений сохраняют PNG-файлы совершенно
+не заботясь об их размере.&lt;/p&gt;
+&lt;p&gt;Но за многие годы была разработана масса различных утилит, исправляющих
+данную ситуацию. Основных принципа, на которых они основываются, четыре:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Удаление лишнего:&lt;/strong&gt; так как PNG - расширяемый формат, далеко не
+    все данные и заголовки требуются для отображения изображения в
+    браузере. Их можно смело выкинуть.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Изменение типа PNG:&lt;/strong&gt; использование только оттенков серого или
+    произвольной палитры приемлемо для многих случаев, что по сравнению
+    с полной гаммой существенно снижает размер изображения&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Использование подходящего "фильтра":&lt;/strong&gt; они являются шагом перед
+    сжатием изображения, правильный фильтр позволяет компрессии работать
+    эффективнее&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Оптимизация самой компрессии:&lt;/strong&gt; использование более эффективного
+    алгоритма&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Примеры использования наиболее эффективных инструментов:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;# optipng&lt;/span&gt;
+&lt;span class="nv"&gt;$ &lt;/span&gt;optipng -o7 foo.png
+
+&lt;span class="c"&gt;# pngcrush&lt;/span&gt;
+&lt;span class="nv"&gt;$ &lt;/span&gt;pngcrush -rem alla -brute -reduce foo.png foo.png.temp
+&lt;span class="nv"&gt;$ &lt;/span&gt;mv foo.png.temp foo.png
+
+&lt;span class="c"&gt;# pngout&lt;/span&gt;
+&lt;span class="nv"&gt;$ &lt;/span&gt;pngout foo.png
+
+&lt;span class="c"&gt;# advpng&lt;/span&gt;
+&lt;span class="nv"&gt;$ &lt;/span&gt;advpng -z4 foo.png
+&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id="jpeg"&gt;JPEG&lt;/h2&gt;
+&lt;p&gt;В отличии от PNG и GIF каждое сохранение JPEG файла приходят к потерям
+данных и, как следствие, снижению качества фотографии, без потерь могут
+выполняться только изменение комментариев, метаданных и повороты на
+90/180/270 градусов. Основным инструментом для минимизации JPEG без
+потери качества является &lt;a href="https://www.insight-it.ru/goto/4ee62c2b/" rel="nofollow" target="_blank" title="http://www.phpied.com/installing-jpegtran-mac-unix-linux/"&gt;jpegtran&lt;/a&gt;, используется достаточно просто:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;# обычный режим&lt;/span&gt;
+&lt;span class="nv"&gt;$ &lt;/span&gt;jpegtran -copy none source.jpg &amp;gt; destination.jpg
+
+&lt;span class="c"&gt;# режим progressive&lt;/span&gt;
+&lt;span class="nv"&gt;$ &lt;/span&gt;jpegtran -copy none -progressive source.jpg &amp;gt; destination.jpg
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Прогрессивный режим заслуживает отдельного внимания:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Основная особенность - в нормальных браузерах (не IE) такой JPEG
+    быстро отображается в низком качестве, а по мере загрузки файла
+    полностью качество изображения улучшается (обычный JPEG грузится
+    сверху вниз)&lt;/li&gt;
+&lt;li&gt;По объему файла этот тип JPEG начинает выигрывать у обычного начиная
+    от размера файла в 10Кб&lt;/li&gt;
+&lt;li&gt;Изображение менее 10Кб все равно слишком маленькое, чтобы от самого
+    процесса прогрессивной загрузки был какой-либо толк&lt;/li&gt;
+&lt;li&gt;Если хочется подробнее разобраться - читаем
+    &lt;a href="https://www.insight-it.ru/goto/85664134/" rel="nofollow" target="_blank" title="http://yuiblog.com/blog/2008/12/05/imageopt-4/"&gt;здесь&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="zakliuchenie"&gt;Заключение&lt;/h2&gt;
+&lt;p&gt;Использование простых инструментов, описанных выше, позволяет сократить
+общий размер используемых на веб-странице изображений порой до 30%, а то
+и больше. Эффект, который дает этот процесс, конечно же зависит от
+"запущенности" ситуации, но в большинстве случаев тоже измеряется
+десятками процентов от общего времени загрузки страницы. Чтобы
+воспользоваться ими требуется всего несколько минут, что существенно
+меньше, чем попытки оптимизировать код или запросы к базе данных, не
+говоря уже о полной переработке архитектуры системы.&lt;/p&gt;
+&lt;p&gt;Если кто-то знает более эффективные приемы по уменьшению размеров
+изображений - прошу в комментарии. Про скрипты и стили поговорим
+отдельно :)&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Основным источником информации послужила &lt;a href="https://www.insight-it.ru/goto/54bb0fc6/" rel="nofollow" target="_blank" title="http://www.phpied.com/big-list-image-optimization-tools/"&gt;статья Stoyan Stefanov&lt;/a&gt;,
+которую я сильно подсократил до тех инструментов, которыми пользуюсь сам
+на практике, и моментов, которые считаю интересными. Желающим покопаться
+в этой тематике поглубже рекомендую изучить весь его блог - можно найти
+много интересного. Про &lt;a href="/feed/"&gt;подписку на Insight IT&lt;/a&gt; тоже не
+забываем)&lt;/em&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sun, 13 Feb 2011 10:44:00 +0300</pubDate><guid>tag:www.insight-it.ru,2011-02-13:frontend/2011/instrumenty-dlya-minimizacii-razmera-izobrazhenijj/</guid><category>gif</category><category>ImageMagick</category><category>jpeg</category><category>jpegtran</category><category>optipng</category><category>png</category><category>изображение</category><category>инструменты</category><category>клиентская оптимизация</category><category>компрессия</category><category>оптимизация</category><category>разработка</category><category>утилиты</category></item><item><title>На пути к идеалу</title><link>https://www.insight-it.ru//php/2008/na-puti-k-idealu/</link><description>&lt;blockquote&gt;
+&lt;p&gt;...или 15 привычек, которые помогут ускорить PHP-приложение&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Практически каждый программист стремится в своих приложениях не только
+максимально точно реализовать требуемый функционал, но и сделать это как
+можно более эффективным методом. Для этого конечно же необходимо
+проектирование, подходящий выбор используемых технологий, возможно
+некоторый опыт в предметной области, этот список можно продолжать
+достаточно долго, но я позволю себе этого не делать, так как речь
+сегодня пойдет не об этом. Вместо этого хочу обратить Ваше внимание на
+более простые и "приземленные" методы &lt;a href="/tag/optimizaciya/"&gt;оптимизации&lt;/a&gt;
+PHP-кода, которые может быть и не так эффективны по сравнению с
+указанными выше, но зато не требуют каких-либо усилий со стороны кодера
+и/или программиста, достаточно лишь воспринимать их как "не вредные"
+привычки.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Прочитав достаточно солидный объем разного рода документации по
+&lt;a href="/tag/php/"&gt;PHP&lt;/a&gt;, я часто натыкался на статьи и тексты, так или иначе
+связанные с &lt;a href="/tag/proizvoditelnost/"&gt;производительностью&lt;/a&gt; PHP-скриптов.
+Порой в такого рода источниках информации удавалось найти достаточно
+интересные и неочевидные факты об этом языке программирования, которые
+не смотря на свою простоту могли дать вполне заметный прирост к
+&lt;a href="/tag/proizvoditelnost/"&gt;производительности&lt;/a&gt; итогового приложения. Я
+почему-то очень серьезно стал относиться к производительности написанных
+мной скриптов, и довольно часто стал испытывать на практике спорные
+моменты в реализации, о которых узнавал из Сети или каких-либо
+других источников, с помощью самописных или
+&lt;a href="/tag/opensource/"&gt;opensource&lt;/a&gt; benchmark'ов, хотя порой и просто внедряя
+в реальные приложения. Как ни странно, в большинстве случаев практика
+подтверждала теорию, и я стал постоянно пользоваться этими простыми
+правилами, о которых я и хочу Вам рассказать.&lt;/p&gt;
+&lt;h4&gt;Повышения значения индекса с помощью ++\$i;&lt;/h4&gt;
+&lt;p&gt;Этот факт был наверное одним из самых удивительных для меня, когда я
+впервые о нем услышал, но действительно операция &lt;strong&gt;++&lt;span style="color: blue"&gt;\$i&lt;/span&gt;&lt;/strong&gt;; выполняется несколько быстрее, чем
+&lt;strong&gt;&lt;span style="color: blue"&gt;\$i&lt;/span&gt;++;&lt;/strong&gt;. или другие вариации на ту
+же тему вроде &lt;strong&gt;&lt;span style="color: blue"&gt;\$i&lt;/span&gt;+=&lt;span style="color: blue"&gt;1&lt;/span&gt;;&lt;/strong&gt;. Привычка использовать в качестве
+индекса цикла переменную под названием i, казалось бы стара как Мир, мне
+она досталась в наследство от &lt;strong&gt;C&lt;/strong&gt;, а в месте с ней "в комплекте" шла
+привычка писать выражение &lt;strong&gt;i++&lt;/strong&gt; в заголовках циклов. Разница в
+скорости обработки этих выражений, насколько мне известно, обусловлена
+разным количеством элементарных машинных операций, которые необходимо
+выполнить процессору (в точных цифрах не уверен, пишу по памяти, но
+&lt;strong&gt;++&lt;span style="color: blue"&gt;\$i&lt;/span&gt;;&lt;/strong&gt; требует трех элементарных
+операций, а &lt;strong&gt;&lt;span style="color: blue"&gt;\$i&lt;/span&gt;++;&lt;/strong&gt; &amp;ndash; четырех). В
+справедливости этого факта не трудно убедиться, достаточно написать
+простенький скрипт, состоящий из цикла с достаточно большим количеством
+итераций, и замерить любым способом точное время его выполнения при
+использовании разных способов инкрементации индекса цикла.&lt;/p&gt;
+&lt;h4&gt;Вывод статического контента без помощи PHP&lt;/h4&gt;
+&lt;p&gt;Сейчас тот факт, что использование интерпретатора PHP для вывода
+статического контента сильно замедляет этот процесс, кажется мне
+очевидным, но поначалу я использовал &lt;strong&gt;&lt;span style="color: #17349c"&gt;echo&lt;/span&gt;&lt;/strong&gt; там, где он был необходим, ничуть
+не чаще, чем там, где он лишь замедляет работу скрипта. От использования
+еще менее эффективного способа - &lt;strong&gt;&lt;span style="color: #17349c"&gt;print&lt;/span&gt;&lt;/strong&gt;, меня избавила моя лень: писать
+каждый раз на одну букву больше дико не хотелось (в отличии от &lt;strong&gt;&lt;span style="color: #17349c"&gt;echo&lt;/span&gt;&lt;/strong&gt;, &lt;strong&gt;&lt;span style="color: #17349c"&gt;print&lt;/span&gt;&lt;/strong&gt; возвращает информацию об
+успешности выполнения своей работы, что в большинстве случаев
+просто-напросто не нужно). Проверить опять же не трудно - нужен лишь
+объемистый текстовый файл, который достаточно вывести в browser разными
+способами и засечь уходящее на это время.&lt;/p&gt;
+&lt;h4&gt;Вывод статического контента из отдельного файла&lt;/h4&gt;
+&lt;p&gt;Частенько при желании выполнить указанное в заголовке действие по
+привычке используют &lt;strong&gt;&lt;span style="color: #a3a423"&gt;include&lt;/span&gt;&lt;/strong&gt;,
+&lt;strong&gt;&lt;span style="color: #a3a423"&gt;require&lt;/span&gt;&lt;/strong&gt; или их &lt;strong&gt;&lt;span style="color: #a3a423"&gt;_once&lt;/span&gt;&lt;/strong&gt; версии, что является далеко не
+самой лучшей идеей с точки зрения производительности. Самым быстрыми
+быстрыми и экономичными поотношению к оперативной памяти являются
+функции &lt;strong&gt;&lt;span style="color: #17349c"&gt;readfile&lt;/span&gt;&lt;/strong&gt; и &lt;strong&gt;&lt;span style="color: #17349c"&gt;fpassthru&lt;/span&gt;&lt;/strong&gt;. В качестве доказательства
+этого факта приведу таблицу, демонстрирующую статистику выполнения этой
+операции различными методами и позаимствованную с &lt;a href="https://www.insight-it.ru/goto/f18fa5ab/" rel="nofollow" target="_blank" title="http://www.raditha.com/wiki/Readfile_vs_include"&gt;одного англоязычного
+сайта&lt;/a&gt;:&lt;/p&gt;
+&lt;table align="center" border="1" cellspacing="0" width="100%"&gt;
+&lt;tr&gt;
+&lt;th align="center" rowspan="2" style="background: #fcfcc0 none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial" valign="center"&gt;
+Функция
+
+&lt;/th&gt;
+&lt;th align="center" colspan="2" style="background: #fcfcc0 none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial"&gt;
+Время (сек.)
+
+&lt;/th&gt;
+&lt;th align="center" colspan="2" style="background: #fcfcc0 none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial"&gt;
+Оперативная память (байт)
+
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="center" style="background: #fcfcc0 none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial"&gt;
+32Kb файл
+
+&lt;/td&gt;
+&lt;td align="center" style="background: #fcfcc0 none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial"&gt;
+1Mb файл
+
+&lt;/td&gt;
+&lt;td align="center" style="background: #fcfcc0 none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial"&gt;
+32Kb файл
+
+&lt;/td&gt;
+&lt;td align="center" style="background: #fcfcc0 none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial"&gt;
+1Mb файл
+
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+file\_get\_contents
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+0.00152
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+0.00564
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+52480
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+1067856
+
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+fpassthru
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+**0.00117**
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+0.00184
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+20016
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+20032
+
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+fgets
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+0.00195
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+0.07190
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+30760
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+30768
+
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+file
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+0.00157
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+0.06464
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+87344
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+2185624
+
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+require\_once
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+0.00225
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+0.08065
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+67992
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+2067696
+
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+readfile
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+**0.00117**
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+0.00191
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+**19192**
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+19208
+
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;h4&gt;Вывод переменных&lt;/h4&gt;
+&lt;p&gt;Наверняка вам известно, что переменные можно выводить с помощью
+конструкции вроде &lt;strong&gt;&lt;span style="color: #17349c"&gt;echo&lt;/span&gt; &lt;span style="color: red"&gt;"&lt;/span&gt;&lt;span style="color: blue"&gt;\$var&lt;/span&gt; &lt;span style="color: red"&gt;text"&lt;/span&gt;;&lt;/strong&gt;, что является одним из самых удобных
+вариантов решения этой задачи благодаря минимальному количеству
+символов, которые необходимо набрать, но с точки зрения быстродействия
+этот вариант далек от идеала, так как влечет за собой достаточно
+серьезные преобразования в памяти сервера, эффект которых порой бывает
+заметен невооруженным глазом. Частично ущерб производительности можно
+сгладить заменой этой конструкции на &lt;strong&gt;&lt;span style="color: #17349c"&gt;echo&lt;/span&gt; &lt;span style="color: blue"&gt;\$var&lt;/span&gt;.&lt;span style="color: red"&gt;"
+text"&lt;/span&gt;;&lt;/strong&gt;, что приводит к несколькому усложнению внешнего вида
+кода и несколько поправляет ситуацию со скоростью выполнения. Но как
+известно знак . обозначает конкатенацию двух строк, что тоже требует
+некоторых вычислений и затрат памяти, но и от нее можно избавиться,
+заменив на запятую. Выражение &lt;strong&gt;&lt;span style="color: #17349c"&gt;echo&lt;/span&gt;
+&lt;span style="color: blue"&gt;\$var&lt;/span&gt;,&lt;span style="color: red"&gt;"
+text"&lt;/span&gt;;&lt;/strong&gt; ничем по своему эффекту не отличается от предложенных
+ранее вариантов, за исключением максимального быстрого выполнения,
+обусловленного отсутствием дополнительных преобразований в процессе
+передачи просто последовательности из константы и переменной.&lt;/p&gt;
+&lt;h4&gt;Избегайте выполнения лишних действий&lt;/h4&gt;
+&lt;p&gt;Достаточно абстрактное утверждение, но тем не мение постоянное
+напоминание себе о нем может избавить Вас от совершения массы ошибок.
+Самой широкораспространенной является наверное вызов какой-либо функции
+(чаще всего &lt;strong&gt;&lt;span style="color: #17349c"&gt;count&lt;/span&gt;();&lt;/strong&gt; или &lt;strong&gt;&lt;span style="color: #17349c"&gt;strlen&lt;/span&gt;();&lt;/strong&gt;) в проверке условия выхода из
+цикла. Когда-нибудь доводилось писать видеть в собственном или чужом
+коде выражение вида &lt;strong&gt;&lt;span style="color: #a3a423"&gt;for&lt;/span&gt;(&lt;span style="color: blue"&gt;\$i&lt;/span&gt; = &lt;span style="color: #a3a423"&gt;0&lt;/span&gt;;
+&lt;span style="color: blue"&gt;\$i&lt;/span&gt; \&amp;lt; &lt;span style="color: #17349c"&gt;count&lt;/span&gt;(&lt;span style="color: blue"&gt;\$array&lt;/span&gt;); ++&lt;span style="color: blue"&gt;\$i&lt;/span&gt;) { ... }&lt;/strong&gt;? А задумываться о
+последовательности выполнения действий при его обработке? Стоит только
+немного начать размышлять и ошибка становится очевидной: &lt;strong&gt;&lt;span style="color: #17349c"&gt;count&lt;/span&gt;();&lt;/strong&gt; выполняется при каждой итерации
+цикла, что приводит к подсчету количества элементов массива при каждой
+проверки условия выхода из цикла - почему бы не посчитать это значение
+заранее и сравнивать значения индекса с переменной, а не с результатом
+выполнения функции?&lt;/p&gt;
+&lt;h4&gt;@&lt;/h4&gt;
+&lt;p&gt;Использование этого оператора стоит избегать при каждой возможности.
+Казалось бы такое простое действие, как сокрытие вывода возможного
+сообщения об ошибке, влечет за собой достаточно трудоемкую
+последовательность действий: устанавливает значение параметра
+PHP-интерпретатора &lt;strong&gt;error_reporting = 0&lt;/strong&gt;, выполняет указанное за этим
+оператором действие, возвращает значение &lt;strong&gt;error_reporting&lt;/strong&gt; в исходное
+состояние.&lt;/p&gt;
+&lt;h4&gt;Маленькие мелочи&lt;/h4&gt;
+&lt;p&gt;Развивая тему предыдущего подраздела, хочется обратить внимания, что
+даже на еще более элементарных вещах можно сэкономить драгоценное
+процессорное время:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Вместо условия &lt;strong&gt;&lt;span style="color: #a3a423"&gt;if&lt;/span&gt;(&lt;span style="color: blue"&gt;\$variableOne&lt;/span&gt; == &lt;span style="color: blue"&gt;\$variableTwo&lt;/span&gt;) { ... }&lt;/strong&gt; можно написать
+    &lt;strong&gt;&lt;span style="color: #a3a423"&gt;if&lt;/span&gt;(&lt;span style="color: blue"&gt;\$variableOne&lt;/span&gt; === &lt;span style="color: blue"&gt;\$variableTwo&lt;/span&gt;) { ... }&lt;/strong&gt;, что избавит от
+    проверки на соответствие типов данных и приведения их друг к другу,
+    в некоторых случаях эти действия эти случаях эти действия конечно же
+    и бывают необходимы, но бывает это далеко не часто.&lt;/li&gt;
+&lt;li&gt;Глядя на выражения вроде &lt;strong&gt;&lt;span style="color: #a3a423"&gt;if&lt;/span&gt;(&lt;span style="color: blue"&gt;\$boolean&lt;/span&gt; == true) { ... }&lt;/strong&gt;, я чаще
+    всего вспоминаю цитату из одного малоизвестного интернет-ресурса:
+    &lt;strong&gt;if (b.ToString().length \&amp;lt; 5) { ... }&lt;/strong&gt;. Хоть и не имет никакого
+    отношения к PHP, но суть проблемы отражает очень ярко.&lt;/li&gt;
+&lt;li&gt;Самым очевидным способом проверить попадает ли длина строки в
+    какой-либо диапазон является использование функции &lt;strong&gt;&lt;span style="color: #17349c"&gt;strlen&lt;/span&gt;();&lt;/strong&gt; и сравнение полученного
+    результата с фиксированными значениями, но зачем выполнять лишний
+    вызов функции, если можно воспользоваться услугами конструкцией
+    языка PHP &lt;strong&gt;&lt;span style="color: #17349c"&gt;isset&lt;/span&gt;();&lt;/strong&gt; для
+    определения наличия в строке определенных символов. &lt;strong&gt;&lt;span style="color: #a3a423"&gt;if&lt;/span&gt;(&lt;span style="color: #17349c"&gt;isset&lt;/span&gt;(&lt;span style="color: blue"&gt;\$str&lt;/span&gt;{&lt;span style="color: blue"&gt;5&lt;/span&gt;})) { ... }&lt;/strong&gt; приведет к абсолютно тем
+    же результатам, что и &lt;strong&gt;&lt;span style="color: #a3a423"&gt;if&lt;/span&gt;(&lt;span style="color: #17349c"&gt;strlen&lt;/span&gt;(\$str)&amp;gt;4){ ... }&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Битовые операции выполняются намного быстрее относительно обычных
+    арифметических действий. Об этом факте редко вспоминают, да и
+    работать с ними умеет далеко не каждый, но порой они бывают очень
+    актуальны, особенно при частой работе с числами кратными двойке.&lt;/li&gt;
+&lt;li&gt;Угадайте, что делает интерпретатор при виде надписи &lt;strong&gt;&lt;span style="color: blue"&gt;1&lt;/span&gt;/&lt;span style="color: blue"&gt;2&lt;/span&gt;&lt;/strong&gt;?
+    Правильно: делит &lt;strong&gt;&lt;span style="color: blue"&gt;1&lt;/span&gt;&lt;/strong&gt; на &lt;strong&gt;&lt;span style="color: blue"&gt;2&lt;/span&gt;&lt;/strong&gt;. Зачем лишний раз утруждать его,
+    когда можно написать просто половину - &lt;strong&gt;&lt;span style="color: blue"&gt;0.5&lt;/span&gt;&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;При возвращении значения переменной из функции при помощи &lt;strong&gt;&lt;span style="color: #17349c"&gt;global&lt;/span&gt;&lt;/strong&gt; выполняется на порядок больше
+    действий, чем при классическом &lt;strong&gt;&lt;span style="color: #17349c"&gt;return&lt;/span&gt;&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Конечно же фраза &lt;strong&gt;&lt;span style="color: blue"&gt;\$array&lt;/span&gt;[text];&lt;/strong&gt;
+    интерпритируется практически точно так же, как и &lt;strong&gt;&lt;span style="color: blue"&gt;\$array&lt;/span&gt;[&lt;span style="color: red"&gt;'text'&lt;/span&gt;];&lt;/strong&gt;, но зачем выполнять лишнее
+    преобразование из необъявленной константы в строку, проверять, что
+    такой константы все же не существует, выводить сообщение типа
+    &lt;strong&gt;E_NOTICE&lt;/strong&gt;, если можно всего этого не делать?&lt;/li&gt;
+&lt;li&gt;По возможности не используйте &lt;strong&gt;&lt;span style="color: #17349c"&gt;require_once&lt;/span&gt;();&lt;/strong&gt; или &lt;strong&gt;&lt;span style="color: #17349c"&gt;include_once&lt;/span&gt;();&lt;/strong&gt; неоднократно по
+    отношению к одному и тому же файлу. При отсутствии какого-либо
+    эффекта, попусту тратится время на обработку повторного запроса.&lt;/li&gt;
+&lt;li&gt;Даже "безобидных" ошибок стоит избегать, лишняя проаерка потратит не
+    так много процессорного времени, как генерирование достаточно
+    длинного сообщения об ошибке и вывод его в &lt;em&gt;stdout&lt;/em&gt;, &lt;em&gt;stderr&lt;/em&gt; или
+    &lt;em&gt;лог-файл&lt;/em&gt;, а также не стоит забывать, что даже "безобидные" ошибки
+    могут стать потенциальной угрозой безопасности приложения вцелом.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;В заключении...&lt;/h4&gt;
+&lt;p&gt;...хотелось бы упомянуть одну из первых статей по
+&lt;a href="/tag/optimizaciya/"&gt;оптимизации&lt;/a&gt; &lt;a href="/tag/php/"&gt;PHP&lt;/a&gt;, которые мне доводилось
+читать, до сих пор храню ссылку на нее в bookmark'ах, именно она и
+выступала в роли &lt;em&gt;&lt;a href="https://www.insight-it.ru/goto/ce3d47c9/" rel="nofollow" target="_blank" title="http://mgccl.com/php-speed-freaks"&gt;одного из основных источников
+информации&lt;/a&gt;&lt;/em&gt; для этого текста. В
+качестве возможных вариантов продолжения чтения про &lt;a href="/tag/php/"&gt;PHP&lt;/a&gt;
+хотелось бы предложить Вам соответствующие &lt;a href="/category/php/"&gt;раздел сайта&lt;/a&gt;, &lt;a href="https://www.insight-it.ru/dzhentelmenskij-nabor-php-programmista/"&gt;серию
+статей&lt;/a&gt;, &lt;a href="/tag/php/"&gt;тэг&lt;/a&gt; и
+&lt;a href="/feed/"&gt;RSS-ленту&lt;/a&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Thu, 07 Feb 2008 15:39:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-02-07:php/2008/na-puti-k-idealu/</guid><category>online</category><category>PHP</category><category>интернет</category><category>информационные технологии</category><category>код</category><category>кодинг</category><category>оптимизация</category><category>Программирование</category><category>производительность</category></item></channel></rss>

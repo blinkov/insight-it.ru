@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/rutarget/feed/index.xml" rel="self"></atom:link><lastBuildDate>Mon, 04 Jun 2012 13:35:00 +0400</lastBuildDate><item><title>Вакансии: развитие поведенческих технологий в рунете (СПб)</title><link>https://www.insight-it.ru//vacancy/2012/vakansii-razvitie-povedencheskikh-tekhnologijj-v-runete-spb/</link><description>&lt;div class="card orange darken-3"&gt;
+&lt;p&gt;&lt;div class="card-content white-text center"&gt;
+&lt;strong&gt;Вакансии более не актуальны&lt;/strong&gt;
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Представьте себе рекламу, которая интересна. Рекламу, которая не
+раздражает, а дает персональную рекомендацию. Подобный механизм создает
+компания &lt;strong&gt;RuTarget&lt;/strong&gt; - стартап, занимающийся развитием поведенческих технологий на российском рекламном рынке.
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;Если Вы способный IT-специалист из &lt;strong&gt;Санкт-Петербурга&lt;/strong&gt;, всегда мечтали
+написать систему уровня Facebook или Twitter, на одном дыхании читаете
+статьи о Google Big Table и хотели бы участвовать в создании полезной
+системы, возможно, одна из этих вакансий будет Вам интересна:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Системный архитектор&lt;/li&gt;
+&lt;li&gt;Старший разработчик&lt;/li&gt;
+&lt;li&gt;Младший разработчик&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Система RuTarget использует &lt;strong&gt;Real Time Bidding API&lt;/strong&gt; - аукцион показов
+рекламы в режиме реального времени. За последние три года эта технология
+совершила революцию в рекламе на Западе. RuTarget - одни из первых, кто
+внедряет ее в России. Математический алгоритм принимает 170 миллионов
+решений о показах в день, за доли секунды распознает посетителя и
+подбирает полезные для него предложения, используя знания о предыдущих
+его действиях в сети.&lt;/p&gt;
+&lt;h3 id="rabota-v-kompanii-rutarget-eto"&gt;Работа в компании RuTarget - это:&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Работа над высоконагруженным рекламным проектом, способным
+    выдерживать в штатном режиме 500 миллионов запросов в день с уровнем
+    доступности 99.9%.&lt;/li&gt;
+&lt;li&gt;Новейшие технологии и компоненты: &lt;strong&gt;Apache Hadoop (+Pig, Hive и
+    Mahout), Map-Reduce, Membase, Memcached, Redis.&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Отсутствие legacy-кода и необходимости его поддержки.&lt;/li&gt;
+&lt;li&gt;Работа в режиме &lt;strong&gt;Scrum, TDD.&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;В коллективе только разработчики.&lt;/em&gt; У нас нет менеджеров, которые
+    плохо понимают в программировании, но любят навязывать свое мнение.&lt;/li&gt;
+&lt;li&gt;Интересные технические и алгоритмические задачи для любого уровня
+    квалификации.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="ot-sistemnogo-arkhitektora-i-starshego-razrabotchika-my-ozhidaem"&gt;От системного архитектора и старшего разработчика мы ожидаем:&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Вас не надо контролировать и говорить, что и как делать, вы способны
+    самостоятельно ставить задачи, оценивать сроки их выполнения и
+    находить адекватные решения.&lt;/li&gt;
+&lt;li&gt;Вы умеете коротко и ясно излагать свои мысли в устной и письменной
+    форме.&lt;/li&gt;
+&lt;li&gt;Вы любите работать в команде, умеете выслушивать чужую точку зрения
+    и принимать совместные решения.&lt;/li&gt;
+&lt;li&gt;Вас не пугают фразы &amp;ldquo;коллизии в хеш-таблицах&amp;rdquo;, &amp;ldquo;минимизация
+    contention&amp;rdquo;, &amp;ldquo;красно-черные деревья&amp;rdquo;, &amp;ldquo;фильтр Блума&amp;rdquo;.&lt;/li&gt;
+&lt;li&gt;Вы разделяете мнение &amp;ldquo;язык и платформа для задачи, а не наоборот&amp;rdquo;.&lt;/li&gt;
+&lt;li&gt;Вы считаете написание тестов частью задачи.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="senior-developer-system-architect-java_1"&gt;Senior Developer / System Architect (Java)&lt;/h2&gt;
+&lt;h3 id="neobkhodimye-navyki"&gt;Необходимые навыки:&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Опыт программирования на &lt;strong&gt;Java&lt;/strong&gt; в коммерческих проектах не менее
+    3-х лет&lt;/li&gt;
+&lt;li&gt;Глубокое понимание &lt;strong&gt;OOP&lt;/strong&gt;, опыт многопоточного программирования&lt;/li&gt;
+&lt;li&gt;Опыт разработки высоконагруженных сервисов. Глубокое понимание
+    принципов масштабирования и отказоустойчивости.&lt;/li&gt;
+&lt;li&gt;Знание английского языка на уровне, достаточном для чтения и ведения
+    документации.&lt;/li&gt;
+&lt;li&gt;Опыт разработки на нескольких языках (желательно &lt;strong&gt;C/C+&lt;/strong&gt;+ или
+    &lt;strong&gt;JavaScript&lt;/strong&gt;).&lt;/li&gt;
+&lt;li&gt;Опыт администрирования &lt;strong&gt;Linux&lt;/strong&gt;-систем.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="dopolnitelnymi-preimushchestvami-budut"&gt;Дополнительными преимуществами будут:&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Общая математическая эрудиция. Знакомство с алгоритмами
+    классификации и кластерного анализа, машинного обучения, &lt;strong&gt;data
+    mining&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Участие в разработке рекламных сервисов, систем управления медийной
+    и контекстной рекламой. Знакомство с технологиями &lt;strong&gt;RTB&lt;/strong&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="senior-software-developer-data-mining-java_1"&gt;Senior Software Developer / Data Mining (Java)&lt;/h2&gt;
+&lt;h3 id="neobkhodimye-navyki_1"&gt;Необходимые навыки:&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Опыт программирования на &lt;strong&gt;Java&lt;/strong&gt; в коммерческих проектах не менее
+    3-х лет.&lt;/li&gt;
+&lt;li&gt;Общая математическая эрудиция. Знакомство с алгоритмами
+    классификации и кластерного анализа, статистики, машинного обучения,
+    data mining.&lt;/li&gt;
+&lt;li&gt;Опыт работы с частью из следующих алгоритмов: &lt;strong&gt;K-Means Clustering,
+    Principal Components Analysis, Decision Trees, Random Forests,
+    Expectation Maximization, Support Vector Machines, Nonlinear
+    Regression And Correlation.&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Знакомство с пакетами математического и статистического анализа.&lt;/li&gt;
+&lt;li&gt;Знание английского языка на уровне, достаточном для чтения и ведения
+    документации.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="dopolnitelnymi-preimushchestvami-budut_1"&gt;Дополнительными преимуществами будут:&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Участие в разработке рекламных сервисов, систем управления медийной
+    и контекстной рекламой. Знакомство с технологиями &lt;strong&gt;RTB&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Опыт создания клиент-серверных или распределенных приложений.&lt;/li&gt;
+&lt;li&gt;Опыт администрирования &lt;strong&gt;Linux&lt;/strong&gt;-систем.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="junior-developer-intern-java_1"&gt;Junior Developer / Intern (Java)&lt;/h2&gt;
+&lt;p&gt;Для Junior Developer это возможность обучаться в коллективе
+высококлассных профессионалов, а также приобрести бесценный опыт работы
+с облачными сервисами. Если Вы учитесь, возможен гибкий график с учетом
+посещения лекций.&lt;/p&gt;
+&lt;h3 id="ot-vas-ozhidaetsia"&gt;От Вас ожидается:&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Вы умеете коротко и ясно излагать свои мысли в устной и письменной
+    форме.&lt;/li&gt;
+&lt;li&gt;Вы любите работать в команде, умеете выслушивать чужую точку зрения
+    и принимать совместные решения.&lt;/li&gt;
+&lt;li&gt;Вы понимаете, как выбрать оптимальную структуру данных для
+    поставленной задачи, вы способны рассчитать асимптотическую
+    сложность ваших алгоритмов.&lt;/li&gt;
+&lt;li&gt;Вы разделяете мнение &amp;ldquo;язык и платформа для задачи, а не наоборот&amp;rdquo;.&lt;/li&gt;
+&lt;li&gt;Фразы &lt;em&gt;&amp;ldquo;консоль Linux&amp;rdquo;&lt;/em&gt; и &lt;em&gt;&amp;ldquo;bash-скрипт&amp;rdquo;&lt;/em&gt; вас как минимум не пугают.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="neobkhodimye-navyki_2"&gt;Необходимые навыки:&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Опыт программирования на &lt;strong&gt;Java&lt;/strong&gt; не менее 1 года.&lt;/li&gt;
+&lt;li&gt;Понимание принципов &lt;strong&gt;OOP&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Знание английского языка на уровне, достаточном для чтения и ведения
+    документации.&lt;/li&gt;
+&lt;li&gt;Опыт администрирования &lt;strong&gt;Linux&lt;/strong&gt;-систем.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="dopolnitelnymi-preimushchestvami-budut_2"&gt;Дополнительными преимуществами будут:&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Общая математическая эрудиция. Знакомство с алгоритмами
+    классификации и кластерного анализа, машинного обучения, data
+    mining.&lt;/li&gt;
+&lt;li&gt;Участие в разработке рекламных сервисов, систем управления медийной
+    и контекстной рекламой. Знакомство с технологиями &lt;strong&gt;RTB&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Опыт создания клиент-серверных или распределенных приложений.&lt;/li&gt;
+&lt;li&gt;Опыт разработки на нескольких языках (&lt;strong&gt;C/C++&lt;/strong&gt; или &lt;strong&gt;JavaScript&lt;/strong&gt;).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="usloviia-raboty_1" style="text-align: center;"&gt;Условия работы&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Зарплата по результатам собеседования:&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;System Architect&lt;/strong&gt; от 90 тыс. рублей&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Senior Software&lt;/strong&gt; &lt;strong&gt;Developer&lt;/strong&gt; от 70 тыс. рублей&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Junior Developer&lt;/strong&gt; от 30 тыс. рублей&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Гибкий график работы.&lt;/li&gt;
+&lt;li&gt;Комфортные рабочие места, быстрые компьютеры, большие мониторы.&lt;/li&gt;
+&lt;li&gt;Бесплатные горячие обеды.&lt;/li&gt;
+&lt;li&gt;Круглосуточный доступ в офис.&lt;/li&gt;
+&lt;li&gt;Возможность удаленной работы из дома при необходимости.&lt;/li&gt;
+&lt;li&gt;Полная рабочая неделя в офисе в &lt;strong&gt;Санкт-Петербурге&lt;/strong&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;После собеседования Вас могут попросить выполнить тестовое задание.&lt;/p&gt;
+&lt;p&gt;При подаче резюме опишите, пожалуйста, отдельно свой непосредственный
+опыт и знания, которые будут наиболее полезны для проекта, и укажите,
+что узнали о вакансии через &lt;span class="trebuchet"&gt;Insight IT&lt;/span&gt;.&lt;/p&gt;
+&lt;div class="card orange darken-3"&gt;
+&lt;p&gt;&lt;div class="card-content white-text center"&gt;
+&lt;strong&gt;Вакансии более не актуальны&lt;/strong&gt;
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Mon, 04 Jun 2012 13:35:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-06-04:vacancy/2012/vakansii-razvitie-povedencheskikh-tekhnologijj-v-runete-spb/</guid><category>Java</category><category>RuTarget</category><category>вакансии</category></item></channel></rss>

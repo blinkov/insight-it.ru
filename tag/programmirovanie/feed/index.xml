@@ -1,0 +1,1764 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/programmirovanie/feed/index.xml" rel="self"></atom:link><lastBuildDate>Fri, 22 Jun 2012 01:27:00 +0400</lastBuildDate><item><title>Основы Erlang: синтаксис и пунктуация</title><link>https://www.insight-it.ru//erlang/2012/osnovy-erlang-sintaksis-i-punktuaciya/</link><description>&lt;p&gt;Мои теоретичесие рассуждения о &lt;a href="https://www.insight-it.ru/erlang/2012/erlang-v-internet-proektakh/"&gt;месте Erlang в &lt;del&gt;современном мире&lt;/del&gt;
+Интернете&lt;/a&gt;&amp;nbsp;Вы
+можете почитать в отдельной статье. Если сомневаетесь интересно Вам это
+все или нет - то прочтите сначала её. Сегодня я постараюсь вернуться с
+небес на землю и пройтись по азам этого пугающего многих языка
+программирования. Коротко и по делу.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Установка ничем особым не выделяется, дистрибутив рекомендую брать
+&lt;a href="https://www.insight-it.ru/goto/d3cd3653/" rel="nofollow" target="_blank" title="http://www.erlang-solutions.com/section/98/download-erlang-packages"&gt;отсюда&lt;/a&gt;,
+если до сих пор пользуетесь отсутствующей в списке ОС - лучше сначала
+исправить этот факт.&lt;/p&gt;
+&lt;p&gt;После установки в &lt;code&gt;$PATH&lt;/code&gt; окажутся исполняемые файлы:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;erl&lt;/strong&gt; - одновременно интерактивная консоль и запуск приложений;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;erlc&lt;/strong&gt; - компилятор в байт-код для виртуальной машины BEAM или
+    нативный код посредством HiPE, напрямую использовать не придется
+    практически.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Со всем что будет обсуждаться в этой статье можно эксперементировать
+просто в интерактивной консоли, которая запускается просто командой
+&lt;strong&gt;erl&lt;/strong&gt; без аргументов.&lt;/p&gt;
+&lt;h2 id="punktuatsiia"&gt;Пунктуация&lt;/h2&gt;
+&lt;p&gt;Сразу скажу, что пунктуация в Erlang довольно своеобразна, больше похожа
+на русский язык, чем на другие языки программирования. По крайней мере я
+именно этой ассоциацией пользовался, когда запоминал.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Все функции заканчиваются &lt;strong&gt;точкой&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;После каждого выражения в функции - &lt;strong&gt;запятая;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Все ветви кода &lt;code&gt;(case, if, ...)&lt;/code&gt;, кроме последней, заканчиваются
+    &lt;strong&gt;точкой с запятой&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;После заголовка функции и условий ветвления пишется &lt;strong&gt;стрелка&lt;/strong&gt; &lt;code&gt;-&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Маленькая демонстрация:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nf"&gt;foo&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;X&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nv"&gt;Y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;
+  &lt;span class="nv"&gt;Z&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nv"&gt;X&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="nv"&gt;X&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt;
+    &lt;span class="nv"&gt;Y&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;
+      &lt;span class="nv"&gt;Z&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="nv"&gt;Y&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;true&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;
+      &lt;span class="nv"&gt;Z&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nv"&gt;Y&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;К слову, функции возвращают результат выполнения последнего выражения, в
+данном случае оно представляет собой весь блок &lt;code&gt;if&lt;/code&gt;, а &lt;code&gt;end&lt;/code&gt;
+обозначает его окончание (не функции).&lt;/p&gt;
+&lt;h2 id="sintaksis"&gt;Синтаксис&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Foo&lt;/code&gt; - все что начинается с английской заглавной буквы -
+    переменная, специально объявлять ничего не нужно&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;_&lt;/code&gt;&amp;nbsp;- сам знак нижнего подчеркивания и все что с него
+    начинается - особый случай переменной, значение которой не значимо
+    для программы и при первой возможности "выкидывается"&lt;/li&gt;
+&lt;li&gt;Цифры в основном как обычно, есть научная нотация в духе &lt;code&gt;1.23e4&lt;/code&gt;
+    (1.23 умножить на 10 в степени 4) и системы исчисления с другим
+    основанием, скажем двоичная - &lt;code&gt;2#101010&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;foo&lt;/code&gt; - с строчной буквы начинаются &lt;em&gt;атомы&lt;/em&gt;, по сути константы,
+    используются повсеместно:&lt;ul&gt;
+&lt;li&gt;названия функций и модулей&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;true&lt;/code&gt; и &lt;code&gt;false&lt;/code&gt; - булевые значения&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ok&lt;/code&gt; - типичный результат успешный результат выполнения&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;?FOO&lt;/code&gt;&amp;nbsp;- хоть официально и называются константами, но по сути -
+    макросы, перед компиляцией заменяются на заранее определенный кусок
+    кода&lt;strong&gt;&amp;nbsp;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;{foo, bar}&lt;/code&gt; - кортеж, набор данных фиксированной длины&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;[foo, bar]&lt;/code&gt; - простой однонаправленный список произвольной длины&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;"foo"&lt;/code&gt; - текстовая строка, представленная в виде
+    однонаправленного списка (что не эффективно с точки зрения
+    потребления памяти, до 4 байт на символ)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;&amp;lt;"foo"&amp;gt;&amp;gt;&lt;/code&gt; - бинарная строка, может содержать что угодно,
+    в.т.ч. и текст; все что не цифры по возможности лучше хранить в этом
+    типе данных.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="sopostavlenie-pattern-matching"&gt;Сопоставление &lt;em&gt;(pattern matching)&lt;/em&gt;&lt;/h2&gt;
+&lt;p&gt;Очень мощная концепция &lt;em&gt;сопоставления&lt;/em&gt; используется в &lt;strong&gt;Erlang&lt;/strong&gt; на
+каждом углу. В базовом варианте работает примерно так:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;ok&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nv"&gt;Result&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;foo&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Если в функции foo все прошло нормально, то она возвращает, например
+&lt;code&gt;{ok, 123}&lt;/code&gt;, и переменной &lt;code&gt;Result&lt;/code&gt; окажется лишь значение &lt;code&gt;123&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Если же возникла какая-то проблема, то она вернет что-то другое, скажем
+&lt;code&gt;{error, timeout}&lt;/code&gt;, приложение столкнется с несоответствием левой и
+правой части (атомы &lt;strong&gt;ok&lt;/strong&gt; и &lt;strong&gt;error&lt;/strong&gt; разные) и прекращает свое
+выполнение (если бы было чего выполнять).&lt;/p&gt;
+&lt;p&gt;Базовый принцип, надеюсь, понятен. Подобным образом выбирается какую из
+реализаций функции использовать, в какую ветвь &lt;strong&gt;case&lt;/strong&gt; идти и т.п. В
+общем есть много других более сложных применений, но о них в другой раз.&lt;/p&gt;
+&lt;h2 id="spiski"&gt;Списки&lt;/h2&gt;
+&lt;p&gt;Со списками есть три особые операции:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;[Head | Tail ] = [1, 2, 3, 4]&lt;/code&gt; - вытащить элемент с головы
+    списка, работает по принципу сопоставления, в &lt;code&gt;Head&lt;/code&gt; окажется
+    &lt;code&gt;1&lt;/code&gt;, а в &lt;code&gt;Tail&lt;/code&gt; - &lt;code&gt;[2, 3, 4]&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;[1, 2] ++ [3, 4]&lt;/code&gt; - конкатенация, результатом будет &lt;code&gt;[1, 2, 3, 4]&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;[N&amp;nbsp;*&amp;nbsp;N&amp;nbsp;|| N&amp;nbsp;&amp;lt;- [1,&amp;nbsp;2,&amp;nbsp;3], N &amp;gt; 1]&lt;/code&gt; - выглядит замороченно, по
+    сути это обычный отображение &lt;em&gt;(map)&lt;/em&gt; с фильтрацией &lt;em&gt;(filter)&lt;/em&gt; - то
+    есть выражение перед &lt;code&gt;||&lt;/code&gt; применяется к каждому элементу списка,
+    значение которых попадает в переменную &lt;strong&gt;N&lt;/strong&gt;, а после запятой -
+    условие, накладываемое на &lt;strong&gt;N&lt;/strong&gt;; таким образом результат будет &lt;strong&gt;[4,
+    9]&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="binarnye-stroki"&gt;Бинарные строки&lt;/h2&gt;
+&lt;p&gt;C ними намного больше всяких трюков и преобразований, приведу наиболее
+значимые:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Binary = &amp;lt;&amp;lt;Integer:64&amp;gt;&amp;gt;&lt;/code&gt; - преобразовать целое число Integer
+    в бинарную строку Binary длиной 64 бита (для примера, может быть
+    любой&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;&amp;lt;Integer1:32, Integer2:32&amp;gt;&amp;gt; =&amp;nbsp;Binary&lt;/code&gt; - распокавать обратно
+    бинарную строку в целые числа, но уже два по 32 бита; чем-то похоже
+    на операцию &lt;code&gt;[H | T]&lt;/code&gt; у списков, но намного более гибко&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Binary3 = &amp;lt;&amp;lt;Binary1/binary, Binary2/binary&amp;gt;&amp;gt;&lt;/code&gt; - конкатенация
+    бинарных строк, результат окажется в &lt;code&gt;Binary3&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;&amp;lt; &amp;lt;&amp;lt;(N * N)/integer&amp;gt;&amp;gt; || &amp;lt;&amp;lt;N&amp;gt;&amp;gt; &amp;lt;= &amp;lt;&amp;lt;1, 2, 3&amp;gt;&amp;gt;, N &amp;gt; 1 &amp;gt;&amp;gt;&lt;/code&gt;&amp;nbsp;- аналог последнего примера для списков, только для
+    бинарных данных; результат аналогичен - &lt;code&gt;&amp;lt;&amp;lt;4, 9&amp;gt;&amp;gt;&lt;/code&gt;; к слову
+    официально это называется &lt;em&gt;binary comprehensions&lt;/em&gt;, а для списков -
+    &lt;em&gt;list comprehensions&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="zakliuchenie"&gt;Заключение&lt;/h2&gt;
+&lt;p&gt;Очень многое пришлось опустить, иначе самое главное затерялось бы, да и
+объем статьи сильно вырос. Подробности всегда можно найти на
+&lt;a href="https://www.insight-it.ru/goto/547f742d/" rel="nofollow" target="_blank" title="http://www.erlang.org/"&gt;официальном сайте&lt;/a&gt;, в man'ах, да и просто
+погуглив.&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Удачного освоения Erlang!&lt;/em&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Fri, 22 Jun 2012 01:27:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-06-22:erlang/2012/osnovy-erlang-sintaksis-i-punktuaciya/</guid><category>Erlang</category><category>Программирование</category><category>разработка</category></item><item><title>ООП или не ООП</title><link>https://www.insight-it.ru//theory/2010/oop-ili-ne-oop/</link><description>&lt;p&gt;Вчера мне на почту пришло письмо от коллеги с просьбой прокомментировать
+статью, видимо его же перевода или авторства, о судьбе
+объектно-ориентированного программирования в современном мире: &lt;a href="https://www.insight-it.ru/goto/b1bc1932/" rel="nofollow" target="_blank" title="http://blogerator.ru/page/oop_why-objects-have-failed"&gt;Почему объектно-ориентированное программирование провалилось?&lt;/a&gt;.
+Собственно говоря, пишу ответ в своем блоге скорее чтобы несколько
+растопить образовавшийся здесь лед, да и возможно снова затянет -
+продолжу дальше активно писать в &lt;strong class="trebuchet"&gt;Insight IT&lt;/strong&gt;.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Для начала хочу вкратце пересказать саму статью. Написана она по мотивам
+мнений различных экспертов в области разработки, в частности &lt;a href="https://www.insight-it.ru/goto/3e292f7c/" rel="nofollow" target="_blank" title="http://www.dreamsongs.com/ObjectsHaveFailedNarrative.html"&gt;Objects Have Failed&lt;/a&gt;
+by Richard P. Gabriel, November 6, 2002 и holywar'а на конференции
+&lt;a href="https://www.insight-it.ru/goto/f4d45ed5/" rel="nofollow" target="_blank" title="http://en.wikipedia.org/wiki/OOPSLA"&gt;OOPSLA&lt;/a&gt; с участием именитых
+специалистов. Аргументы у обоих сторон "за и против" были довольно
+странноватыми и по сути были подтверждениями и опровержениями различных
+мифов об ООП, например о том, что с использованием парадигмы ООП
+разработка идет быстрее/проще/понятнее/удобнее, что ОО языки
+программирования не соответствуют требованиям вычислительных процессов
+будущего и не адекватно отражают предметную область, что повторное
+использование кода есть в любом языке программирование - как минимум в
+виде библиотек. Сторонники ООП же в основном настаивают на
+справедливости мифов и твердо отстаивают &lt;a href="https://www.insight-it.ru/theory/2008/tri-osnovnyx-komponenta-paradigmy-obektno-orientirovannogo-programmirovaniya/"&gt;три основных столпа их парадигмы&lt;/a&gt;.
+На вышеупомянутой конференции по мнению аудитории вверх взяла сторона
+"против ООП" из-за натиска сторонников языка Lisp и растерянности
+сторонников ООП касательно своей же теории.&lt;/p&gt;
+&lt;p&gt;Что же касается моего мнения касательно данного вопроса, то я не являюсь
+ни приверженцем, ни противником объектно-ориентированного подхода к
+программированию. В целом мой взгляд на ситуацию довольно прост: все
+языки программирования - лишь инструмент для решения вполне
+определенного круга задач. Выбор инструмента и способа работы с ним
+определяется в основном лишь самой конкретной постановкой задачи,
+требованиям к ней, а также имеющимися в наличии ресурсами - в первую
+очередь человеческими и финансовыми. Не нужно смотреть на
+программирование чисто с технической точки зрения - в первую очередь
+программисты решают бизнес-задачи и проблемы людей, а каким именно
+образом и с использованием каких инструментов - заказчиков и
+потребителей программных продуктов волнует меньше всего. Для них намного
+важнее итоговые показатели получившегося продукта: себестоимость
+разработки и поддержки, сроки исполнения, соответствие требованиям, а
+также в зависимости от типа продукта масштабируемость,
+производительность, стабильность, безопасность.&lt;/p&gt;
+&lt;p&gt;Да, в десятках и сотнях тысяч готовых классов в &lt;a href="/tag/net/"&gt;.NET&lt;/a&gt; или &lt;a href="/tag/java/"&gt;Java&lt;/a&gt; легко
+запутаться, но они позволяют не разрабатывать реализуемые ими вещи
+самим. Объектно-ориентированные языки программирования дают возможность
+оперировать более высокоуровневыми понятиями и не тратить время на возню
+с памятью напрямую (от утечек правда это не избавляет, но все же),
+указателями, типовыми алгоритмами, реализацией протоколов и прочими
+нормальными для низкоуровневых языков программирования вещами. Уделяя
+меньше внимания деталям, можно создавать крупные проекты большими
+мазками - возможно в ущерб качеству, но для многих ситуаций это
+приемлемо.&lt;/p&gt;
+&lt;p&gt;Когда речь идет о разработке крупной корпоративной системы с большим
+количеством пользователей и разнородной информации, на первый план
+выходят чаще всего масштабируемость и сроки реализации, а вовсе не
+производительность и эффективность алгоритмов. В таких системах
+разработка выглядит скорее как склейка требуемого продукта из различных
+готовых компонентов, чем реализация собственных алгоритмов и оптимизация
+производительности. Для подобных проектов чаще более уместен
+объектно-ориентированный подход с использованием широкого спектра
+готовых классов, библиотек и системных компонентов. Да, в данном случае
+пострадает производительность, но купить несколько дополнительных
+серверов дешевле, чем изобретать велосипед и писать с нуля реализацию
+всех необходимых составных частей системы.&lt;/p&gt;
+&lt;p&gt;Если же разрабатывается скажем какая-нибудь библиотека для расчета
+инверсной кинематики, то скорее всего использование ОО-подхода в ней
+будет излишним и после реализации всех алгоритмов на низкоуровневом
+языке в функциональном/процедурном стиле будет достаточно создать
+обертки для всех требуемых языков программирования.&lt;/p&gt;
+&lt;p&gt;Плюс не стоит забывать и о том, какие люди участвуют в разработке:
+бывают разработчики, которые фанатеют от ООП, всю жизнь занимаются
+"сборкой" проектов из библиотек на Java или C#, являются ярыми
+поклонниками
+&lt;a href="https://www.insight-it.ru/goto/2d7a0d63/" rel="nofollow" target="_blank" title="http://ru.wikipedia.org/wiki/%D0%A0%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0_%D1%87%D0%B5%D1%80%D0%B5%D0%B7_%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5"&gt;TDD&lt;/a&gt;
+и Agile-разработки, а бывают разработчики, которые предпочитают
+Assembler/C/Fortran/Cobol/Lisp/Haskell/Erlang (нужное подчеркнуть),
+любят реализовывать очень сложные алгоритмы, оптимизировать их,
+добиваясь выиграша в несколько&amp;nbsp;миллисекунд&amp;nbsp;во времени или пару килобайт
+в использованной оперативной памяти. Естественно это лишь крайние или
+почти крайние случаи, большинство разработчиков скорее всего находятся
+где-то посередине (к сожалению, у меня нет такой статистики),
+предпочитая универсальные языки программирования, на которых можно
+писать код как объектно-ориентированно, так и нет
+(C++/Python/PHP/etc). Хочется порекомендовать руководителям не
+заставлять имеющихся в наличии людей заниматься тем, что им не по душе,
+просто так как Вам кто-то вчера рассказал, что "Ruby on Rails - это
+круто" или так как во-о-он тот известный проект реализован с
+использованием во-он тех технологий, языков программирования или
+парадигм разработки. Используемые технологии и подходы к написанию кода,
+должны соответствовать поставленным задачам, а команда должна быть
+готова реализовать проект именно так, как это необходимо, при этом очень
+большое значение имеет распределение ролей между разработчиками - чтобы
+каждый занимался своим любимым делом.&lt;/p&gt;
+&lt;p&gt;Коллеги, копайте ямы лопатами и забивайте гвозди молотками, а не
+наоборот :)&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Thu, 23 Sep 2010 13:07:00 +0400</pubDate><guid>tag:www.insight-it.ru,2010-09-23:theory/2010/oop-ili-ne-oop/</guid><category>ООП</category><category>парадигма</category><category>Программирование</category><category>языки программирования</category></item><item><title>memcached на пальцах</title><link>https://www.insight-it.ru//storage/2009/memcached-na-palcakh/</link><description>&lt;p&gt;Ранее уже была сделана публикация с &lt;a href="https://www.insight-it.ru/storage/2008/obzor-memcached/"&gt;обзором memcached&lt;/a&gt;. Давайте вернемся к данной теме и рассмотрим практику работы с memcached на примерах.
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;div class="card blue lighten-4"&gt;
+&lt;p&gt;&lt;div class="card-content justify"&gt;
+К сожалению, у меня по прежнему не доходят руки активно заниматься
+блогом, но наконец-то появился появился первый человек, откликнувшийся
+на &lt;a href="https://www.insight-it.ru/guest-posts/"&gt;мое предложение стать гостевым автором данного блога&lt;/a&gt;.
+Его имя &lt;em&gt;Владислав Клименко&lt;/em&gt; и именно он является автором данного поста,
+а я лишь выступаю в роли редактора. Может быть данный пример подтолкнет
+и других читателей поучаствовать в возвращении &lt;strong class="trebuchet"&gt;Insight IT&lt;/strong&gt; к жизни.
+&lt;div class="right"&gt;С уважением,&lt;br&gt;Иван Блинков&lt;/br&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Итак, пара слов о предмете разговора. memcached - это распределенная
+система кэширования объектов в оперативной памяти. Разрабатывается
+фирмой &lt;a href="https://www.insight-it.ru/goto/4742ee7f/" rel="nofollow" target="_blank" title="http://danga.com/"&gt;Danga Interactive&lt;/a&gt; (кстати, они являются
+авторами не только memcached, но и других интересных проектов). Но о
+них, возможно, в следующий раз. Обычно memcached используется
+приложениями для временного хранения данных, которые надо часто читать.
+Приложения не взаимодействуют (обычно) напрямую с сервером memcached, а
+работают при помощи клиентских библиотек. На настоящее время созданы
+библиотеки для многих языков программирования (а для некоторых еще и по
+нескольку альтернативных)&amp;nbsp; - полный список клиентских библиотек доступен
+на &lt;a href="https://www.insight-it.ru/goto/39c492fb/" rel="nofollow" target="_blank" title="http://code.google.com/p/memcached/wiki/Clients"&gt;wiki проекта&lt;/a&gt;. В
+целом, данная схема похожа на работу с БД, знакомую многим
+разработчикам.&lt;/p&gt;
+&lt;p&gt;Будем рассматривать установку и использование memcached для Linux. Так
+же при рассмотрении примеров на PHP и обзоре кэширования сессий
+потребуются PHP и Apache. Возможно, их придется установить, но мы не
+будем заострять внимание на вопросах установки.&lt;/p&gt;
+&lt;h2 id="server-memcached"&gt;Сервер memcached&lt;/h2&gt;
+&lt;p&gt;Давайте приступим к установке memcached. Практически во всех
+дистрибутивах Linux memcached можно установить из репозитариев. Если
+есть желание собрать самую свежую версию, то можно заглянуть на &lt;a href="https://www.insight-it.ru/goto/df55df38/" rel="nofollow" target="_blank" title="http://danga.com/memcached/"&gt;сайт
+разработчика&lt;/a&gt; (на момент написания этих
+строк последняя версия -
+&lt;a href="https://www.insight-it.ru/goto/5fa8e800/" rel="nofollow" target="_blank" title="http://memcached.googlecode.com/files/memcached-1.4.0.tar.gz"&gt;1.4.0&lt;/a&gt;).
+Также, возможно, понадобится установить libevent. Последняя стабильная
+версия -
+&lt;a href="https://www.insight-it.ru/goto/a42e2966/" rel="nofollow" target="_blank" title="http://www.monkey.org/~provos/libevent-1.4.11-stable.tar.gz"&gt;1.4.11&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Собираем, устанавливаем и запускаем memcached в режиме вывода сообщений.
+Интересно же посмотреть, что с ним происходит:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;memcached -vv
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Процесс запускается и ждет подключений (по умолчанию на порту 11211).
+Серверная часть готова обрабатывать подключения клиентов и кэшировать
+полученные данные.&lt;/p&gt;
+&lt;p&gt;Но для разработчика приложений это только полпути. Необходимо поддержать
+работу с memcached в своем приложении. Для этого, рассмотрим некоторые
+существующие клиентские библиотеки memcached.&lt;/p&gt;
+&lt;h2 id="klienty-memcached"&gt;Клиенты memcached&lt;/h2&gt;
+&lt;p&gt;Из всего многообразия клиентских библиотек рассмотрим две:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;libmemcached (для Си);&lt;/li&gt;
+&lt;li&gt;PECL extension для PHP (построенный на базе предыдущей библиотеки).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="si"&gt;Си&lt;/h2&gt;
+&lt;p&gt;Библиотека libmemcached на данный момент активно развивается и
+представляется наиболее подходящим выбором при работе с Си и PHP. Также,
+в комплекте с самой клиентской библиотекой поставляются дополнительные
+утилиты для работы с memcached, позволяющие просматривать,
+устанавливать, удалять значения в кэше memcached. Кстати, удивляет, что
+набор утилит идет не с серверной частью, а с клиентской библиотекой.&lt;/p&gt;
+&lt;p&gt;Итак, приступим к установке libmemcached. На момент написания этих строк
+текущая версия libmemcached -
+&lt;a href="https://www.insight-it.ru/goto/44752735/" rel="nofollow" target="_blank" title="http://download.tangent.org/libmemcached-0.31.tar.gz"&gt;0.31&lt;/a&gt;.
+Компилируем, устанавливаем. Для начала, наслаждаемся чтением страниц
+man:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;man libmemcached
+man libmemcached_examples
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;C библиотекой поставляются описание несложных примеров использования. За
+более интересными же способами применения имеет смысл заглянуть в
+исходные тексты утилит, благо все идет вместе.&lt;/p&gt;
+&lt;p&gt;Рекомендую обратить внимание на собранные утилиты. Наверняка многие из
+них станут верными помощниками при разработке приложений.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;memstat&lt;/code&gt; - выдает информацию о сервере memcached&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;memcat&lt;/code&gt; - выдает значение по ключу&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;memrm&lt;/code&gt; - удаляет значение по ключу&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;memdump&lt;/code&gt; - выдает список ключей&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Для начала посмотрим, что скажет сервер memcached, запущенный нами
+немного ранее в режиме выдачи сообщений. Запросим статистику сервера при
+помощи утилиты memstat:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;memstat --servers localhost
+
+ Listing &lt;span class="m"&gt;1&lt;/span&gt; Server
+ Server: localhost &lt;span class="o"&gt;(&lt;/span&gt;11211&lt;span class="o"&gt;)&lt;/span&gt;
+ pid: 14534
+  uptime: 1950
+ &lt;span class="nb"&gt;time&lt;/span&gt;: 1247390264
+ version: 1.4.0
+ pointer_size: 32
+ rusage_user: 0.0
+ rusage_system: 0.0
+ curr_items: 0
+ total_items: 0
+ bytes: 0
+ curr_connections: 10
+ total_connections: 11
+ connection_structures: 11
+ cmd_get: 0
+ cmd_set: 0
+ get_hits: 0
+ get_misses: 0
+ evictions: 0
+ bytes_read: 0
+ bytes_written: 0
+ limit_maxbytes: 67108864
+ threads: 5
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Получили статистику - следовательно memcached функционирует и
+откликается на запросы.&lt;/p&gt;
+&lt;p&gt;Итак, на настоящий момент готовы к использованию сервер memcached и
+клиентская библиотека. Осталось дело за малым - внедрить использование
+memcached в разрабатываемое приложение. Что касается приложения - все в
+руках разработчиков, а мы рассмотрим небольшой пример работы с базовыми
+функциями.&lt;/p&gt;
+&lt;p&gt;memcached предоставляет следующий набор основных функций (их, конечно,
+больше, но здесь приведены основные):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;set&lt;/strong&gt;&amp;nbsp;- занести в кэш пару ключ-значение&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;add&lt;/strong&gt;&amp;nbsp;- занести в кэш значение при условии, что значения с таким
+    ключом в кэше еще нет&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;replace&lt;/strong&gt; - обновляет кэш при условии, что значение с таким ключом
+    в кэше уже есть&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;get&lt;/strong&gt; - получает значение из кэша по указанному ключу&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="primer-programmy-na-c"&gt;Пример программы на C&lt;/h3&gt;
+&lt;p&gt;Файл mc.c:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include "stdio.h"&lt;/span&gt;
+&lt;span class="cp"&gt;#include "string.h"&lt;/span&gt;
+&lt;span class="cp"&gt;#include "memcached.h"&lt;/span&gt;
+
+&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;"key"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;"value"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kt"&gt;uint32_t&lt;/span&gt; &lt;span class="n"&gt;flags&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;length&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;value2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;NULL&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;memcached_return&lt;/span&gt; &lt;span class="n"&gt;rc&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="c1"&gt;// 1. создать структуру для работы с кэшем&lt;/span&gt;
+    &lt;span class="n"&gt;memcached_st&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;memc&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;memcached_create&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;NULL&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="c1"&gt;// 2. указать сервер с которым будем работать&lt;/span&gt;
+    &lt;span class="n"&gt;memcached_server_add&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;memc&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;"localhost"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;11211&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="c1"&gt;// 3. занести пару ключ-значение в кэш&lt;/span&gt;
+    &lt;span class="n"&gt;rc&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;memcached_set&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;memc&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;strlen&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;strlen&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;time_t&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;flags&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;rc&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;MEMCACHED_SUCCESS&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="c1"&gt;// обработать ошибку&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+
+    &lt;span class="c1"&gt;// 4. получить значение&lt;/span&gt;
+    &lt;span class="n"&gt;value2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;memcached_get&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;memc&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;strlen&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;     &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;length&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;flags&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;rc&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;rc&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;MEMCACHED_SUCCESS&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"%s&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;value2&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;free&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value2&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="c1"&gt;// обработать ошибку&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+
+    &lt;span class="c1"&gt;// 5. высвободить структуру&lt;/span&gt;
+    &lt;span class="n"&gt;memcached_free&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;memc&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Программа состоит из 5 основных операций и в особых комментариях не
+нуждается. Разве что можно отметить, что в пункте 2 можно добавлять
+много серверов, в случае использования распределенной системы.&lt;/p&gt;
+&lt;p&gt;Компилируем, возможно придется явно указать пути к библиотекам:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;gcc -Wall -o mc mc.c -I/usr/local/include/libmemcached/ -lmemcached
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Запускаем:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;./mc
+ value
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Видим требуемое значение - должно быть, &lt;em&gt;заработало&lt;/em&gt;!&lt;/p&gt;
+&lt;p&gt;Для уточнения деталей, смотрим сообщения на сервере memcached:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&amp;lt;&lt;span class="m"&gt;32&lt;/span&gt; new auto-negotiating client connection
+32: Client using the ascii protocol
+&lt;span class="m"&gt;32&lt;/span&gt; STORED
+&lt;span class="m"&gt;32&lt;/span&gt; sending key key
+&amp;gt;32 END
+&amp;lt;&lt;span class="m"&gt;32&lt;/span&gt; quit
+&amp;lt;&lt;span class="m"&gt;32&lt;/span&gt; connection closed.
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;В данном примере представлены следующие события: подключение клиента,
+установка пары ключ-значение, чтение данных по ключу и отключение
+клиента.&lt;/p&gt;
+&lt;p&gt;Посмотрим статистику на сервере:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;memstat --servers localhost
+ Listing &lt;span class="m"&gt;1&lt;/span&gt; Server
+ Server: localhost &lt;span class="o"&gt;(&lt;/span&gt;11211&lt;span class="o"&gt;)&lt;/span&gt;
+ pid: 14534
+ uptime: 4659
+ &lt;span class="nb"&gt;time&lt;/span&gt;: 1247392973
+ version: 1.4.0
+ pointer_size: 32
+ rusage_user: 0.0
+ rusage_system: 0.0
+ curr_items: 1
+ total_items: 1
+ bytes: 58
+ curr_connections: 10
+ total_connections: 13
+ connection_structures: 11
+ cmd_get: 1
+ cmd_set: 1
+ get_hits: 1
+ get_misses: 0
+ evictions: 0
+ bytes_read: 58
+ bytes_written: 58
+ limit_maxbytes: 67108864
+ threads: 5
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Следующие две строчки показывают, что в кэше появилось значение:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;curr_items: 1
+total_items: 1
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Посмотрим на данное значение:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;memcat --servers localhost key
+ value
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Итак, приложение, использующее memcached - готово.&lt;/p&gt;
+&lt;h2 id="php_1"&gt;PHP&lt;/h2&gt;
+&lt;p&gt;Для начала установим PECL extension для PHP - memcached&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;pecl install memcached
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;На этом этапе возможно появление сообщения об ошибке вида:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;ERROR: &lt;span class="s1"&gt;'phpize'&lt;/span&gt; failed
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Это означает, что не установлен пакет php-dev или его аналог.
+Устанавливаем его и можно пробовать снова:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;pecl install memcached
+ install ok: channel://pecl.php.net/memcached-1.0.0
+ You should add &lt;span class="s2"&gt;"extension=memcached.so"&lt;/span&gt; to php.ini
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Как нам и советуют, дописываем &lt;code&gt;extension=memcached.so&lt;/code&gt; в php.ini и
+перезапускаем Apache.&lt;/p&gt;
+&lt;p&gt;Смотрим информацию об используемом PHP:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;memcached support&amp;nbsp; enabled
+Version  1.0.0
+libmemcached version &amp;nbsp;&amp;nbsp; 0.31
+Session support &amp;nbsp;&amp;nbsp; yes
+igbinary support &amp;nbsp; no
+&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id="primer-programmy-na-php"&gt;Пример программы на PHP&lt;/h3&gt;
+&lt;p&gt;Можно смело использовать обращения к memcached из PHP. Как обычно,
+рассмотрим пример:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="nv"&gt;$m&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;Memcached&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+
+&lt;span class="nv"&gt;$m&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;addServer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'localhost'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;11211&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="nv"&gt;$m&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;set&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'phpkey'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'phpvalue'&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="nb"&gt;var_dump&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="nv"&gt;$m&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'phpkey'&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Результат работы данного скрипта:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="x"&gt;string(8)&amp;nbsp; "phpvalue"&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Итак, PHP-приложение, использующее memcached - готово.&lt;/p&gt;
+&lt;h2 id="keshirovanie-dannykh-sessii_1"&gt;Кэширование данных сессий&lt;/h2&gt;
+&lt;p&gt;Memcached можно использовать и как хранилище данных сессий для PHP.
+Такой подход часто используется в реальных приложениях. Давайте
+рассмотрим, что для этого надо сделать.&lt;/p&gt;
+&lt;p&gt;Вносим изменения в php.ini&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c1"&gt;;session.save_handler = files&lt;/span&gt;
+&lt;span class="na"&gt;session.save_handler&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;memcached&lt;/span&gt;
+
+&lt;span class="c1"&gt;;session.save_path = /var/lib/php5&lt;/span&gt;
+&lt;span class="na"&gt;session.save_path&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;localhost:11211&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Параметр &lt;code&gt;session.save_handler&lt;/code&gt; указывает, что теперь данные будут
+храниться в memcached. Второй параметр - &lt;code&gt;session.save_path&lt;/code&gt; указывает
+сервер memcached (их может быть указано несколько, через запятую) на
+котором будут сохранятся данные.&lt;/p&gt;
+&lt;p&gt;Перезапускаем Apache - и готово!&lt;/p&gt;
+&lt;p&gt;Теперь надо проверить, что теперь данные сессии реально хранятся не на
+диске, а в memcached.&lt;/p&gt;
+&lt;p&gt;Рассмотрим работу несложного скрипта, заносящего что-нибудь в сессию:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="nb"&gt;session_start&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="nv"&gt;$_SESSION&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'intval'&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;123&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="nv"&gt;$_SESSION&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'strval'&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;"qwe"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Запускаем скрипт, он заносит данные в сессию, после чего смотрим на кэш&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;memdump --servers localhost
+ key
+ keyphp
+ memc.sess.key.3ff8ccab14424082ff83a6dfbcf0941f
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Итак - к нашим знакомым по предыдущим примерам ключам, добавился ключ с
+характерным именем &lt;code&gt;memc.sess.key.3ff8ccab14424082ff83a6dfbcf0941f&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Хранение данных сессии перенесено в систему кэширования. Более подробную
+информацию по работе с memcached из PHP можно почитать &lt;a href="https://www.insight-it.ru/goto/6146f92c/" rel="nofollow" target="_blank" title="http://ru2.php.net/manual/ru/book.memcached.php"&gt;на сайте PHP&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id="zakliuchenie"&gt;Заключение&lt;/h2&gt;
+&lt;p&gt;Мы рассмотрели установку и примеры использования memcached. Следует
+особо подчеркнуть, что memcached - это не система хранения данных,
+поэтому на практике memcached почти всегда используется в паре с БД.
+Также следовало бы уделить внимание своевременной инвалидации данных в
+кэше и вопросам безопасности. В общем, тема интересная, и еще далека от
+закрытия.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Владислав Клименко</dc:creator><pubDate>Wed, 15 Jul 2009 15:09:00 +0400</pubDate><guid>tag:www.insight-it.ru,2009-07-15:storage/2009/memcached-na-palcakh/</guid><category>C++</category><category>Memcached</category><category>PHP</category><category>Программирование</category></item><item><title>Интерфейс</title><link>https://www.insight-it.ru//theory/2008/interfejs/</link><description>&lt;p&gt;&lt;img alt="Интерфейс" class="right" src="https://www.insight-it.ru/images/exec.png"/&gt;
+Наверняка у многих из вас слово &lt;em&gt;"интерфейс"&lt;/em&gt; ассоциируется с внешним
+видом любой программы, то есть кнопочками, виджетами, иконками и прочим
+ее оформлением. Да, несомненно графический пользовательский интерфейс
+является одним из значений этого понятия, но существует и масса других!&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Хотите узнать больше?&lt;/strong&gt;
+&lt;!--more--&gt;
+В общем случае под словом интерфейс понимают правила и рамки
+взаимодействия двух произвольных объектов. В рамках компьютерной
+терминологии такими объектами обычно выступают люди, оборудование,
+программное обеспечение или его компоненты, но этот термин применим и
+далеко за ее пределами.&lt;/p&gt;
+&lt;p&gt;Вернувшись к примеру из первого абзаца мы теперь можем вполне
+аргументированно объяснить почему GUI так часто приравнивают к слову
+интерфейс: он просто является частным случаем интерфейса между
+приложением и его пользователем. Можно было бы привести еще массу
+примеров различных интерфейсов, скажем сокет в качестве интерфейса между
+процессором и материнской платой, но целью написания этого поста было
+вовсе не это.&lt;/p&gt;
+&lt;p&gt;Уже догадались? Да, это я так неспеша плавно подводил разговор к
+&lt;a href="/tag/oop/"&gt;объектно-ориентированному программированию&lt;/a&gt;. Термин
+&lt;em&gt;интерфейс&lt;/em&gt; широко применяется и в нем. Как не трудно предположить, в
+роли объектов в этом случае выступают как сами классы, так и их
+экземпляры (которые, впрочем, тоже принято называть словом &lt;em&gt;объект&lt;/em&gt;).&lt;/p&gt;
+&lt;p&gt;В общем случае интерфейсом класса выступает совокупность его &lt;strong&gt;public&lt;/strong&gt;
+методов и переменных, то есть доступных для обращения из других частей
+приложения. Этот факт вполне логичен - именно благодаря им и
+осуществляется взаимодействие класса (или его объекта) с "внешним
+миром". Но не все так просто, особенно с точки зрения &lt;a href="https://www.insight-it.ru/theory/2008/design-patterns/"&gt;шаблонов
+проектирования&lt;/a&gt;, немаловажную роль в
+взаимодействии классов и объектов играет &lt;strong&gt;абстракция&lt;/strong&gt;. Хочется
+обратить внимание, что формально имеется ввиду даже не сами методы, а их
+заголовки, то есть название, набор получаемых переменных и тип
+возвращаемого значения (этот набор данных принято также принято называть
+интерфейсом методов или функций), само тело метода (реализация) в данном
+случае не важно.&lt;/p&gt;
+&lt;p&gt;Иными словами, если один класс (будем называть его &lt;em&gt;клиент&lt;/em&gt;)
+взаимодействует с каким-либо другим объектом, то по большому счету он
+абсолютно не обязан знать какого класса этот объект является экземпляром
+(может конечно, но это совсем не обязательно). Единственное, что
+интересует класс-клиент, это &lt;em&gt;интерфейс&lt;/em&gt; объекта, с которым он
+взаимодействует, этой информации вполне достаточно для полноценной
+совместной работы.&lt;/p&gt;
+&lt;p&gt;Сразу напрашивается вполне резонный вопрос: а как же тогда клиент может
+быть уверен, что в классе, с которым он работает, какой-либо конкретный
+интерфейс реализован? Допустим ему нужен во-о-о-он тот метод, а как же
+узнать доступен ли он и получит ли клиент в ответ данные нужного типа?
+Ответ на этот вопрос реализован в каждом языке программирования
+по-разному: где-то существует специальные ключевые слова для
+&lt;em&gt;обозначения&lt;/em&gt; интерфейсов и классов, их реализующих, где-то это
+ненавязчиво реализуется средствами &lt;em&gt;наследования&lt;/em&gt; и &lt;em&gt;полиморфизма&lt;/em&gt; на
+более концептуальном уровне.&lt;/p&gt;
+&lt;p&gt;Самым наглядным языком программирования для демонстрации описания
+интерфейсов я считаю &lt;strong&gt;Java&lt;/strong&gt; (хотя можно было бы выбрать и C#, PHP или
+практически любой другой по вкусу). В теории все просто:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Ключевое слово &lt;code&gt;interface&lt;/code&gt; обозначает описание интерфейса;&lt;/li&gt;
+&lt;li&gt;За ним следует название конкретного интерфейса, которое впоследствии
+    можно будет использовать в коде при его упоминании (некоторые
+    программисты на правах традиции начинают названия интерфейсов с
+    заглавной буквы &lt;strong&gt;I&lt;/strong&gt;, мне в свое время даже пытались объяснить
+    зачем так надо делать, но аргументы не показались мне достаточно
+    весомыми);&lt;/li&gt;
+&lt;li&gt;Далее идет тело интерфейса, в котором перечисляются все заголовки
+    методов, которые должны быть в классе, реализующем данный интерфейс
+    (никакой реализации!);&lt;/li&gt;
+&lt;li&gt;Впоследствии приписав к заголовку любого класса ключевое слово
+    &lt;code&gt;implements&lt;/code&gt; с последующим указанием названия интерфейса, можно
+    &lt;em&gt;обязать&lt;/em&gt; этот класс реализовать указанные в описания интерфейса
+    методы. Существует небольшое исключение для абстрактных классов (то
+    есть классов,для которых &lt;em&gt;не может&lt;/em&gt; быть создан объект, обозначаются
+    ключевым словом &lt;code&gt;abstract&lt;/code&gt;), они &lt;em&gt;могут&lt;/em&gt; и не реализовать все
+    методы интерфейса, но тогда эта &lt;em&gt;обязанность&lt;/em&gt; будет переложена на их
+    &lt;em&gt;наследников&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;В данной ситуации клиент, работающий с каким-либо произвольным объектом
+может просто-напросто проверить, реализован ли в нем заранее
+определенный интерфейс, что даст ему гарантию, что он может смело
+обращаться к необходимому набору методов.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Небольшое примечание:&lt;/em&gt; сами интерфейсы и методы в их теле по-умолчанию
+обладают свойствами &lt;code&gt;abstract&lt;/code&gt; и &lt;code&gt;public&lt;/code&gt;, так что повторно
+указывать эти ключевые слова не нужно.&lt;/p&gt;
+&lt;p&gt;На практике же это выглядит это примерно следующим образом:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c1"&gt;// описание интерфейса&lt;/span&gt;
+&lt;span class="kd"&gt;interface&lt;/span&gt; &lt;span class="nc"&gt;Renderable&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="c1"&gt;// обязуем реализовать метод draw&lt;/span&gt;
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;draw&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="c1"&gt;// конкретная реализация интерфейса&lt;/span&gt;
+&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;SomeText&lt;/span&gt; &lt;span class="kd"&gt;implements&lt;/span&gt; &lt;span class="n"&gt;Renderable&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+   &lt;span class="n"&gt;string&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+   &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;SomeText&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;string&lt;/span&gt; &lt;span class="n"&gt;str&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+   &lt;span class="o"&gt;{&lt;/span&gt;
+      &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;text&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;str&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+   &lt;span class="o"&gt;}&lt;/span&gt;
+   &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;draw&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+   &lt;span class="o"&gt;{&lt;/span&gt;
+       &lt;span class="c1"&gt;// вынуждены подчиниться и реализовать&lt;/span&gt;
+       &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;text&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+   &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="c1"&gt;// класс-клиент&lt;/span&gt;
+&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Render&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;Render&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Renderable&lt;/span&gt; &lt;span class="n"&gt;obj&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+     &lt;span class="c1"&gt;// можно быть уверенным, что&lt;/span&gt;
+     &lt;span class="c1"&gt;// метод draw реализован&lt;/span&gt;
+     &lt;span class="n"&gt;obj&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;draw&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+     &lt;span class="cm"&gt;/*&lt;/span&gt;
+&lt;span class="cm"&gt;         в качестве альтернативы можно было бы написать как-то так:&lt;/span&gt;
+&lt;span class="cm"&gt;         if(obj instanceof Renderable)obj.draw();&lt;/span&gt;
+&lt;span class="cm"&gt;         то есть проверить реализован ли интерфейс&lt;/span&gt;
+&lt;span class="cm"&gt;         вместо использования его названия в роли типа данных&lt;/span&gt;
+&lt;span class="cm"&gt;     */&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;В данном примере ситуация тривиальна: класс-клиент &lt;code&gt;Render&lt;/code&gt; умеет лишь
+визуализировать классы, которые он получает в конструктор, вызывая у них
+метод &lt;code&gt;draw&lt;/code&gt;. Для обеспечения такой возможности описан интерфейс
+&lt;code&gt;Renderable&lt;/code&gt;, который реализуется в классе &lt;code&gt;SomeText&lt;/code&gt;. Хоть класс
+&lt;code&gt;Render&lt;/code&gt; ничего и не знает о том, какой именно класс ему подсунут,
+благодаря интерфейсу он сможет вывести на экран любой объект, корректно
+реализующий наш интерфейс, в том числе и &lt;code&gt;SomeText&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Как я уже упоминал: альтернативой такому подходу является использование
+полиморфизма и наследования. Такой подход более распространен в других
+языках программирования, например C++, но пример я приведу все равно на
+&lt;strong&gt;Java&lt;/strong&gt;, основываясь на предыдущем примере, чтобы читателям было проще
+сравнивать.&lt;/p&gt;
+&lt;p&gt;В теории такой подход еще проще: создается абстрактный класс, хоть
+как-то реализующий наш интерфейс (теоретически реализация может быть и
+пустой, просто в виде метода-заглушки), а на стороне клиента достаточно
+лишь просто принимать только наследников этого абстрактного класса. В
+нашем примере достаточно лишь изменить пару ключевых слов и все:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c1"&gt;// теперь используем абстрактный класс&lt;/span&gt;
+&lt;span class="kd"&gt;abstract&lt;/span&gt; &lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Renderable&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="c1"&gt;// реализуем метод draw&lt;/span&gt;
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;draw&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+    &lt;span class="o"&gt;{&lt;/span&gt;
+       &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Вывод на экран недоступен!"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="c1"&gt;// реализация интерфейса (на этот раз неформального)&lt;/span&gt;
+&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;SomeText&lt;/span&gt; &lt;span class="kd"&gt;extends&lt;/span&gt; &lt;span class="n"&gt;Renderable&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+   &lt;span class="c1"&gt;// на этот раз используем extends (наследование)&lt;/span&gt;
+   &lt;span class="c1"&gt;// вместо implements&lt;/span&gt;
+   &lt;span class="n"&gt;string&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+   &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;SomeText&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;string&lt;/span&gt; &lt;span class="n"&gt;str&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+   &lt;span class="o"&gt;{&lt;/span&gt;
+      &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;text&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;str&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+   &lt;span class="o"&gt;}&lt;/span&gt;
+   &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;draw&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+   &lt;span class="o"&gt;{&lt;/span&gt;
+       &lt;span class="c1"&gt;// переопределяем метод draw&lt;/span&gt;
+       &lt;span class="c1"&gt;// но могли этого и не делать, тогда&lt;/span&gt;
+       &lt;span class="c1"&gt;// использовался бы метод из Renderable&lt;/span&gt;
+       &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;text&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+   &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="c1"&gt;// класс-клиент&lt;/span&gt;
+&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Render&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;Render&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Renderable&lt;/span&gt; &lt;span class="n"&gt;obj&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+     &lt;span class="c1"&gt;// можно быть уверенным, что&lt;/span&gt;
+     &lt;span class="c1"&gt;// метод draw реализован&lt;/span&gt;
+     &lt;span class="n"&gt;obj&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;draw&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+     &lt;span class="cm"&gt;/*&lt;/span&gt;
+&lt;span class="cm"&gt;        на этот раз так как в крайнем случае&lt;/span&gt;
+&lt;span class="cm"&gt;        в крайнем случае вызовется хотябы&lt;/span&gt;
+&lt;span class="cm"&gt;        метод из класса Renderable&lt;/span&gt;
+&lt;span class="cm"&gt;     */&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Минимальные изменения - суть та же. Сразу хочу отметить, что этот
+процесс так прост только в &lt;strong&gt;Java&lt;/strong&gt;, в других языках программирования
+понадобилось бы использование дополнительных модификаторов для метода
+&lt;code&gt;draw&lt;/code&gt; (например в &lt;strong&gt;C#&lt;/strong&gt;: &lt;code&gt;virtual&lt;/code&gt; или &lt;code&gt;abstract&lt;/code&gt; в
+классе-потомке и &lt;code&gt;override&lt;/code&gt; в классе-наследнике, это необходимо для
+обеспечения возможности их переопределения).&lt;/p&gt;
+&lt;p&gt;На этом позвольте завершить данное повествование, очень надеюсь, что мне
+удалось изложить суть максимально прозрачно. Эта тема будет активно
+подниматься в дальнейших статьях по &lt;a href="/tag/oop/"&gt;ООП&lt;/a&gt;, так что очень
+надеюсь, что она стала для Вас элементарной и очевидной. По традиции
+напоминаю, что не пропустить публикацию новых постов можно &lt;a href="/feed/"&gt;подписавшись
+на RSS&lt;/a&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sun, 04 May 2008 13:41:00 +0400</pubDate><guid>tag:www.insight-it.ru,2008-05-04:theory/2008/interfejs/</guid><category>Java</category><category>интерфейс</category><category>ООП</category><category>Программирование</category></item><item><title>Design patterns</title><link>https://www.insight-it.ru//theory/2008/design-patterns/</link><description>&lt;p&gt;&lt;img alt="Шаблоны проектирования" class="right" src="{filename/images/idea.png" title="Шаблоны проектирования"/&gt;
+Как говорится, все новое - хорошо забытое старое. Когда я в вдруг вспомнил
+эту поговорку, мне пришла в голову мысль вернуться к незаслуженно
+забытой некоторое время назад теме объектно-ориентированного
+программирования. Возможно многим читателям уже поднадоели часто
+публикующиеся здесь &lt;a href="https://www.insight-it.ru/highload/"&gt;статьи об устройстве уже существующих проектов&lt;/a&gt;, это конечно же не повод прекратить их публикацию, но, тем не менее, немного отвлечься все же стоит.&lt;/p&gt;
+&lt;p&gt;Этот пост будет введением в очередную ветвь спирали повествования о
+теории &lt;a href="/tag/oop/"&gt;ООП&lt;/a&gt;, о которой уже много было сказано различными
+авторами, не знаю остались ли в этой теме неосвещенные уголки, но все же
+я думаю, что мне найдется что сказать.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;&lt;em&gt;&lt;a href="/tag/design-patterns/"&gt;Design Patterns&lt;/a&gt;&lt;/em&gt; обычно переводят на русский
+фразой &lt;em&gt;"шаблоны проектирования"&lt;/em&gt;, оно применимо и за рамками
+программирования, в таких случаях под ней подразумевают просто
+стандартизованное эффективное решение характерного класса задач. В
+рамках программирования это понятие можно несколько конкретизировать,
+представив его как незаконченную заготовку для будущего проекта или его
+части, которая не может быть напрямую реализована в коде, но зато она
+предоставляет некую скорее теоретическую базу для последующего решения
+задачи в самом проекте. Возможно у кого-то из вас возникла ассоциация с
+алгоритмами, она вполне предсказуема, но не совсем уместна: речь идет о
+проектировании, а не решении каких-либо вычислительных задач.&lt;/p&gt;
+&lt;p&gt;Если же говорить об объектно-ориентированных шаблонах проектирования, то
+зачастую помимо просто методов и средств для решения задачи или просто
+общей схемы организации проекта они предоставляют механизмы и схемы
+построения взаимоотношения классов, выполняющих определенные роли для
+достижения общей цели.&lt;/p&gt;
+&lt;p&gt;Изначально идея построения шаблонов для решения типичных задач появилась
+в архитектуре (имеется ввиду которая к строительству относится, а не к
+&lt;a href="https://www.insight-it.ru/highload/"&gt;высоконагруженным системам&lt;/a&gt; :) ). Автором ее был Cristopher Alexander, он впервые составил набор шаблонов проектирования для архитекторов во второй половине двадцатого века, но, к сожалению, в этой науке эта идея не прижилась, зато ее успешно переняли и перенесли в область программирования.&lt;/p&gt;
+&lt;p&gt;Основной вклад в этот процесс сделала знаменитая команда, известная как
+&lt;strong&gt;Gang of Four&lt;/strong&gt;. Она состоит из четырех авторов не менее известной
+книги &lt;em&gt;"Design Patterns &amp;mdash; Elements of Reusable Object-Oriented
+Software"&lt;/em&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Erich Gamma&lt;/li&gt;
+&lt;li&gt;Richard Helm&lt;/li&gt;
+&lt;li&gt;Ralph Jonson&lt;/li&gt;
+&lt;li&gt;John Vlissides&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Именно благодаря этим людям и их книге эта методология проектирования
+программного обеспечения получила такое широкое распространение. В своей
+книге они предоставили 23 основных шаблона проектирования, каждый из
+которых может использоваться для решения очень широкого класса
+абстрактных задач, при этом абсолютно не привязываясь к какому-либо
+конкретному языку программирования или стилю написания кода. Но не стоит
+забывать, что все они - просто часть теории, скорее указание на верный
+путь, чем тропинка, с которой нельзя сделать шаг в сторону.&lt;/p&gt;
+&lt;p&gt;Основным преимуществом применения шаблонов проектирования при разработке
+программного обеспечения является тот факт, что они помогают существенно
+ускорить процесс разработки и проектирования, предоставляя проверенную
+временем и многими разработчиками парадигму разработки. Помимо этого они
+существенно упрощают понимание кода при работе над ним группы
+программистов, а также процесс составления документации.&lt;/p&gt;
+&lt;p&gt;В последующих записях я планирую пройтись по основным шаблонам
+проектирования с более подробной информацией о сферах их применения, их
+востребованности, эффективности, а также с приведением примеров на
+каком-либо языке программирования, скорее всего на &lt;a href="/tag/java/"&gt;Java&lt;/a&gt;,
+так как он позволит сделать примеры более наглядными. Как обычно для
+более оперативного получения информации об обновлении блога хочу
+предложить &lt;a href="/feed/"&gt;подписаться на RSS-ленту&lt;/a&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Thu, 24 Apr 2008 13:03:00 +0400</pubDate><guid>tag:www.insight-it.ru,2008-04-24:theory/2008/design-patterns/</guid><category>Design Patterns</category><category>Gang of Four</category><category>GoF</category><category>ООП</category><category>Программирование</category></item><item><title>Модификация алгоритма хэширования</title><link>https://www.insight-it.ru//php/2008/modifikaciya-algoritma-khehshirovaniya/</link><description>&lt;p&gt;Если Вы уже успели прочитать &lt;a href="https://www.insight-it.ru/security/2008/obratnogo-puti-net/"&gt;одну из моих предыдущих записей о
+хэшировании&lt;/a&gt;, то Вы уже
+имеете базовое представление о теме сегодняшнего разговора.
+Одним из возможных способов применения хэшей является хранение
+аутентификационных данных пользователей интернет-приложения, об
+особенностях реализации формирования и проверки хэшей при регистрации и
+авторизации пользователей средствами &lt;a href="/tag/php/"&gt;PHP&lt;/a&gt; я и хотел бы с Вами
+поговорить.
+&lt;!--more--&gt;
+Сомневаюсь, что Вы услышите что-то новое, если я скажу, что в
+&lt;a href="/tag/php/"&gt;PHP&lt;/a&gt; даже в "стандартной комплектации" реализована масса
+алгоритмов хэширования, начиная с широкораспространенных &lt;strong&gt;md5();&lt;/strong&gt; и
+&lt;strong&gt;sha1();&lt;/strong&gt; и заканчивая модулями &lt;strong&gt;hash&lt;/strong&gt; и &lt;strong&gt;mhash&lt;/strong&gt;, в которых
+реализована еще целая масса алгоритмов. Все они давно уже
+стандартизованы и доступны для изучения всем желающим получить о них
+какую-либо информацию.&lt;/p&gt;
+&lt;p&gt;Допустим мы храним пароли пользователей в виде какого-то стандартного
+хэша, для примера - &lt;strong&gt;md5&lt;/strong&gt;, в базе данных. Все было отлично, но в один
+прекрасный момент нашелся подлый злоумышленник, который неким хитрым
+способом получил доступ к базе данных логинов и паролей. Перед ним стоит
+цель - узнать изначальный пароль у максимального числа пользователей.
+Посмотрим на ситуацию с его стороны:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Первым делом он бы попытался определить, какой именно хэш перед ним
+    находится - чаще всего это делается либо просто взглянув на длину
+    хэша, либо если приложение широко распространено (популярная CMS
+    скажем) - покопавшись в ее исходниках, еще есть вариант найти свой
+    собственный аккаунт - и зная пароль попробовать на нем разные
+    алгоритмы, способов можно придумать множество - все ограничивается
+    лишь воображением. Узнав ответ на свой вопрос ему лишь останется
+    набрать в &lt;a href="/tag/google/"&gt;Google&lt;/a&gt; фразу вроде &lt;em&gt;"md5 decrypt"&lt;/em&gt;, а
+    дальше уже дело техники.&lt;/li&gt;
+&lt;li&gt;Еще один вариант решения задачи - взглянуть на список хэшей на
+    предмет наличия совпадений. С очень высокой степенью вероятности за
+    значительной группой одинаковых хэшей будет скрываться какой-либо
+    банальный пароль вроде &lt;em&gt;123456&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Задача же разработчика приложения максимально обезопасить систему от
+подобных ситуаций. Конечно же можно просто стараться минимизировать
+возможности реализации методов получения информации из базы данных, но
+предугадать все варианты невозможно: в любом из используемых компонентов
+системы может оказаться уязвимость в коде, на которую наверняка найдется
+умник, который напишет &lt;em&gt;exploit&lt;/em&gt;, а значит полностью исключить такую
+вероятность не получится, в лучшем случае выйдет просто ее
+минимизировать.&lt;/p&gt;
+&lt;p&gt;Именно по этим причинам и стоит задуматься об усложнении задачи
+злоумышленника в случае возникновения описанной выше ситуации. Для
+исключения возможности просто расшифровывания хэшей по словарю (то есть
+первый случай, когда определяется тип хэша и соответствующий ему словарь
+&lt;em&gt;хэш =&amp;gt; исходное значение&lt;/em&gt;) достаточно исключить возможность
+идентификации алгоритма хэширования или наличия к нему заранее
+подготовленного словаря. Для этого достаточно лишь сделать шаг в сторону
+от стандартного алгоритма любым пришедшим в голову способом, например:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;хранить хэш не от самого пароля, а от &lt;em&gt;пароль + какая-либо
+    фиксированная строка&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;поменять местами группы символов в получившемся стандартном хэше&lt;/li&gt;
+&lt;li&gt;сделать сдвиг символов в стандартном хэше (или можно даже не сами
+    символы двигать, а с помощью битовых операций их значения)&lt;/li&gt;
+&lt;li&gt;комбинировать два стандартных алгоритма хэширования, или алгоритм
+    хэширования с алгоритмом обратимого шифрования, которых доступно
+    также множество&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Список этот можно было бы продолжать достаточно долго, это было лишь
+первое, что пришло мне в голову. Но ни один из приведенных способов не
+избавит от возможности второго варианта раскрывания исходного пароля.
+Основывается он на однозначности стандартных алгоритмов - одним и тем же
+исходным данным соответствует один и тот же хэш. Для отказа от этого
+свойства стандартных алгоритмов придется выполнить более сложную
+модификацию используемой для генерации хэша функции (которая конечно же
+тоже поможет и для борьбы с первым вариантом). Сразу приведу пример
+&lt;a href="/tag/kod/"&gt;кода&lt;/a&gt;, реализующего этот механизм, а дальше попытаюсь его
+объяснить:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;generateHash&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$input&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$salt&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;false&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="nv"&gt;$salt&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nv"&gt;$salt&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nx"&gt;randomString&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="nv"&gt;$hash&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;md5&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$input&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nv"&gt;$salt&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nv"&gt;$salt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;substr&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$hash&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Как не трудно заметить - используется самодельная функция
+&lt;strong&gt;randomString();&lt;/strong&gt;, которая возвращает случайную строку, состоящую из
+указанного количества шестнадцатеричных цифр (надеюсь Вы в состоянии
+написать ее своими силами). Именно этот момент и гарантирует элемент
+случайности при каждой новой генерации хэша. В том месте, где я прочитал
+про этот механизм (ссылку, к сожалению, привести не могу - в bookmark'ах
+не нашел), этот случайный компонент назывался словом &lt;strong&gt;salt&lt;/strong&gt;, смысл его
+заключается в том, что он приписывается ко входным данным, передаваемым
+стандартной функции хэширования, а затем им же подменяется какая-либо
+фиксированная часть полученного хэша.
+Наверняка у Вас возник вопрос: а как же потом понять, что пользователь
+ввел верные данные, ведь для тех же исходных данных получится другой хэш
+и возможности их сравнить не будет? Ответ достаточно прост, его можно
+было увидеть даже в коде: при повторной инициализации хэша из &lt;a href="/tag/bd/"&gt;базы
+данных&lt;/a&gt; достается заранее известная часть хранящегося там хэша,
+соответствующего конкретному пользователю - тот самый &lt;strong&gt;salt&lt;/strong&gt;, и
+передается нашей функции. В этом случае в механизме будет использоваться
+именно он, а не новое случайное значение, и, как следствие, в случае
+правильности введенных данных на выходе получатся совпадающие хэши. Вот
+такой вот простенький, но иногда достаточно полезный трюк.&lt;/p&gt;
+&lt;p&gt;Если Вам понравился этот пост - возможно Вам придутся по душе и
+&lt;a href="https://www.insight-it.ru/dzhentelmenskij-nabor-php-programmista/"&gt;остальные записи из этой серии статей&lt;/a&gt;, а не пропустить
+публикацию новых записей Вам может помочь &lt;a href="/feed/"&gt;RSS feed&lt;/a&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Fri, 15 Feb 2008 13:17:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-02-15:php/2008/modifikaciya-algoritma-khehshirovaniya/</guid><category>hash</category><category>md5</category><category>PHP</category><category>sha1</category><category>код</category><category>кодинг</category><category>Программирование</category><category>технология</category><category>хранение данных</category><category>хэш</category><category>хэширование</category><category>шифрование</category></item><item><title>На пути к идеалу</title><link>https://www.insight-it.ru//php/2008/na-puti-k-idealu/</link><description>&lt;blockquote&gt;
+&lt;p&gt;...или 15 привычек, которые помогут ускорить PHP-приложение&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Практически каждый программист стремится в своих приложениях не только
+максимально точно реализовать требуемый функционал, но и сделать это как
+можно более эффективным методом. Для этого конечно же необходимо
+проектирование, подходящий выбор используемых технологий, возможно
+некоторый опыт в предметной области, этот список можно продолжать
+достаточно долго, но я позволю себе этого не делать, так как речь
+сегодня пойдет не об этом. Вместо этого хочу обратить Ваше внимание на
+более простые и "приземленные" методы &lt;a href="/tag/optimizaciya/"&gt;оптимизации&lt;/a&gt;
+PHP-кода, которые может быть и не так эффективны по сравнению с
+указанными выше, но зато не требуют каких-либо усилий со стороны кодера
+и/или программиста, достаточно лишь воспринимать их как "не вредные"
+привычки.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Прочитав достаточно солидный объем разного рода документации по
+&lt;a href="/tag/php/"&gt;PHP&lt;/a&gt;, я часто натыкался на статьи и тексты, так или иначе
+связанные с &lt;a href="/tag/proizvoditelnost/"&gt;производительностью&lt;/a&gt; PHP-скриптов.
+Порой в такого рода источниках информации удавалось найти достаточно
+интересные и неочевидные факты об этом языке программирования, которые
+не смотря на свою простоту могли дать вполне заметный прирост к
+&lt;a href="/tag/proizvoditelnost/"&gt;производительности&lt;/a&gt; итогового приложения. Я
+почему-то очень серьезно стал относиться к производительности написанных
+мной скриптов, и довольно часто стал испытывать на практике спорные
+моменты в реализации, о которых узнавал из Сети или каких-либо
+других источников, с помощью самописных или
+&lt;a href="/tag/opensource/"&gt;opensource&lt;/a&gt; benchmark'ов, хотя порой и просто внедряя
+в реальные приложения. Как ни странно, в большинстве случаев практика
+подтверждала теорию, и я стал постоянно пользоваться этими простыми
+правилами, о которых я и хочу Вам рассказать.&lt;/p&gt;
+&lt;h4&gt;Повышения значения индекса с помощью ++\$i;&lt;/h4&gt;
+&lt;p&gt;Этот факт был наверное одним из самых удивительных для меня, когда я
+впервые о нем услышал, но действительно операция &lt;strong&gt;++&lt;span style="color: blue"&gt;\$i&lt;/span&gt;&lt;/strong&gt;; выполняется несколько быстрее, чем
+&lt;strong&gt;&lt;span style="color: blue"&gt;\$i&lt;/span&gt;++;&lt;/strong&gt;. или другие вариации на ту
+же тему вроде &lt;strong&gt;&lt;span style="color: blue"&gt;\$i&lt;/span&gt;+=&lt;span style="color: blue"&gt;1&lt;/span&gt;;&lt;/strong&gt;. Привычка использовать в качестве
+индекса цикла переменную под названием i, казалось бы стара как Мир, мне
+она досталась в наследство от &lt;strong&gt;C&lt;/strong&gt;, а в месте с ней "в комплекте" шла
+привычка писать выражение &lt;strong&gt;i++&lt;/strong&gt; в заголовках циклов. Разница в
+скорости обработки этих выражений, насколько мне известно, обусловлена
+разным количеством элементарных машинных операций, которые необходимо
+выполнить процессору (в точных цифрах не уверен, пишу по памяти, но
+&lt;strong&gt;++&lt;span style="color: blue"&gt;\$i&lt;/span&gt;;&lt;/strong&gt; требует трех элементарных
+операций, а &lt;strong&gt;&lt;span style="color: blue"&gt;\$i&lt;/span&gt;++;&lt;/strong&gt; &amp;ndash; четырех). В
+справедливости этого факта не трудно убедиться, достаточно написать
+простенький скрипт, состоящий из цикла с достаточно большим количеством
+итераций, и замерить любым способом точное время его выполнения при
+использовании разных способов инкрементации индекса цикла.&lt;/p&gt;
+&lt;h4&gt;Вывод статического контента без помощи PHP&lt;/h4&gt;
+&lt;p&gt;Сейчас тот факт, что использование интерпретатора PHP для вывода
+статического контента сильно замедляет этот процесс, кажется мне
+очевидным, но поначалу я использовал &lt;strong&gt;&lt;span style="color: #17349c"&gt;echo&lt;/span&gt;&lt;/strong&gt; там, где он был необходим, ничуть
+не чаще, чем там, где он лишь замедляет работу скрипта. От использования
+еще менее эффективного способа - &lt;strong&gt;&lt;span style="color: #17349c"&gt;print&lt;/span&gt;&lt;/strong&gt;, меня избавила моя лень: писать
+каждый раз на одну букву больше дико не хотелось (в отличии от &lt;strong&gt;&lt;span style="color: #17349c"&gt;echo&lt;/span&gt;&lt;/strong&gt;, &lt;strong&gt;&lt;span style="color: #17349c"&gt;print&lt;/span&gt;&lt;/strong&gt; возвращает информацию об
+успешности выполнения своей работы, что в большинстве случаев
+просто-напросто не нужно). Проверить опять же не трудно - нужен лишь
+объемистый текстовый файл, который достаточно вывести в browser разными
+способами и засечь уходящее на это время.&lt;/p&gt;
+&lt;h4&gt;Вывод статического контента из отдельного файла&lt;/h4&gt;
+&lt;p&gt;Частенько при желании выполнить указанное в заголовке действие по
+привычке используют &lt;strong&gt;&lt;span style="color: #a3a423"&gt;include&lt;/span&gt;&lt;/strong&gt;,
+&lt;strong&gt;&lt;span style="color: #a3a423"&gt;require&lt;/span&gt;&lt;/strong&gt; или их &lt;strong&gt;&lt;span style="color: #a3a423"&gt;_once&lt;/span&gt;&lt;/strong&gt; версии, что является далеко не
+самой лучшей идеей с точки зрения производительности. Самым быстрыми
+быстрыми и экономичными поотношению к оперативной памяти являются
+функции &lt;strong&gt;&lt;span style="color: #17349c"&gt;readfile&lt;/span&gt;&lt;/strong&gt; и &lt;strong&gt;&lt;span style="color: #17349c"&gt;fpassthru&lt;/span&gt;&lt;/strong&gt;. В качестве доказательства
+этого факта приведу таблицу, демонстрирующую статистику выполнения этой
+операции различными методами и позаимствованную с &lt;a href="https://www.insight-it.ru/goto/f18fa5ab/" rel="nofollow" target="_blank" title="http://www.raditha.com/wiki/Readfile_vs_include"&gt;одного англоязычного
+сайта&lt;/a&gt;:&lt;/p&gt;
+&lt;table align="center" border="1" cellspacing="0" width="100%"&gt;
+&lt;tr&gt;
+&lt;th align="center" rowspan="2" style="background: #fcfcc0 none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial" valign="center"&gt;
+Функция
+
+&lt;/th&gt;
+&lt;th align="center" colspan="2" style="background: #fcfcc0 none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial"&gt;
+Время (сек.)
+
+&lt;/th&gt;
+&lt;th align="center" colspan="2" style="background: #fcfcc0 none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial"&gt;
+Оперативная память (байт)
+
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="center" style="background: #fcfcc0 none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial"&gt;
+32Kb файл
+
+&lt;/td&gt;
+&lt;td align="center" style="background: #fcfcc0 none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial"&gt;
+1Mb файл
+
+&lt;/td&gt;
+&lt;td align="center" style="background: #fcfcc0 none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial"&gt;
+32Kb файл
+
+&lt;/td&gt;
+&lt;td align="center" style="background: #fcfcc0 none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial"&gt;
+1Mb файл
+
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+file\_get\_contents
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+0.00152
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+0.00564
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+52480
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+1067856
+
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+fpassthru
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+**0.00117**
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+0.00184
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+20016
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+20032
+
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+fgets
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+0.00195
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+0.07190
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+30760
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+30768
+
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+file
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+0.00157
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+0.06464
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+87344
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+2185624
+
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+require\_once
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+0.00225
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+0.08065
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+67992
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+2067696
+
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+readfile
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+**0.00117**
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+0.00191
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+**19192**
+
+&lt;/td&gt;
+&lt;td align="right"&gt;
+19208
+
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;h4&gt;Вывод переменных&lt;/h4&gt;
+&lt;p&gt;Наверняка вам известно, что переменные можно выводить с помощью
+конструкции вроде &lt;strong&gt;&lt;span style="color: #17349c"&gt;echo&lt;/span&gt; &lt;span style="color: red"&gt;"&lt;/span&gt;&lt;span style="color: blue"&gt;\$var&lt;/span&gt; &lt;span style="color: red"&gt;text"&lt;/span&gt;;&lt;/strong&gt;, что является одним из самых удобных
+вариантов решения этой задачи благодаря минимальному количеству
+символов, которые необходимо набрать, но с точки зрения быстродействия
+этот вариант далек от идеала, так как влечет за собой достаточно
+серьезные преобразования в памяти сервера, эффект которых порой бывает
+заметен невооруженным глазом. Частично ущерб производительности можно
+сгладить заменой этой конструкции на &lt;strong&gt;&lt;span style="color: #17349c"&gt;echo&lt;/span&gt; &lt;span style="color: blue"&gt;\$var&lt;/span&gt;.&lt;span style="color: red"&gt;"
+text"&lt;/span&gt;;&lt;/strong&gt;, что приводит к несколькому усложнению внешнего вида
+кода и несколько поправляет ситуацию со скоростью выполнения. Но как
+известно знак . обозначает конкатенацию двух строк, что тоже требует
+некоторых вычислений и затрат памяти, но и от нее можно избавиться,
+заменив на запятую. Выражение &lt;strong&gt;&lt;span style="color: #17349c"&gt;echo&lt;/span&gt;
+&lt;span style="color: blue"&gt;\$var&lt;/span&gt;,&lt;span style="color: red"&gt;"
+text"&lt;/span&gt;;&lt;/strong&gt; ничем по своему эффекту не отличается от предложенных
+ранее вариантов, за исключением максимального быстрого выполнения,
+обусловленного отсутствием дополнительных преобразований в процессе
+передачи просто последовательности из константы и переменной.&lt;/p&gt;
+&lt;h4&gt;Избегайте выполнения лишних действий&lt;/h4&gt;
+&lt;p&gt;Достаточно абстрактное утверждение, но тем не мение постоянное
+напоминание себе о нем может избавить Вас от совершения массы ошибок.
+Самой широкораспространенной является наверное вызов какой-либо функции
+(чаще всего &lt;strong&gt;&lt;span style="color: #17349c"&gt;count&lt;/span&gt;();&lt;/strong&gt; или &lt;strong&gt;&lt;span style="color: #17349c"&gt;strlen&lt;/span&gt;();&lt;/strong&gt;) в проверке условия выхода из
+цикла. Когда-нибудь доводилось писать видеть в собственном или чужом
+коде выражение вида &lt;strong&gt;&lt;span style="color: #a3a423"&gt;for&lt;/span&gt;(&lt;span style="color: blue"&gt;\$i&lt;/span&gt; = &lt;span style="color: #a3a423"&gt;0&lt;/span&gt;;
+&lt;span style="color: blue"&gt;\$i&lt;/span&gt; \&amp;lt; &lt;span style="color: #17349c"&gt;count&lt;/span&gt;(&lt;span style="color: blue"&gt;\$array&lt;/span&gt;); ++&lt;span style="color: blue"&gt;\$i&lt;/span&gt;) { ... }&lt;/strong&gt;? А задумываться о
+последовательности выполнения действий при его обработке? Стоит только
+немного начать размышлять и ошибка становится очевидной: &lt;strong&gt;&lt;span style="color: #17349c"&gt;count&lt;/span&gt;();&lt;/strong&gt; выполняется при каждой итерации
+цикла, что приводит к подсчету количества элементов массива при каждой
+проверки условия выхода из цикла - почему бы не посчитать это значение
+заранее и сравнивать значения индекса с переменной, а не с результатом
+выполнения функции?&lt;/p&gt;
+&lt;h4&gt;@&lt;/h4&gt;
+&lt;p&gt;Использование этого оператора стоит избегать при каждой возможности.
+Казалось бы такое простое действие, как сокрытие вывода возможного
+сообщения об ошибке, влечет за собой достаточно трудоемкую
+последовательность действий: устанавливает значение параметра
+PHP-интерпретатора &lt;strong&gt;error_reporting = 0&lt;/strong&gt;, выполняет указанное за этим
+оператором действие, возвращает значение &lt;strong&gt;error_reporting&lt;/strong&gt; в исходное
+состояние.&lt;/p&gt;
+&lt;h4&gt;Маленькие мелочи&lt;/h4&gt;
+&lt;p&gt;Развивая тему предыдущего подраздела, хочется обратить внимания, что
+даже на еще более элементарных вещах можно сэкономить драгоценное
+процессорное время:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Вместо условия &lt;strong&gt;&lt;span style="color: #a3a423"&gt;if&lt;/span&gt;(&lt;span style="color: blue"&gt;\$variableOne&lt;/span&gt; == &lt;span style="color: blue"&gt;\$variableTwo&lt;/span&gt;) { ... }&lt;/strong&gt; можно написать
+    &lt;strong&gt;&lt;span style="color: #a3a423"&gt;if&lt;/span&gt;(&lt;span style="color: blue"&gt;\$variableOne&lt;/span&gt; === &lt;span style="color: blue"&gt;\$variableTwo&lt;/span&gt;) { ... }&lt;/strong&gt;, что избавит от
+    проверки на соответствие типов данных и приведения их друг к другу,
+    в некоторых случаях эти действия эти случаях эти действия конечно же
+    и бывают необходимы, но бывает это далеко не часто.&lt;/li&gt;
+&lt;li&gt;Глядя на выражения вроде &lt;strong&gt;&lt;span style="color: #a3a423"&gt;if&lt;/span&gt;(&lt;span style="color: blue"&gt;\$boolean&lt;/span&gt; == true) { ... }&lt;/strong&gt;, я чаще
+    всего вспоминаю цитату из одного малоизвестного интернет-ресурса:
+    &lt;strong&gt;if (b.ToString().length \&amp;lt; 5) { ... }&lt;/strong&gt;. Хоть и не имет никакого
+    отношения к PHP, но суть проблемы отражает очень ярко.&lt;/li&gt;
+&lt;li&gt;Самым очевидным способом проверить попадает ли длина строки в
+    какой-либо диапазон является использование функции &lt;strong&gt;&lt;span style="color: #17349c"&gt;strlen&lt;/span&gt;();&lt;/strong&gt; и сравнение полученного
+    результата с фиксированными значениями, но зачем выполнять лишний
+    вызов функции, если можно воспользоваться услугами конструкцией
+    языка PHP &lt;strong&gt;&lt;span style="color: #17349c"&gt;isset&lt;/span&gt;();&lt;/strong&gt; для
+    определения наличия в строке определенных символов. &lt;strong&gt;&lt;span style="color: #a3a423"&gt;if&lt;/span&gt;(&lt;span style="color: #17349c"&gt;isset&lt;/span&gt;(&lt;span style="color: blue"&gt;\$str&lt;/span&gt;{&lt;span style="color: blue"&gt;5&lt;/span&gt;})) { ... }&lt;/strong&gt; приведет к абсолютно тем
+    же результатам, что и &lt;strong&gt;&lt;span style="color: #a3a423"&gt;if&lt;/span&gt;(&lt;span style="color: #17349c"&gt;strlen&lt;/span&gt;(\$str)&amp;gt;4){ ... }&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Битовые операции выполняются намного быстрее относительно обычных
+    арифметических действий. Об этом факте редко вспоминают, да и
+    работать с ними умеет далеко не каждый, но порой они бывают очень
+    актуальны, особенно при частой работе с числами кратными двойке.&lt;/li&gt;
+&lt;li&gt;Угадайте, что делает интерпретатор при виде надписи &lt;strong&gt;&lt;span style="color: blue"&gt;1&lt;/span&gt;/&lt;span style="color: blue"&gt;2&lt;/span&gt;&lt;/strong&gt;?
+    Правильно: делит &lt;strong&gt;&lt;span style="color: blue"&gt;1&lt;/span&gt;&lt;/strong&gt; на &lt;strong&gt;&lt;span style="color: blue"&gt;2&lt;/span&gt;&lt;/strong&gt;. Зачем лишний раз утруждать его,
+    когда можно написать просто половину - &lt;strong&gt;&lt;span style="color: blue"&gt;0.5&lt;/span&gt;&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;При возвращении значения переменной из функции при помощи &lt;strong&gt;&lt;span style="color: #17349c"&gt;global&lt;/span&gt;&lt;/strong&gt; выполняется на порядок больше
+    действий, чем при классическом &lt;strong&gt;&lt;span style="color: #17349c"&gt;return&lt;/span&gt;&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Конечно же фраза &lt;strong&gt;&lt;span style="color: blue"&gt;\$array&lt;/span&gt;[text];&lt;/strong&gt;
+    интерпритируется практически точно так же, как и &lt;strong&gt;&lt;span style="color: blue"&gt;\$array&lt;/span&gt;[&lt;span style="color: red"&gt;'text'&lt;/span&gt;];&lt;/strong&gt;, но зачем выполнять лишнее
+    преобразование из необъявленной константы в строку, проверять, что
+    такой константы все же не существует, выводить сообщение типа
+    &lt;strong&gt;E_NOTICE&lt;/strong&gt;, если можно всего этого не делать?&lt;/li&gt;
+&lt;li&gt;По возможности не используйте &lt;strong&gt;&lt;span style="color: #17349c"&gt;require_once&lt;/span&gt;();&lt;/strong&gt; или &lt;strong&gt;&lt;span style="color: #17349c"&gt;include_once&lt;/span&gt;();&lt;/strong&gt; неоднократно по
+    отношению к одному и тому же файлу. При отсутствии какого-либо
+    эффекта, попусту тратится время на обработку повторного запроса.&lt;/li&gt;
+&lt;li&gt;Даже "безобидных" ошибок стоит избегать, лишняя проаерка потратит не
+    так много процессорного времени, как генерирование достаточно
+    длинного сообщения об ошибке и вывод его в &lt;em&gt;stdout&lt;/em&gt;, &lt;em&gt;stderr&lt;/em&gt; или
+    &lt;em&gt;лог-файл&lt;/em&gt;, а также не стоит забывать, что даже "безобидные" ошибки
+    могут стать потенциальной угрозой безопасности приложения вцелом.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;В заключении...&lt;/h4&gt;
+&lt;p&gt;...хотелось бы упомянуть одну из первых статей по
+&lt;a href="/tag/optimizaciya/"&gt;оптимизации&lt;/a&gt; &lt;a href="/tag/php/"&gt;PHP&lt;/a&gt;, которые мне доводилось
+читать, до сих пор храню ссылку на нее в bookmark'ах, именно она и
+выступала в роли &lt;em&gt;&lt;a href="https://www.insight-it.ru/goto/ce3d47c9/" rel="nofollow" target="_blank" title="http://mgccl.com/php-speed-freaks"&gt;одного из основных источников
+информации&lt;/a&gt;&lt;/em&gt; для этого текста. В
+качестве возможных вариантов продолжения чтения про &lt;a href="/tag/php/"&gt;PHP&lt;/a&gt;
+хотелось бы предложить Вам соответствующие &lt;a href="/category/php/"&gt;раздел сайта&lt;/a&gt;, &lt;a href="https://www.insight-it.ru/dzhentelmenskij-nabor-php-programmista/"&gt;серию
+статей&lt;/a&gt;, &lt;a href="/tag/php/"&gt;тэг&lt;/a&gt; и
+&lt;a href="/feed/"&gt;RSS-ленту&lt;/a&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Thu, 07 Feb 2008 15:39:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-02-07:php/2008/na-puti-k-idealu/</guid><category>online</category><category>PHP</category><category>интернет</category><category>информационные технологии</category><category>код</category><category>кодинг</category><category>оптимизация</category><category>Программирование</category><category>производительность</category></item><item><title>Unix way</title><link>https://www.insight-it.ru//linux/2008/unix-way/</link><description>&lt;p&gt;На эту тему в Сети можно найти несметное количество статей и обсуждений,
+не удивлюсь если Вам уже доводилось читать что-либо подобное в прошлом
+или может быть работать в одной из множества операционных систем,
+разработанных с использованием этой идеологии. За этим словосочетанием
+скрывается целая философия разработки программного обеспечения, начавшая
+свое развитие в середине 90-х годов прошлого века и воплощенная в
+огромном количестве операционных систем и в еще большем количестве
+&lt;a href="/tag/opensource/"&gt;opensource&lt;/a&gt; проектов. В этом тексте я хочу поведать
+Вам свой взгляд на эту философию с двух точек зрения: программиста и
+пользователя.&lt;/p&gt;
+&lt;p&gt;Наиболее точно охарактеризовать то, о чем пойдет речь можно лишь
+процитировав одного из основателей традиций &lt;a href="/tag/unix/"&gt;Unix&lt;/a&gt; и
+разработчика &lt;a href="/tag/tekhnologiya/"&gt;технологии&lt;/a&gt; под названием "Unix
+pipes" - &lt;a href="https://www.insight-it.ru/goto/7c67426e/" rel="nofollow" target="_blank" title="http://www.cs.dartmouth.edu/~doug/"&gt;Douglas'а Mcllroy'а&lt;/a&gt;:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;"This is the Unix philosophy:
+- Write programs that do one thing and do it well.
+- Write programs to work together.
+- Write programs to handle text streams, because that is a universal interface."&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Для начала воспроизведу суть цитаты для тех читателей, кто возможно не
+знает в достаточной степени английского языка:&lt;/p&gt;
+&lt;p&gt;&lt;cite&gt;Философия написания программ для &lt;a href="/tag/unix/"&gt;Unix&lt;/a&gt; заключается в
+написании программ, качественно решающих строго одну задачу, но при этом
+тесно работающих вместе. В качестве стандартного универсального
+интерфейса между ними предлагается использование стандартных потоков
+текстовых данных.&lt;/cite&gt;&lt;/p&gt;
+&lt;p&gt;Сразу же позволю себе слегка отойти от темы, упомянув что существует
+также и абсолютно противоположный подход к написанию программного
+обеспечения, который стоит упомянуть для того, чтобы "почувствовать
+разницу". Он используется в большинстве
+&lt;abbr title="Платное программное обеспечение с закрытым кодом"&gt;проприетарных&lt;/abbr&gt;
+программ и заключается в нагромождении максимального количества
+функционала внутри одного программного продукта, в большинстве случаев с
+целью получения дополнительных возможностей для построения рекламной
+компании и, как следствие, более выгодного ведения продаж. К сожалению,
+при таком подходе разработчики часто забывают о качестве ПО, о
+возможностях расширение, удобстве использования, возможностях
+модификации со стороны пользователя и многом другом, но зато в итоге
+получают продукт, о котором можно указать "установил - и сразу что-то
+как-то работает", но что именно, как оно работает, и как долго еще
+сможет работать до тех пор пока не начнутся неполадки, и как с ними
+бороться в случае если они появятся - остается загадкой для как для
+подавляющего большинства пользователей, так и не редко для самих
+разработчиков тоже.&lt;/p&gt;
+&lt;p&gt;Закончив лирическое отступление, хочется взглянуть на нашу философию с
+точки зрения программиста.&lt;/p&gt;
+&lt;h3 id="vzgliad-s-tochki-zreniia-programmista"&gt;Взгляд с точки зрения программиста&lt;/h3&gt;
+&lt;p&gt;Философия &lt;a href="/tag/unix/"&gt;Unix&lt;/a&gt; предлагает программисту набор элементарных
+правил, соблюдение которых не только упростит работу программиста, но и
+позволит расширить сферу применения получившегося программного продукта
+с помощью различных вариантов интеграции с другими программами.&lt;/p&gt;
+&lt;p&gt;Как же это выглядит?&lt;/p&gt;
+&lt;h4&gt;Одна задача - одна программа&lt;/h4&gt;
+&lt;p&gt;С помощью этого правила список действий, требуемых от программиста для
+написания готовой программы, резко сокращается до двух позиций, одной из
+которых является собственно реализация задачи. Задачи эти чаще всего
+элементарны до безобразия и заключается в переработки входных данных,
+например: вывод содержимого указанного каталога, подсчет длины
+указанного файла, фильтрация входных данных, отправка локального
+электронного письма на удаленный сервер (да-да, для приема, сортировки,
+хранения, чтения, редактирования и отправки электронных писем могут
+использоваться отдельные программы).&lt;/p&gt;
+&lt;p&gt;Подобное множество программ решающих элементарные задачи делает
+количество способов решения какой-либо комплексной задачи стремящимся к
+бесконечности, ведь при наличии стандартизованного интерфейса
+комбинировать программы можно в любой последовательности. Для расширения
+возможностей такого рода комбинирования используются различные
+скриптовые языки, которых существует достаточно много, наиболее
+распространенным из которых являются bash скрипты, основанные на
+командах одноименной оболочки командной строки, используемой
+по-умолчанию во всех (хотя возможно стоило не использовать громких слов
+и написать "в большинстве") дистрибутивах &lt;a href="/tag/linux/"&gt;Linux&lt;/a&gt;.&lt;/p&gt;
+&lt;h4&gt;Unix pipes&lt;/h4&gt;
+&lt;p&gt;Этот механизм является основным способом реализации столько раз
+упоминавшегося выше интерфейса между элементарными программами.
+Реализация его поддержки является как раз второй задачей, которая
+ставится перед программистом, идущим по пути &lt;a href="/tag/unix/"&gt;Unix&lt;/a&gt;. С
+использованием большинства языков программирования она является
+тривиальной, особенно это справедливо для C.&lt;/p&gt;
+&lt;p&gt;На подробностях реализации останавливаться не будем, по этому позволю
+себе плавно перейти к следующему разделу и продолжить эту тему уже там.&lt;/p&gt;
+&lt;h3 id="vzgliad-s-tochki-zreniia-polzovatelia"&gt;Взгляд с точки зрения пользователя&lt;/h3&gt;
+&lt;p&gt;Слово pipes можно переводить по-разному, мне больше нравится вариант
+&lt;em&gt;потоки&lt;/em&gt;, но также часто используется и дословный перевод - &lt;em&gt;трубы&lt;/em&gt;.
+Также имеет смысл сразу сказать, что его реализация полностью
+основывается на командной строке и командах различных ее оболочек, а
+также тесно интегрирована с устройствами компьютера и файловой системой.&lt;/p&gt;
+&lt;p&gt;У каждой элементарной программы, соответствующей этой идеологии, должен
+быть входной и выходной стандартные текстовые потоки - &lt;strong&gt;stdin&lt;/strong&gt; и &lt;strong&gt;stdout&lt;/strong&gt; соответственно. Механизм unix pipes позволяет перенаправлять эти потоки любой программы произвольным образом с помощью трех простых операторов: &lt;code&gt;|&lt;/code&gt;, &lt;code&gt;&amp;gt;&lt;/code&gt; и &lt;code&gt;&amp;lt;&lt;/code&gt;. Первый из них - &lt;code&gt;|&lt;/code&gt; перенаправляет stdout команды слева от него в stdin команды справа, а &lt;code&gt;&amp;gt;&lt;/code&gt; и &lt;code&gt;&amp;lt;&lt;/code&gt; предназначены для перенаправление потоков в/из файлы по схожему принципу.&lt;/p&gt;
+&lt;p&gt;Предлагаю рассмотреть этот механизм на примерах. Возьмем несколько
+базовых утилит, имеющихся на практически любой unix-like системе:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;cat&lt;/code&gt; - вывод содержимого указанного первым параметром файла в
+    stdout (по умолчанию stdout в большинстве программ направляется в
+    консоль)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;less&lt;/code&gt; - постраничный вывод текста, полученного в stdin в stdout
+    (переключение страниц и некоторые другие функции производятся с
+    клавиатуры, возможны и другие варианты использования, но они нам не
+    нужны)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;grep&lt;/code&gt; - построчная фильтрация текста, полученного в stdin, вывод
+    только строк, содержащих текст, указанный первым аргументом, и вывод
+    результата в stdout.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Начнем с примера, позволяющего прочитать постранично любой файл:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;cat readme.txt &lt;span class="p"&gt;|&lt;/span&gt; less
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Не смотря на наличие более простых методов достижения той же цели, этот
+пример наглядно демонстрирует процесс перенаправления ввода-вывода,
+другими словами с помощью оператора &lt;code&gt;|&lt;/code&gt; была создана так называемая pipe,
+которая и дала название этому механизму. Пример, демонстрирующий
+перенаправление в файл будет столь же элементарным, хотя может быть с
+первого взгляда покажется "пострашнее":&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;cat readme.txt &lt;span class="p"&gt;|&lt;/span&gt; grep unix &amp;gt; readme.txt
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Этот пример должен был бы удалить из файла все строки, где нет слова
+"unix". &lt;em&gt;Маленькое замечание:&lt;/em&gt; при использовании такого перенаправления,
+перед началом передачи данных файл обнуляется. В этом и заключается
+ошибка данного примера: файл очищается до того, как поток данных успел
+пройти через фильтрацию &lt;strong&gt;grep&lt;/strong&gt;, что приводит к просто очистке файла.
+Если же Вам все же нужен отфильтрованный список строк - стоит разместить
+в другом файле (которым можно было бы подменить исходный при
+необходимости), просто поменяв его название:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;cat readme.txt &lt;span class="p"&gt;|&lt;/span&gt; grep unix &amp;gt; meread.txt
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Если же Вы хотите избежать очищения файла, в который производится
+запись, необходимо написать символ &lt;code&gt;&amp;gt;&lt;/code&gt; дважды, тогда новые данные
+припишутся в конец:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;cat readme.txt &lt;span class="p"&gt;|&lt;/span&gt; grep unix &amp;gt;&amp;gt; readme.txt
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;В unix-like системах есть еще одна интересная особенность, косвенно
+связанная с этим механизмом: &lt;em&gt;все устройства являются файлами&lt;/em&gt; и
+соответственно, прикреплены к файловой системе, для них выделена
+отдельная директория, по традиции называемая &lt;code&gt;/dev&lt;/code&gt;. Работа с ними также
+ведется на тех же правах что и с обычными файлами, например набрав в
+консоли:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;cat readme.txt &amp;gt; /dev/dsp
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;в ответ от компьютера Вы услышите некоторый звук, издаваемый из колонок
+или наушников.&lt;/p&gt;
+&lt;h4&gt;Подводим итоги&lt;/h4&gt;
+&lt;p&gt;С точки зрения простого пользователя использование opensource решений,
+построенных на базе философии unix, является как минимум нетривиальной
+задачей - ведь от него требуется как минимум понимание насколько мощная
+и гибкая система попала ему/ей в руки. Отсутствие единственного верного
+способа решения той или иной задачи ставит большинство людей попросту в
+тупик, у них начинают разбегаться глаза от десятков тысяч программ,
+доступа к которым есть у всех пользователей unix-like операционных
+систем, с помощью набора простой волшебной команды в консоли, состоящей
+не более чем из трех-четырех слов.&lt;/p&gt;
+&lt;p&gt;Но если пользователь находит в себе силы понять что за зверь попал ему в
+руки, он сможет превратить любой компьютер в универсальное устройство по
+решению любых задач именно тем способом, который удобен &lt;em&gt;пользователю&lt;/em&gt;,
+а не который навязали ему &lt;em&gt;производители&lt;/em&gt;
+&lt;abbr title="Платное программное обеспечение с закрытым кодом"&gt;проприетарного&lt;/abbr&gt;
+програмного обеспечения.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sun, 06 Jan 2008 19:30:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-01-06:linux/2008/unix-way/</guid><category>Linux</category><category>opensource</category><category>Unix</category><category>Unix way</category><category>идеология</category><category>Программирование</category><category>программное обеспечение</category><category>философия</category></item><item><title>Три основных компонента парадигмы объектно-ориентированного программирования</title><link>https://www.insight-it.ru//theory/2008/tri-osnovnyx-komponenta-paradigmy-obektno-orientirovannogo-programmirovaniya/</link><description>&lt;p&gt;Представьте: Россия, солнце только-только начинает свой путь по
+бескрайним просторам неба, Вы находитесь на одной из самых оживленных
+улиц своего города и вокруг Вас нетрудно заметить множество людей,
+спешащих по своим делам. И вот, Вы видите как один человек зашел в
+большое офисное здание.&lt;/p&gt;
+&lt;p&gt;Вы спросите у меня: как это все может быть связано с темой этой
+записи? - об этом я и собираюсь Вам поведать.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;div class="card blue lighten-4"&gt;
+&lt;p&gt;&lt;div class="card-content"&gt;Перед тем как продолжить чтение этой записи, очень рекомендую сначала ознакомиться с &lt;a href="https://www.insight-it.ru/goto/e52e6866/" rel="nofollow" target="_blank" title="{theory}/obektno-orientirovannoe-programmirovanie-a-chto-zhe-eto.md"&gt;введением в объектно-ориентированное програмирование&lt;/a&gt;, если Вы еще не успели этого сделать.
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;img alt="Три основных компонента" class="right" src="https://www.insight-it.ru/images/cubes.png"/&gt;&lt;/p&gt;
+&lt;p&gt;Человек, которого Вы, надеюсь, успешно представили в процессе прочтения
+вступления к этой записи, будет служить нам примером в процессе
+обсуждения трех базовых вещей, на которых основывается вся концепция
+&lt;strong&gt;ООП&lt;/strong&gt;, которые имеет смысл сразу обозначить прямо сейчас:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;наследование&lt;/li&gt;
+&lt;li&gt;инкапсуляция&lt;/li&gt;
+&lt;li&gt;полиморфизм&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Все они являются равнозначными и перечислены они просто в порядке их
+упоминания в этом посте. Но прежде чем перейти к их рассмотрению по
+отдельности было бы не лишним несколько конкретизировать пример,
+упомянутый чуть выше. Основной акцент в этой записи делается на теорию,
+но для упрощения понимания я буду стараться приводить элементарные
+примеры реализации на языке &lt;em&gt;Java&lt;/em&gt; (выбранный как наиболее характерный
+представитель языков программирования, приспособленных для ООП), которые
+правда будут лишь иллюстрировать повествование, но не будут нести за
+собой никакой практической пользы.&lt;/p&gt;
+&lt;p&gt;Для начала можно рассматривать этого человека просто "со стороны": с
+этой точки зрения можно определить его рост, возраст, пол, цвет волос и
+глаз, и возможно какие-либо внешние признаки. Помимо этого можно
+предположить, что он обладает элементарными навыками, которые он успел
+продемонстрировать, проходя мимо Вас: он умеет ходить и еще, видимо,
+работать, правда не ясно кем.&lt;/p&gt;
+&lt;p&gt;Теперь посмотрим на него, как на объект, который необходимо
+смоделировать внутри программы. Внешние данные, перечисленные в
+предыдущем абзаце, станут &lt;em&gt;состоянием&lt;/em&gt;, которое необходимо будет описать
+примерно следующим образом в описании класса, экземпляром которого и
+будет впоследствии являться наш человек:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Human&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;height&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// рост&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;age&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// возраст&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;gender&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// пол&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;eyesColor&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// цвет глаз&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;hairColor&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// цвет волос&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Помимо этого мы говорили о его навыках, которые тоже необходимо здесь же
+упомянуть, для простоты не будем ничего сложного придумывать в плане
+реализации:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Human&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;height&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// рост&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;age&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// возраст&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;gender&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// пол&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;eyesColor&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// цвет глаз&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;hairColor&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// цвет волос&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;walk&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Я иду!"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;work&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Я работаю в большом офисном здании"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Пожалуй этого будет достаточно для перехода собственно к обсуждению
+первого из трех компонентов парадигмы.&lt;/p&gt;
+&lt;h3 id="nasledovanie"&gt;Наследование&lt;/h3&gt;
+&lt;p&gt;В отличии от реальной жизни, в рамках данной концепции наследование
+относится не к материальным вещам, а к переменным и методам класса. Тот
+класс, который передает "наследство", принято называть &lt;strong&gt;базовым&lt;/strong&gt;, а
+получателя "наследства", соответственно - &lt;strong&gt;наследующим&lt;/strong&gt;. Наследующий
+класс в дополнение к собственным методам и переменным получает еще и
+полный доступ ко всем переменным и методам базового класса (за некоторым
+исключением, о котором пойдет речь при разговоре об инкапсуляции, но обо
+всем по порядку).&lt;/p&gt;
+&lt;p&gt;Для иллюстрации этого механизма предлагаю предположить кем же мог
+работать наш человек. Для примера возьмем три варианта: менеджер,
+программист и директор. Менеджер будет уметь командовать подчиненными,
+программист писать код, а директор - ничего не делать. но не будем
+забывать, что человек, обладающий каждой из этих трех профессий, все же
+остается просто человеком и может выполнять все стандартные действия,
+которые мог бы выполнять обычный безработный, и обладать теми же
+признаками.&lt;/p&gt;
+&lt;p&gt;Конечно же можно было бы написать для каждой из профессии класс, просто
+добавив по одному методу, это выглядело бы примерно так:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Director&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;height&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// рост&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;age&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// возраст&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;gender&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// пол&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;eyesColor&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// цвет глаз&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;hairColor&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// цвет глаз&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;walk&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Я иду!"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;work&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Я работаю в большом офисном здании"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;idle&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Я ничего не делаю!"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Но такой подход годится только для людей даже краем уха не слышавших об
+ООП, ведь он далеко не самый эффективный, особенно с точки зрения
+затрачиваемого на написание кода времени. Воспользовавшись механизмом
+наследования, можно сократить как объем кода, так и время, затраченное
+на его написание. В используемом для примеров языке программирования
+Java, для этого достаточно лишь указать в заголовке наследующего класса
+ключевое слово &lt;em&gt;extends&lt;/em&gt; и название базового класса. Аналогичный
+предыдущему класс с использованием этого механизма существенно
+упрощается:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Director&lt;/span&gt; &lt;span class="kd"&gt;extends&lt;/span&gt; &lt;span class="n"&gt;Human&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;idle&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Я ничего не делаю!"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Как не трудно заметить объем кода существенно сократился, но это далеко
+не единственное преимущество. Помимо этого, например, если появится
+необходимость произвести изменения во всех профессиях - нужно будет
+произвести их один раз в базовом классе, а не три раза, как было бы в
+случае не использования наследования. А в некоторых случаях базовый
+класс может быть уже написан разработчиками языка программирования и для
+того чтобы им воспользоваться останется лишь написать пару волшебных
+слов.&lt;/p&gt;
+&lt;h3 id="polimorfizm"&gt;Полиморфизм&lt;/h3&gt;
+&lt;p&gt;Это слово пришло к нам из греческого языка, понимания этого термина
+легко достичь, просто переведя его на русский язык: &lt;code&gt;&amp;pi;&amp;omicron;&amp;lambda;ύ&amp;mu;&amp;omicron;&amp;rho;&amp;phi;&amp;omicron;&amp;sigmaf;&lt;/code&gt; - многоформенность. То есть в наиболее
+простом случае подразумевается использование одной и той же переменной
+(или массива) для хранения информации об объектах, описываемых разными
+классами. Представим, что нам необходим стандартизованный способ узнать
+кем же работает тот или иной человек, естественно для этого необходимо
+описание соответствующего метода для выполнения этой функции в каждом
+классе, причем он должен одинаково называться в каждом из них. Для
+реализации этого примера на языке Java нет необходимости использовать
+дополнительных ключевых слов (в отличие от, например, C#, где
+необходимо использование слова virtual в заголовке метода в базовом
+классе и override - в производных). Продолжая приводить примеры на Java
+имеем три производных класса (для упрощения опустим дополнительные
+методы, которые могли бы присутствовать):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Director&lt;/span&gt; &lt;span class="kd"&gt;extends&lt;/span&gt; &lt;span class="n"&gt;Human&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;work&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Я работаю директором!"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Programmer&lt;/span&gt; &lt;span class="kd"&gt;extends&lt;/span&gt; &lt;span class="n"&gt;Human&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;work&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Я работаю программистом!"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Manager&lt;/span&gt; &lt;span class="kd"&gt;extends&lt;/span&gt; &lt;span class="n"&gt;Human&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;work&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Я работаю менеджером!"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Для того, чтобы воспользоваться механизмом полиморфизма достаточно лишь
+написать функцию, которая будет создавать экземпляры наших классов и
+"спрашивать" к них кем они работают, выглядит это ничуть не сложнее, чем
+и описания классов, хочу лишь обратить Ваще внимание на то, что
+полиморфная переменная должна иметь тип базового класса:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;AskHuman&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;static&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;String&lt;/span&gt;&lt;span class="o"&gt;[]&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;Human&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;person&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Director&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+    &lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;work&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+    &lt;span class="n"&gt;person&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Manager&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+    &lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;work&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+    &lt;span class="n"&gt;person&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Programmer&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+    &lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;work&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;В ответ на выполнение этого мы метода мы получим каждую фразу из всех
+четырех классов, то есть не смотря на то, что у переменной заявлен тип
+базового класса, будут вызываться методы производных:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Я работаю директором! Я работаю менеджером! Я работаю программистом!&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Этот механизм расширяет возможности использования классов, позволяя
+более гибко использовать переменные и методы (да, этот механизм
+справедлив и для методов), а также позволяет писать более абстрактные
+программы и существенно упрощает работу программ, имеющих модульную
+структуру.&lt;/p&gt;
+&lt;p&gt;Также имеет смысл упомянуть, что в некоторых языках программирования
+существует такое понятие как &lt;strong&gt;интерфейс&lt;/strong&gt;, предназначенное именно для
+стандартизации механизма полиморфизма. Смысл интерфейса состоит в том,
+что он предоставляет классу список методов, которые класс &lt;em&gt;обязан&lt;/em&gt;
+реализовать (ключевое слово в Java - &lt;code&gt;implements&lt;/code&gt;), при этом сам
+интерфейс не содержит какой-либо реализации и может быть только
+определен. Выглядит примерно следующим образом:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;interface&lt;/span&gt; &lt;span class="nc"&gt;Worker&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;work&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Director&lt;/span&gt; &lt;span class="kd"&gt;extends&lt;/span&gt; &lt;span class="n"&gt;Human&lt;/span&gt; &lt;span class="kd"&gt;implements&lt;/span&gt; &lt;span class="n"&gt;Worker&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;work&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Я работаю директором!"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Programmer&lt;/span&gt; &lt;span class="kd"&gt;extends&lt;/span&gt; &lt;span class="n"&gt;Human&lt;/span&gt; &lt;span class="kd"&gt;implements&lt;/span&gt; &lt;span class="n"&gt;Worker&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;work&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Я работаю программистом!"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Manager&lt;/span&gt; &lt;span class="kd"&gt;extends&lt;/span&gt; &lt;span class="n"&gt;Human&lt;/span&gt; &lt;span class="kd"&gt;implements&lt;/span&gt; &lt;span class="n"&gt;Worker&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;work&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Я работаю менеджером!"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;В этом случае производные классы будут &lt;em&gt;обязаны&lt;/em&gt; иметь метод work, что
+даст гарантию классу AskHuman, что он не вызовет несуществующий метод.&lt;/p&gt;
+&lt;h3 id="inkapsuliatsiia"&gt;Инкапсуляция&lt;/h3&gt;
+&lt;p&gt;Наверняка Вы уже задавались вопросом о том, что же значит слово
+&lt;code&gt;public&lt;/code&gt; во всех предыдущих примерах. Это ключевое слово является
+частью реализации механизма инкапсуляции в языке Java, суть его состоит
+в том, чтобы дать возможность определить &lt;em&gt;область видимости&lt;/em&gt; для
+составных частей класса, это очень актуально при написании ПО,
+использующего библиотеки, plug-in'ы или при написании программы группой
+людей. Ведь если Ваш класс подразумевает какие-либо ограничения для
+переменных или методов (например - возраст не может быть отрицательным),
+то их легко обойти воспользовавшись прямым доступом к ним из-за пределов
+класса или просто выполнив наследование.&lt;/p&gt;
+&lt;p&gt;Для предотвращения этого используется система параметров, назначаемых
+переменным и методам внутри класса для присвоения им "уровней доступа"
+(на примере опять же Java, но в большинстве известных мне
+высокоуровневых языков используется та же система):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;public&lt;/code&gt; - назначается по-умолчанию - полностью свободный доступ&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;private&lt;/code&gt; - доступ предоставляется &lt;em&gt;только&lt;/em&gt; другим компонентам
+   класса&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;protected&lt;/code&gt; - доступ предоставляется остальным компонентам класса,
+   а также всем &lt;em&gt;наследникам&lt;/em&gt; данного класса&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Данный механизм является незаменимым помощником разработчиков любых
+более-менее крупных проектов, следующих принципам ООП.&lt;/p&gt;
+&lt;h4&gt;Вместо заключения&lt;/h4&gt;
+&lt;p&gt;Казалось бы бестолковая история про человека, идущего на работу,
+позволила Вам получить базовое представление об основах
+объектно-ориентированного программирования. Надеюсь у меня не раз еще
+найдется повод вернуться к обсуждению этой парадигмы.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sat, 05 Jan 2008 22:28:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-01-05:theory/2008/tri-osnovnyx-komponenta-paradigmy-obektno-orientirovannogo-programmirovaniya/</guid><category>инкапсуляция</category><category>интерфейс</category><category>наследование</category><category>объектно-ориентированное программирование</category><category>ООП</category><category>парадигма</category><category>полиморфизм</category><category>Программирование</category><category>программное обеспечение</category></item><item><title>Объектно-ориентированное программирование: а что же это?</title><link>https://www.insight-it.ru//theory/2008/obektno-orientirovannoe-programmirovanie-a-chto-zhe-eto/</link><description>&lt;p&gt;Находишься в поисках способов облегчить свой труд в процессе написания
+программного обеспечения? - об одном из них мы сегодня и поговорим.&lt;/p&gt;
+&lt;p&gt;Сама концепция &lt;a href="/tag/oop/"&gt;этого подхода&lt;/a&gt; к программированию достаточно
+проста для понимания, и заключается она в...&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;...совокупности достаточно большого количества факторов, о которых и
+пойдет речь ниже (надеюсь Вы не ожидали увидеть пост, состоящий из двух
+предложений).&lt;/p&gt;
+&lt;p&gt;Хочется верить, что Вам уже доводилось иметь хоть какой-либо опыт в
+программировании, иначе я не могу гарантировать что значения всех слов,
+которыми я буду оперировать в процессе написания, будет для Вас
+очевидным.&lt;/p&gt;
+&lt;p&gt;Для начала напомню тот факт, что в языках высокого уровня простейшими
+элементами, доступными программисту, являются:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;переменная&lt;/em&gt; и &lt;em&gt;константа&lt;/em&gt; - указатель на ячейку памяти заранее
+    определенной длинны, содержащую какие-либо данные. Различие в том,
+    что константа обычно заранее определена, а содержимое переменных
+    вычисляется в процессе работы программы.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;функция, процедура и оператор&lt;/em&gt; - по сути представляют собой
+    логически обособленную часть программы. Точную границу между этими
+    тремя терминами провести сложно, да и не важна она, могу лишь
+    упомянуть, что процедуры не возвращают значения и, как следствие,не
+    могут использоваться внутри выражений.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Ни для кого не секрет, что набор ноликов и единичек, содержащийся в
+переменной, должен каким-то образом интерпретироваться программой.
+Способы интерпретации данных программой принято называть &lt;strong&gt;тип данных&lt;/strong&gt;.
+Помимо базовых типов, которые можно найти в практически любом языке
+программирования высокого уровня (в основном числовые и символьные
+данные разных видов), большинство из них позволяют программистам
+определять собственные типы данных, которые
+могут представлять собой практически что угодно, но на одной категории
+определяемых программистом типов данных стоит остановиться по-подробнее:&lt;/p&gt;
+&lt;h3 id="klass"&gt;Класс&lt;/h3&gt;
+&lt;p&gt;У многих из вас это слово наверняка вызывает множество ассоциаций,
+связанных как минимум со школой, и возможно с какими-либо науками, ведь
+это слово имеет достаточно много значений.&lt;/p&gt;
+&lt;p&gt;Если же по смотреть на слово класс с точки зрения программирования, то
+он представляет собой тип данных, состоящий из совокупности переменных,
+констант, и функций (которые принято называть &lt;em&gt;методами&lt;/em&gt;). Все вместе
+они служат общей цели - смоделировать возможное поведение некоторого
+&lt;strong&gt;объекта&lt;/strong&gt;. Не сомневаюсь, что у большинства из вас возник вопрос: что
+же имеется в виду под этим словом в программировании?&lt;/p&gt;
+&lt;h3 id="obekt"&gt;Объект&lt;/h3&gt;
+&lt;p&gt;Для простоты понимания это слово можно воспринимать буквально - как
+некую сущность, находящуюся в каком-либо состоянии и имеющую возможность
+совершать некий набор действий. Также как и реальные объекты, объекты
+"компьютерные" живут своей &lt;em&gt;жизнью&lt;/em&gt;: рождением считается создание
+объекта (выделение памяти), а смертью - уничтожение (освобождение
+памяти). Промежуток между этими двумя событиями принято называть
+&lt;em&gt;временем жизни&lt;/em&gt; объекта.&lt;/p&gt;
+&lt;p&gt;Если же есть желание взглянуть на объект с технической точки зрения, то
+он представляет собой экземпляр какого-либо класса, то есть как раз
+указатель на область оперативной памяти, данные по которому подчиняются
+"правилам", установленными в соответствующем классе. То есть для него
+могут выполняться заранее определенные функции, что будет приводить к
+определенным изменениям в его состоянии (то есть совокупности
+переменных).&lt;/p&gt;
+&lt;p&gt;Все написанное выше можно считать лишь неким подобием введения в ООП,
+дающим поверхностное представление о том, что же понимают под этой
+странновато звучащей фразой, и на какие же "&lt;a href="/tag/obekt/"&gt;"объекты"&lt;/a&gt;
+нужно "ориентироваться". Сама же теория является намного более обширной,
+и я собираюсь еще не раз вернуться к ее обсуждению в теории и с более
+практической точки. Например, возможно для многих остался не ясным
+вопрос: какие же преимущества предоставляет использование ООП перед
+более традиционным функциональным программированием? Ответить на него я
+и собираюсь в одном из следующих постов, не пропустить публикацию
+которого можно с помощью &lt;a href="/feed/"&gt;RSS&lt;/a&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Fri, 04 Jan 2008 21:39:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-01-04:theory/2008/obektno-orientirovannoe-programmirovanie-a-chto-zhe-eto/</guid><category>класс</category><category>объект</category><category>объектно-ориентированное программирование</category><category>ООП</category><category>ПО</category><category>Программирование</category><category>программное обеспечение</category></item><item><title>Пара простых способов повысить эффективность написания кода</title><link>https://www.insight-it.ru//theory/2008/para-prostyx-sposobov-povysit-effektivnost-napisaniya-koda/</link><description>&lt;p&gt;Начнем, пожалуй, издалека: если рассматривать процесс программирования
+чуть более глобально, чем просто как дальний синоним слова
+&lt;em&gt;&lt;a href="/tag/koding/"&gt;coding&lt;/a&gt;&lt;/em&gt;, то нетрудно прийти к выводу, что реализация
+хоть сколько-нибудь большого проекта невозможна просто с помощью
+следования банальному алгоритму: сесть за компьютер, бросить взгляд на
+ТЗ, открыть любимый текстовый редактор, взять в зубы клавиатуру и
+написать. Если говорить о проектах уровня "Hello, world!" такой алгоритм
+вполне пригоден для реального использования, но как только речь заходит
+о чем-либо более серьезном и полномасштабным, такой подход сразу
+начинает порождать несметное количество проблем.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Основными причинами этого явления я бы назвал ограниченность ресурсов
+одного человека и отсутствие какой-либо стандартизации. Количество строк
+кода, которые кодер в состоянии писать в единицу времени ограниченно не
+только скоростью набора символов на клавиатуре, но и аналитическими
+способностями: начиная с какого-то момента человек тупо начинает
+забывать где у него находилась, например, та или иная функция или что
+значит та или иная переменная / константа.&lt;/p&gt;
+&lt;p&gt;Временным спасением от подобного рода проблем может послужить привычка
+грамотно оформлять код:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Размещение строго по одному выражению на строке в комбинации с
+    поддающимся хоть какой-либо логике расставления отступов в начале
+    строки позволяет избежать потерянных выражений и четко понимать: а
+    где же заканчивает вон то-о-от цикл?&lt;/li&gt;
+&lt;li&gt;Осмысленные названия переменных резко сокращают время, необходимое
+    для осознавания ответа на вопрос "а что же она значила?" Мне
+    доводилось не раз сталкивался с кодом, написанным с использованием в
+    качестве абсолютно всех переменных разнообразных букв латинского
+    алфавита - мало того что изменить их на что-либо другое как
+    автозаменой, так и RegExp'ами проблематично, так и на разобраться
+    что к чему ушло очень продолжительный период времени. Существует
+    большое количество более адекватных способов названия переменных и
+    функций, перечислять их все смысла не вижу, по-этому кратенько
+    расскажу о том, которым предпочитаю пользоваться сам: алгоритм прост
+    как три копейки - название соответствует переведенному на английский
+    смыслу (переменную, содержащую чье-либо имя называем name), в случае
+    если слов требуется более одного слова - пишем их слитно, начиная
+    все кроме первого с заглавной буквы (например: veryLongName), и по
+    старинной традиции делаем исключение для индексов циклов, которые
+    называем буквами латинского алфавита начиная с &lt;em&gt;i&lt;/em&gt; и далее по
+    списку. Вот собственно говоря банальный способ, позволяющий в очень
+    сжатые сроки вспомнить как называлась переменная, содержащее имя :)&lt;/li&gt;
+&lt;li&gt;Подавляющее большинство языков программирования поддерживает
+    &lt;em&gt;разбавление&lt;/em&gt; кода комментариями, что существенно упрощает
+    ориентирование в &lt;em&gt;объемистых&lt;/em&gt; листингах как самим автором, так и
+    всеми остальными персонами, которым по тем или иным причинам
+    доведется в последствии читать &lt;em&gt;произведение.&lt;/em&gt; Особенно этот способ
+    актуален для низкоуровневых языков программирования, так как с
+    первого взгляда на код даже его автору порой проблематично
+    определить его значение.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Все вышесказанное хоть и упрощает процесс программирования (хотя в этом
+предложении более подходящим является слово &lt;em&gt;&lt;a href="/tag/koding/"&gt;кодинг&lt;/a&gt;&lt;/em&gt;), но
+не позволяет избежать большей части потенциальных проблем, связанных с
+крупномасштабными проектами. Существует множество способов борьбы с
+издержками от масштаба проекта, такие как компонентно-ориентированное и
+объектно-ориентированное программирование, различные формы анализа и
+проектирования.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Thu, 03 Jan 2008 20:52:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-01-03:theory/2008/para-prostyx-sposobov-povysit-effektivnost-napisaniya-koda/</guid><category>код</category><category>кодинг</category><category>название переменных</category><category>Программирование</category><category>реализация</category><category>форматирование текста</category></item></channel></rss>

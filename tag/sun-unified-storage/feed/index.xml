@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/sun-unified-storage/feed/index.xml" rel="self"></atom:link><lastBuildDate>Wed, 13 Jan 2010 20:34:00 +0300</lastBuildDate><item><title>Sun Unified Storage</title><link>https://www.insight-it.ru//storage/2010/sun-unified-storage/</link><description>&lt;p&gt;По работе мне доводилось активно "иметь дело" с железкой от Sun под
+названием &lt;a href="https://www.insight-it.ru/goto/683a31cf/" rel="nofollow" target="_blank" title="http://www.sun.com/storage/disk_systems/unified_storage/7410/"&gt;Sun Unified Storage 7410&lt;/a&gt;.
+Представляет собой достаточно мощную систему хранения данных с
+установленным Solaris, но доступом и управлением исключительно через
+веб-интерфейс. Основной "фишкой" системы является модульность: дисковый
+массив наращивается подключаемыми внешне дисковыми модулями по примерно
+20-50ТБ, сетевой интерфейс также модульный - на выбор начиная от
+нескольких обычных Ethernet по 1GBps и заканчивая оптоволокном, CX4 или
+InfiniBand. Две таких машины можно легко объединить в одну
+виртуальную&amp;nbsp;для повышения надежности доступа к данным, подключив к ним
+общий дисковый массив. RAID используется софтверный средствами ZFS,
+вполне стандартный набор опций из зеркалирования, stripe, RAID5/6 и их
+комбинаций.&lt;/p&gt;
+&lt;p&gt;С точки зрения производительности тоже достаточно интересная штука: при
+подключении через 4x 1GBps Ethernet (с использованием LACP, но это тема
+для отдельного поста) определенно упирается в сеть, но все равно отлично
+подходит для использования в решении многих прикладных задач. Из
+интересных опций можно отметить прозрачное использование нескольких
+SSD-дисков в каждом дисковом массиве в роли кэша.&lt;/p&gt;
+&lt;p&gt;Все функции системы абсолютно прозрачны и настраиваются в несколько
+кликов через веб-интерфейс, командная строка хоть при желании и
+доступна, но практически не нужна. Там же можно увидеть статистику
+использования подсистем и прочую полезную информацию. В целом отличная
+система хранения данных: простая, надежная, быстрая, удобная,
+вместительная и масштабируемая, правда с одним большим НО - цена просто
+зашкаливает, прицениться можно, сходив по ссылке в начале записи, но
+вообще есть и более дешевые модели в этой серии.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;К чему я это&amp;nbsp;все вспомнил?&lt;/em&gt; На почту пришел очередной рекламный буклет
+от Sun с &lt;a href="https://www.insight-it.ru/goto/78e197bb/" rel="nofollow" target="_blank" title="https://dct.sun.com/dct/forms/reg_us_1308_670_0.jsp"&gt;предложением попробовать Sun Unified Storage в виртуальной машине VirtualBox или VMWare&lt;/a&gt;, сам еще не
+установил - времени не нашлось, но возможно Вам покажется интересным.
+Конечно это не совсем то же самое, что и физическая железка -
+производительность дисковых и сетевых подсиситем не померять, но
+веб-интерфейс заценить можно.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Wed, 13 Jan 2010 20:34:00 +0300</pubDate><guid>tag:www.insight-it.ru,2010-01-13:storage/2010/sun-unified-storage/</guid><category>7410</category><category>Solaris</category><category>Sun</category><category>Sun Unified Storage</category><category>VirtualBox</category><category>VMWare</category></item></channel></rss>

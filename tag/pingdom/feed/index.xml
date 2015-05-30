@@ -1,0 +1,1281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/pingdom/feed/index.xml" rel="self"></atom:link><lastBuildDate>Fri, 13 Apr 2012 20:11:00 +0400</lastBuildDate><item><title>Архитектура Instagram</title><link>https://www.insight-it.ru//highload/2012/arkhitektura-instagram/</link><description>&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/a8e562b3/" rel="nofollow" target="_blank" title="https://instagram.com/"&gt;Instagram&lt;/a&gt; - всего лишь &lt;a href="/tag/ios/"&gt;iOS&lt;/a&gt;, а теперь
+и &lt;a href="/tag/android/"&gt;Android&lt;/a&gt;, приложение для обмена фотографиями с
+друзьями. Последнее время находится на слуху благодаря новости о покупке
+проекта &lt;a href="/tag/facebook/"&gt;Facebook&lt;/a&gt;'ом за кругленькую сумму. Недавно один
+из основателей проекта, Mike Krieger, выступил на конференции с докладом
+о техническом аспекте проекта, который я и хотел бы вкратце пересказать.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h2 id="statistika"&gt;Статистика&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Начало:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;1 сервер слабее Macbook Pro&lt;/li&gt;
+&lt;li&gt;25к регистраций в первый день&lt;/li&gt;
+&lt;li&gt;2 разработчика&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Сегодня:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;40+ миллионов пользователей&lt;/li&gt;
+&lt;li&gt;100+ виртуальных серверов в EC2, в том числе:&lt;/li&gt;
+&lt;li&gt;Проект куплен Facebook за &lt;em&gt;1 млрд. долл&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;1 миллион регистраций за 12 часов после запуска Android-версии&lt;/li&gt;
+&lt;li&gt;5 разработчиков&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="tekhnologii"&gt;Технологии&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/ubuntu/"&gt;Ubuntu&lt;/a&gt; &lt;a href="/tag/linux/"&gt;Linux&lt;/a&gt; 11.04&lt;/strong&gt; - основная
+операционная система&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/python/"&gt;Python&lt;/a&gt;&lt;/strong&gt; - основной язык программирования серверной части&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/django/"&gt;Django&lt;/a&gt;&lt;/strong&gt; - фреймворк&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/amazon/"&gt;&lt;strong&gt;Amazon&lt;/strong&gt;&lt;/a&gt;:&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/ec2/"&gt;EC2&lt;/a&gt;&lt;/strong&gt;&amp;nbsp;- хостинг&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/elb/"&gt;ELB&lt;/a&gt;&lt;/strong&gt;&amp;nbsp;- балансировка входящих HTTP-запросов&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/route53/"&gt;Route53&lt;/a&gt;&lt;/strong&gt; - DNS&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/s3/"&gt;S3&lt;/a&gt;&lt;/strong&gt; - хранение фотографий&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/cloudfront/"&gt;CloudFront&lt;/a&gt;&lt;/strong&gt; - &lt;a href="/tag/cdn/"&gt;CDN&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/nginx/"&gt;nginx&lt;/a&gt;&lt;/strong&gt; - второй уровень балансировки входящихHTTP-запросов&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/gunicorn/"&gt;gunicorn&lt;/a&gt;&lt;/strong&gt; - WSGI-сервер&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/haproxy/"&gt;&lt;strong&gt;HAProxy&lt;/strong&gt;&lt;/a&gt;&amp;nbsp;- балансировка нагрузки внутри системы&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/postgresql/"&gt;&lt;strong&gt;PostgreSQL&lt;/strong&gt;&lt;/a&gt; - основное хранилище данных&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/postgis/"&gt;&lt;strong&gt;postgis&lt;/strong&gt;&lt;/a&gt; - поддержка гео-запросов&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/pgfouine/"&gt;&lt;strong&gt;pgfouine&lt;/strong&gt;&lt;/a&gt; - отчеты на основе логов&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/pgbouncer/"&gt;pgbouncer&lt;/a&gt;&lt;/strong&gt; - создание пула соединений&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/redis/"&gt;&lt;strong&gt;Redis&lt;/strong&gt;&lt;/a&gt; - дополнительное хранилище данных&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/memcached/"&gt;&lt;strong&gt;Memcached&lt;/strong&gt;&lt;/a&gt; - кэширование&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/gearman/"&gt;&lt;strong&gt;Gearman&lt;/strong&gt;&lt;/a&gt; - очередь задач&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/solr/"&gt;&lt;strong&gt;Solr&lt;/strong&gt;&lt;/a&gt; - гео-поиск&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/munin/"&gt;munin&lt;/a&gt;&lt;/strong&gt;, &lt;a href="/tag/statsd/"&gt;&lt;strong&gt;statsd&lt;/strong&gt;&lt;/a&gt;, &lt;a href="/tag/pingdom/"&gt;&lt;strong&gt;pingdom&lt;/strong&gt;&lt;/a&gt; - мониторинг&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/fabric/"&gt;&lt;strong&gt;Fabric&lt;/strong&gt;&lt;/a&gt; - управление кластером&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/xfs/"&gt;&lt;strong&gt;xfs&lt;/strong&gt;&lt;/a&gt; - файловая система&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="filosofiia"&gt;Философия&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;Простота&lt;/li&gt;
+&lt;li&gt;Минимизация операционных издержек&lt;/li&gt;
+&lt;li&gt;Использование подходящих инструментов&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="istoriia"&gt;История&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Забыли сделать &lt;strong&gt;favicon.ico&lt;/strong&gt; до запуска - в первый же день логи
+пестрили ошибками 404&lt;/li&gt;
+&lt;li&gt;Для хранения данных использовали просто &lt;strong&gt;Django &lt;a href="/tag/orm/"&gt;ORM&lt;/a&gt;&lt;/strong&gt; и
+&lt;strong&gt;PostgreSQL&lt;/strong&gt; (из-за postgis)&lt;/li&gt;
+&lt;li&gt;Начали с одного слабого сервера, после успешного запуска решили
+переехать на &lt;strong&gt;EC2&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Довольно быстро пришлось вынести &lt;a href="/tag/subd/"&gt;СУБД&lt;/a&gt; на отдельный сервер
+(виртуальный, естественно)&lt;/li&gt;
+&lt;li&gt;Количество фотографий продолжало расти и расти, даже самый большой
+инстанс &lt;strong&gt;EC2&lt;/strong&gt; не справлялся&lt;/li&gt;
+&lt;li&gt;Решили вертикально разделить данные на несколько баз, с использованием
+механизма &lt;strong&gt;routers&lt;/strong&gt; из ORM, параллельно избавившись от внешних ключей&lt;/li&gt;
+&lt;li&gt;Через несколько месяцев суммарный размер базы данных перевалил за 60Гб и
+перестало справляться и это решение&lt;/li&gt;
+&lt;li&gt;Следующим шагом стало горизонтальное разбиение данных &lt;em&gt;(sharding)&lt;/em&gt;:&lt;/li&gt;
+&lt;li&gt;Создали несколько тысяч логических баз данных.&lt;/li&gt;
+&lt;li&gt;Распределили их по существенно меньшему количеству физических серверов (читай: виртуальных машин).&lt;/li&gt;
+&lt;li&gt;Написали свой механизм определения где искать какую базу данных, с поддержкой миграции (вероятно тоже на основе routers).&lt;/li&gt;
+&lt;li&gt;По последним данным под &lt;strong&gt;PostgreSQL&lt;/strong&gt; используется 12+12 виртуальных
+машин с максимальной оперативной памятью (68.4Гб), а также сетевые диски
+EBS, объединенные в программный RAID посредством mdadm. Это необходимо,
+чтобы весь массив данных помещался в памяти, EBS не в состоянии
+обеспечить достаточную производительность.&lt;/li&gt;
+&lt;li&gt;С некоторыми задачами лучше справляется &lt;strong&gt;Redis&lt;/strong&gt;:&lt;/li&gt;
+&lt;li&gt;Для каждого пользователя в Redis есть список идентификаторов новых
+фотографий от других пользователей, на которых он подписан.&lt;/li&gt;
+&lt;li&gt;При отображении потока новых для пользователя фотографий делается
+выборка части такого списка, после чего посредством multiget достается
+подробная о них информация из memcached.&lt;/li&gt;
+&lt;li&gt;Пробовали возложить на него задачу хранения списков подписчиков, но в
+итоге вернулись к решению на &lt;strong&gt;PostgreSQL&lt;/strong&gt; с небольшим кэшированием.&lt;/li&gt;
+&lt;li&gt;В Redis также хранится информация о сессиях.&lt;/li&gt;
+&lt;li&gt;Несколько фактов о Redis:&lt;ul&gt;
+&lt;li&gt;Так как все находится в памяти - очень быстрые операции записи и работы с множествами.&lt;/li&gt;
+&lt;li&gt;Является не заменой, а дополнением к основному хранилищу данных.&lt;/li&gt;
+&lt;li&gt;Redis хорош для структур данных, которые относительно ограничены.&lt;/li&gt;
+&lt;li&gt;Отлично подходит для кэширования комплексных структур данных, где нужно большее, чем просто получить значение по ключу (например - счетчики, подмножества, проверка вхождения в множества).&lt;/li&gt;
+&lt;li&gt;Механизм репликации (посредством slaveof) позволяет легко
+масштабировать операции чтения.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Пользователи синхронно загружают фотографии на медиа-сервер с
+(опциональными) заголовком и месте на карте, все остальное происходит
+асинхронно посредством очередей, например:&lt;ul&gt;
+&lt;li&gt;Сохраняются гео-метки, обновляется &lt;strong&gt;Solr&lt;/strong&gt; (который впоследствии заменил postgis).&lt;/li&gt;
+&lt;li&gt;Идентификатор нового фото добавляется в обсуждавшиеся выше списки для всех подписчиков автора.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Поначалу использовали &lt;a href="/tag/apache/"&gt;Apache&lt;/a&gt; + &lt;code&gt;mod_wsgi&lt;/code&gt; для запуска
+&lt;strong&gt;Django&lt;/strong&gt;, впоследствии перешли к gunicorn из-за меньшего потребления
+ресурсов и простоты настройки.&lt;/li&gt;
+&lt;li&gt;С недавних пор начали использовать&amp;nbsp;&lt;strong&gt;Amazon ELB&lt;/strong&gt;&amp;nbsp;вместо &lt;strong&gt;DNS
+round-robin&lt;/strong&gt; для первичной балансировки входяших HTTP-запросов, что
+позволило:&lt;/li&gt;
+&lt;li&gt;избежать необходимости дешифровки &lt;a href="/tag/ssl/"&gt;&lt;strong&gt;SSL&lt;/strong&gt;&lt;/a&gt; посредством nginx;&lt;/li&gt;
+&lt;li&gt;ускорить исключение из балансировки проблемных серверов.&lt;/li&gt;
+&lt;li&gt;Благодаря использованию &lt;strong&gt;xfs&lt;/strong&gt; есть возможность "замораживать" и
+"размораживать" дисковые массивы при резервном копировании.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="podvodim-itogi"&gt;Подводим итоги&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Многие проблемы с масштабируемостью - результат банальных
+    человеческих ошибок.&lt;/li&gt;
+&lt;li&gt;Масштабирование = замена всех деталей в машине на скорости 150 км/ч.&lt;/li&gt;
+&lt;li&gt;Заранее сложно узнать как в основном будут обращаться к данным, без
+    реального использования.&lt;/li&gt;
+&lt;li&gt;В первую очередь попытайтесь адаптировать известные Вам технологии и
+    инструменты для создания простого и понятного решения, прежде чем
+    бросаться на поиски чего-то нетривиального.&lt;/li&gt;
+&lt;li&gt;Дополните свое основное хранилище более гибким компонентом, вроде
+    Redis.&lt;/li&gt;
+&lt;li&gt;Постарайтесь не использовать два инструмента для решения одной и той
+    же задачи.&lt;/li&gt;
+&lt;li&gt;Оставайтесь гибкими и ловкими = напоминайте себе о том, что на самом
+    деле имеет значение.&lt;/li&gt;
+&lt;li&gt;Разрабатывайте решения, к которым не придется постоянно возвращаться
+    из-за их сбоев.&lt;/li&gt;
+&lt;li&gt;Активное юнит- и функциональное тестирование стоят потраченного на
+    них времени.&lt;/li&gt;
+&lt;li&gt;DRY: не делайте одну и ту же работу несколько раз.&lt;/li&gt;
+&lt;li&gt;Слабая связанность посредством уведомлений или сигналов позволяет
+    легко менять структуру проекта.&lt;/li&gt;
+&lt;li&gt;Дисковый ввод-вывод часто оказывается узким местом, особенно на EC2.&lt;/li&gt;
+&lt;li&gt;Спускаться до C нужно только при необходимости, большую часть работы
+    лучше делать в Python.&lt;/li&gt;
+&lt;li&gt;Короткий цикл разработки - залог быстрого развития.&lt;/li&gt;
+&lt;li&gt;Частые совместные рассмотрения кода нужны, чтобы все были в курсе
+    происходящего.&lt;/li&gt;
+&lt;li&gt;Не изобретайте велосипед.&lt;/li&gt;
+&lt;li&gt;Окружите себя с толковыми &lt;a href="https://www.insight-it.ru/consulting/"&gt;консультантами&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Культура открытости вокруг разработки.&lt;/li&gt;
+&lt;li&gt;Делитесь с &lt;a href="/tag/opensource/"&gt;opensource&lt;/a&gt; сообществом.&lt;/li&gt;
+&lt;li&gt;Фокусируйтесь на том, что вы делаете лучше всего.&lt;/li&gt;
+&lt;li&gt;Вашим пользователям абсолютно без разницы, написали ли Вы
+    собственную СУБД или нет.&lt;/li&gt;
+&lt;li&gt;Не переоптимизируйте и не предполагайте заранее как сайт будет
+    расти.&lt;/li&gt;
+&lt;li&gt;Не рассчитывайте, что "кто-то еще присоединится к команде и
+    разберется с этим".&lt;/li&gt;
+&lt;li&gt;Для социальных стартапов очень мало, или даже совсем нет, нерешимых
+    вопросов, связанных с масштабируемостью.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="istochnik-informatsii"&gt;Источник информации&lt;/h2&gt;
+&lt;p&gt;Упоминавшаяся во вступлении неприлично длинная презентация из 185
+слайдов:&lt;/p&gt;
+&lt;iframe class="scribd_iframe_embed" data-aspect-ratio="" data-auto-height="true" frameborder="0" height="600" id="doc_73113" scrolling="no" src="http://www.scribd.com/embeds/89025069/content?start_page=1&amp;amp;view_mode=scroll" width="100%"&gt;&lt;/iframe&gt;
+&lt;p&gt;На видео, к сожалению, это выступление не записывалось.&lt;/p&gt;
+&lt;p&gt;Часть информации взята из &lt;a href="https://www.insight-it.ru/goto/ce2d4e38/" rel="nofollow" target="_blank" title="http://instagram-engineering.tumblr.com/"&gt;технического блога Instagram&lt;/a&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Fri, 13 Apr 2012 20:11:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-04-13:highload/2012/arkhitektura-instagram/</guid><category>Amazon</category><category>Android</category><category>CloudFront</category><category>django</category><category>EC2</category><category>ELB</category><category>Fabric</category><category>Facebook</category><category>gearman</category><category>gunicorn</category><category>HAProxy</category><category>Intagram</category><category>iOS</category><category>Linux</category><category>Memcached</category><category>Munin</category><category>nginx</category><category>ORM</category><category>pgbouncer</category><category>pgFouine</category><category>Pingdom</category><category>postgis</category><category>PostgreSQL</category><category>Python</category><category>Redis</category><category>Route53</category><category>S3</category><category>Solr</category><category>statsd</category><category>Ubuntu</category><category>WSGI</category><category>xfs</category><category>Архитектура Instagram</category></item><item><title>Архитектура Stack Exchange Network</title><link>https://www.insight-it.ru//highload/2011/arkhitektura-stack-exchange-network/</link><description>&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/8d9e30a4/" rel="nofollow" target="_blank" title="http://stackexchange.com/"&gt;Stack Exchange Network&lt;/a&gt; представляет собой
+сеть из 46 сайтов вопросов-ответов на совершенно разные темы от
+программирования до кулинарии. Проект вырос из известной в узких кругах
+тусовки программистов &lt;a href="https://www.insight-it.ru/goto/dd7cd9bb/" rel="nofollow" target="_blank" title="http://stackoverflow.com/"&gt;Stack Overflow&lt;/a&gt;, об
+архитектуре которой &lt;a href="https://www.insight-it.ru/highload/2010/arkhitektura-stack-overflow/"&gt;я уже рассказывал&lt;/a&gt; чуть больше года назад. Проект активно развивается и уже появилось приличное количество новой информации, которой я и спешу с Вами поделиться.
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;h2 id="statistika"&gt;Статистика&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;95 миллионов просмотров страниц в месяц&lt;/li&gt;
+&lt;li&gt;800 HTTP запросов в секунду&lt;/li&gt;
+&lt;li&gt;180 DNS запросов в секунду&lt;/li&gt;
+&lt;li&gt;Загруженность интернет-канала в 55 Мбит/с&lt;/li&gt;
+&lt;li&gt;16 миллионов уникальных пользователей в месяц&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="tekhnologii"&gt;Технологии&lt;/h2&gt;
+&lt;h3 id="razrabotka"&gt;Разработка&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/c/"&gt;C#&lt;/a&gt; - основной язык программирования&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/visual-studio/"&gt;Visual Studio 2010 Team Suite&lt;/a&gt; -&amp;nbsp;IDE&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/asp-net/"&gt;Microsoft ASP.NET 4.0&lt;/a&gt; - framework&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/asp-net-mvc/"&gt;ASP.NET MVC 3&lt;/a&gt; -&amp;nbsp;web Framework&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/razor/"&gt;Razor&lt;/a&gt; - генератор шаблонов&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/jquery/"&gt;jQuery 1.4.2&lt;/a&gt; - JavaScript framework&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/linq-to-sql/"&gt;LINQ to SQL&lt;/a&gt; и немного чистого SQL - доступ к
+    данным&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/mercurial/"&gt;Mercurial&lt;/a&gt; и &lt;a href="/tag/kiln/"&gt;Kiln&lt;/a&gt; - контроль версий
+    исходного кода&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/beyond-compare/"&gt;Beyond Compare 3&lt;/a&gt; - инструмент для сравнения&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="programmnoe-obespechenie"&gt;Программное обеспечение&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/886b3540/" rel="nofollow" target="_blank" title="http://stackoverflow.com/questions/177901/what-does-wisc-stack-mean"&gt;WISC&lt;/a&gt;
+    стек получен условно-бесплатно с
+    помощью&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/b478b941/" rel="nofollow" target="_blank" title="http://blog.stackoverflow.com/2009/03/stack-overflow-and-bizspark/"&gt;BizSpark&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/windows-server/"&gt;Windows Server&lt;/a&gt;&lt;a href="/tag/windows-server-2008/"&gt;2008 R2
+    x64&lt;/a&gt; - основная операционная система&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/ms-sql-server-2008/"&gt;MS SQL Server 2008 R2&lt;/a&gt; на&amp;nbsp;&lt;a href="/tag/windows-server-2008/"&gt;Windows Server
+    2008 Enterprise Edition x64&lt;/a&gt; - база
+    данных&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/ubuntu-server/"&gt;Ubuntu Server&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/centos/"&gt;CentOS&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/iis/"&gt;IIS 7.0&lt;/a&gt; - веб-сервер&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/haproxy/"&gt;HAProxy&lt;/a&gt; - балансировка нагрузки&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/redis/"&gt;Redis&lt;/a&gt; - используется как распределенная система
+    кэширования&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/cruisecontrol-net/"&gt;CruiseControl.NET&lt;/a&gt; - сборки и
+    автоматическая система развертывания кода&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/lucene/"&gt;Lucene.NET&lt;/a&gt; - полнотекстовый поиск&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/bacula/"&gt;Bacula&lt;/a&gt; - резервное копирование&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/nagios/"&gt;Nagios&lt;/a&gt; (с
+    плагинами&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/d576a9fc/" rel="nofollow" target="_blank" title="http://n2rrd.diglinks.com/cgi-bin/trac.fcgi"&gt;n2rrd&lt;/a&gt; и
+    &lt;a href="https://www.insight-it.ru/goto/9b00fbb3/" rel="nofollow" target="_blank" title="http://web.taranis.org/drraw/"&gt;drraw&lt;/a&gt;) для мониторинга&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/splunk/"&gt;Splunk&lt;/a&gt; - сбор и агрегация логов&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/sql-monitor/"&gt;SQL Monitor&lt;/a&gt; от&amp;nbsp;Red Gate - мониторинг SQL Server&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/bind/"&gt;Bind&lt;/a&gt; -&amp;nbsp;DNS&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/dotnetopenid/"&gt;DotNetOpenId&lt;/a&gt; - реализация OpenID на .NET&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/wmd/"&gt;WMD&lt;/a&gt; - текстовый редактор&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/prettify/"&gt;Prettify&lt;/a&gt; - подсветка синтаксиса&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/markdownsharp/"&gt;MarkdownSharp&lt;/a&gt; - обработчик разметки Markdown
+    на C#&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/flot/"&gt;Flot&lt;/a&gt; - построение графиков на JavaScript&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="vneshnie-servisy"&gt;Внешние сервисы&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/recaptcha/"&gt;reCAPTCHA&lt;/a&gt; - защита от спама&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/google-analytics/"&gt;Google Analytics&lt;/a&gt; - веб-аналитика&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/kiln/"&gt;Kiln&lt;/a&gt; - Mercurial хостинг&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/pingdom/"&gt;Pingdom&lt;/a&gt; - внешний мониторинг и уведомления&lt;/li&gt;
+&lt;li&gt;CDN не используется, его роль выполняет&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/a5057c7b/" rel="nofollow" target="_blank" title="http://sstatic.net/"&gt;sstatic.net&lt;/a&gt;, отдельный домен для статичных файлов SEN без cookie&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="oborudovanie_1"&gt;Оборудование&lt;/h2&gt;
+&lt;h3 id="datatsentry"&gt;Датацентры&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;1 стойка в Peak Internet, штат Орегон (чат и обнаружение данных)&lt;/li&gt;
+&lt;li&gt;2 стойки в Peer 1, Нью-Йорк (остальная часть SEN)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="servery"&gt;Серверы&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;10 веб-серверов:&lt;ul&gt;
+&lt;li&gt;Dell R610&lt;/li&gt;
+&lt;li&gt;1x Intel Xeon Processor E5640 @ 2.66 GHz&lt;/li&gt;
+&lt;li&gt;16 GB RAM&lt;/li&gt;
+&lt;li&gt;Windows Server 2008 R2&lt;/li&gt;
+&lt;li&gt;IIS&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;2 сервера баз данных:&lt;ul&gt;
+&lt;li&gt;Dell R710&lt;/li&gt;
+&lt;li&gt;2x Intel Xeon Processor X5680 @ 3.33 GHz&lt;/li&gt;
+&lt;li&gt;64 GB RAM&lt;/li&gt;
+&lt;li&gt;8 жестких дисков&lt;/li&gt;
+&lt;li&gt;MS SQL Server 2008 R2&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;2 виртуальных сервера для балансировки нагрузки:&lt;ul&gt;
+&lt;li&gt;1x Intel Xeon Processor E5640 @ 2.66 GHz&lt;/li&gt;
+&lt;li&gt;4 GB RAM&lt;/li&gt;
+&lt;li&gt;Ubuntu Server&lt;/li&gt;
+&lt;li&gt;HAProxy&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;2 сервера для кэша:&lt;ul&gt;
+&lt;li&gt;Dell R610&lt;/li&gt;
+&lt;li&gt;2x Intel Xeon Processor E5640 @ 2.66 GHz&lt;/li&gt;
+&lt;li&gt;16 GB RAM&lt;/li&gt;
+&lt;li&gt;CentOS&lt;/li&gt;
+&lt;li&gt;Redis&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;1 сервер для резервного копирования:&lt;ul&gt;
+&lt;li&gt;Dell R610&lt;/li&gt;
+&lt;li&gt;1x Intel Xeon Processor E5640 @ 2.66 GHz&lt;/li&gt;
+&lt;li&gt;32 GB RAM&lt;/li&gt;
+&lt;li&gt;Linux&lt;/li&gt;
+&lt;li&gt;Bacula&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;1 сервер для мониторинга, управления и сбора логов:&lt;ul&gt;
+&lt;li&gt;Dell R610&lt;/li&gt;
+&lt;li&gt;1x Intel Xeon Processor E5640 @ 2.66 GHz&lt;/li&gt;
+&lt;li&gt;32 GB RAM&lt;/li&gt;
+&lt;li&gt;Linux&lt;/li&gt;
+&lt;li&gt;Nagios&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;2 сервера для виртуализации:&lt;ul&gt;
+&lt;li&gt;Dell R610&lt;/li&gt;
+&lt;li&gt;1x Intel Xeon Processor E5640 @ 2.66 GHz&lt;/li&gt;
+&lt;li&gt;16 GB RAM&lt;/li&gt;
+&lt;li&gt;VMWare ESXi&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="setevoe-oborudovanie"&gt;Сетевое оборудование&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;2 маршрутизатора на Linux&lt;/li&gt;
+&lt;li&gt;5 свитчей &amp;nbsp;Dell PowerConnect&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="prochee"&gt;Прочее&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/aa5532bf/" rel="nofollow" target="_blank" title="http://www.wowwee.com/en/products/tech/telepresence/rovio/rovio"&gt;Rovio&lt;/a&gt; -
+    маленький робот, позволяющий удаленным разработчиком посетить офис
+    "виртуально"&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="komanda_1"&gt;Команда&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;14 разработчиков&lt;/li&gt;
+&lt;li&gt;2 системных администратора&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="chto-novogo"&gt;Что нового?&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;HAProxy стал использоваться вместо Windows NLB так как HAProxy
+    является быстрым, нересурсоемким, бесплатным решением, которое
+    работает. Полностью прозрачен для серверов, легче обслуживать по
+    сравнению со старым решением, располагается на виртуальных машинах.&lt;/li&gt;
+&lt;li&gt;CDN не используется, так как даже "недорогие" решения обходятся в
+    очень приличную сумму по сравнению с тем трафиком, который входит в
+    тарифный план хостинг-провайдера. Самое дешевой решение CDN от
+    Amazon обошлось бы как минимум на тысячу долларов в месяц дороже при
+    текущем уровне использования трафика.&lt;/li&gt;
+&lt;li&gt;Резервное копирование на диски для быстрого восстановления и на
+    кассеты для "истории".&lt;/li&gt;
+&lt;li&gt;Полнотекстный поиск в SQL Server плохо интегрируется, нестабилен и
+    обладает низким качеством результатов, так что они перешли на
+    Lucene.&lt;/li&gt;
+&lt;li&gt;Все сайты в SEN теперь работают на общей платформе: используется
+    общее оборудование и программное обеспечение.&lt;/li&gt;
+&lt;li&gt;Проект разделен на разные сайты для разных ниш, чтобы полностью
+    изолировать группы аудитории, специализирующиеся в каждой конкретной
+    области.&lt;/li&gt;
+&lt;li&gt;Используется агрессивное кэширование, большинство страниц кэшируются
+    в виде HTML для анонимных пользователей средствами IIS.&lt;/li&gt;
+&lt;li&gt;Используется три уровня кэширования: локальный, относящийся к
+    каждому сайту и глобальный.&lt;/li&gt;
+&lt;li&gt;Локальный кэш доступен только для каждой пары сайт/сервер:&lt;ul&gt;
+&lt;li&gt;Используется для уменьшения сетевых задержек, по сути просто
+    через&amp;nbsp;HttpRuntime.Cache.&lt;/li&gt;
+&lt;li&gt;Содержит такие вещи как пользовательские сессии, будущие
+    обновления счетчиков просмотров страниц.&lt;/li&gt;
+&lt;li&gt;Располагается полностью в оперативной памяти веб-сервера.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Кэш сайта доступен для каждого сервера, обрабатывающий запрос к
+    конкретному сайту:&lt;ul&gt;
+&lt;li&gt;Большинство кэшируемых данных располагаются здесь.&lt;/li&gt;
+&lt;li&gt;Располагается в Redis.&lt;/li&gt;
+&lt;li&gt;Redis настолько быстр, что большую часть времени доступа к кэшу
+    занимает передача данных по сети.&lt;/li&gt;
+&lt;li&gt;Данные сжимаются перед отправкой в Redis, так как большинство
+    данных являются строками и у них есть масса свободных
+    вычислительных ресурсов.&lt;/li&gt;
+&lt;li&gt;Использование процессорных ресурсов на серверах с Redis
+    стремится к нулю.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Глобальный кэш является общим для всех серверов и сайтов:&lt;ul&gt;
+&lt;li&gt;Личные сообщения, квоты по API и несколько других по-настоящему
+    глобальных вещей располагаются здесь.&lt;/li&gt;
+&lt;li&gt;Также используется Redis.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Большинство данных в кэше удаляются через заданный период времени
+    (обычно в районе нескольких минут) и практически никогда явно не
+    удаляются.&lt;/li&gt;
+&lt;li&gt;Когда требуется инвалидация кэша на уровне готовых страниц,
+    используется система подписки внутри Redis для отправки сообщений в
+    соответствующую часть системы кэширования.&lt;/li&gt;
+&lt;li&gt;Для системы ввода-вывода они выбрали Intel X25 SSD в RAID10. RAID
+    решил многие вопросы с надежностью, а SSD показывают отличную
+    производительностью по сравнению с&amp;nbsp;FusionIO при существенно более
+    низкой цене.&lt;/li&gt;
+&lt;li&gt;Стоимость лицензий используемых продуктов Microsoft составила бы 242
+    тысячи долларов. Но так как они используют программу BizSpark, им не
+    пришлось платить большую часть этой суммы.&lt;/li&gt;
+&lt;li&gt;Сетевые карты от Broadcom заменяются на сетевые карты от Intel на
+    основных production серверах. Это решило большинство проблем с
+    потерями соединений, пакетов и таблицами ARP.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="istochniki-informatsii"&gt;Источники информации&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/8a78f426/" rel="nofollow" target="_blank" title="http://highscalability.com/blog/2011/3/3/stack-overflow-architecture-update-now-at-95-million-page-vi.html"&gt;Stack Overflow Architecture Update - Now At 95 Million Page Views
+    A&amp;nbsp;Month&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/ac2efccd/" rel="nofollow" target="_blank" title="http://blog.stackoverflow.com/"&gt;Stack Overflow Blog&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/83742213/" rel="nofollow" target="_blank" title="http://blog.serverfault.com/post/1432571770/"&gt;Stack Overflow&amp;rsquo;s New York Data
+    Center&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/7241f829/" rel="nofollow" target="_blank" title="http://blog.serverfault.com/post/1097492931/"&gt;Designing For Scalability of Management and Fault
+    Tolerance&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/955af379/" rel="nofollow" target="_blank" title="http://blog.stackoverflow.com/2011/01/stack-overflow-search-now-81-less-crappy/"&gt;Stack Overflow Search &amp;mdash; Now 81% Less
+    Crappy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/7ab0ab00/" rel="nofollow" target="_blank" title="http://blog.stackoverflow.com/2011/01/state-of-the-stack-2010-a-message-from-your-ceo/"&gt;State of the Stack 2010 (a message from your
+    CEO)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/f4755d56/" rel="nofollow" target="_blank" title="http://blog.stackoverflow.com/2010/01/stack-overflow-network-configuration/"&gt;Stack Overflow Network
+    Configuration&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/d29680fc/" rel="nofollow" target="_blank" title="http://meta.stackoverflow.com/questions/69164/does-stackoverflow-use-caching-and-if-so-how"&gt;Does StackOverflow use caching and if so,
+    how?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/a1f157a/" rel="nofollow" target="_blank" title="http://meta.stackoverflow.com/questions/6435/how-does-stackoverflow-handle-cache-invalidation"&gt;How does StackOverflow handle cache
+    invalidation?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/4812040a/" rel="nofollow" target="_blank" title="http://meta.stackoverflow.com/questions/10369/which-tools-and-technologies-build-the-stack-exchange-network"&gt;Which tools and technologies build the Stack Exchange
+    Network?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/d1cfeccf/" rel="nofollow" target="_blank" title="http://meta.stackoverflow.com/questions/2765/how-does-stack-overflow-handle-spam"&gt;How does Stack Overflow handle
+    spam?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/58e28ee2/" rel="nofollow" target="_blank" title="http://blog.serverfault.com/post/our-storage-decision/"&gt;Our Storage
+    Decision&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/6a63689c/" rel="nofollow" target="_blank" title="http://meta.stackoverflow.com/questions/4766/how-are-hot-questions-selected"&gt;How are &amp;ldquo;Hot&amp;rdquo; Questions
+    Selected?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/90fef20/" rel="nofollow" target="_blank" title="http://blog.stackoverflow.com/2010/04/stack-overflow-and-dvcs/"&gt;Stack Overflow and
+    DVCS&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/fe105178/" rel="nofollow" target="_blank" title="http://chat.stackexchange.com/rooms/127/the-comms-room"&gt;Server Fault Chat
+    Room&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Спасибо за внимание! Для оперативного получения свежей информации о
+&lt;a href="https://www.insight-it.ru/highload/"&gt;высоконагруженных интернет-проектах&lt;/a&gt; рекомендую &lt;a href="/feed/"&gt;подписаться на RSS&lt;/a&gt;.&lt;/strong&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Thu, 31 Mar 2011 16:05:00 +0400</pubDate><guid>tag:www.insight-it.ru,2011-03-31:highload/2011/arkhitektura-stack-exchange-network/</guid><category>ASP .NET</category><category>ASP .NET MVC</category><category>Bacula</category><category>Beyond Compare 3</category><category>Bind</category><category>C++</category><category>CentOS</category><category>CruiseControl.NET</category><category>DotNetOpenId</category><category>Flot</category><category>Google Analytics</category><category>HAProxy</category><category>IIS</category><category>JQuery</category><category>Kiln</category><category>LINQ to SQL</category><category>Lucene</category><category>MarkdownSharp</category><category>Mercurial</category><category>MS SQL Server 2008</category><category>Nagios</category><category>Pingdom</category><category>Prettify</category><category>Razor</category><category>reCAPTCHA</category><category>Redis</category><category>Splunk</category><category>SQL Monitor</category><category>Ubuntu Server</category><category>Visual Studio</category><category>Windows Server</category><category>Windows Server 2008</category><category>WMD</category></item><item><title>Архитектура Mollom</title><link>https://www.insight-it.ru//highload/2011/arkhitektura-mollom/</link><description>&lt;p&gt;&lt;img alt="Mollom" class="right" src="https://www.insight-it.ru/images/mollom-logo.jpg" title="Mollom"/&gt;
+&lt;a href="https://www.insight-it.ru/goto/aa3c2fd2/" rel="nofollow" target="_blank" title="http://mollom.com/"&gt;Mollom&lt;/a&gt; - это прибыльный SaaS сервис по фильтрации различных форм спама из
+контента, сгенерированного пользователями: комментариев, постов на
+форумах и блогах, опросов, контактных и регистрационных форм.
+Определение спама основано не только на контенте, но и репутации и
+прошлой активности разместившего его пользователя. Алгоритм машинного
+обучения Mollom выполняет роль цифрового модератора 24х7 для более 40
+тысяч сайтов, в том числе и очень крупных компаний.&lt;/p&gt;
+&lt;p&gt;С того момента, как Mollom запустили систему анализа цифрового контента,
+они выявили более 373 миллионов спам сообщений, обнаружив в процессе что
+впечатляющие 90% всех прошедших через них сообщений оказались спамом.
+Весь этот поток спама в 100 сообщений в секунду обрабатывается всего
+двумя географически распределенными серверами. На каждом из них работает
+сервер Java-приложений и Cassandra. Так мало ресурсов требуется лишь
+из-за того, что они создали очень эффективную систему машинного
+обучения. Разве не круто? Так как же они это делают?&lt;!--more--&gt;&lt;/p&gt;
+&lt;h2 id="statistika"&gt;Статистика&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Обслуживаются 40000 активных веб-сайтов, многие их которых
+    принадлежат крупным клиентам, таким как Adobe, Sony BMG, Warner
+    Brothers, Fox News и The Economist. Много крупных брендов, с
+    крупными сайтами, масса комментариев.&lt;/li&gt;
+&lt;li&gt;Обнаруживают пол-миллиона спам-сообщений ежедневно.&lt;/li&gt;
+&lt;li&gt;Обрабатывается около 100 запросов к API в секунду.&lt;/li&gt;
+&lt;li&gt;Проверка сообщения на спам занимает очень мало времени, обычно около
+    30-50 миллисекунд, 95% запросов укладывается в 250 миллисекунд,
+    когда самые медленные обрабатываются пол секунды.&lt;/li&gt;
+&lt;li&gt;Эффективность определения спама составляет 99.95%. Это означает, что
+    из 10000 спам-сообщений Mollom пропустит только 5.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/82e0a09b/" rel="nofollow" target="_blank" title="http://mollom.com/blog/netlog-using-mollom"&gt;Netlog&lt;/a&gt;, европейская
+    социальная сеть, имеет отдельный Mollom-сервер в своем датацентре.
+    Netlog проверяют на спам около 4 миллионов сообщений каждый день на
+    классификаторах, специально натренированных на их данных.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="platforma"&gt;Платформа&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/java/"&gt;Java&lt;/a&gt; - исторически сложилось, что Mollom был с самого
+    начала был разработан на Java.&lt;/li&gt;
+&lt;li&gt;Два сервера обслуживают основную часть клиентов:&lt;ul&gt;
+&lt;li&gt;Один сервер на восточном побережье США, другой - на западном&lt;/li&gt;
+&lt;li&gt;В случае сбоя один сервер может полностью подменить другой&lt;/li&gt;
+&lt;li&gt;Конфигурация обоих: Intel Xeon Quad core, 2.8GHz, 16GB RAM, 4
+    диска по 300 GB, RAID 10.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/ad66f2bf/" rel="nofollow" target="_blank" title="http://www.softlayer.com/"&gt;SoftLayer&lt;/a&gt; - хостинг-провайдер.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/baf11ec8/" rel="nofollow" target="_blank" title="http://cassandra.apache.org/"&gt;Cassandra&lt;/a&gt; - NoSQL база данных,
+    выбранная из-за высокой производительности на запись и способности
+    работать на серверах, располагающихся в разных датацентрах (была
+    разработана в&amp;nbsp;&lt;a href="https://www.insight-it.ru/highload/2010/arkhitektura-facebook/"&gt;Facebook&lt;/a&gt;,
+    но там практически не используется).&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/dce103e6/" rel="nofollow" target="_blank" title="http://www.mysql.com/"&gt;MySQL&lt;/a&gt; - Java Persistence API используется
+    для обычных наборов данных, когда Cassandra используется для больших
+    объемов данных.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/2b056aff/" rel="nofollow" target="_blank" title="http://en.wikipedia.org/wiki/GlassFish"&gt;Glassfish&lt;/a&gt; - open source
+    сервер приложений для платформы Java EE. Они выбрали именно
+    Glassfish за его возможности корпоративного уровня, такие как
+    репликация и обработка сбоев.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/cc84f430/" rel="nofollow" target="_blank" title="http://hudson-ci.org/"&gt;Hudson&lt;/a&gt; - предоставляет непрерывное
+    тестирование и развертывание кода серверной части на всех
+    используемых машинах.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/f94e85c8/" rel="nofollow" target="_blank" title="http://munin-monitoring.org/"&gt;Munin&lt;/a&gt; - измерение и построение
+    графиков, касающихся здоровья серверов.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/cfd5a6c7/" rel="nofollow" target="_blank" title="http://www.pingdom.com/"&gt;Pingdom&lt;/a&gt; - внешний мониторинг.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/acf8f59d/" rel="nofollow" target="_blank" title="http://www.zendesk.com/"&gt;Zendesk&lt;/a&gt; - используется для оказания
+    поддержки клиентам.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/17f204ac/" rel="nofollow" target="_blank" title="http://drupal.org/"&gt;Drupal&lt;/a&gt; - используется для основного сайта со
+    специализированным модулем интернет-магазина.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/a81d9bb9/" rel="nofollow" target="_blank" title="http://unfuddle.com/"&gt;Unfuddle&lt;/a&gt; - хостинг Subversion для
+    взаимодействия удаленной команды разработчиков.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="kak-eto-rabotaet"&gt;Как это работает?&lt;/h2&gt;
+&lt;p&gt;Процесс выглядит следующим образом:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Когда пользователь отправляет комментарий на сайт, происходит запрос
+    к API Mollom.&lt;/li&gt;
+&lt;li&gt;Контент анализируется, если он оказывается спамом, то сайту
+    сообщается, что необходимо его заблокировать, если же алгоритм не
+    уверен на 100% - сайту советуют показать CAPTCHA, которую сервис
+    также предоставляет.&lt;/li&gt;
+&lt;li&gt;После того, как CAPTCHA будет успешно заполнена, контент
+    принимается. В большинстве случаев пользователи не будут ее видеть и
+    контент будет приниматься сразу же.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Обнаружение спама является сложным балансом между отказом нормальному
+контенту и принятию спама.&lt;/p&gt;
+&lt;h2 id="biznes-model"&gt;Бизнес-модель&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Основным залогом популярности Mollom является бесплатная возможность
+    попробовать сервис, ограничение составляет 100 нормальных (не спам)
+    сообщений в день. Небольшие сайты могут никогда и не достичь этого
+    ограничения.&lt;/li&gt;
+&lt;li&gt;Далее есть два тарифа: 1 евро в день и 3600 евро с возможностями
+    вполне соответствующими этим суммам&lt;/li&gt;
+&lt;li&gt;Сайты, использующие бесплатный тариф, вовсе не зря тратят ресурсы
+    системы, как кажется на первый взгляд, а являются жизненно-важным
+    источником данных для тренировки системы. Без этих данных алгоритмы
+    были бы существенно менее точны.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="arkhitektura"&gt;Архитектура&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Разработчики Mollom уделяют максимум внимания времени отклика,
+    эффективности кода и использования серверных ресурсов.&lt;/li&gt;
+&lt;li&gt;Физически каждый сервер может справиться со всеми запросами, два
+    сервера нужны для избежания перерывов в работе системы. Когда оба
+    сервера в строю - работа распределяется между ними, когда один
+    падает - второй перехватывает его запросы.&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Mollom прошел через несколько этапов развития:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Изначально маленькая команда из двух человек работала вечерами
+    над основными алгоритмами, классификаторами и реальными
+    бизнес-задачами, которые они пытались решить. Для построения
+    инфраструктуры серверной части они использовали свои реализации
+    базовых механизмов по управлению ресурсами, соединениями и
+    потоками. В итоге они обнаружили, что тратят слишком много
+    времени на эти вещи. После этого они переключились на Glassfish,
+    что позволило им намного меньше беспокоится об управлении
+    памятью, REST-запросах, парсинге XML и поддержании пула
+    соединений с базой данных.&lt;/li&gt;
+&lt;li&gt;В прошлом основной проблемой была пропускная способность
+    дисковой подсистемы. Они должны хранить информацию о репутации
+    всех IP-адресов и URL по всему Интернету, что привело к
+    массивному набору данных с большим количеством случайных
+    обращений.&lt;/li&gt;
+&lt;li&gt;Поначалу они использовали MySQL на недорогой виртуальной машине,
+    что в итоге не смогло масштабироваться.&lt;/li&gt;
+&lt;li&gt;Они перенесли данные на твердотельные жесткие диски (SSD) и
+    стали все хранить в файлах. Этот шаг решил проблемы с записью,
+    но возникли новые проблемы:&lt;ol&gt;
+&lt;li&gt;Это правда дорого.&lt;/li&gt;
+&lt;li&gt;Очень чувствительно к типу используемой файловой системы&lt;/li&gt;
+&lt;li&gt;Запись стала происходить быстрой, но итерация по большим
+    наборам данным (что они делали довольно часто для очистки
+    данных и обучения классификаторов) по-прежнему была очень
+    медленным процессом.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;В итоге они отказались от твердотельных накопителей и стали
+    использовать Cassandra.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Cassandra сейчас используется для обработки интенсивного потока
+    запросов на запись и в роли кэша:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Работает на RAID10, что хорошо подходит для высоких смешанных
+    нагрузок на запись/чтение.&lt;/li&gt;
+&lt;li&gt;Cassandra оптимизирована для записи, а в Mollom запись как раз
+    происходит намного чаще, чем чтение.&lt;/li&gt;
+&lt;li&gt;Разработана для распределенной работы как внутри датацентра, так
+    и между датацентрами.&lt;/li&gt;
+&lt;li&gt;Обратной стороной медали является отсутствие стандартного NoSQL
+    интерфейса, что усложняет реализацию приложений.&lt;/li&gt;
+&lt;li&gt;Механизм кэширования строк в Cassandra позволяет им не
+    использовать отдельную систему для кэширования, что существенно
+    упростило код приложения.&lt;/li&gt;
+&lt;li&gt;Cassandra имеет функцию удаления устаревшей информации после
+    определенного периода времени. В Европе существуют строгие
+    законы о приватности личных данных, согласно которым они должны
+    храниться не более определенного срока (штаб-квартира Mollom
+    находится в Бельгии). В этом плане эта функция очень удобна.
+    Эта функция опять же избавляет от необходимости реализовывать
+    данный функционал вручную.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Типичный путь одного комментария внутри системы:&lt;ul&gt;
+&lt;li&gt;Балансировка нагрузки между серверами лежит на клиентской
+    библиотеке, в роли типичного клиента может выступать сайт на
+    Drupal, осуществляющий запрос к API через XML-RPC или REST.&lt;/li&gt;
+&lt;li&gt;Запросы обрабатываются сервером приложений Glassfish и проходят
+    стандартный процесс обработки с помощью сервлетов и специфичных
+    классов.&lt;/li&gt;
+&lt;li&gt;Платящие клиенты обслуживаются в первую очередь, что приводит к
+    тому, что клиенты на бесплатном тарифе могут ожидать результата
+    несколько дольше.&lt;/li&gt;
+&lt;li&gt;Запрос анализируется и оценка вероятности спама возвращается
+    пользователю. Помимо этого отдельная часть кода Mollom отвечает
+    за генерацию, выдачу и проверку CAPTCHA.&lt;/li&gt;
+&lt;li&gt;Классификаторы полностью располагаются в оперативной памяти.
+    Небольшой кусок контента разбивается на тысячи и тысячи
+    крошечных частей, которые могут быть идентифицированы как спам.
+    Такие классификаторы хранят в памяти до нескольких миллионов
+    признаков, характерных для спама. Анализ должен выполняться
+    очень быстро, так что никаких других вариантов кроме
+    расположения всех требуемых данных в оперативной памяти просто
+    не было.&lt;/li&gt;
+&lt;li&gt;В Cassandra хранятся очки репутации, частоты, URL и IP-адреса.&lt;/li&gt;
+&lt;li&gt;Струтуры данных в памяти не реплицируются напрямую. Они
+    записываются в Cassandra, которая и передает их на второй
+    сервер. Промежуток времени, когда данные не консистентны, очень
+    невелик, так что это не сказывается негативно на алгоритмах.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Балансировка нагрузки с помощью клиента:&lt;ul&gt;
+&lt;li&gt;Mollom использует такой подход к балансировке, так как стартап
+    не может себе позволить дорогой железный балансировщик нагрузки.
+    Если учесть, что им нужна балансировка между датацентрами,
+    решение от любого из вендоров было бы комплексным и дорогим.&lt;/li&gt;
+&lt;li&gt;У каждого клиента есть индивидуальный список серверов, которыми
+    он может воспользоваться. Этот список изменяется через API.&lt;/li&gt;
+&lt;li&gt;Каждый клиент может использовать разный список, платящим
+    клиентам могут предоставлять отдельные сервера для уменьшения
+    задержек.&lt;/li&gt;
+&lt;li&gt;Если сервер упал - клиент пытается подключиться к следующему
+    серверу в списке.&lt;/li&gt;
+&lt;li&gt;С другой стороны такой подход усложняет разработку неофициальных
+    клиентов: авторам проекта приходится тесно работать с
+    разработчиками сторонних клиентов для обеспечения правильной
+    реализации в них балансировки нагрузки.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Машинное обучение:&lt;ul&gt;
+&lt;li&gt;Mollom - это набор самообучающихся систем. Отдельные
+    CAPTCHA-решения, не учитывают ни пользовательское поведение, ни
+    источник контента, заставляя каждого пользователя вводить
+    проверочный код при каждом сообщении. В случае с Mollom это
+    происходит только когда система анализа контента не уверена в
+    конкретном решении.&lt;/li&gt;
+&lt;li&gt;Средняя длина сообщения - 500 символов, обычно оно разбивается
+    на 3000 характеристик. Принадлежность контента к спаму
+    определяется путем оценки репутации IP адреса или Open ID,
+    пользовательского идентификатора, эмоциональной окраски, языка,
+    профанации, проверки на наличие специфичных слов и фраз, также
+    учитывается качество написания текста и многие другие факторы.
+    Все эти данные основываются на классификаторах. Некоторые из них
+    статистические по природе, так что обучение происходит
+    автоматически. Другие же основываются на правилах для того,
+    чтобы быть уверенными, что они никогда не могут быть настроены
+    неверно. Комбинация результатов всех тестов после нормализации и
+    образует финальный рейтинг принадлежности к спаму каждого
+    конкретного сообщения.&lt;/li&gt;
+&lt;li&gt;Классификаторы и внутренние метрики обучаются с каждым новым
+    сообщением и обновляются в реальном времени.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Glassfish берет на себя планировку нагрузки, учитывая многоядерность
+    системы:&lt;ul&gt;
+&lt;li&gt;Ключ к дизайну системы в многопроцессорном окружении заключается
+    в максимальном параллелизации работы при минимальном простое
+    из-за блокировок.&lt;/li&gt;
+&lt;li&gt;Они используют 16 thread'ов на сервер.&lt;/li&gt;
+&lt;li&gt;Большинство запросов обрабатываются сессионными объектами (Java
+    Bean), не имеющими состояний. Они хорошо подходят для управления
+    параллельными запросами.&lt;/li&gt;
+&lt;li&gt;Они держат пул из нескольких сессионных объектов, но определение
+    их количества делегируется Glassfish. В пиковую нагрузку это
+    число увеличивается для более эффективной обработки запросов,
+    порой оно достигает 32.&lt;/li&gt;
+&lt;li&gt;Все классификаторы реализованы как раз как такие объекты,
+    повторно использующиеся различными thread'ами.&lt;/li&gt;
+&lt;li&gt;У каждого объекта есть свое клиентское соединение с Cassandra,
+    чтобы гарантировать отсутствие блокировок.&lt;/li&gt;
+&lt;li&gt;Когда пользователь не отвечает на CAPTCHA сессия очищается и
+    Mollom узнает что это скорее всего был спам.&lt;/li&gt;
+&lt;li&gt;На каждом сервере запущено по одной копии каждого
+    классификатора.&lt;/li&gt;
+&lt;li&gt;В момент очистки сессии происходит небольшая блокировка, когда
+    происходит обновление классификаторов.&lt;/li&gt;
+&lt;li&gt;Обновленные классификаторы записываются в Cassandra каждые пол
+    часа.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Интеграция приложений:&lt;ul&gt;
+&lt;li&gt;Mollom использует открытый API, который может быть интегрирован
+    в любую систему.&lt;/li&gt;
+&lt;li&gt;Библиотеки: Java, PHP, Ruby и другие.&lt;/li&gt;
+&lt;li&gt;Готовые модули: Drupal, Joomla, Wordpress и прочие системы
+    управления контентом.&lt;/li&gt;
+&lt;li&gt;Решения от сторонних разработчиков, основанные на примерах кода
+    от &amp;nbsp;Mollom.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Для мониторинга здоровья серверов они используют Munin:&lt;ul&gt;
+&lt;li&gt;Каков размер heap памяти после сбора мусора?&lt;/li&gt;
+&lt;li&gt;Каково количество доступных соединений?&lt;/li&gt;
+&lt;li&gt;Каково количество thread'ов в пуле?&lt;/li&gt;
+&lt;li&gt;Оценка времени блокировок в каждом thread'е.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Если взглянуть в целом на архитектуру Mollom, можно увидеть, что они
+    стараются построить систему, способную прозрачно работать в
+    нескольких датацентрах, чтобы позволить горизонтально расширить
+    систему, когда они перерастут текущую двухсерверную конфигурацию:&lt;ul&gt;
+&lt;li&gt;Балансировка нагрузки на клиенте позволяет выбирать оптимальный
+    сервер и справляться со сбоями одного из них.&lt;/li&gt;
+&lt;li&gt;Кластеризация Glassfish облегчает добавление/удаление новых
+    машин и позволяет перехватывать запросы, когда один из серверов
+    выходит из строя.&lt;/li&gt;
+&lt;li&gt;Cassandra используется для управления данными между серверами в
+    нескольких датацентрах.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Инсталляция Mollom в Netlog обладает некоторыми интересными
+    характеристиками. Она обрабатывает больше сообщений, чем основные
+    сервера Mollom, но распределение спама в ней совершенно другое, так
+    как люди в ней общаются в рамках социальной сети. Внутри Netlog лишь
+    10% сообщений является спамом, когда в суровом мире информационных
+    порталов распределение обратно. Интересным следствием является тот
+    факт, что обработка нормальных сообщений требует меньше
+    вычислительных ресурсов, так что на аналогичном оборудовании удается
+    обрабатывать больший поток сообщений.&lt;/li&gt;
+&lt;li&gt;Изначально они думали о виртуализированных серверах, в частности об
+    Amazon EC2, но в итоге обнаружилось, что наиболее узким местом
+    являются операции ввода-вывода - низкая производительность дисковой
+    подсистемы в виртуальных машинах создавали реальные проблемы, так
+    что они решили воспользоваться вертикальным масштабированием и
+    переехали на более дорогие физические машины с большим объемом
+    дискового пространства:&lt;ul&gt;
+&lt;li&gt;На удивление они не упираются в вычислительные ресурсы: лишь два
+    ядра из 8 занимаются вычислениями, когда остальные же работают
+    над операциями ввода-вывода.&lt;/li&gt;
+&lt;li&gt;Трафик Mollom практически постоянен, так что физические сервера
+    более эффективны с финансовой точки зрения. Они рассматривают
+    Amazon лишь как запасной вариант для обработки непредвиденных
+    пиков нагрузки.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Процесс разработки:&lt;ul&gt;
+&lt;li&gt;Команда распределена: трое в Бельгии, остальные в Техасе,
+    Бостоне и Германии.&lt;/li&gt;
+&lt;li&gt;Scrum используется в процессе разработки и они довольны этой
+    методологией. Scrum-собрание проходит через Skype в два часа дня
+    по Бельгии.&lt;/li&gt;
+&lt;li&gt;Разработчики работают локально и отправляют код на Unfuddle.&lt;/li&gt;
+&lt;li&gt;Hudson используется для непрерывного интеграционного
+    тестирования.&amp;nbsp;Hudson позволил облегчить миграцию, так как перед
+    развертыванием все тесты должны быть пройдены. Они не теряли
+    лишнего времени на проблемах, обнаруженных уже в развернутом
+    приложении.&lt;/li&gt;
+&lt;li&gt;Они активно используют автоматическое тестирование: юнит-тесты,
+    системные тесты, тесты Drupal.&lt;/li&gt;
+&lt;li&gt;Развертывание по-прежнему делается вручную для минимизации риска
+    простоя (что правда спорный момент).&lt;/li&gt;
+&lt;li&gt;Для обнаружения утечек памяти они используют анализ дампов
+    оперативной памяти. Анализ дампа сервера с 16Гб памяти - дело
+    непростое, практически невозможное на обычном компьютере, так
+    что они арендуют большую виртуальную машину на Amazon для
+    проведения анализа. Весь процесс занимает всего около 2 часов.
+    Они сравнивают два дампа: через 10 и 20 часов после запуска
+    сервера. Если обнаруживаются значительные отличия, то скорее
+    всего дело в утечке памяти.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="puti-razvitiia"&gt;Пути развития&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Mollom API основано на XML-RPC, REST-интерфейс находится на стадии
+    тестирования для облегчения интеграции других сервисов.&lt;/li&gt;
+&lt;li&gt;Они мигрировали на Cassandra, чтобы облегчить процесс
+    горизонтального масштабирования, когда нагрузка достигнет
+    соответствующего уровня.&lt;/li&gt;
+&lt;li&gt;Скоро будут выпущены корпоративные возможности, которые позволят
+    работать с сотнями сайтов как с единым целым. Появится возможность
+    легко модерировать несколько сайтов одновременно по эмоциональной
+    окраске сообщений, рейтингу спама или удалить все сообщения с
+    определенного IP-адреса.&lt;/li&gt;
+&lt;li&gt;Они думали над участием в бизнесе потоковых данных вроде Twitter, но
+    они сильно ограничены европейскими более строгими требованиями по
+    приватности.&lt;/li&gt;
+&lt;li&gt;Планируются эксперименты по использованию Glassfish для балансировки
+    нагрузки в рамках каждого датацентра.&lt;/li&gt;
+&lt;li&gt;Если нагрузка увеличится десятикратно им придется добавить больше
+    серверов в Cassandra. Дисковый ввод-вывод является узким местом.
+    Дополнительные сервера приложения понадобятся только если нагрузка
+    вырастет более, чем на порядок.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="podvodim-itogi"&gt;Подводим итоги&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Mollom очень серьезно относится к
+    разработке&amp;nbsp;высокопроизводительной системы.&lt;/strong&gt; Они гордятся тем, что
+    Mollom очень эффективно использует вычислительные и финансовые
+    ресурсы. Множество запросов может обрабатываться одним сервером с
+    низкой задержкой, что очень радует как клиентов, так и владельцев
+    проекта, так как издержки очень низки. Этот вопрос был выбран
+    приоритетным с самого начала и они выбрали подходящие технологии для
+    реализации своих целей. Это позволило им вкладывать средства в
+    маркетинг, построить базу клиентов и создавать новые продукты на
+    основе Mollom.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Машинное обучение требует много исходных данных&amp;nbsp;для успешного
+    обнаружение спама.&lt;/strong&gt; Для сбора этих данных предлагает бесплатные
+    услуги. Крупные клиенты обеспечивают доход и получают выгоду от
+    данных, полученных от более мелких клиентов. Эта модель очень хорошо
+    себя проявила в машинном обучении, за которым как известно будущее.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Старайтесь избавиться от проблем, не связанных напрямую с
+    продуктом.&lt;/strong&gt; Большие системы требуют серьезных усилий на разработку
+    инфраструктуры. Можно убить все время на построение&amp;nbsp;инфраструктуры,
+    вместо создания по-настоящему ценного продукта (классификаторов,
+    системы репутации, клиентских библиотек). Mollom постоянно пытались
+    максимально избавляться от лишних проблем, именно по-этому они
+    выбрали Cassandra и Glassfish.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Будьте осторожны с клиентским кодом.&lt;/strong&gt; Выполнение кода на
+    клиентской части привлекательно тем, что он тратит чужие ресурсы, а
+    не серверные. Проблемы начинаются когда сторонние библиотеки
+    разрабатываются некачественно, что заставляет систему в целом
+    работать плохо. Плотно работайте с разработчиками клиентских
+    библиотек для повышения качества их продукции.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Отдавайте приоритет платящим клиентам.&lt;/strong&gt; Платящие клиенты получают
+    более высокое качество услуг, обрабатываются вне очереди, получают
+    меньше задержек и получают доступ к запасному серверу когда основной
+    дал сбой. Этого вполне достаточно, чтобы подтолкнуть клиентов
+    платить.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Уменьшайте объем кода, позволяя используемым сторонним продуктам
+    брать на себя грязную работу&lt;/strong&gt;.&amp;nbsp;Поначалу код Mollom был существенно
+    большим по объему, чем сейчас. Использование Cassandra и Glassfish
+    позволило убрать массу кода, связанного с кэшированием,
+    кластеризацией, репликацией и обработкой сбоев. Упрощайте систему со
+    временем.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Минимизируйте блокировки.&lt;/strong&gt; Mollom потратили много времени на
+    устранение блокировок внутри Glassfish, так как это начинало
+    становиться узким местом. Минимизируйте простой от блокировок для
+    достижения полного параллелизма.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="istochniki-informatsii-i-dopolnitelnye-materialy"&gt;Источники информации и дополнительные материалы&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/796d6b53/" rel="nofollow" target="_blank" title="http://highscalability.com/blog/2011/2/8/mollom-architecture-killing-over-373-million-spams-at-100-re.html"&gt;Mollom Architecture - Killing Over 373 Million Spams At 100 Request
+    Per
+    Second&lt;/a&gt;
+    (основной источник информации)&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/a695ef0e/" rel="nofollow" target="_blank" title="http://mollom.com/files/mollom-technical-whitepaper.pdf"&gt;Mollom Technical
+    Whitepaper&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/23d06e29/" rel="nofollow" target="_blank" title="http://blogs.sun.com/glassfishpodcast/entry/episode_072_mollom_com_s"&gt;Episode #072 - Mollom.com's GlassFish backend with Dries and
+    Johan&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/c1eeadac/" rel="nofollow" target="_blank" title="http://buytaert.net/mollom-gets-a-new-backend"&gt;Mollom gets a new
+    backend&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/fd87538b/" rel="nofollow" target="_blank" title="http://blogs.lodgon.com/johan/"&gt;Fighting spam with Mollom on
+    Glassfish&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/9c3dc3c9/" rel="nofollow" target="_blank" title="http://mollom.com/api"&gt;Mollom API&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Если Вам понравилась данная статья, можете ознакомиться с другими
+&lt;a href="https://www.insight-it.ru/highload/"&gt;материалами по архитектуре высоконагруженных систем&lt;/a&gt; и &lt;a href="/feed/"&gt;подписаться на RSS&lt;/a&gt;.&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Tue, 15 Feb 2011 19:19:00 +0300</pubDate><guid>tag:www.insight-it.ru,2011-02-15:highload/2011/arkhitektura-mollom/</guid><category>Cassandra</category><category>Drupal</category><category>Glassfish</category><category>Hudson</category><category>Intel</category><category>Java</category><category>Mollom</category><category>Munin</category><category>MySQL</category><category>Pingdom</category><category>saas</category><category>SoftLayer</category><category>Unfuddle</category><category>Xeon</category><category>Zendesk</category><category>Архитектура Mollom</category></item><item><title>Архитектура Friends for Sale</title><link>https://www.insight-it.ru//highload/2008/arkhitektura-friends-for-sale/</link><description>&lt;p&gt;&lt;img alt="Friends for Sale Logo" class="right" src="https://www.insight-it.ru/images/friends-for-sale.png" title="Friends for Sale"/&gt;
+За три коротких месяца &lt;em&gt;&lt;a href="https://www.insight-it.ru/goto/616a7ee4/" rel="nofollow" target="_blank" title="http://www.facebook.com/apps/application.php?id=7019261521"&gt;Friend for Sale&lt;/a&gt;&lt;/em&gt;
+(рейтинговая система в условиях рыночной экономики) попала в десятку
+лучших приложений &lt;em&gt;Facebook&lt;/em&gt;, непринужденно обрабатывая 200 запросов в
+секунду и демонстрируя шокирующее количество просмотров страниц, за
+месяц достигающее 300 миллионов просмотров. Все это дело рук двух
+разработчиков, работающих не полный рабочий день, которые смогли создать
+успешное веб-приложение, имея в своем распоряжении лишь кластер из
+дюжины серверов и &lt;a href="/tag/ruby-on-rails/"&gt;Ruby on Rails&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Как Friends for Sale масштабируется для того, чтобы обеспечить торговлю
+всеми этими красивыми людьми? Как Вы думаете, сколько стоят Ваши друзья
+на открытом рынке?
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;h3 id="istochniki-informatsii"&gt;Источники информации&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;Традиционная пара фраз, чтобы отдать должное
+&lt;a href="https://www.insight-it.ru/goto/2ee4cfe9/" rel="nofollow" target="_blank" title="http://highscalability.com/friends-sale-architecture-300-million-page-view-month-facebook-ror-app"&gt;оригиналу&lt;/a&gt;
+и его &lt;a href="https://www.insight-it.ru/goto/f3f1b405/" rel="nofollow" target="_blank" title="http://highscalability.com/user/todd-hoff"&gt;автору&lt;/a&gt;. Продолжаем:&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Ответы на стандартный набор вопросов от Siqi Chen и Alexander Le,
+    создателей Friends for Sale;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/2266d3f8/" rel="nofollow" target="_blank" title="http://highscalability.com/docs/EmergingTechSIGPresentation.pdf"&gt;Virality on Facebook&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="platforma"&gt;Платформа&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/ruby-on-rails/"&gt;Ruby on Rails&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/centos/"&gt;CentOS&lt;/a&gt; (64 bit)&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/capistrano/"&gt;Capistrano&lt;/a&gt; - для обновлений и перезапусков
+    серверов&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/memcached/"&gt;Memcached&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/nginx/"&gt;nginx&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/starling/"&gt;Starling&lt;/a&gt; - распределенный сервер очередей&lt;/li&gt;
+&lt;li&gt;Softlayer - хостинг&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/pingdom/"&gt;Pingdom&lt;/a&gt; - мониторинг&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/lvm/"&gt;LVM&lt;/a&gt; -   &lt;a href="https://www.insight-it.ru/goto/157d64d2/" rel="nofollow" target="_blank" title="http://magicmodels.rubyforge.org/magic_multi_connections/"&gt;Magic Multi-Connections Gem&lt;/a&gt; -
+    разделение операций чтения и записи между серверами&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="statistika"&gt;Статистика&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Это Facebook приложение находится в десятке наиболее популярных;&lt;/li&gt;
+&lt;li&gt;Около 600 тысяч активных пользователей;&lt;/li&gt;
+&lt;li&gt;Полмиллиона уникальных посетителей ежедневно, и эта цифра неуклонно
+    растет;&lt;/li&gt;
+&lt;li&gt;Темпы роста проекта достигают 300% в месяц;&lt;/li&gt;
+&lt;li&gt;200 запросов в секунду;&lt;/li&gt;
+&lt;li&gt;5 TB трафика в месяц;&lt;/li&gt;
+&lt;li&gt;Над проектом работают 2 разработчика и 1 админимтратор баз данных.&lt;/li&gt;
+&lt;li&gt;4 сервера баз данных, 6 серверов приложений, 1 тестовый сервер и 1
+    сервер для балансировки нагрузки:&lt;ul&gt;
+&lt;li&gt;Каждый из серверов приложений содержит 4 ядра и 8 GB оперативной
+памяти.&lt;/li&gt;
+&lt;li&gt;На каждом из них работает 16 сервисов &lt;a href="/tag/mongrel/"&gt;mongrel&lt;/a&gt; (в
+сумме - 96).&lt;/li&gt;
+&lt;li&gt;4 GB оперативной памяти на каждом из них отведено под
+&lt;a href="/tag/memcached/"&gt;memcached&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Сервера баз данных имеют более серьезное оборудование: при тех же
+4-х ядрах, они имеют 32 GB оперативной памяти и RAID 10 массив из
+четырех 15000rpm SCSI дисков, работающих в режиме "master/slave".&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="davaite-znakomitsia"&gt;Давайте знакомиться&lt;/h3&gt;
+&lt;h4&gt;Для чего нужна ваша система?&lt;/h4&gt;
+&lt;p&gt;Наша система разработана в качестве платформы для нашего Facebook
+приложения, Friends for Sale.
+В целом оно представляет собой аналог рейтинговой системы
+&lt;a href="https://www.insight-it.ru/goto/d7a8b770/" rel="nofollow" target="_blank" title="http://www.hotornot.com/"&gt;Hot-or-Not&lt;/a&gt; с некоторым добавлением рыночной
+экономики. В момент проведения интервью это приложение было на 10-м
+месте по популярности среди приложений Facebook.&lt;/p&gt;
+&lt;p&gt;Описание этого приложения на самом Facebook гласит:&lt;/p&gt;
+&lt;div class="card blue lighten-1"&gt;
+&lt;div class="card-content white-text"&gt;
+Покупайте и продавайте своих друзей как питомцев! Вы можете научить их
+толкаться, отправлять подарки или просто представлять Вас в выгодном
+свете.
+
+Зарабатывайте как практичный инвестор в питомцев или как популярный
+товар!
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;h4&gt;Почему вы решили построить эту систему?&lt;/h4&gt;
+&lt;p&gt;Мы разработали ее скорее как эксперимент для того, чтобы проверить
+удалось ли нам понять концепции и измерения вирусного эффекта в рамках
+Facebook. Мне кажется нам это удалось. :)&lt;/p&gt;
+&lt;h4&gt;С какими конкретными сложными задачами, связанными с дизайном, архитектурой или реализацией системы, вам пришлось столкнуться при построении системы?&lt;/h4&gt;
+&lt;p&gt;Как и в любом Facebook приложении, каждый запрос является динамическим,
+так что кэширование страниц невозможно. Так как приложение является
+интерактивным, со множеством операций записи, определенные трудности
+вызвало масштабирование базы данных.&lt;/p&gt;
+&lt;h4&gt;Каковы были ваши&lt;/h4&gt;
+&lt;p&gt;действия, направленные для решения этих задач?&lt;/p&gt;
+&lt;p&gt;С самого начала мы активно использовали &lt;a href="/tag/memcached/"&gt;memcached&lt;/a&gt; -
+для перезагрузки страницы совсем не требуется выполнение SQL запросов. В
+основном мы использовали кэширование фрагментов Rails с индивидуальной
+логикой актуальности.&lt;/p&gt;
+&lt;h4&gt;Как вы оцениваете размеры вашей системы?&lt;/h4&gt;
+&lt;p&gt;Вчера статистика показала более полумиллиона уникальных посетителей, и
+эта цифра неуклонно растет.
+За этот месяц было зарегистрировано более 300 миллионов просмотров
+страниц.&lt;/p&gt;
+&lt;h4&gt;Каковы показатели использования пропускной способности интернет-канала?&lt;/h4&gt;
+&lt;p&gt;В прошлом месяце было потрачено 3 терабайта трафика, но в этом месяце
+ожидается цифра не меньше 5 терабайт. Эти цифры состоят по большей части
+из XHTML / CSS и нескольких небольших иконок.&lt;/p&gt;
+&lt;h4&gt;Как много документов используется в системе? Сколько изображений? Какой объем данных?&lt;/h4&gt;
+&lt;p&gt;По большому счету у нас нет уникальных документов... но зато у нас есть
+около 10 миллионов профилей пользователей.
+Единственными используемыми изображениями являются несколько
+статических иконок.&lt;/p&gt;
+&lt;h4&gt;Как вы оцениваете темпы роста вашей системы?&lt;/h4&gt;
+&lt;p&gt;Месяц назад за сутки просматривалось около трех миллионов страниц, на
+данный момент эта цифра достигла 10 миллионов в сутки. Из чего можно
+сделать вывод, что ориентировочные темпы роста проекта составляют 300% в
+месяц. Если говорить о ежесекундной нагрузке, то на данный момент она
+составляет около 200 запросов в секунду.&lt;/p&gt;
+&lt;h4&gt;Какая часть посетителей платит вам за участие в вашем проекте?&lt;/h4&gt;
+&lt;p&gt;Он абсолютно бесплатен для пользователей.&lt;/p&gt;
+&lt;h4&gt;Каковы показатели "текучести" пользователей?&lt;/h4&gt;
+&lt;p&gt;В среднем около 1% в сутки, с ежедневным ростом в 3% от этой цифры, если
+говорить в терминах новых установок .&lt;/p&gt;
+&lt;h4&gt;Как много учетных записей активно принимали участие в проекте за последний месяц?&lt;/h4&gt;
+&lt;p&gt;По данным &lt;a href="/tag/google/"&gt;Google&lt;/a&gt; за последний месяц проект посетил 2.1
+миллион уникальных пользоывтелей.&lt;/p&gt;
+&lt;h4&gt;Какова архитектура вашей системы?&lt;/h4&gt;
+&lt;p&gt;Она представляет собой относительно стандартный Rails кластер. В
+качестве интерфейса между запросами пользователей и серверами приложений
+используется proxy балансировщик нагрузки, который перенаправляет
+запросы напрямую шести четырехядерным серверам приложений. На каждом
+сервере приложений запущено 16 &lt;a href="/tag/mongrel/"&gt;mongrel&lt;/a&gt;'ов, что в сумме
+дает 96. Балансировщик нагрузки перенаправляет запросы напрямую на порты
+серверов &lt;a href="/tag/mongrel/"&gt;mongrel&lt;/a&gt;. В дополнение к этому на каждом сервере
+приложений выделено 4 GB оперативной памяти под
+&lt;a href="/tag/memcached/"&gt;memcached&lt;/a&gt;, а также работает локальный сервер
+распределенного менеджера очередей &lt;a href="/tag/starling/"&gt;Starling&lt;/a&gt; и несколько
+менее важных фоновых процессов.&lt;/p&gt;
+&lt;p&gt;&lt;a href="/tag/subd/"&gt;СУБД&lt;/a&gt; работает на двух серверах (четыре ядра, 32 GB
+оперативной памяти, четыре 15000rpm SCSI диска в RAID 10) в режиме
+"master/slave". Для организации распределения операций чтения и записи
+между серверами используется &lt;a href="https://www.insight-it.ru/goto/157d64d2/" rel="nofollow" target="_blank" title="http://magicmodels.rubyforge.org/magic_multi_connections/"&gt;Magic Multi-Connections Gem&lt;/a&gt; от Dr
+Nic.&lt;/p&gt;
+&lt;p&gt;На данный момент ведется работа над добавлением дополнительных серверов,
+работающих в роли "slave", для обеспечения более эффективного
+распределения нагрузки, избыточности и политик хранения запасных копий
+данных. Помимо этого нам помогают Percona (ребята из
+mysqlperformanceblog) с удаленной работой над архитектурой базы данных.&lt;/p&gt;
+&lt;p&gt;Нашим хостинг-провайдером является Softlayer - он просто фантастический.
+Основной проблемой был тот факт, что их балансировщик нагрузки не
+справлялся со своей задачей ... поначалу у нас возникала масса проблем,
+связанных с задержками и повисшими соединениями. Переход на отдельный
+сервер с запущенным только nginx в режиме proxy балансировщика нагрузки
+позволила решить все проблемы.&lt;/p&gt;
+&lt;h4&gt;Каким образом планируется масштабировать архитектуру вашего проекта?&lt;/h4&gt;
+&lt;p&gt;Каких-то конкретных планов нет. На уровне приложения система не
+использует какие-либо общие ресурсы, так что все достаточно тривиально.
+На уровне баз данных на данный момент все еще используется один сервер в
+роли "master", но мы стараемся отложить неизбежный переход к
+сегментированной базе данных на как можно более длительный срок. На
+данный момент базы данных масштабируются вертикально, но со временем,
+надеюсь, мы сможем от этого избавиться.&lt;/p&gt;
+&lt;h4&gt;Назовите самые интересные уникальные факты о вашем проекте?&lt;/h4&gt;
+&lt;p&gt;Я могу назвать:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Ни один из двух разработчиков ранее не имел опыта в крупномасштабных
+    разработках на основе &lt;a href="/tag/rails/"&gt;Rails&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Наша траектория роста проекта достаточно редка в истории разработок
+    с использованием &lt;a href="/tag/rails/"&gt;Rails&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;У нас практически не было возможностей для кэширования статических
+    страниц - каждый запрос страницы приходилось обрабатывать
+    &lt;a href="/tag/rails/"&gt;Rails&lt;/a&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4&gt;Чему вам удалось научиться? Каков залог вашего успеха? Чего бы вам хотелось сделать по-другому в прошлом, если бы была такая возможность? Что бы вы оставили как есть?&lt;/h4&gt;
+&lt;p&gt;Отличные хостинг, оборудование и архитектура БД являются очень важными
+факторами. Мы привыкли пользоваться услугами хостинга Railsmachine,
+который честно говоря является отличным провайдером shared хостинга, но
+со временем они потеряли возможность выдерживать необходимую нагрузку. В
+итоге почти месяц мы были едва способны отвечать на запросы браузеров
+из-за проблем с оборудованием, хотя последующий переход на Softlayer
+занял всего два часа. Стоит заранее выбирать качественный хостинг, если
+планируется масштабирование проекта, смена хостинг-провайдера - не очень
+веселое занятие.&lt;/p&gt;
+&lt;p&gt;Основным выводом, который нам удалось сделать, является тот факт, что
+причиной проблемы с масштабированием практически всегда является база
+данных. Все без исключений проблемы с производительностью в итоге
+сводились к серверу баз данных, конфигурации СУБД, эффективности
+запросов или решению вопроса насчет необходимости использования
+индексов.&lt;/p&gt;
+&lt;p&gt;Определенно нам нужен был более качественный хостинг намного раньше.&lt;/p&gt;
+&lt;p&gt;Мы определенно не сменим наш framework - &lt;a href="/tag/rails/"&gt;Rails&lt;/a&gt; был
+незаменим при быстрой разработке приложения, нам удалось доказать, что
+для масштабирования проекта на &lt;a href="/tag/ror/"&gt;RoR&lt;/a&gt; достаточно двух парней,
+абсолютно не имеющих опыта в этом.&lt;/p&gt;
+&lt;h4&gt;Кто входит в состав вашей команды?&lt;/h4&gt;
+&lt;p&gt;У нас есть два разработчика, включая меня. Помимо этого недавно мы
+начали пользоваться услугами помощи с DBA, о которой уже упоминалось.&lt;/p&gt;
+&lt;h4&gt;Сколько всего людей участвует в проекте?&lt;/h4&gt;
+&lt;p&gt;В технической части - два разработчика и один администратор баз данных,
+работающий на контрактной основе.&lt;/p&gt;
+&lt;h4&gt;Где они расположены с географической точки зрения?&lt;/h4&gt;
+&lt;p&gt;Все участники проекта живут в районе SOMA, San Francisco.&lt;/p&gt;
+&lt;h4&gt;Каковы обязанности каждого из участников проекта?&lt;/h4&gt;
+&lt;p&gt;Оба разработчика проекта по совместительству являются и его создателями.
+Поначалу я (Siqi) был ответственным за дизайн и разработку
+пользовательского интерфейса, но так как у меня был некоторый опыт с
+развертыванием систем я взял на себя и разработку управления сетевыми
+операциями и развертывания. Мой коллега Alex был ответственным за
+большую часть &lt;a href="/tag/rails/"&gt;Rails&lt;/a&gt; кода, вся логика приложения - его рук
+дело.&lt;/p&gt;
+&lt;p&gt;На данный момент я по большей части занимаюсь более техническими
+моментами, такими как оптимизация сетевых операций и работы и репликации
+&lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt;. С трудом получается вернуться к работе над
+пользовательским интерфейсом - к тому, что мне по-настоящему нравится.
+Но это был опыт, который явно стоило получить, так что я стараюсь
+извлекать максимум выгоды из этого занятия.&lt;/p&gt;
+&lt;h4&gt;У вас есть какая-то определенная философия менеджмента?&lt;/h4&gt;
+&lt;p&gt;Да - найти самых умелых и сообразительных людей, сделать им наилучшее
+возможное предложение и убраться с их пути. Самые лучшие менеджеры
+должны уметь НЕ МЕШАТЬ работникам, так что я стараюсь максимально этому
+следовать при работе с другими участниками проекта. Но, к сожалению, мне
+удается это далеко не всегда.&lt;/p&gt;
+&lt;h4&gt;Если ваша команда работает раздельно, как вам удается координировать свою работу?&lt;/h4&gt;
+&lt;p&gt;Нам стоило бы задуматься об использования каких-либо эффективных средств
+общения. Мне кажется, что использование удаленной работа / outsourcing'а
+является по-настоящему сложной задачей - я предпочитаю обходиться без
+этого в разработке основы системы. Для системного администрирования или
+разработки архитектуры БД это было бы более оправданно.&lt;/p&gt;
+&lt;h3 id="chto-vy-ispolzuete-dlia-razrabotki"&gt;Что вы используете для разработки?&lt;/h3&gt;
+&lt;p&gt;Мы используем &lt;a href="/tag/rails/"&gt;Rails&lt;/a&gt; с несколькими plug-in'ами, самыми
+важными являются cache-fu от Cris Wanstrath и magic multi connections от
+Dr Nic. В качестве текстового редактора я предпочитаю vim с плагином
+rails.vim.&lt;/p&gt;
+&lt;h4&gt;Какие языки программирования используются?&lt;/h4&gt;
+&lt;p&gt;&lt;a href="/tag/ruby-on-rails/"&gt;Ruby on Rails&lt;/a&gt;&lt;/p&gt;
+&lt;h4&gt;Сколько используется серверов?&lt;/h4&gt;
+&lt;p&gt;На данный момент используется кластер из 12 серверов.&lt;/p&gt;
+&lt;h4&gt;Как они используются?&lt;/h4&gt;
+&lt;p&gt;4 сервера баз данных, 6 серверов приложений, 1 тестовый сервер и 1
+сервер для балансировки нагрузки.&lt;/p&gt;
+&lt;h4&gt;Кто их предоставляет?&lt;/h4&gt;
+&lt;p&gt;Мы заказываем их у Softlayer - до подключения их к системе проходит
+порой менее четырех часов, что очень неплохо.&lt;/p&gt;
+&lt;h4&gt;Какая операционная система используется?&lt;/h4&gt;
+&lt;p&gt;CentOS 5 (64 бит)&lt;/p&gt;
+&lt;h4&gt;Какой http сервер используется?&lt;/h4&gt;
+&lt;p&gt;nginx&lt;/p&gt;
+&lt;h4&gt;Какая СУБД используется?&lt;/h4&gt;
+&lt;p&gt;MySQL 5.1&lt;/p&gt;
+&lt;h4&gt;Вы используете обратную proxy?&lt;/h4&gt;
+&lt;p&gt;Мы просто используем встроенный в nginx proxy балансировщик нагрузки.&lt;/p&gt;
+&lt;h4&gt;Как вы развертываете вышу систему в датацентре?&lt;/h4&gt;
+&lt;p&gt;Мы используем хостинг выделенных серверов, Softlayer.&lt;/p&gt;
+&lt;h4&gt;Какова ваша стратегия хранения данных?&lt;/h4&gt;
+&lt;p&gt;Мы используем резервное копирование NAS помимо внутренних SCSI RAID
+массивов.&lt;/p&gt;
+&lt;h4&gt;Какой объем дискового пространства вам доступен?&lt;/h4&gt;
+&lt;p&gt;На всех серверах в сумме около 5 TB.&lt;/p&gt;
+&lt;h4&gt;Как вы наращиваете объем дискового пространства?&lt;/h4&gt;
+&lt;p&gt;Спонтанно. Мы еще не выполнили каких-либо исследований в планировании
+дискового пространство, но это было явно зря не сделано.&lt;/p&gt;
+&lt;h4&gt;Вы используйте какой-либо сервис хранения информации?&lt;/h4&gt;
+&lt;p&gt;Нет.&lt;/p&gt;
+&lt;h4&gt;Вы используете виртуализацию хранимых данных?&lt;/h4&gt;
+&lt;p&gt;Нет.&lt;/p&gt;
+&lt;h4&gt;Как организована работа с сессиями?&lt;/h4&gt;
+&lt;p&gt;На данный момент она поручена СУБД, но передача их обслуживания напрямую
+memcached - достаточно несложная задача.&lt;/p&gt;
+&lt;h4&gt;Как организована архитектура вашей БД?&lt;/h4&gt;
+&lt;p&gt;На данный момент - "master/slave". Мы осуществляем переход к нескольким
+"slave" с proxy балансировщиком нагрузки для режима "только для чтения".&lt;/p&gt;
+&lt;h4&gt;Как организована балансировка нагрузки?&lt;/h4&gt;
+&lt;p&gt;На программном уровне средствами nginx.&lt;/p&gt;
+&lt;h4&gt;Какой framework / AJAX библиотеку вы используете?&lt;/h4&gt;
+&lt;p&gt;Rails.&lt;/p&gt;
+&lt;h4&gt;Какие средства распределенного управления задачами вы используете?&lt;/h4&gt;
+&lt;p&gt;&lt;a href="/tag/starling/"&gt;Starling&lt;/a&gt;&lt;/p&gt;
+&lt;h4&gt;Как вы управляете рекламой в проекте?&lt;/h4&gt;
+&lt;p&gt;Мы участвуем в нескольких рекламных сетях. Мы оцениваем эффективность
+каждой рекламной сети с помощью eCPM на уровне приложения.&lt;/p&gt;
+&lt;h4&gt;Имеете ли вы стандартную API на вашем сайте?&lt;/h4&gt;
+&lt;p&gt;Нет.&lt;/p&gt;
+&lt;h4&gt;Сколько человек в вашей команде?&lt;/h4&gt;
+&lt;p&gt;2 разработчика.&lt;/p&gt;
+&lt;h4&gt;Какими наборами способностей обладают участники вашей команды?&lt;/h4&gt;
+&lt;p&gt;Я: дизайн пользовательского интерфейса, разработка, ограниченные знания
+в Rails, оптимизация MySQL, развертывание Rails.&lt;/p&gt;
+&lt;p&gt;Alex: разработка логики приложения, дизайн пользовательского интерфейса,
+программная инженерия в целом.&lt;/p&gt;
+&lt;h4&gt;Какие средства разработки вы используете?&lt;/h4&gt;
+&lt;p&gt;Alex работает в OS X, а я предпочитаю Ubuntu. Для контроля за версиями
+используется &lt;a href="/tag/svn/"&gt;SVN&lt;/a&gt;. В качестве текстового редактора я
+использую VIM, а Alex - TextMate.&lt;/p&gt;
+&lt;h4&gt;Как проходит процесс разработки?&lt;/h4&gt;
+&lt;p&gt;На логическом уровне все упирается в тесты, мы проводим их достаточно
+экстенсивно. На уровне приложения все ограничивается быстрыми итерациями
+и не менее быстры тестированием.&lt;/p&gt;
+&lt;h4&gt;Какова ваша стратегия кэширования объектов и контента?&lt;/h4&gt;
+&lt;p&gt;Мы используем &lt;a href="/tag/memcached/"&gt;memcached&lt;/a&gt; без TTL и просто вручную
+очищаем кэш при необходимости.&lt;/p&gt;
+&lt;h4&gt;Как происходит кэширование на клиентской стороне?&lt;/h4&gt;
+&lt;p&gt;Никак.&lt;/p&gt;
+&lt;h4&gt;Как вы проверяете глобальную доступность и моделируете производительность для конечных пользователей?&lt;/h4&gt;
+&lt;p&gt;Мы используем &lt;a href="/tag/pingdom/"&gt;Pingdom&lt;/a&gt; для внешнего мониторинга за
+сайтом - они отлично справляются.&lt;/p&gt;
+&lt;h4&gt;Как вы проверяете работоспособность ваших серверов и сетей?&lt;/h4&gt;
+&lt;p&gt;На данный момент мы полагаемся на внешний мониторинг и ping мониторинг
+от Softlayer. В перспективе мы рассматриваем FiveRuns как возможное
+решение для мониторинга серверов.&lt;/p&gt;
+&lt;h4&gt;Как вы строите на графиках или диаграммах сетевую и серверную статистику, а также тенденции?&lt;/h4&gt;
+&lt;p&gt;Мы не занимаемся этим.&lt;/p&gt;
+&lt;h4&gt;Как вы тестируете систему?&lt;/h4&gt;
+&lt;p&gt;Сначала мы разворачиваем ее на тестовом сервере и проводим несколько
+тестов, после чего разворачиваем систему уже на серверах приложений.&lt;/p&gt;
+&lt;h4&gt;Как вы анализируете производительность?&lt;/h4&gt;
+&lt;p&gt;Мы отслеживаем каждый SQL-запрос в процессе разработки, это позволяет
+нам убедиться, что не выполняются никакие ненужные запросы или создание
+экземпляра модели. Помимо этого мы не выполняем каких-либо тестов на
+производительность.&lt;/p&gt;
+&lt;h4&gt;Как вы обеспечиваете безопасность?&lt;/h4&gt;
+&lt;p&gt;Тщательно.&lt;/p&gt;
+&lt;h4&gt;Как вы решаете какие возможности добавить или оставить?&lt;/h4&gt;
+&lt;p&gt;Решения основываются на отзывах пользователей и критическом взгляде на
+них. Мы верим в простоту, так что нам приходится как следует все
+взвесить перед добавлением каких-либо существенных возможностей.&lt;/p&gt;
+&lt;h4&gt;Как вы реализуете веб-аналитику?&lt;/h4&gt;
+&lt;p&gt;Мы используем собственную систему оценок для оптимизации вирусного
+эффекта, но помимо этого пользуемся и услугами &lt;a href="https://www.insight-it.ru/goto/d303d8e3/" rel="nofollow" target="_blank" title="http://www.google.com/analytics"&gt;Google
+Analytics&lt;/a&gt;.&lt;/p&gt;
+&lt;h4&gt;Используете ли вы A/B тестирование?&lt;/h4&gt;
+&lt;p&gt;Да, время от времени мы используем их для тонкой настройки аспектов
+дизайна для того, чтобы оптимизировать его под вирусный эффект.&lt;/p&gt;
+&lt;h4&gt;Как вы выполняете резервное копирование и восстановление?&lt;/h4&gt;
+&lt;p&gt;Мы используем LVM для создания ежедневных и еженедельных инкрементальных
+резервных копий.&lt;/p&gt;
+&lt;h4&gt;Как выполняются обновления оборудования и программного обеспечения?&lt;/h4&gt;
+&lt;p&gt;На данный момент мы делаем это вручную, за исключением развертывания
+&lt;a href="/tag/rails/"&gt;Rails&lt;/a&gt; приложения. Для обновления и перезапуска серверов
+приложений мы используем &lt;a href="/tag/capistrano/"&gt;Capistrano&lt;/a&gt;.&lt;/p&gt;
+&lt;h4&gt;Как вы выполняете глобальные изменения в структуре базы данных при обновлениях?&lt;/h4&gt;
+&lt;p&gt;Обычно мы начинаем переход с второстепенных серверах баз данных, а затем
+просто переключаем основные.&lt;/p&gt;
+&lt;h4&gt;Каковы ваши планы насчет защиты от сбоев и развития бизнеса?&lt;/h4&gt;
+&lt;p&gt;Не самым лучшим образом...&lt;/p&gt;
+&lt;h4&gt;Есть ли у вас отдельная операционная команда, работающая над сайтом?&lt;/h4&gt;
+&lt;p&gt;Было бы неплохо, но нет :)&lt;/p&gt;
+&lt;h4&gt;Используете ли вы &lt;abbr title="Content Delivery Network"&gt;CDN&lt;/abbr&gt;? Если да, то какую и для каких целей?&lt;/h4&gt;
+&lt;p&gt;Нет.&lt;/p&gt;
+&lt;h4&gt;Как выглядит модель ваших доходов?&lt;/h4&gt;
+&lt;p&gt;&lt;abbr title="Costs per thousand impressions"&gt;CPM&lt;/abbr&gt;: больше просмотров страниц - больше денег. Помимо этого у нас бывают прямые
+поощрительные предложения через нашу виртуальную валюту.&lt;/p&gt;
+&lt;h4&gt;Как вы продвигаете ваш продукт?&lt;/h4&gt;
+&lt;p&gt;Это же социальная сеть. Мы просто используем вирусный эффект для
+поддержания роста проекта.&lt;/p&gt;
+&lt;h4&gt;Используете ли вы какие-либо особенно интересные технологии или алгоритмы?&lt;/h4&gt;
+&lt;p&gt;Я думаю Ruby запросто мог бы подойти под это определение, но на самом
+деле нет - мы не проводим научных исследований, мы просто стараемся быть
+полезными для посетителей.&lt;/p&gt;
+&lt;h4&gt;Храните ли вы изображения в базе данных?&lt;/h4&gt;
+&lt;p&gt;Нет, это бы была не самая лучшая идея.&lt;/p&gt;
+&lt;h4&gt;Как много работы над организацией взаимодействия с пользователями приходится выполнять?&lt;/h4&gt;
+&lt;p&gt;Я бы сказал, что никакой, если вам не приходилось раньше масштабировать
+что-либо, и достаточно много, если приходилось. Достаточно сложно
+сказать что именно станет проблемой до тех пор, пока на самом деле с
+ними не столкнешься. Как только ты пройдешь через это, у тебя будет
+достаточно знаний, чтобы осознанно проводить какую-либо работу в этом
+направлении.&lt;/p&gt;
+&lt;h4&gt;Приходилось ли вам сталкиваться с какими-либо сюрпризами, положительными или отрицательными?&lt;/h4&gt;
+&lt;p&gt;Было удивительно, насколько ненадежным может оказаться поставщик
+оборудования, и как может отличаться уровень технической поддержки
+одного хостинг-провайдера по сравнению с другим. Одной из основных
+вещей, которая вам понадобится при масштабировании системы - хостинг,
+способный поддерживать ваши потребности.&lt;/p&gt;
+&lt;p&gt;С другой стороны, было удивительно насколько далеко смогла наз завести
+архитектура с одним "master" и несколькими "slave" на самом обыкновенном
+оборудовании. Я думаю, что даже миллиард просмотров страниц в месяц
+достижим при таком подходе к базе данных.&lt;/p&gt;
+&lt;h4&gt;Как ваша система эволюционирует для соответствия новым требованиям к масштабируемости?&lt;/h4&gt;
+&lt;p&gt;По большому счету она этого не делает, мы просто исправляем узкие места
+в системе и смотрим что же будет дальше.&lt;/p&gt;
+&lt;h4&gt;Кем вы восхищаетесь?&lt;/h4&gt;
+&lt;p&gt;Brad Fitzpatrick за изобретение memcache, а также каждым, кому успешно
+удалось горизонтально масштабировать свой проект.&lt;/p&gt;
+&lt;h4&gt;Каковы ваши планы по изменению архитектуры в будущем?&lt;/h4&gt;
+&lt;p&gt;Скоро предется переходить к сегментированной по пользователям базе
+данных, так как скоро мы достигнем пределов базы данных по операциям
+записи и размерам.&lt;/p&gt;
+&lt;h3 id="ikh-mysli-o-virusnom-effekte-facebook"&gt;Их мысли о вирусном эффекте Facebook&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Facebook моделирует социальную сеть в цифровой форме максимально
+    точно и полно, по крайней мере насколько это возможно.&lt;/li&gt;
+&lt;li&gt;Построение социальной сети более важно, чем возможности,
+    предоставляемые пользователям.&lt;/li&gt;
+&lt;li&gt;Facebook позволяет быстро распространять новые приложения через
+    социальную сеть.&lt;/li&gt;
+&lt;li&gt;Идея вашего приложения должна быть социальной, затягивающей и
+    универсальной.&lt;/li&gt;
+&lt;li&gt;Социальный аспект является основой вирусного эффекта.&lt;/li&gt;
+&lt;li&gt;"Затягивание" пользователей позволяет зарабатывать на нем.&lt;/li&gt;
+&lt;li&gt;Универсальность дает необходимый потенциал.&lt;/li&gt;
+&lt;li&gt;Friends for Sale - социальный проект, так как предоставляет
+    возможность торговать своей частью социального графа.&lt;/li&gt;
+&lt;li&gt;Он затягивает, так как в основе лежит в какой-то степени сумасшедшая
+    идея, ненавязчивая, слегка флиртующая, и немного циничная.&lt;/li&gt;
+&lt;li&gt;Он универсальный, так как все люди в какой-то степени самовлюбленны,
+    знают себе цену, и хотят флиртовать с "горячими" людьми.&lt;/li&gt;
+&lt;li&gt;Каждая часть приложения является потенциальной для вовлечения новых
+    пользователей.&lt;/li&gt;
+&lt;li&gt;Каждый пользователь в среднем приводит 1.4 новых, что является
+    залогом экспонентациального роста.&lt;/li&gt;
+&lt;li&gt;Для каждого нового пользователя отслеживается количество
+    приглашений, нотификаций, записей на "стене", кликов в профиле и
+    других факторов.&lt;/li&gt;
+&lt;li&gt;Для каждого канала поступления новых пользователей вычисляются
+    проценты нажавших, успешно вовлеченных и выходов из проекта.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="podvodim-itogi"&gt;Подводим итоги&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;На Facebook требуется масштабирование с самого начала. Дорога до
+    миллиона просмотров страниц в сутки заняла 4 недели.&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/ruby-on-rails/"&gt;Ruby on Rails&lt;/a&gt; может масштабироваться.&lt;/li&gt;
+&lt;li&gt;При правильном подходе к архитектуре может масштабироваться
+    практически все что угодно, сосредоточтесь на этом.&lt;/li&gt;
+&lt;li&gt;Вам определенно нужна продуманная архитектура базы данных,
+    качественный хостинг, а также правильно настроенное оборудование.&lt;/li&gt;
+&lt;li&gt;С использованием кэширования и современных серверов, может пройти
+    достаточно длительный период времени до тех пор, пока понадобится
+    использование баз данных с более сложной структурой, такой как
+    сегментирование.&lt;/li&gt;
+&lt;li&gt;Социальная сеть - это реальность. Количество новых пользователей в
+    хорошо реализованном Facebook приложении на самом деле ошеломляет.&lt;/li&gt;
+&lt;li&gt;Большая часть проблем с производительностью в итоге сводится к базе
+    данных. Лишний раз обратите внимание на конфигурацию СУБД, запросы и
+    использование индексов.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Люди до сих пор пользуются Vi!&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Mon, 17 Mar 2008 21:44:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-03-17:highload/2008/arkhitektura-friends-for-sale/</guid><category>Capistrano</category><category>CentOS</category><category>Facebook</category><category>Friends for Sale</category><category>LVM</category><category>Memcached</category><category>mongrel</category><category>MySQL</category><category>nginx</category><category>online</category><category>Pingdom</category><category>Rails</category><category>RoR</category><category>Ruby on Rails</category><category>Starling</category><category>SVN</category><category>архитектура</category><category>интернет</category><category>Масштабируемость</category><category>социальные сети</category></item></channel></rss>

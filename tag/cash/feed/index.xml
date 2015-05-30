@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/cash/feed/index.xml" rel="self"></atom:link><lastBuildDate>Thu, 21 Feb 2008 18:08:00 +0300</lastBuildDate><item><title>Обзор memcached</title><link>https://www.insight-it.ru//storage/2008/obzor-memcached/</link><description>&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/62123c99/" rel="nofollow" target="_blank" title="http://www.danga.com/memcached/"&gt;&lt;strong&gt;memcached&lt;/strong&gt;&lt;/a&gt; представляет собой
+высокопроизводительную распределенную систему кэширования объектов в
+оперативной памяти.&lt;/p&gt;
+&lt;p&gt;Оформлена она в виде классического &lt;a href="/tag/daemon/"&gt;daemon&lt;/a&gt;'а, слушающего
+подключения на одном из TCP-портов (по-умолчанию: 11211). Работа же с
+ним осуществляется с помощью клиентских библиотек, доступных практически
+для всех популярных языков программирования.
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="/tag/memcached/"&gt;memcached&lt;/a&gt; не использует конфигурационные файлы, но
+все же может быть в какой-то степени настроен под свои нужды с помощью
+параметров, указываемых при запуске &lt;a href="/tag/daemon/"&gt;daemon&lt;/a&gt;'а, и
+переменных окружения. Например, часто используется параметр &lt;strong&gt;-m&lt;/strong&gt;,
+позволяющий указать объем используемой для хранения объектов оперативной
+памяти.
+По сути кэширование с помощью &lt;a href="/tag/memcached/"&gt;memcached&lt;/a&gt; представляет
+собой некое подобие глобального ассоциативного массива, то есть набора
+соответствий &lt;em&gt;ключ &amp;rarr; объект&lt;/em&gt;.&lt;/p&gt;
+&lt;h3 id="kak-zhe-ono-rabotaet"&gt;Как же оно работает?&lt;/h3&gt;
+&lt;p&gt;Принцип очень прост: после установления соединения между клиентом
+(произвольное приложение, воспользовавшееся услугами одной из клиентских
+библиотек) и сервером (распределенной системой, состоящей из
+&lt;a href="/tag/daemon/"&gt;daemon&lt;/a&gt;'ов), клиенту предоставляется возможность выполнять
+четыре примитивных действия для организации кэширования:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;set&lt;/strong&gt; - установить соответствие между ключом и указанным объектом;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;add&lt;/strong&gt; - аналогично &lt;em&gt;set&lt;/em&gt;, но только при условии, что объекта с
+    таким ключом в кэше нет;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;replace&lt;/strong&gt; - абсолютная противоположность &lt;em&gt;add&lt;/em&gt;, выполняется только
+    если такой объект в кэше есть;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;get&lt;/strong&gt; - получить объект из кэша по указанному ключу.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Вывод напрашивается лишь один: проще не придумаешь.&lt;/p&gt;
+&lt;h3 id="v-sravnenii"&gt;В сравнении&lt;/h3&gt;
+&lt;p&gt;Многие &lt;a href="/tag/subd/"&gt;СУБД&lt;/a&gt; предоставляют встроенные средства кэширования,
+но на практике они умеют кэшировать только результаты запросов, что не
+всегда является именно тем, что необходимо веб-приложению. СУБД обычно
+полностью очищают кэш таблицы при каждом изменении данных, что приводит
+к полной его бесполезности при активном обновлении таблиц.&lt;/p&gt;
+&lt;p&gt;Еще один альтернативный вариант кэширования может предоставить
+http-сервер, в большинстве случаев кэш дублируется несколько раз для
+каждого процесса &lt;a href="/tag/php/"&gt;PHP&lt;/a&gt;, &lt;a href="/tag/perl/"&gt;Perl&lt;/a&gt; или любого другого
+используемого языка программирования. Помимо излишних затрат оперативной
+памяти, такой вариант развития событий еще и снижает эффективность
+самого кэша.&lt;/p&gt;
+&lt;h3 id="na-praktike"&gt;На практике&lt;/h3&gt;
+&lt;p&gt;Использование &lt;a href="/tag/memcached/"&gt;memcached&lt;/a&gt; на практике в написании
+приложений ничуть не сложнее, чем в теории. Например, если говорить о
+&lt;a href="/tag/php/"&gt;PHP&lt;/a&gt;, то для доступа к &lt;a href="/tag/daemon/"&gt;daemon&lt;/a&gt;'y достаточно
+установить соответствующий &lt;a href="https://www.insight-it.ru/goto/a0e58a5c/" rel="nofollow" target="_blank" title="http://pecl.php.net/package/memcache"&gt;PECL extension&lt;/a&gt;, который предоставит класс &lt;strong&gt;Memcached&lt;/strong&gt;. С помощью его методов осуществляется доступ ко всем возможностям &lt;a href="/tag/memcached/"&gt;memcached&lt;/a&gt;, о которых я уже упоминал: &lt;strong&gt;connect&lt;/strong&gt;, &lt;strong&gt;set&lt;/strong&gt;, &lt;strong&gt;add&lt;/strong&gt;, &lt;strong&gt;get&lt;/strong&gt; и так далее.&lt;/p&gt;
+&lt;p&gt;Для многих других языков программирования также существуют API, список
+которых можно &lt;a href="https://www.insight-it.ru/goto/94c7c37e/" rel="nofollow" target="_blank" title="http://www.danga.com/memcached/apis.bml"&gt;найти на официальном сайте&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id="o-chem-ne-stoit-zabyvat"&gt;О чем не стоит забывать&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;Кэш не является базой данных!&lt;/em&gt; Не стоит забывать, что кэш является
+&lt;em&gt;очень&lt;/em&gt; ненадежным местом хранения данных, не предоставляет избыточности
+и каких-либо гарантий, что сохраненная в нем информация будет доступна
+через какое-то время. За производительность приходится платить.&lt;/p&gt;
+&lt;h3 id="v-zakliuchenii"&gt;В заключении&lt;/h3&gt;
+&lt;p&gt;...хотелось бы сказать, что эта &lt;a href="/tag/tekhnologiya/"&gt;технология&lt;/a&gt; является
+очень производительным и эффективным решением вопроса кэширования для
+масштабных интернет-проектов. Возможности по ее применению не
+ограничиваются Сетью, ведь она реализована в виде обычного daemon'а, что
+открывает ее для всего спектра программного обеспечения, так или иначе
+следующего &lt;a href="/tag/unix-way/"&gt;"Unix&amp;nbsp;way"&lt;/a&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Thu, 21 Feb 2008 18:08:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-02-21:storage/2008/obzor-memcached/</guid><category>cash</category><category>cashing</category><category>daemon</category><category>Memcached</category><category>информационные технологии</category><category>кэш</category><category>кэширование</category><category>производительность</category><category>реализация</category><category>технология</category><category>unix way</category></item></channel></rss>

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/arkhitektura-37signals/feed/index.xml" rel="self"></atom:link><lastBuildDate>Thu, 05 Jun 2008 18:49:00 +0400</lastBuildDate><item><title>Архитектура 37signals</title><link>https://www.insight-it.ru//highload/2008/arkhitektura-37signals/</link><description>&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/7457badf/" rel="nofollow" target="_blank" title="http://www.37signals.com"&gt;37signals&lt;/a&gt; больше всего известны благодаря
+выпуску в свет &lt;a href="/tag/ruby-on-rails/"&gt;Ruby on Rails&lt;/a&gt; грамотному его
+использованию для запуска их очень популярных продуктов: Basecamp,
+Highrise, Backpack и Campfire. RoR как обычно пытаются винить во всех
+проблемах с производительностью, но 37signals казалось бы справляется с
+большой нагрузкой, используя вполне разумное количество вычислительных
+ресурсов.
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;h3 id="istochniki-informatsii"&gt;Источники информации&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;Этот текст является переводом
+&lt;a href="https://www.insight-it.ru/goto/23721415/" rel="nofollow" target="_blank" title="http://highscalability.com/37signals-architecture"&gt;статьи&lt;/a&gt;, автор -
+&lt;a href="https://www.insight-it.ru/goto/f3f1b405/" rel="nofollow" target="_blank" title="http://highscalability.com/user/todd-hoff"&gt;Todd Hoff&lt;/a&gt;. Извиняюсь за не
+сильно оригинальный контент (да и, как выяснилось, практически не
+технической направленности), но на написание своих полноценных текстов у
+меня последнее время все никак не хватает то креатива, то времени :( .&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/d744e02/" rel="nofollow" target="_blank" title="http://www.37signals.com/svn/posts/749-ask-37signals-numbers"&gt;Спросите 37signals:
+    цифры?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/aed84967/" rel="nofollow" target="_blank" title="http://www.37signals.com/svn/posts/753-ask-37signals-how-do-you-process-credit-cards"&gt;Спросите 37signals: как вы работаете с кредитными
+    картами?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/df60cd7c/" rel="nofollow" target="_blank" title="http://www.37signals.com/svn/posts/759-behind-the-scenes-at-37signals-support"&gt;За сценой 37signals:
+    поддержка.&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/61db4355/" rel="nofollow" target="_blank" title="http://www.37signals.com/svn/posts/772-ask-37signals-why-did-you-restart-highrise"&gt;Спросите 37signals: почему вы перезапустили
+    Highrise?&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="platforma"&gt;Платформа&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/ruby-on-rails/"&gt;Ruby on Rails&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/memcached/"&gt;Memcached&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/xen/"&gt;Xen&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/amazon-s3/"&gt;Amazon S3&lt;/a&gt; для хранения изображений&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="statistika"&gt;Статистика&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;30 серверов: от простых однопроцессорных файловых серверов до
+    восьмипроцессорных серверов приложений, в сумме около 100
+    процессоров и 200 GB оперативной памяти.&lt;/li&gt;
+&lt;li&gt;В планах диагональное масштабирование: уменьшение количества
+    серверов до 16, но более производительных - в сумме 92 процессоров и
+    230 GB RAM.&lt;/li&gt;
+&lt;li&gt;Виртуализация средствами &lt;a href="/tag/xen/"&gt;Xen&lt;/a&gt; для более гибкого
+    управления системой.&lt;/li&gt;
+&lt;li&gt;Basecamp (управление проектами):&lt;ul&gt;
+&lt;li&gt;2000000 пользователей с учетными записями&lt;/li&gt;
+&lt;li&gt;13200000 задач&lt;/li&gt;
+&lt;li&gt;9200000 сообщений&lt;/li&gt;
+&lt;li&gt;12200000 комментариев&lt;/li&gt;
+&lt;li&gt;5500000 записей о распределении времени&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Backpack (управление информацией для личного использования и малого
+    бизнеса):&lt;ul&gt;
+&lt;li&gt;Около миллиона страниц&lt;/li&gt;
+&lt;li&gt;6800000 задач&lt;/li&gt;
+&lt;li&gt;1500000 записей&lt;/li&gt;
+&lt;li&gt;829000 фотографий&lt;/li&gt;
+&lt;li&gt;370000 файлов&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Общая статистика проектов (на ноябрь 2007 г.):&lt;ul&gt;
+&lt;li&gt;5.9 TB загруженных пользователями данных&lt;/li&gt;
+&lt;li&gt;888 GB загружено (upload)&lt;/li&gt;
+&lt;li&gt;2 TB скачано (download)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="arkhitektura"&gt;Архитектура&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Кэширование средствами &lt;a href="/tag/memcached/"&gt;memcached&lt;/a&gt; уже используется,
+    но они ищут способы более активно его применять. Позволяет достичь
+    впечатляющих результатов в плане производительности.&lt;/li&gt;
+&lt;li&gt;Методы для составления URL используются вместо ручного их
+    составления.&lt;/li&gt;
+&lt;li&gt;Используются стандартные ActiveRecord запросы, но при необходимости
+    они используют и ручную настройку.&lt;/li&gt;
+&lt;li&gt;Иногда они дорабатывают Rails, если сталкиваются с проблемами с
+    производительностью.&lt;/li&gt;
+&lt;li&gt;Amazon S3 используется для хранения данных, загруженных
+    пользователями. Разработчики очень довольны результатами.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="rabota-s-kreditnymi-kartami"&gt;Работа с кредитными картами&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Ежемесячное выписывание счетов.&lt;/em&gt; Это позволяет компаниям,
+    занимающимся кредитными картами, чувствовать себя более комфортно,
+    так как им не придется столкнуться с огромным количеством работы,
+    если ваша фирма вдруг выйдет из бизнеса. Пользователям такой подход
+    также по душе, так как издержки в итоге оказываются относительно
+    невелики, а также не требуется подписание контракта, имеется
+    возможность пользоваться сервисами необходимый промежуток времени и
+    оплачивать именно ту сумму, которую потратили.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Получение учетной записи продавца услуг.&lt;/em&gt; Кто-то определенно должен
+    обрабатывать операции с кредитными картами. Они используют Chase
+    Bank. Воспользуйтесь услугами кого-нибудь, кому вы доверяете, а
+    когда масштаб ваших сделок станет существенным - будет возможность
+    получить более выгодные условия контракта.&lt;/li&gt;
+&lt;li&gt;Они используют authorize.net в роли шлюза для процессинга операций с
+    кредитными картами.&lt;/li&gt;
+&lt;li&gt;Ежемесячным выписыванием счетов занимается специально написанная для
+    этого проекта система. Она запускается каждую ночь, отправляет счета
+    нужным людям и записывает результаты выполненных операций.&lt;/li&gt;
+&lt;li&gt;В случае успеха счет-фактура высылается по электронной почте.&lt;/li&gt;
+&lt;li&gt;В случае каких-либо сбоев - пользователю отправляется объяснение
+    причин.&lt;/li&gt;
+&lt;li&gt;Если три раза с помощью кредитной карты не удается оплатить счет -
+    учетная запись замораживается до тех пор, пока не будет предоставлен
+    платежеспособный номер кредитной карты.&lt;/li&gt;
+&lt;li&gt;Обработка ошибок является критичным моментом, так как проблемы с
+    оплатой возникают достаточно часто.&lt;/li&gt;
+&lt;li&gt;Все продукты конвертируются для использования централизованным
+    биллинговым сервисом.&lt;/li&gt;
+&lt;li&gt;Необходимо быть совместимыми с &lt;a href="https://www.insight-it.ru/goto/963f6a2d/" rel="nofollow" target="_blank" title="http://en.wikipedia.org/wiki/PCI_DSS"&gt;PCI DSS (Payment Card Industry Data
+    Security Standard)&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Пользуйтесь услугами шлюзов, это позволит не хранить номера
+    кредитных карт на своем сайте, что сильно упрощает жизнь в плане
+    безопасности. Некоторые из них предоставляют и биллинговые услуги,
+    что позволяет также не заниматься этим самостоятельно.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="podderzhka-polzovatelei"&gt;Поддержка пользователей&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Campfire используется для работы с клиентами. По сути эта система
+    представляет собой групповой веб-чат с расширенными возможностями в
+    виде опциональной защиты паролем, личных сообщений, обмена файлами,
+    предпросмотра изображений, а также коллективного принятия решений.&lt;/li&gt;
+&lt;li&gt;Поднимаемые вопросы используются для поиска ошибок в коде, а
+    обновление данных в SVN отображается прямо в процессе общения.
+    Bugtracking система обходится стороной, что казалось бы должно лишь
+    усложнять исправление неполадок, например из-за отсутствия
+    возможности проследить связь между конкретным изменением в коде и
+    вызвавшей его неполадкой.&lt;/li&gt;
+&lt;li&gt;Зато служба поддержки может решать проблемы клиентов с помощью
+    общения в чате в реальном времени, с возможностью обмена
+    изображениями и снимками экранов, демонстрирующими неисправность.&lt;/li&gt;
+&lt;li&gt;Разработчики также всегда доступны с помощью Campfire для помощи в
+    решении проблем клиентов.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="podvodim-itogi"&gt;Подводим итоги&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Возьмите пример с &lt;a href="/tag/amazon/"&gt;Amazon&lt;/a&gt; и постройте все внутренние
+    функции в виде сервисов с самого начала. Это позволит более легко
+    использовать их в разных продуктах и прозрачно обновлять
+    предоставляемые возможности.&lt;/li&gt;
+&lt;li&gt;Не храните номера кредитных карт внутри своей базы данных - это
+    существенно снижает риски, связанные с безопасностью.&lt;/li&gt;
+&lt;li&gt;Разработчики и пользователи должны иметь возможность легко общаться
+    друг с другом публично. Пользователи получают сервис намного более
+    высокого качества, если общаются напрямую с разработчиками, которые
+    решают все проблемы прямо в рамках нормального хода процесса
+    разработки. Это позволяет избежать нескольких излишних промежуточных
+    этапов при обработке заявок о неисправности. Помимо этого
+    разработчикам предоставляется возможность узнать пользовательское
+    мнение об их продукте, что делает дальнейшее развитие проекта более
+    эффективным. Потенциальные клиенты могут убедиться в отзывчивости
+    компании, просто посмотрев на такое общение, что подталкивает их к
+    более охотной регистрации.&lt;/li&gt;
+&lt;li&gt;Развивайте свой продукт добавлением новых функций, которые нужны
+    конкретным клиентам, а не тех, которые когда-нибудь может быть
+    кому-нибудь понадобятся.&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Thu, 05 Jun 2008 18:49:00 +0400</pubDate><guid>tag:www.insight-it.ru,2008-06-05:highload/2008/arkhitektura-37signals/</guid><category>Amazon S3</category><category>Memcached</category><category>MySQL</category><category>RoR</category><category>Ruby on Rails</category><category>Xen</category><category>архитектура</category><category>архитектура 37signals</category><category>Масштабируемость</category></item></channel></rss>

@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/http/feed/index.xml" rel="self"></atom:link><lastBuildDate>Tue, 10 Apr 2012 00:47:00 +0400</lastBuildDate><item><title>Постоянное соединение между браузером и сервером</title><link>https://www.insight-it.ru//interactive/2012/postoyannoe-soedinenie-mezhdu-brauzerom-i-serverom/</link><description>&lt;p&gt;В статье про &lt;a href="https://www.insight-it.ru/interactive/2012/klientskaya-chast-interaktivnogo-sajjta/"&gt;клиентскую часть интерактивного интернет-проекта&lt;/a&gt; мы подошли к вопросу возможности использования двухстороннего
+постоянного соединения между сайтом и JavaScript-клиентом для
+синхронизации их состояний. Такое соединение представляет собой канал
+для обмена сообщениями &lt;em&gt;в реальном времени&lt;/em&gt; между браузером и серверным
+процессом, причем каждая сторона может быть инициатором отправки
+сообщения и имеет некую логику реакции на получаемые сообщения.&lt;/p&gt;
+&lt;p&gt;Сегодня мы рассмотрим основные варианты реализации этого принципа и как
+он сочетается с обсуждавшимися в предыдущих статьях
+&lt;a href="https://www.insight-it.ru/interactive/"&gt;серии&lt;/a&gt; темами.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h2 id="transport"&gt;Транспорт&lt;/h2&gt;
+&lt;p&gt;Так как одной из сторон постоянного соединения является браузер, вопрос
+кроссбраузерности при его реализации стоит не менее остро, чем,
+например, при верстке. В 2001 году, когда появился на свет самый часто
+вспоминаемый недобрым словом браузер в мире, о подобных технологиях
+постоянного соединения между браузером и сервером практически никто не
+задумывался даже отдаленно.&lt;/p&gt;
+&lt;p&gt;Существуют несколько протоколов и связанных с ними технологий, которые
+позволяют реализовать постоянное с точки зрения приложения соединение
+между браузером и сервером, обычно их называют &lt;strong&gt;транспортами&lt;/strong&gt;. Каждый
+из них обладает разной производительностью, особенностями реализации и
+нагрузкой на серверную часть. Возможно не полный их список c краткими
+пояснениями:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="https://www.insight-it.ru/goto/5ddd244b/" rel="nofollow" target="_blank" title="http://ru.wikipedia.org/wiki/WebSocket"&gt;WebSocket&lt;/a&gt;:&lt;/strong&gt;&amp;nbsp;пожалуй,
+    самый эффективный с точки зрения производительности и нагрузки на
+    сервер транспорт. Протокол относительно новый, появился в рамках
+    работы над &lt;a href="/tag/html5/"&gt;HTML5&lt;/a&gt;. Доступен только в очень свежих
+    браузерах, имеет несколько более-менее стандартных версий.
+    Используется одно соединение для обоих направлений обмена
+    сообщениями.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="https://www.insight-it.ru/goto/4587ee12/" rel="nofollow" target="_blank" title="http://dev.w3.org/html5/eventsource/"&gt;EventSource&lt;/a&gt;:&lt;/strong&gt;&amp;nbsp;появился
+    примерно в то же время, что и WebSocket, но по задумке должен
+    использоваться для получения односторонних уведомлений от сервера. В
+    совокупности с простыми AJAX запросами для отправки событий из
+    браузера может использоваться для двустороннего общения. Но так как
+    он доступен примерно в тех же версиях браузеров, что и WebSocket, со
+    сценариями, когда он оказывался бы более предпочтительным, я не
+    сталкивался. Технически очень похож на следующий транспорт.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/1a0e9c02/" rel="nofollow" target="_blank" title="http://en.wikipedia.org/wiki/Push_technology#HTTP_server_push"&gt;&lt;strong&gt;AJAX Multipart&lt;/strong&gt;&lt;/a&gt; aka &lt;strong&gt;&lt;a href="https://www.insight-it.ru/goto/1a0e9c02/" rel="nofollow" target="_blank" title="http://en.wikipedia.org/wiki/Push_technology#HTTP_server_push"&gt;HTTP Streaming&lt;/a&gt;:&lt;/strong&gt;&amp;nbsp;после
+    получения HTTP-запроса от клиента сервер не "отпускает" его и по
+    мере поступления отправляет в него свои сообщения. Для отправки
+    сообщений из браузера при необходимости создается&amp;nbsp;второе соединение.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="https://www.insight-it.ru/goto/dcd446e1/" rel="nofollow" target="_blank" title="http://en.wikipedia.org/wiki/Push_technology#Long_polling"&gt;AJAX/HTTP Polling&lt;/a&gt;:&lt;/strong&gt;&amp;nbsp;в
+    отличии от предыдущего транспорта, сервер закрывает HTTP-соединение
+    после каждого отправленного в него сообщения или по прошествии
+    определенного таймаута (обычно порядка 20-40 секунд). А браузер
+    сразу же после получения сообщения открывает новое соединение, таким
+    образом у сервера по-прежнему практически всегда есть соединение,
+    куда можно отправить сообщения. Хоть по нагрузке на сервер этот
+    вариант самый тяжелый, поддерживают его практически все браузеры.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="https://www.insight-it.ru/goto/9344995a/" rel="nofollow" target="_blank" title="https://github.com/gimite/web-socket-js"&gt;Adobe Flash&lt;/a&gt;:&lt;/strong&gt;&amp;nbsp;эта
+    платформа может эмулировать поддержку WebSocket при определенном
+    стечении обстоятельств (удачная комбинация Flash-плеера и браузера).
+    Немного нетривиальна в настройке из-за своих особенностей.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;По поводу поддержки каждого из них различными браузерами было бы неплохо
+составить табличку, но на самом деле нюансов там много и многое зависит
+не только от версии браузера, но и от других обстоятельств, вроде
+наличия и типа прокси, использования трюков с iframe, наличия
+Flash-плеера и т.п.&lt;/p&gt;
+&lt;p&gt;Все вышеизложенные транспорты в конечном итоге основываются на протоколе
+&lt;a href="/tag/http/"&gt;HTTP&lt;/a&gt;. Большинство из современных браузеров ограничивают
+количество одновременных HTTP-соединений с доменом &lt;strong&gt;до двух&lt;/strong&gt;, что как
+раз достаточно даже для менее эффективных вариантов.&lt;/p&gt;
+&lt;p&gt;В любом случае работать напрямую с транспортами не обязательно, благо
+существует большое количество библиотек и сервисов, позволяющих от них
+абстрагироваться, к ним и переходим.&lt;/p&gt;
+&lt;h2 id="abstraktsiia"&gt;Абстракция&lt;/h2&gt;
+&lt;p&gt;По сути такие библиотеки состоят из двух частей: клиентской на
+&lt;a href="/tag/javascript/"&gt;JavaScript&lt;/a&gt; и серверной для одной или нескольких
+платформ. Клиент определяет какой из доступных в текущем браузере
+транспортов является наиболее эффективным и с его помощью устанавливает
+соединение с сервером, который поддерживает несколько протоколов. С
+точки зрения разработчика интерфейс, ими предоставляемый, не зависит от
+транспорта и примерно одинаков:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Метод для &lt;strong&gt;отправки&lt;/strong&gt; сообщения противоположной стороне.&lt;/li&gt;
+&lt;li&gt;Регистрация обработчика события, который будет вызван &lt;strong&gt;при
+    получении&lt;/strong&gt; сообщения от противоположной стороны, с содержанием
+    сообщения в аргументе.&lt;/li&gt;
+&lt;li&gt;Метод, который будет вызван при установке и разрывании соединения.&lt;/li&gt;
+&lt;li&gt;Инициатором соединения по очевидным причинам всегда является клиент,
+    так что у него есть дополнительный механизм для этого, с
+    возможностью указать какие-то настройки.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;При выборе такой библиотеки для конкретного проекта очень большую роль
+играет его основная серверная платформа: обычно хочется использовать тот
+же язык программирования для обработки сообщений, что и для реализаций
+основной серверной части. Чаще всего используется основанный на
+&lt;a href="/tag/epoll/"&gt;epoll&lt;/a&gt; или аналогах HTTP-сервер, что позволяет
+поддерживать большое количество пользователей онлайн:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/node-js/"&gt;Node.js&lt;/a&gt; на &lt;a href="/tag/javascript/"&gt;JavaScript&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;На &lt;a href="/tag/erlang/"&gt;Erlang&lt;/a&gt; есть несколько очень эффективных
+    HTTP-серверов:&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/82a43b29/" rel="nofollow" target="_blank" title="https://github.com/extend/cowboy"&gt;cowboy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/4567a795/" rel="nofollow" target="_blank" title="https://github.com/ostinelli/misultin"&gt;misultin&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/2902d504/" rel="nofollow" target="_blank" title="https://github.com/mochi/mochiweb"&gt;mochiweb&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/798908e5/" rel="nofollow" target="_blank" title="http://yaws.hyber.org/"&gt;yaws&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/tornado/"&gt;Tornado&lt;/a&gt;&amp;nbsp;на &lt;a href="/tag/python/"&gt;Python&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/netty/"&gt;netty&lt;/a&gt; на &lt;a href="/tag/java/"&gt;Java&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Так как самих библиотек этой категории существует примерно пару
+десятков, расскажу вкратце о наиболее заслуживающих внимания на мой
+взгляд:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/4034b77d/" rel="nofollow" target="_blank" title="http://socket.io"&gt;socket.io&lt;/a&gt;: поддерживает практически все
+    возможные транспорты, включая &lt;a href="/tag/flash/"&gt;Flash&lt;/a&gt;. Основная
+    серверная платформа - &lt;strong&gt;node.js&lt;/strong&gt;, силами сторонних разработчиков
+    есть реализации протокола на других платформах. Имеет спорную
+    репутацию, проект довольно громоздкий, в некоторых ситуациях ведет
+    себя непредсказуемо.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/4dc9c4cc/" rel="nofollow" target="_blank" title="https://github.com/sockjs/sockjs-client"&gt;SockJS&lt;/a&gt;: очень молодой
+    проект, поддерживает необходимый минимум транспортов, прост в
+    эксплуатации. Относительно стабилен и предсказуем. Серверная часть
+    доступна на &lt;strong&gt;node.js&lt;/strong&gt;, &lt;strong&gt;Tornado&lt;/strong&gt; и &lt;strong&gt;cowboy/misultin,&lt;/strong&gt; активно
+    работают над другими платформами.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Существуют коммерческие решения, абсолютно идентичные по принципу работы
+и функционалу. Аналогичная обсуждавшимся opensource решениям библиотека
+дополняется брокером сообщений для организации паттерна
+"публикация-подписка" и в совокупности с хостингом "в облаках" продается
+с оплатой за количество переданных сообщений (или по подписке с каким-то
+лимитом), естественно с нехилой наценкой. Плюсы и минусы очевидны:
+отсутствие необходимости обо всем этом заботиться против относительно
+высокой стоимости, потере контроля при сбоях или необходимости
+изменений, привязке к стороннему поставщику услуг и т.п. Рекламировать
+их не буду, при желании легко гуглятся, ровно как и оставшиеся
+альтернативные opensource проекты.&lt;/p&gt;
+&lt;h2 id="vernemsia-k-interaktivnym-saitam"&gt;Вернемся к интерактивным сайтам&lt;/h2&gt;
+&lt;p&gt;Надеюсь, только что закончившегося лирического отступления на 3/4 статьи
+Вам будет достаточно, чтобы составить общее представление о построении
+постоянного соединения между браузером и сервером, а желательно и
+определиться с каким-то решением для автоматического выбора наиболее
+эффективного транспорта в контексте именно Вашего проекта.&lt;/p&gt;
+&lt;p&gt;Получив примитивный интерфейс в виде "отправить сообщение /
+отреагировать на сообщение" необходимо определиться с тем, что же мы
+будем передавать в этих сообщениях и как будем на них реагировать.&lt;/p&gt;
+&lt;p&gt;С форматом сериализации сообщений все довольно просто: выбор между XML и
+JSON очевиден в пользу последнего, а заморачиваться с чем-то более
+экзотическим смысла мало (хотя давно хочу попробовать в этой роли
+&lt;a href="/tag/protocol-buffers/"&gt;Protocol Buffers&lt;/a&gt; или &lt;a href="/tag/bson/"&gt;BSON&lt;/a&gt;, но
+никак руки не доходят).&lt;/p&gt;
+&lt;p&gt;Намного интереснее вопрос о том, что, собственно, будет в этих
+сообщениях содержаться. В &lt;a href="https://www.insight-it.ru/interactive/2012/klientskaya-chast-interaktivnogo-sajjta/"&gt;предыдущей статье&lt;/a&gt;
+мы остановились на использовании фреймворка для организации кода
+JavaScript-клиента. Предлагаемая ими концепция &lt;strong&gt;модели&lt;/strong&gt;&amp;nbsp;обычно
+по-умолчанию предоставляет возможность синхронизации с сервером
+посредством &lt;a href="/tag/ajax/"&gt;AJAX&lt;/a&gt; запросов и механизм изменения этого
+поведения. Для использовавшегося в качестве примера
+&lt;a href="/tag/backbone-js/"&gt;Backbone.js&lt;/a&gt;&amp;nbsp;для этого необходимо переопределить
+функцию &lt;strong&gt;Backbone.sync&lt;/strong&gt;.&amp;nbsp;При сохранении модели клиент будет отправлять
+объект с идентификатором модели и списком её изменений. Запрос изменений
+с сервера будет происходить асинхронно, то есть после отправки сообщения
+о том, что нужны данные для такой-то модели, посредством метода fetch он
+сам не получит ответа. Собственно изменения в модели произведет
+обработчик получения сообщений, в котором должна быть реализована
+соответствующая логика. Далее подписанные на события изменений в моделях
+объекты-представления будут соответствующим образом обновлять DOM-дерево
+страницы, отображая пользователю нужную информацию. &lt;em&gt;Это, пожалуй,
+наиболее &lt;strong&gt;правильный&lt;/strong&gt; способ интегрировать постоянное соединение и
+клиентский фреймфорк.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Основными минусами его является очень серьезный объем работы по
+разработке клиентской части, а также дублирование достаточно большой
+части логики и HTML-шаблонов между серверной и клиентской сторонами. Я
+бы рекомендовал использовать этот подход, только если позволяют трудовые
+ресурсы (читай: есть хотя бы отдельный специализирующийся на JavaScript
+разработчик), либо когда проект по каким-то причинам решил отказаться от
+реализации статичного HTML-интерфейса.&lt;/p&gt;
+&lt;p&gt;В следующей статье я расскажу о менее трудозатратном способе добиться
+того же результата, который основан на жертве идеологической
+правильностью в пользу минимизации повторного написания кода.&lt;/p&gt;
+&lt;div class="card green"&gt;
+&lt;p&gt;&lt;div class="card-content white-text"&gt;
+Эта статья - третья в &lt;a class="green-text text-lighten-4" href="https://www.insight-it.ru/interactive/"&gt;серии про Интерактивные сайты&lt;/a&gt;, автор - &lt;a class="green-text text-lighten-4" href="https://www.insight-it.ru/goto/b03d9116/" rel="nofollow" target="_blank" title="http://blinkov.ru"&gt;Иван&amp;nbsp;Блинков&lt;/a&gt;, основано на личном опыте.
+До встречи &lt;a class="green-text text-lighten-4" href="/feed/"&gt;на страницах Insight IT&lt;/a&gt;!
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Tue, 10 Apr 2012 00:47:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-04-10:interactive/2012/postoyannoe-soedinenie-mezhdu-brauzerom-i-serverom/</guid><category>AJAX</category><category>Comet</category><category>epoll</category><category>EventSource</category><category>Flash</category><category>HTTP</category><category>JavaScript</category><category>polling</category><category>streaming</category><category>WebSocket</category><category>клиентская часть</category><category>серверная часть</category><category>HTML5</category></item><item><title>Tornado</title><link>https://www.insight-it.ru//python/2012/tornado/</link><description>&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/21e3a9b2/" rel="nofollow" target="_blank" title="http://www.tornadoweb.org"&gt;&lt;strong&gt;Tornado&lt;/strong&gt;&lt;/a&gt;&amp;nbsp;- масштабируемый
+неблокирующий&amp;nbsp;&lt;a href="/tag/http/"&gt;HTTP&lt;/a&gt;-сервер на основе&amp;nbsp;&lt;a href="/tag/epoll/"&gt;epoll&lt;/a&gt;,
+написанный полностью на &lt;a href="/tag/python/"&gt;Python&lt;/a&gt;. Изначально он был
+разработан в рамках проекта FriendFeed, на сегодняшний же день
+его&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/8839735b/" rel="nofollow" target="_blank" title="https://github.com/facebook/tornado/"&gt;поддержкой&lt;/a&gt;&amp;nbsp;занимается&amp;nbsp;&lt;a href="/tag/facebook/"&gt;Facebook&lt;/a&gt;.
+Сегодня я хотел бы рассказать о том, как с его помощью можно быстро и
+легко создавать веб-проекты на Python, которые в дальнейшем будет
+относительно легко горизонтально масштабировать.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h2 id="http"&gt;HTTP&lt;/h2&gt;
+&lt;p&gt;Не смотря на приличное количество опциональных модулей, идущих в
+комплекте с Tornado, проект в первую очередь является именно
+HTTP-сервером. Используемый механизм
+&lt;a href="https://www.insight-it.ru/linux/2012/kak-rabotaet-epoll/"&gt;epoll&lt;/a&gt; (по
+ссылке можно прочитать о том, в чем он заключается) практически
+полностью определяет основные принципы работы Tornado:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;он работает в рамках одного процесса;&lt;/li&gt;
+&lt;li&gt;использование потоков внутри него нежелательно;&lt;/li&gt;
+&lt;li&gt;для использования всех доступных ядер процессора обычно запускают
+    несколько копий одинаковых процессов на разных портах (недавно
+    добавили модуль
+    &lt;a href="https://www.insight-it.ru/goto/f0b10879/" rel="nofollow" target="_blank" title="http://www.tornadoweb.org/documentation/process.html"&gt;tornado.process&lt;/a&gt;
+    для упрощения реализации этого);&lt;/li&gt;
+&lt;li&gt;обычно обрабатывает HTTP-запросы не напрямую, а через балансировщик
+    нагрузки (&lt;a href="/tag/nginx/"&gt;nginx&lt;/a&gt; или &lt;a href="/tag/haproxy/"&gt;HAProxy&lt;/a&gt;).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Эта ситуация мотивирует с самого начала задумываться о распределении
+нагрузки, а также о выносе выполнения вычислительно сложных задач в
+отдельные сервисы, скажем конвертирование фото/видео или подсчет
+какой-то статистики.&lt;/p&gt;
+&lt;p&gt;Стоит добавить, что вместе с проектом поставляется модуль
+&lt;a href="https://www.insight-it.ru/goto/1b53962f/" rel="nofollow" target="_blank" title="http://www.tornadoweb.org/documentation/wsgi.html"&gt;tornado.wsgi&lt;/a&gt;,
+который позволяет запускать внутри себя другие веб-ориентированные
+проекты на Python (в частности небезызвестный &lt;a href="/tag/django/"&gt;Django&lt;/a&gt;), а
+также "притворяться" таковым для каких-то внешних серверов или сервисов,
+которые умеют общаться с Python-приложениями только по
+WSGI-протоколу,&amp;nbsp;например таковым является&amp;nbsp;&lt;a href="/tag/gae/"&gt;Google App Engine&lt;/a&gt;. Пользоваться этим модулем крайне не рекомендую,
+только при постепенном мигрировании проекта с каких-то других
+технологий.&lt;/p&gt;
+&lt;h2 id="obrabotka-zaprosov"&gt;Обработка запросов&lt;/h2&gt;
+&lt;p&gt;При использовании &lt;strong&gt;Tornado&lt;/strong&gt; не приходится работать с HTTP напрямую -
+разбор заголовков и URL он берет на себя. От разработчика требуется лишь
+словарь, состоящий из регулярных выражений и соответствующих им
+классов-обработчиков запросов.&lt;/p&gt;
+&lt;p&gt;При создании этих классов настоятельно рекомендую по полной
+воспользоваться возможностями &lt;a href="/tag/oop/"&gt;ООП&lt;/a&gt;, в частности
+наследования. Tornado предоставляет базовый класс
+&lt;a href="https://www.insight-it.ru/goto/6a529884/" rel="nofollow" target="_blank" title="http://www.tornadoweb.org/documentation/web.html#tornado.web.RequestHandler"&gt;RequestHandler&lt;/a&gt;,
+который берет на себя всю грязную работу, а разработчику предлагается
+реализовать лишь логику, переопределив метод(ы) &lt;em&gt;get&lt;/em&gt;, &lt;em&gt;post&lt;/em&gt;, &lt;em&gt;delete&lt;/em&gt;
+или &lt;em&gt;head&lt;/em&gt;. На практике же обычно удобнее иметь свой собственный базовый
+класс для обработчиков запросов, который унаследован от RequestHandler и
+реализовывает общую для текущего конкретного проекта логику (примеры
+ниже).&lt;/p&gt;
+&lt;h2 id="dostup-k-baze-dannykh"&gt;Доступ к базе данных&lt;/h2&gt;
+&lt;p&gt;Модуль &lt;a href="https://www.insight-it.ru/goto/3642a74b/" rel="nofollow" target="_blank" title="http://www.tornadoweb.org/documentation/database.html"&gt;tornado.database&lt;/a&gt;&amp;nbsp;предлагает довольно простой доступ к &lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt;. С одной стороны благодаря нему можно сходу начинать разрабатывать приложение на Tornado без использования дополнительных библиотек, с другой - далеко не в каждом проекте используется именно эта &lt;a href="/tag/subd/"&gt;СУБД&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;В любом случае никто не запрещает использовать любую другую библиотеку
+для доступа к любой другой СУБД, но есть одно большое &lt;strong&gt;НО!&lt;/strong&gt;
+Большинство из них являются &lt;em&gt;блокирующими&lt;/em&gt;, то есть не возвращают
+управление до тех пор, пока СУБД не вернет ответ. Почуяли неладное?
+Правильно, в таком случае весь процесс Tornado, вместе со всеми
+попавшими в него запросами, будет простаивать пока управление не будет
+получено обратно, что очень не здорово.&lt;/p&gt;
+&lt;p&gt;Решается эта неприятная ситуация путем отправки асинхронных запросов к
+СУБД, то есть после отправки запроса управление сразу же возвращается, а
+для обработки запроса регистрируется callback, который получит
+управление, когда прийдет ответ от СУБД. За планирование очередности
+передачи управления отвечает &lt;a href="https://www.insight-it.ru/goto/987cbc33/" rel="nofollow" target="_blank" title="http://www.tornadoweb.org/documentation/ioloop.html"&gt;IOLoop&lt;/a&gt;, который и является "сердцем" Tornado.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/fa9e55f2/" rel="nofollow" target="_blank" title="https://github.com/facebook/tornado/wiki/Links"&gt;Ассортимент&lt;/a&gt;&amp;nbsp;готовых
+библиотек, интегрированных с &lt;strong&gt;Tornado IOLoop&lt;/strong&gt;, довольно широк и не
+ограничивается одним доступом к СУБД. Хотя готовое решение получается
+найти все же не всегда - приходится возиться с этим всем вручную или
+мириться с блокировками...&lt;/p&gt;
+&lt;h2 id="vzaimodeistvie-s-vneshnim-mirom"&gt;Взаимодействие с внешним миром&lt;/h2&gt;
+&lt;p&gt;В комплекте с Tornado идет неблокирующий
+&lt;a href="https://www.insight-it.ru/goto/4d3aa901/" rel="nofollow" target="_blank" title="http://www.tornadoweb.org/documentation/httpclient.html"&gt;HTTP-клиент&lt;/a&gt;,
+так что внутренние сервисы проще всего реализовывать с интерфейсом на
+JSON over HTTP. Им же можно и обращаться к&amp;nbsp;API внешних сервисов.&lt;/p&gt;
+&lt;p&gt;С &lt;a href="/tag/thrift/"&gt;Thrift&lt;/a&gt; и &lt;a href="/tag/protocol-buffers/"&gt;Protocol Buffers&lt;/a&gt;
+ситуация несколько более печальна - о прецедентах их интеграции в
+&lt;strong&gt;Tornado IOLoop&lt;/strong&gt; я не слышал, если кто-то может поделиться
+информацией - буду благодарен, довольно актуальный вопрос.&lt;/p&gt;
+&lt;h2 id="generatsiia-html"&gt;Генерация HTML&lt;/h2&gt;
+&lt;p&gt;Шаблонизатор также предлагается свой собственный (не очень удачный, но
+вполне можно использовать), но его особо никто не навязывает -
+необходимо лишь переопределить метод render у базового RequestHandler с
+использованием любого другого аналогичного продукта.&lt;/p&gt;
+&lt;p&gt;Например,&amp;nbsp;&lt;a href="https://www.insight-it.ru/python/2012/jinja2/"&gt;Jinja2&lt;/a&gt;, о котором я недавно писал, подключается примерно вот так:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;connections&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;env&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;tornado.web&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;RequestHandler&lt;/span&gt;
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;BaseHandler&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;RequestHandler&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;render&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;template&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;context&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;context&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;context&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{}&lt;/span&gt;
+    &lt;span class="n"&gt;context&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;'user'&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;current_user&lt;/span&gt;
+    &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_template&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;template&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;render&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;context&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;flush&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id="prochie-bonusy"&gt;Прочие бонусы&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/4a1367c0/" rel="nofollow" target="_blank" title="http://www.tornadoweb.org/documentation/gen.html"&gt;tornado.gen&lt;/a&gt; -
+    набор инструментов для упрощения написания асинхронного кода.
+    Благодаря использованию механизма генераторов (yield), позволяет
+    уместить в рамках одного метода и отправку асинхронного запроса и
+    обработку его результата.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/51bf20aa/" rel="nofollow" target="_blank" title="http://www.tornadoweb.org/documentation/websocket.html"&gt;tornado.websocket&lt;/a&gt;
+    предлагает реализацию нескольких последних редакций одноименного
+    протокола, &amp;nbsp;доступна пара более кроссбраузерных альтернатив с
+    поддержкой нескольких протоколов:
+    &lt;a href="https://www.insight-it.ru/goto/4aaf7cbf/" rel="nofollow" target="_blank" title="https://github.com/MrJoes/sockjs-tornado"&gt;sockjs-tornado&lt;/a&gt; и
+    &lt;a href="https://www.insight-it.ru/goto/96d4faf2/" rel="nofollow" target="_blank" title="https://github.com/MrJoes/tornadio2"&gt;TornadIO&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;С помощью
+    &lt;a href="https://www.insight-it.ru/goto/89f20712/" rel="nofollow" target="_blank" title="http://www.tornadoweb.org/documentation/twisted.html"&gt;tornado.platform.twisted&lt;/a&gt;
+    можно запускать код, написанный под &lt;strong&gt;Twisted&lt;/strong&gt; (несколько более
+    громоздкий и пожилой конкурент), внутри &lt;strong&gt;Tornado
+    IOLoop.&lt;/strong&gt;&amp;nbsp;Актуально для "мигрирующих" проектов и прикручивания
+    библиотек, написанных под Twisted.&lt;/li&gt;
+&lt;li&gt;Без
+    &lt;a href="https://www.insight-it.ru/goto/656f36a1/" rel="nofollow" target="_blank" title="http://www.tornadoweb.org/documentation/autoreload.html"&gt;tornado.autoreload&lt;/a&gt;
+    разработка превратилась бы в настоящий кошмар.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="zakliuchenie"&gt;Заключение&lt;/h2&gt;
+&lt;p&gt;Асинхронная модель обработки запросов - и правда может оказаться очень
+большой головной болью, но к ней вполне реально приспособиться и
+получить выгоды в виде, как минимум:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;возможности поддерживать открытыми больше пользовательских
+    соединений при фиксированных ресурсах;&lt;/li&gt;
+&lt;li&gt;априори горизонтально масштабируемой архитектуры на уровне
+    приложения (базы данных - отдельная тема);&lt;/li&gt;
+&lt;li&gt;частичной независимости от быстродействия используемых сторонних и
+    внутренних сервисов;&lt;/li&gt;
+&lt;li&gt;мотивации выносить вычислительно-тяжелые операции в отдельные
+    сервисы (даже при многопоточной модели так стоит делать), а заодно и
+    использовать брокер сообщений внутри системы &lt;em&gt;(весь последний пункт
+    связан лишь косвенно)&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;В комментариях предлагаю подискутировать на тему пригодности
+&lt;strong&gt;Tornado&lt;/strong&gt;&amp;nbsp;и аналогичных продуктов для использования в различных
+интернет-проектах, как высоконагруженных, так и маленьких. Ещё&amp;nbsp;мне было
+бы интересно узнать насколько велик интерес аудитории к чуть более
+прикладным, чем обычно, статьям, вроде этой - с удовольствием выслушаю
+Ваше мнение. &lt;a href="/feed/"&gt;До новых встреч!&lt;/a&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Tue, 28 Feb 2012 23:03:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-02-28:python/2012/tornado/</guid><category>epoll</category><category>HTTP</category><category>Python</category><category>Tornado</category></item><item><title>Terrastore</title><link>https://www.insight-it.ru//storage/2010/terrastore/</link><description>&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/76e0ccd6/" rel="nofollow" target="_blank" title="http://code.google.com/p/terrastore/"&gt;Terrastore&lt;/a&gt; является
+свежеиспеченной системой хранения документов, с отличными возможностями
+по масштабируемости и эластичной настройке, при этом без жертв со
+стороны консистентности данных.&lt;/p&gt;
+&lt;p&gt;Вместо подробного описания несколько ключевых характеристик продукта:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Легкодоступность:&lt;/strong&gt; данные доступны посредством повсеместно
+    используемого протокола HTTP.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Распреденность:&lt;/strong&gt; узлы могут работать и существовать на любых
+    доступных серверах.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Эластичность:&lt;/strong&gt; имеется возможность динамического добавления и
+    удаления узлов кластера на лету, без малейшего простоя системы и
+    каких-либо изменений в конфигурации.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Масштабируемость на уровне данных:&lt;/strong&gt; документы разбиваются на
+    группы и распределяются между доступными узлами с автоматической
+    прозрачной балансировкой, в том числе и при добавлении и исключении
+    узлов в кластере.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Масштабируемость на вычислительном уровне:&lt;/strong&gt; запросы и обновление
+    данных распределяются по узлам, которые физически хранят
+    используемые данные, тем самым минимизируется трафик и
+    распределяется вычислительная нагрузка.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Консистентность:&lt;/strong&gt; система обеспечивает по-документную
+    консистентность данных, таким образом гарантируя тот факт, что
+    пользователь всегда получает самую свежую версию документа,
+    обеспечивая изоляцию для параллельных модификаций документов.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Отсутствие схемы:&lt;/strong&gt; предоставляет JSON интерфейс, основанный на
+    коллекциях; пользователям предоставляется возможность просто создать
+    свою коллекцию и положить туда что угодно.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Простота в работе:&lt;/strong&gt; установка полностью работоспособного кластера
+    заключается в вводе всего нескольких команд и не требует какого-либо
+    редактирование XML-конфигов.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Богатый функционал:&lt;/strong&gt; поддерживаются push-down предикаты, запросы
+    по диапазонам и серверные функции обновления.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Если Вам показалось интересным, у Вас есть возможность &lt;a href="https://www.insight-it.ru/goto/76e0ccd6/" rel="nofollow" target="_blank" title="http://code.google.com/p/terrastore/"&gt;получить более подробную информацию&lt;/a&gt;,&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/ff8d489f/" rel="nofollow" target="_blank" title="http://groups.google.com/group/terrastore-discussions"&gt;принять участие в проекте&lt;/a&gt;,&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/b14ec8b0/" rel="nofollow" target="_blank" title="http://code.google.com/p/terrastore/downloads/list"&gt;скачать дистрибутив&lt;/a&gt;
+или&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/caed0d40/" rel="nofollow" target="_blank" title="http://code.google.com/p/terrastore/source/createClone"&gt;получить копию исходного кода&lt;/a&gt;!
+﻿&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;В очередной раз спасибо &lt;a href="https://www.insight-it.ru/goto/7b0eba82/" rel="nofollow" target="_blank" title="http://highscalability.com/blog/2009/12/30/terrastore-scalable-elastic-consistent-document-store.html"&gt;highscalability.com за источник
+информации&lt;/a&gt;,
+за одно хотелось бы услышать мнения о таком формате постов. Я тут уже
+почти неделю копаюсь над постом-долгостроем про Baidu, а такой можно
+сочинить за полчаса.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Кстати про &lt;a href="https://www.insight-it.ru/goto/65f34522/" rel="nofollow" target="_blank" title="http://www.terracotta.org"&gt;Terracotta&lt;/a&gt;, на основе
+которой работает данный продукт, тоже давно пора было уже написать, в
+ближайшее время займусь :)&lt;/em&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Thu, 07 Jan 2010 01:22:00 +0300</pubDate><guid>tag:www.insight-it.ru,2010-01-07:storage/2010/terrastore/</guid><category>HTTP</category><category>Terracotta</category><category>Terrastore</category><category>документы</category><category>Масштабируемость</category><category>хранение</category></item><item><title>Comet</title><link>https://www.insight-it.ru//frontend/2008/comet/</link><description>&lt;p&gt;Уже приготовились мыть посуду? Что ж, придется Вас разочаровать, сегодня
+речь пойдет вовсе не о моющем средстве, а об одноименной технологии.&lt;/p&gt;
+&lt;p&gt;Comet представляет собой архитектуру веб-приложений, основной
+особенностью которой является тот факт, что отправка данных от сервера к
+клиенту (в роли которого обычно выступает браузер) не требует
+какого-либо запроса данных со стороны клиента. Это позволяет
+пользователям приложения более оперативно реагировать на возникающие на
+сервере события и быть в курсе процесса работы приложения без
+необходимости непрерывно опрашивать сервер с помощью веб-клиента.
+&lt;!--more--&gt;
+Реализация этой технологии, как не сложно догадаться, основывается на
+JavaScript. Основной идеей является поддержание долговременных
+HTTP-соединений с каждым клиентом приложения и отправка новых данных
+клиентам с их помощью как только произошло их обновление или
+возникновение на сервере. Этот принцип послужил основой для
+альтернативных названий этой технологии: &lt;em&gt;Server-push&lt;/em&gt;, &lt;em&gt;Reverse AJAX&lt;/em&gt;.
+В случае классического AJAX (о котором тоже стоило бы сначала написать
+статейку, потом может быть соберусь) клиент асинхронно отправляет
+серверу запрос на получение какой-либо конкретной информации. В Comet же
+клиент с сервером как бы меняются ролями: инициатором передачи
+информации является сервер, а не клиент. Что же это меняет? Самым
+наглядным примером послужит реализация постоянного обновления какой-либо
+информации в реальном времени:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Классическая модель отправки запросов.&lt;/strong&gt; Для решения задачи
+    понадобится постоянно обновлять всю страницу целиком, вручную
+    пользователем или альтернативными способами автоматически. Совсем не
+    вариант, будет генерироваться огромное количество запросов к
+    серверу, каждый из которых будет очень существеннен по объему.
+    Большое количество одновременно работающих пользователей такое
+    приложение явно не выдержит, да и доступность данных в реальном
+    времени не обеспечит.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;AJAX.&lt;/strong&gt; По сравнению с предыдущим вариантом AJAX предоставляет
+    массу преимуществ: размер передаваемых данных существенно
+    уменьшается, особенно если использовать в качестве формата данных не
+    XML, а JSON. Но тем не менее необходимость регулярно отправлять
+    запросы серверу для получения обновленной информации останется. С
+    ростом количества пользователей будет расти и количество запросов,
+    открытие и закрытие которых будет неуклонно генерировать нагрузку на
+    сервер. Для снижения нагрузки можно попытаться увеличивать интервал
+    между запросами, но это лишь временная мера, обладающая существенным
+    недостатком - увеличение этого промежутка времени повлечет за собой
+    рост задержек между обновлением информации на сервере и обновлением
+    клиентской части приложения.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Comet.&lt;/strong&gt; С каждым клиентом поддерживается постоянное
+    HTTP-соединение, как только данные на сервере обновились - сервер
+    сразу же отправляет по уже открытому соединению уведомление о
+    необходимости провести изменения в клиентской части, это позволяет
+    существенно сократить нагрузку на сервер и практически избавиться от
+    задержек между обновлением данных на сервере и клиенте.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Для написания серверной части приложения может использоваться
+практически любой язык программирования, наиболее распространенным
+решением, пожалуй, является Java Servlet, запущенный в каком-либо
+контейнере - Apache TomCat, Jetty или Sun GlassFish. Для реализации
+этого подхода к организации общения клиента с сервером написано
+достаточно большое количество framework'ов и библиотек, наиболее полный
+список, я думаю, можно найти в &lt;a href="https://www.insight-it.ru/goto/b28f61a7/" rel="nofollow" target="_blank" title="http://en.wikipedia.org/wiki/Comet_%28programming%29#Implementations"&gt;английской википедии&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Но и для Comet-приложений рано или поздно возникает вопрос
+масштабируемости, так как традиционные HTTP-сервера создают новый поток
+(thread) для обслуживания очередных нескольких очередных новых
+соединений. Каждый поток в состоянии обрабатывать только небольшое
+количество HTTP-соединений, а так как в случае с Comet соединения
+находятся в открытом состоянии неопределенно долго, для каждых
+нескольких новых пользователей веб-приложения приходится создавать новый
+поток. Количество одновременно существующих потоков не безгранично, что
+в один прекрасный момент приводит к существенному росту издержек,
+связанных с созданием новых и управлением существующими потоками, а
+также все чаще и чаще возникающим отказам потокам в предоставлении
+серверу необходимых вычислительных. В таких ситуациях некоторые
+пользователи встречаются с неприемлимыми задержками в работе приложения
+или непредвиденными сообщениями об ошибках. Наиболее простым и в то же
+время эффективным решением подобной проблемы является горизонтальное
+масштабирование Comet-серверов с балансировкой нагрузки на программном
+или аппаратном уровне.&lt;/p&gt;
+&lt;p&gt;Если Вас заинтересовала эта тема - могу посоветовать взглянуть на пару
+достаточно интересных статей, в котором более с практической точки
+зрения описывается этот подход к построению приложений:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/2c5c0107/" rel="nofollow" target="_blank" title="http://www.ibm.com/developerworks/ru/library/j-jettydwr/"&gt;Создание масштабируемых Comet-приложений с использованием Jetty и Direct Web Remoting&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/4d14c647/" rel="nofollow" target="_blank" title="http://www.javaworld.com/javaworld/jw-03-2008/jw-03-asynchhttp.html"&gt;Asynchronous HTTP and Comet Architecture&lt;/a&gt;
+    (eng.)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Я же надеюсь написать статью более практической на направленности по
+этой теме лишь в обозримом будущем, не пропустить этот момент Вам
+поможет &lt;a href="/feed/"&gt;абонемент&lt;/a&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Wed, 26 Mar 2008 21:13:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-03-26:frontend/2008/comet/</guid><category>AJAX</category><category>Comet</category><category>HTTP</category><category>JavaScript</category><category>persistent</category><category>архитектура</category><category>информационные технологии</category></item></channel></rss>

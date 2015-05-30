@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/apc/feed/index.xml" rel="self"></atom:link><lastBuildDate>Tue, 01 Apr 2008 20:49:00 +0400</lastBuildDate><item><title>Архитектура Digg</title><link>https://www.insight-it.ru//highload/2008/arkhitektura-digg/</link><description>&lt;p&gt;Трафик, генерируемый более чем 1.2 миллионами пользователей
+&lt;a href="https://www.insight-it.ru/goto/e072c5ff/" rel="nofollow" target="_blank" title="http://www.digg.com"&gt;Digg&lt;/a&gt;, знаменитых своей жаждой информации,
+способен загнать любой невинный сайт за рамки его вычислительных
+ресурсов и пропускной способности канала. Как же сам Digg справляется с
+такой нагрузкой?
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;h3 id="istochniki-informatsii"&gt;Источники информации&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;Этот текст - перевод
+&lt;a href="https://www.insight-it.ru/goto/83eb8e27/" rel="nofollow" target="_blank" title="http://highscalability.com/digg-architecture"&gt;статьи&lt;/a&gt;, автор - &lt;a href="https://www.insight-it.ru/goto/f3f1b405/" rel="nofollow" target="_blank" title="http://highscalability.com/user/todd-hoff"&gt;Todd
+Hoff&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/3c9da0db/" rel="nofollow" target="_blank" title="http://www.computerworld.com/action/article.do?command=viewArticleBasic&amp;amp;articleId=9017778"&gt;Как Digg.com использует LAMP для масштабирования&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/fa3d3949/" rel="nofollow" target="_blank" title="http://www.oreillynet.com/onlamp/blog/2006/04/digg_phps_scalability_and_perf.html"&gt;Масштабируемость и производительность PHP в Digg&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="platforma"&gt;Платформа&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/linux/"&gt;Linux&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/php/"&gt;PHP&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/lucene/"&gt;Lucene&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/apc/"&gt;APC PHP Accelerator&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/memcached/"&gt;Memcached&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="statistika"&gt;Статистика&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Проект стартовал в конце 2004 года на одном сервере под управлением
+    &lt;a href="/tag/linux/"&gt;Linux&lt;/a&gt; с использованием &lt;a href="/tag/apache/"&gt;Apache 1.3&lt;/a&gt;, &lt;a href="/tag/php/"&gt;PHP
+    4&lt;/a&gt; и &lt;a href="/tag/mysql/"&gt;MySQL 4.0&lt;/a&gt; (со стандартной системой
+    хранения данных - MyISAM).&lt;/li&gt;
+&lt;li&gt;Более 1.2 миллиона пользователей.&lt;/li&gt;
+&lt;li&gt;Более 200 миллионов просмотров страниц в месяц.&lt;/li&gt;
+&lt;li&gt;100 серверов расположены в нескольких датацентрах, из них:
+    &amp;ndash; 20 серверов баз данных;
+    &amp;ndash; 30 веб-серверов;
+    &amp;ndash; несколько поисковых серверов, использующих Lucene;
+    &amp;ndash; остальные используются для обеспечения избыточности.&lt;/li&gt;
+&lt;li&gt;30 GB данных.&lt;/li&gt;
+&lt;li&gt;Ни одна из проблем, с которыми пришлось столкнуться проекту не была
+    связана с &lt;a href="/tag/php/"&gt;PHP&lt;/a&gt;, в основном они касались базы данных.&lt;/li&gt;
+&lt;li&gt;Легковесная природа &lt;a href="/tag/php/"&gt;PHP&lt;/a&gt; позволила переместить
+    вычислительные работы из базы данных в приложение для улучшения
+    производительности.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="chto-vnutri"&gt;Что внутри?&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Балансировщик нагрузки равномерно распределяет запросы между
+    &lt;a href="/tag/php/"&gt;PHP&lt;/a&gt; серверами.&lt;/li&gt;
+&lt;li&gt;MySQL используется по принципу master-slave:
+    -&amp;nbsp; Сервера, обрабатывающие большое количество транзакций, используют
+    движок InnoDB.
+    -&amp;nbsp; Сервера, выполняющие аналитическую обработку данных в реальном
+    времени, используют MyISAM.
+    -&amp;nbsp; Снижения производительности при переходе с &lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt; 4.1
+    на версию 5 замечено не было.&lt;/li&gt;
+&lt;li&gt;Для кэширования используется &lt;a href="/tag/memcached/"&gt;Memcached&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Используется сегментирование баз данных.&lt;/li&gt;
+&lt;li&gt;Особенности использования Digg существенно облегчают процесс
+    масштабирования. Большинство посетителей просто просматривают
+    главную страницу и уходят. Это приводит к тому, что 98% запросов к
+    базе данных являются операциями чтения. Такое соотношение операций
+    чтения и записи позволяет не беспокоиться о комплексной работе по
+    проектированию операций записи, что позволяет намного проще
+    масштабировать проект.&lt;/li&gt;
+&lt;li&gt;Возникали проблемы, связанные с системой хранения данных, которые
+    сообщали, что данные уже записаны на диск, когда на самом деле это
+    было не так. Контроллеры делали это для создания впечатления более
+    высокой производительности. Но на практике это приводило лишь к
+    проблемам с целостностью данных. Это достаточно распространенная
+    проблема, которую порой не так уж просто решить, правда все зависит
+    от используемого оборудования.&lt;/li&gt;
+&lt;li&gt;Для облегчения нагрузки на базы данных используется кэширование и
+    &lt;a href="/tag/apc/"&gt;APC PHP Accelerator&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;С использованием рабочих потоков &lt;a href="/tag/apache/"&gt;Apache2&lt;/a&gt;, FastCGI и
+    &lt;a href="/tag/php/"&gt;PHP&lt;/a&gt; акселератора возможно избежать необходимости каждый
+    раз заново интерпретировать и компилировать PHP скрипты: скрипт
+    компилируется только при первом обращении, что существенно ускоряет
+    скорость его выполнения при последующих обращениях.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="podvodim-itogi"&gt;Подводим итоги&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Используйте возможность выбора движка для &lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt;. Если
+    Вам нужны транзакции - используйте InnoDB, если нет - MyISAM.
+    Например, если на master сервере расположены транзакционные таблицы,
+    то для slave серверов можно использовать и MyISAM.&lt;/li&gt;
+&lt;li&gt;В определенный момент рост стал невозможен путем добавления
+    дополнительной оперативной памяти, пришлось продолжать рост путем
+    изменения архитектуры.&lt;/li&gt;
+&lt;li&gt;Люди часто жалуются, что Digg медлителен. Скорее это вызвано их
+    огромными &lt;a href="/tag/javascript/"&gt;JavaScript&lt;/a&gt; библиотеками, чем работой их
+    серверной системы.&lt;/li&gt;
+&lt;li&gt;Стоит тщательно выбирать какие именно приложения развертывать. Они
+    приложили все усилия, чтобы не использовать приложения, требующие
+    больших вычислительных мощностей. Очевидно, что Digg работает на
+    совершенно стандартной &lt;a href="/tag/lamp/"&gt;LAMP&lt;/a&gt; архитектуре, но тем не
+    менее реализована она достаточно интересно. У инженеров часто
+    возникает желание реализовать какой-либо дополнительный функционал,
+    но всегда стоит иметь ввиду, что они могут разрушить инфраструктуру,
+    если она не сможет расти теми же темпами. Так что с этим стоит
+    повременить до тех пор пока система сможет выдерживать все
+    необходимые нагрузки. Это приводит к планированию ресурсов, особенно
+    большое внимание этому аспекту уделяет &lt;a href="/tag/flickr/"&gt;Flickr&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Вам остается лишь догадываться, сможет ли &lt;a href="/tag/digg/"&gt;Digg&lt;/a&gt; удержать
+    свои позиции, если и дальше будет ограничивать добавление новых
+    возможностей, или уступит более активно развивающимся сервисам
+    социальных закладок? Возможно если бы была возможность увеличивать
+    масштабы более простыми методами, более быстрое добавление новых
+    функций и возможностей позволило бы более эффективно конкурировать
+    на этом рынке? С другой стороны, просто добавление новых
+    возможностей может и не поменять ситуацию кардинальным образом.&lt;/li&gt;
+&lt;li&gt;Основные проблемы с масштабируемостью и производительностью связаны
+    с обработкой данных и в большинстве случаев они не зависят от
+    используемого языка программирования. Вы столкнетесь с ними при
+    работе с &lt;a href="/tag/java/"&gt;Java&lt;/a&gt;, &lt;a href="/tag/php/"&gt;PHP&lt;/a&gt;, &lt;a href="/tag/ruby/"&gt;Ruby&lt;/a&gt;, или
+    подставьте сюда Ваш любимый язык программирования.&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Tue, 01 Apr 2008 20:49:00 +0400</pubDate><guid>tag:www.insight-it.ru,2008-04-01:highload/2008/arkhitektura-digg/</guid><category>APC</category><category>Digg</category><category>LAMP</category><category>Linux</category><category>Lucene</category><category>Memcached</category><category>MySQL</category><category>online</category><category>PHP</category><category>архитектура</category><category>архитектура Digg</category><category>интернет</category></item></channel></rss>

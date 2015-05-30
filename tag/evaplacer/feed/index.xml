@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/evaplacer/feed/index.xml" rel="self"></atom:link><lastBuildDate>Fri, 08 Feb 2013 10:20:00 +0400</lastBuildDate><item><title>Вакансии: команда Python разработчиков в EVAplacer</title><link>https://www.insight-it.ru//vacancy/2013/vakansii-komanda-python-razrabotchikov-v-evaplacer/</link><description>&lt;div class="card orange darken-3"&gt;
+&lt;p&gt;&lt;div class="card-content white-text center"&gt;
+&lt;strong&gt;Вакансии более не актуальны&lt;/strong&gt;
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Новая &lt;em&gt;международная геоинформационная социальная сеть&lt;/em&gt; EVAplacer
+набирает команду разработчиков.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h2 id="vedushchii-razrabotchik-servernoi-chasti-na-python"&gt;Ведущий разработчик серверной части на Python&lt;/h2&gt;
+&lt;h3 id="zadachi"&gt;Задачи&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Разработка серверной части проекта на Python&lt;/li&gt;
+&lt;li&gt;Проектирование архитектуры системы и схемы базы данных&lt;/li&gt;
+&lt;li&gt;Организация взаимодействия серверной части проекта с клиентской&lt;/li&gt;
+&lt;li&gt;Принятие технических решений&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="trebovaniia"&gt;Требования&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Свежий опыт веб-разработки на Python &lt;em&gt;без использования Django&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Суммарный опыт веб-разработки от 5 лет&lt;/li&gt;
+&lt;li&gt;Самостоятельность и заинтересованность в качестве результата своей
+    работы&lt;/li&gt;
+&lt;li&gt;Умение делегировать часть работы коллегам&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="tekhnologii"&gt;Технологии&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Предстоит работать со следующими технологиями:&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/2e568974/" rel="nofollow" target="_blank" title="http://flask.pocoo.org/"&gt;Flask&lt;/a&gt; +
+    &lt;a href="https://www.insight-it.ru/goto/35c21496/" rel="nofollow" target="_blank" title="http://jinja.pocoo.org/"&gt;Jinja2&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/bf2b1e00/" rel="nofollow" target="_blank" title="http://www.mongodb.org/"&gt;MongoDB&lt;/a&gt; +
+    &lt;a href="https://www.insight-it.ru/goto/a6920afe/" rel="nofollow" target="_blank" title="http://lucene.apache.org/solr/"&gt;Solr&lt;/a&gt; +
+    &lt;a href="https://www.insight-it.ru/goto/9ecaff4c/" rel="nofollow" target="_blank" title="http://memcached.org/"&gt;memcached&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/39ecae7b/" rel="nofollow" target="_blank" title="http://www.zeromq.org/"&gt;ZeroMQ&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Опыт работы именно с ними очень желателен, но не обязателен&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="zarplata"&gt;Зарплата&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;В диапазоне 100-150 тысяч рублей в месяц в зависимости от опыта&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="klientskii-razrabotchik_1"&gt;Клиентский разработчик&lt;/h2&gt;
+&lt;h3 id="zadachi_1"&gt;Задачи&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Разработка клиентской части проекта&lt;/li&gt;
+&lt;li&gt;Работа на стыке с серверной частью (Python), создание HTML и других
+    шаблонов на Jinja2&lt;/li&gt;
+&lt;li&gt;Оптимизация скорости загрузки страниц&lt;/li&gt;
+&lt;li&gt;Принятие технических решений по клиентской части&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="trebovaniia_1"&gt;Требования&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Опыт разработки на JavaScript/CoffeeScript и валидной верстки на
+    HTML5&lt;/li&gt;
+&lt;li&gt;Понимание основных принципов клиентской оптимизации&lt;/li&gt;
+&lt;li&gt;Суммарный опыт веб-разработки от 3 лет&lt;/li&gt;
+&lt;li&gt;Усидчивость, самостоятельность и заинтересованность в качестве
+    результата своей работы&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="tekhnologii_1"&gt;Технологии&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Предстоит работать со следующими технологиями:&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/35c21496/" rel="nofollow" target="_blank" title="http://jinja.pocoo.org/"&gt;Jinja2&lt;/a&gt; +
+    &lt;a href="https://www.insight-it.ru/goto/312f4825/" rel="nofollow" target="_blank" title="http://elsdoerfer.name/docs/webassets/"&gt;webassets&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/834fa52/" rel="nofollow" target="_blank" title="http://coffeescript.org/"&gt;CoffeeScript&lt;/a&gt; +
+    &lt;a href="https://www.insight-it.ru/goto/dca1748a/" rel="nofollow" target="_blank" title="http://sass-lang.com/"&gt;SASS&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/f573c764/" rel="nofollow" target="_blank" title="http://twitter.github.com/bootstrap/"&gt;Twitter Bootstrap&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/3b02d98c/" rel="nofollow" target="_blank" title="http://jquery.com/"&gt;jQuery&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/96340c7c/" rel="nofollow" target="_blank" title="http://leafletjs.com/"&gt;Leaflet&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Опыт работы именно с ними очень желателен, но не обязателен&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="zarplata_1"&gt;Зарплата&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;В диапазоне 60-100 тысяч рублей в месяц в зависимости от опыта&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="spetsialist-po-testirovaniiu_1"&gt;Специалист по тестированию&lt;/h2&gt;
+&lt;h3 id="zadachi_2"&gt;Задачи&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Основные:&lt;ul&gt;
+&lt;li&gt;Разработка автоматических тестов для серверной части проекта на
+    Python&lt;/li&gt;
+&lt;li&gt;Регрессионное тестирование сайта с помощью
+    &lt;a href="https://www.insight-it.ru/goto/561c2b8c/" rel="nofollow" target="_blank" title="http://seleniumhq.org/"&gt;Selenium&lt;/a&gt; или альтернатив&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Дополнительные:&lt;ul&gt;
+&lt;li&gt;Нагрузочное тестирование с использованием
+    &lt;a href="https://www.insight-it.ru/goto/52bdc53f/" rel="nofollow" target="_blank" title="http://jmeter.apache.org/"&gt;JMeter&lt;/a&gt; или альтернатив&lt;/li&gt;
+&lt;li&gt;Ручное визуальное тестирование, в т.ч. на кроссбраузерность&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="trebovaniia_2"&gt;Требования&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Свежий опыт тестирования интернет-проектов, желательно на Python&lt;/li&gt;
+&lt;li&gt;Суммарный опыт в тестировании от 3 лет&lt;/li&gt;
+&lt;li&gt;Внимательность, самостоятельность и заинтересованность в качестве
+    результата работы команды&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="zarplata_2"&gt;Зарплата&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;В диапазоне 50-100 тысяч рублей в месяц в зависимости от опыта&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="usloviia_1"&gt;Условия&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Премии по достижении ключевых вех проекта&lt;/li&gt;
+&lt;li&gt;Офис в центре Москвы (м. Охотный ряд, меньше 5 минут пешком)&lt;/li&gt;
+&lt;li&gt;Работа на MacBook Pro&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="card orange darken-3"&gt;
+&lt;p&gt;&lt;div class="card-content white-text center"&gt;
+&lt;strong&gt;Вакансии более не актуальны&lt;/strong&gt;
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Fri, 08 Feb 2013 10:20:00 +0400</pubDate><guid>tag:www.insight-it.ru,2013-02-08:vacancy/2013/vakansii-komanda-python-razrabotchikov-v-evaplacer/</guid><category>CoffeeScript</category><category>EVAplacer</category><category>Flask</category><category>html5</category><category>JavaScript</category><category>Jinja2</category><category>JMeter</category><category>JQuery</category><category>Leaflet</category><category>MacBook Pro</category><category>Memcached</category><category>MongoDB</category><category>Python</category><category>sass</category><category>Selenium</category><category>Solr</category><category>Twitter Bootstrap</category><category>webassets</category><category>ZeroMQ</category><category>вакансии</category><category>разработчик</category><category>тестировщик</category></item></channel></rss>

@@ -1,0 +1,1250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/tekhnologiia/feed/index.xml" rel="self"></atom:link><lastBuildDate>Fri, 22 Feb 2008 22:41:00 +0300</lastBuildDate><item><title>Hadoop</title><link>https://www.insight-it.ru//storage/2008/hadoop/</link><description>&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/30a7481/" rel="nofollow" target="_blank" title="http://hadoop.apache.org/core/"&gt;Hadoop&lt;/a&gt; представляет собой платформу
+для построения приложений, способных обрабатывать огромные объемы
+данных. Система основывается на распределенном подходе к вычислениям и
+хранению информации, основными ее особенностями являются:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Масштабируемость:&lt;/strong&gt; с помощью &lt;a href="/tag/hadoop/"&gt;Hadoop&lt;/a&gt; возможно
+    надежное хранение и обработка огромных объемов данных, которые могут
+    измеряться петабайтами;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Экономичность:&lt;/strong&gt; информация и вычисления распределяются по
+    &lt;a href="/tag/klaster/"&gt;кластеру&lt;/a&gt;, построенному на самом обыкновенном
+    оборудовании. Такой кластер может состоять из тысяч узлов;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Эффективность:&lt;/strong&gt; распределение данных позволяет выполнять их
+    обработку параллельно на множестве компьютеров, что существенно
+    ускоряет этот процесс;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Надежность:&lt;/strong&gt; при хранении данных возможно предоставление
+    избыточности, благодаря хранению нескольких копий. Такой подход
+    позволяет гарантировать отсутствие потерь информации в случае сбоев
+    в работе системы;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Кроссплатформенность:&lt;/strong&gt; так как основным языком программирования,
+    используемым в этой системе является &lt;a href="/tag/java/"&gt;Java&lt;/a&gt;, развернуть
+    ее можно на базе любой операционной системы, имеющей &lt;abbr title="Java Virtual Machine"&gt;JVM&lt;/abbr&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!--more--&gt;
+&lt;h3 id="hdfs"&gt;HDFS&lt;/h3&gt;
+&lt;p&gt;В основе всей системы лежит распределенная файловая система под
+незамысловатым названием &lt;strong&gt;Hadoop Distributed File System&lt;/strong&gt;.
+Представляет она собой вполне стандартную распределенную файловую
+систему, но все же она обладает рядом особенностей:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Устойчивость к сбоям, разработчики рассматривали сбои в оборудовании
+    скорее как норму, чем как исключение;&lt;/li&gt;
+&lt;li&gt;Приспособленность к развертке на самом обыкновенном ненадежном
+    оборудовании;&lt;/li&gt;
+&lt;li&gt;Предоставление высокоскоростного потокового доступа ко всем данным;&lt;/li&gt;
+&lt;li&gt;Настроена для работы с большими файлами и наборами файлов;&lt;/li&gt;
+&lt;li&gt;Простая модель работы с данными: &lt;em&gt;один раз записали - много раз
+    прочли&lt;/em&gt;;&lt;/li&gt;
+&lt;li&gt;Следование принципу: &lt;em&gt;переместить вычисления проще, чем переместить
+    данные&lt;/em&gt;;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Архитектура HDFS&lt;/h4&gt;
+&lt;p&gt;Проще всего ее демонстрирует схема,
+&lt;a href="https://www.insight-it.ru/goto/9c57006b/" rel="nofollow" target="_blank" title="http://hadoop.apache.org/core/docs/current/images/hdfsarchitecture.gif"&gt;позаимствованная&lt;/a&gt; с официального сайта проекта и переведенная мной на руский:
+&lt;img alt="Архитектура HDFS" class="responsive-img" src="https://www.insight-it.ru/images/hdfsarchitecture.jpg" title="Архитектура HDFS"/&gt;&lt;/p&gt;
+&lt;p&gt;Действующие лица:&lt;/p&gt;
+&lt;dl&gt;
+&lt;dt&gt;&lt;strong&gt;Namenode&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;Этот компонент системы осуществляет всю работу с метаданными. Он
+должен быть запущен только на одном компьютере в кластере. Именно он
+управляет размещением информации и доступом ко всем данным,
+расположенным на ресурсах кластера. Сами данные проходят с остальных
+машин кластера к клиенту мимо него.&lt;/dd&gt;
+&lt;dt&gt;&lt;strong&gt;Datanode&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;На всех остальных компьютерах системы работает именно этот
+компонент. Он располагает сами блоки данных в локальной файловой
+системе для последующей передачи или обработки их по запросу
+клиента. Группы узлов данных принято называть Rack, они
+используются, например, в схемах репликации данных.&lt;/dd&gt;
+&lt;dt&gt;&lt;strong&gt;Клиент&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;Просто приложение или пользователь, работающий с файловой системой.
+В его роли может выступать практически что угодно.&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;p&gt;Пространство имен &lt;a href="/tag/hdfs/"&gt;HDFS&lt;/a&gt; имеет классическую иерархическую
+структуру: пользователи и приложения имеют возможность создавать
+директории и файлы. Файлы хранятся в виде блоков данных произвольной (но
+одинаковой, за исключением последнего; по-умолчанию 64 mb) длины,
+размещенных на &lt;strong&gt;Datanode&lt;/strong&gt;'ах. Для обеспечения отказоустойчивости блоки
+хранятся в нескольких экземплярах на разных узлах, имеется возможность
+настройки количества копий и алгоритма их распределения по системе.
+Удаление файлов происходит не сразу, а через какое-то время после
+соответствующего запроса, так как после получения запроса файл
+перемещается в директорию &lt;strong&gt;/trash&lt;/strong&gt; и хранится там определенный период
+времени на случай если пользователь или приложение передумают о своем
+решении. В этом случае информацию можно будет восстановить, в противном
+случае - физически удалить.&lt;/p&gt;
+&lt;p&gt;Для обнаружения возникновения каких-либо неисправностей, &lt;strong&gt;Datanode&lt;/strong&gt;
+периодически отправляют &lt;strong&gt;Namenode&lt;/strong&gt;'у сигналы о своей
+работоспособности. При прекращении получения таких сигналов от одного из
+узлов &lt;strong&gt;Namenode&lt;/strong&gt; помечает его как &lt;em&gt;"мертвый"&lt;/em&gt;, и прекращает какой-либо
+с ним взаимодействие до возвращения его работоспособности. Данные,
+хранившиеся на &lt;em&gt;"умершем"&lt;/em&gt; узле реплицируются дополнительный раз из
+оставшихся &lt;em&gt;"в живых"&lt;/em&gt; копий и система продолжает свое функционирование
+как ни в чем не бывало.&lt;/p&gt;
+&lt;p&gt;Все коммуникации между компонентами файловой системы проходят по
+специальным протоколам, основывающимся на стандартном &lt;strong&gt;TCP/IP&lt;/strong&gt;.
+Клиенты работают с &lt;strong&gt;Namenode&lt;/strong&gt; с помощью так называемого
+&lt;strong&gt;ClientProtocol&lt;/strong&gt;, а передача данных происходит по
+&lt;strong&gt;DatanodeProtocol&lt;/strong&gt;, оба они &lt;em&gt;обернуты&lt;/em&gt; в &lt;strong&gt;Remote Procedure Call
+(RPC)&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Система предоставляет несколько интерфейсов, среди которых командная
+оболочка &lt;strong&gt;DFSShell&lt;/strong&gt;, набор ПО для администрирования &lt;strong&gt;DFSAdmin&lt;/strong&gt;, а
+также простой, но эффективный веб-интерфейс. Помимо этого существуют
+несколько API для языков программирования: Java API, C pipeline, WebDAV
+и так далее.&lt;/p&gt;
+&lt;h3 id="mapreduce"&gt;MapReduce&lt;/h3&gt;
+&lt;p&gt;Помимо файловой системы, &lt;a href="/tag/hadoop/"&gt;Hadoop&lt;/a&gt; включает в себя framework
+для проведения масштабных вычислений, обрабатывающих огромные объемы
+данных. Каждое такое вычисление называется Job (задание) и состоит оно,
+как видно из названия, из двух этапов:&lt;/p&gt;
+&lt;dl&gt;
+&lt;dt&gt;&lt;strong&gt;Map&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;Целью этого этапа является представление произвольных данных (на
+практике чаще всего просто пары ключ-значение) в виде промежуточных
+пар ключ-значение. Результаты сортируются и групируются по ключу и
+передаются на следующий этап.&lt;/dd&gt;
+&lt;dt&gt;&lt;strong&gt;Reduce&lt;/strong&gt;&lt;/dt&gt;
+&lt;dd&gt;Полученные после &lt;strong&gt;map&lt;/strong&gt; значения используются для финального
+вычисления требуемых данных. Практические любые данные могут быть
+получены таким образом, все зависит от требований и функционала
+приложения.&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;p&gt;Задания выполняются, подобно файловой системе, на всех машинах в
+кластере (чаще всего одних и тех же). Одна из них выполняет роль
+управления работой остальных - &lt;strong&gt;JobTracker&lt;/strong&gt;, остальные же ее
+бесприкословно слушаются - &lt;strong&gt;TaskTracker&lt;/strong&gt;. В задачи &lt;strong&gt;JobTracker&lt;/strong&gt;'а
+входит составление расписания выполняемых работ, наблюдение за ходом
+выполнения, и перераспределение в случае возникновения сбоев.&lt;/p&gt;
+&lt;p&gt;В общем случае каждое приложение, работающее с этим framework'ом,
+предоставляет методы для осуществления этапов &lt;strong&gt;map&lt;/strong&gt; и &lt;strong&gt;reduce&lt;/strong&gt;, а
+также указывает расположения входных и выходных данных. После получения
+этих данных &lt;strong&gt;JobTracker&lt;/strong&gt; распределяет задание между остальными
+машинами и предоставляет клиенту полную информацию о ходе работ.&lt;/p&gt;
+&lt;p&gt;Помимо основных вычислений могут выполняться вспомогательные процессы,
+такие как составление отчетов о ходе работы, кэширование, сортировка и
+так далее.&lt;/p&gt;
+&lt;h3 id="hbase"&gt;HBase&lt;/h3&gt;
+&lt;p&gt;&lt;img alt="HBase Logo" class="right" src="https://www.insight-it.ru/images/hbase-logo.png" title="HBase"/&gt;
+В рамках &lt;a href="/tag/hadoop/"&gt;Hadoop&lt;/a&gt; доступна еще и система хранения данных,
+которую правда сложно назвать &lt;a href="/tag/subd/"&gt;СУБД&lt;/a&gt; в традиционном смысле
+этого слова. Чаще проводят аналогии с проприетарной системой этого же
+плана от &lt;a href="/tag/google/"&gt;Google&lt;/a&gt; - &lt;a href="/tag/bigtable/"&gt;BigTable&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/12419d3d/" rel="nofollow" target="_blank" title="http://hadoop.apache.org/hbase"&gt;HBase&lt;/a&gt; представляет собой
+распределенную систему хранения больших объемов данных. Подобно
+реляционным СУБД данные хранятся в виде таблиц, состоящих из строк и
+столбцов. И даже для доступа к ним предоставляется язык запросов &lt;strong&gt;HQL&lt;/strong&gt;
+(как ни странно - &lt;strong&gt;Hadoop Query Language&lt;/strong&gt;), отдаленно напоминающий
+более распространенный &lt;a href="/tag/sql/"&gt;SQL&lt;/a&gt;. Помимо этого предоставляется
+итерирующмй интерфейс для сканирования наборов строк.&lt;/p&gt;
+&lt;p&gt;Одной из основных особенностей хранения данных в &lt;strong&gt;HBase&lt;/strong&gt; является
+возможность наличия нескольких значений, соответствующих одной
+комбинации таблица-строка-столбец, для их различения используется
+информация о времени добавления записи. На концептуальном уровне таблицы
+обычно представляют как набор строк, но физически же они хранятся по
+столбцам, достаточно важный факт, который стоит учитывать при разработки
+схемы хранения данных. Пустые ячейки не отображаются каким-либо образом
+физически в хранимых данных, они просто отсутствуют. Существуют конечно
+и другие нюансы, но я постарался упомянуть лишь основные.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;HQL&lt;/strong&gt; очень прост по своей сути, если Вы уже знаете &lt;a href="/tag/sql/"&gt;SQL&lt;/a&gt;,
+то для изучения его Вам понадобится лишь просмотреть по диагонали
+коротенький вывод команды &lt;strong&gt;help;&lt;/strong&gt;, занимающий всего пару экранов в
+консоли. Все те же &lt;strong&gt;SELECT&lt;/strong&gt;, &lt;strong&gt;INSERT&lt;/strong&gt;, &lt;strong&gt;UPDATE&lt;/strong&gt;, &lt;strong&gt;DROP&lt;/strong&gt; и так
+далее, лишь со слегка измененным синтаксисом.&lt;/p&gt;
+&lt;p&gt;Помимо обычно командной оболочки &lt;strong&gt;HBase Shell&lt;/strong&gt;, для работы с &lt;strong&gt;HBase&lt;/strong&gt;
+также предоставлено несколько API для различных языков программирования:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/f059ad5e/" rel="nofollow" target="_blank" title="http://hadoop.apache.org/hbase/docs/current/api/index.html"&gt;Java&lt;/a&gt;,&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/e44fcd5/" rel="nofollow" target="_blank" title="http://wiki.apache.org/hadoop/Hbase/Jython"&gt;Jython&lt;/a&gt;,&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/8282e2e2/" rel="nofollow" target="_blank" title="http://wiki.apache.org/hadoop/Hbase/HbaseRest"&gt;REST&lt;/a&gt; и&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/185bb3f7/" rel="nofollow" target="_blank" title="http://wiki.apache.org/hadoop/Hbase/ThriftApi"&gt;Thrift&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="zakliuchenie"&gt;Заключение&lt;/h3&gt;
+&lt;p&gt;&lt;a href="/tag/hadoop/"&gt;Hadoop&lt;/a&gt; является отличным решением для построения
+высоконагруженных приложений, которое уже активно используется
+&lt;a href="https://www.insight-it.ru/goto/ab057c2a/" rel="nofollow" target="_blank" title="http://wiki.apache.org/hadoop/PoweredBy"&gt;множеством интернет-проектов&lt;/a&gt;.
+В последующих постах на эту тему я постараюсь описать процесс
+развертывания этой системы и написания приложений, работающих по
+принципу &lt;a href="/tag/mapreduce/"&gt;MapReduce&lt;/a&gt;. Не пропустить момент их публикации
+Вам может помочь подписка на &lt;a href="/feed/"&gt;RSS-ленту&lt;/a&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Fri, 22 Feb 2008 22:41:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-02-22:storage/2008/hadoop/</guid><category>Hadoop</category><category>HBase</category><category>HDFS</category><category>Java</category><category>MapReduce</category><category>архитектура</category><category>информационные технологии</category><category>кластер</category><category>Масштабируемость</category><category>распределенные вычисления</category><category>технология</category></item><item><title>Обзор memcached</title><link>https://www.insight-it.ru//storage/2008/obzor-memcached/</link><description>&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/62123c99/" rel="nofollow" target="_blank" title="http://www.danga.com/memcached/"&gt;&lt;strong&gt;memcached&lt;/strong&gt;&lt;/a&gt; представляет собой
+высокопроизводительную распределенную систему кэширования объектов в
+оперативной памяти.&lt;/p&gt;
+&lt;p&gt;Оформлена она в виде классического &lt;a href="/tag/daemon/"&gt;daemon&lt;/a&gt;'а, слушающего
+подключения на одном из TCP-портов (по-умолчанию: 11211). Работа же с
+ним осуществляется с помощью клиентских библиотек, доступных практически
+для всех популярных языков программирования.
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="/tag/memcached/"&gt;memcached&lt;/a&gt; не использует конфигурационные файлы, но
+все же может быть в какой-то степени настроен под свои нужды с помощью
+параметров, указываемых при запуске &lt;a href="/tag/daemon/"&gt;daemon&lt;/a&gt;'а, и
+переменных окружения. Например, часто используется параметр &lt;strong&gt;-m&lt;/strong&gt;,
+позволяющий указать объем используемой для хранения объектов оперативной
+памяти.
+По сути кэширование с помощью &lt;a href="/tag/memcached/"&gt;memcached&lt;/a&gt; представляет
+собой некое подобие глобального ассоциативного массива, то есть набора
+соответствий &lt;em&gt;ключ &amp;rarr; объект&lt;/em&gt;.&lt;/p&gt;
+&lt;h3 id="kak-zhe-ono-rabotaet"&gt;Как же оно работает?&lt;/h3&gt;
+&lt;p&gt;Принцип очень прост: после установления соединения между клиентом
+(произвольное приложение, воспользовавшееся услугами одной из клиентских
+библиотек) и сервером (распределенной системой, состоящей из
+&lt;a href="/tag/daemon/"&gt;daemon&lt;/a&gt;'ов), клиенту предоставляется возможность выполнять
+четыре примитивных действия для организации кэширования:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;set&lt;/strong&gt; - установить соответствие между ключом и указанным объектом;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;add&lt;/strong&gt; - аналогично &lt;em&gt;set&lt;/em&gt;, но только при условии, что объекта с
+    таким ключом в кэше нет;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;replace&lt;/strong&gt; - абсолютная противоположность &lt;em&gt;add&lt;/em&gt;, выполняется только
+    если такой объект в кэше есть;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;get&lt;/strong&gt; - получить объект из кэша по указанному ключу.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Вывод напрашивается лишь один: проще не придумаешь.&lt;/p&gt;
+&lt;h3 id="v-sravnenii"&gt;В сравнении&lt;/h3&gt;
+&lt;p&gt;Многие &lt;a href="/tag/subd/"&gt;СУБД&lt;/a&gt; предоставляют встроенные средства кэширования,
+но на практике они умеют кэшировать только результаты запросов, что не
+всегда является именно тем, что необходимо веб-приложению. СУБД обычно
+полностью очищают кэш таблицы при каждом изменении данных, что приводит
+к полной его бесполезности при активном обновлении таблиц.&lt;/p&gt;
+&lt;p&gt;Еще один альтернативный вариант кэширования может предоставить
+http-сервер, в большинстве случаев кэш дублируется несколько раз для
+каждого процесса &lt;a href="/tag/php/"&gt;PHP&lt;/a&gt;, &lt;a href="/tag/perl/"&gt;Perl&lt;/a&gt; или любого другого
+используемого языка программирования. Помимо излишних затрат оперативной
+памяти, такой вариант развития событий еще и снижает эффективность
+самого кэша.&lt;/p&gt;
+&lt;h3 id="na-praktike"&gt;На практике&lt;/h3&gt;
+&lt;p&gt;Использование &lt;a href="/tag/memcached/"&gt;memcached&lt;/a&gt; на практике в написании
+приложений ничуть не сложнее, чем в теории. Например, если говорить о
+&lt;a href="/tag/php/"&gt;PHP&lt;/a&gt;, то для доступа к &lt;a href="/tag/daemon/"&gt;daemon&lt;/a&gt;'y достаточно
+установить соответствующий &lt;a href="https://www.insight-it.ru/goto/a0e58a5c/" rel="nofollow" target="_blank" title="http://pecl.php.net/package/memcache"&gt;PECL extension&lt;/a&gt;, который предоставит класс &lt;strong&gt;Memcached&lt;/strong&gt;. С помощью его методов осуществляется доступ ко всем возможностям &lt;a href="/tag/memcached/"&gt;memcached&lt;/a&gt;, о которых я уже упоминал: &lt;strong&gt;connect&lt;/strong&gt;, &lt;strong&gt;set&lt;/strong&gt;, &lt;strong&gt;add&lt;/strong&gt;, &lt;strong&gt;get&lt;/strong&gt; и так далее.&lt;/p&gt;
+&lt;p&gt;Для многих других языков программирования также существуют API, список
+которых можно &lt;a href="https://www.insight-it.ru/goto/94c7c37e/" rel="nofollow" target="_blank" title="http://www.danga.com/memcached/apis.bml"&gt;найти на официальном сайте&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id="o-chem-ne-stoit-zabyvat"&gt;О чем не стоит забывать&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;Кэш не является базой данных!&lt;/em&gt; Не стоит забывать, что кэш является
+&lt;em&gt;очень&lt;/em&gt; ненадежным местом хранения данных, не предоставляет избыточности
+и каких-либо гарантий, что сохраненная в нем информация будет доступна
+через какое-то время. За производительность приходится платить.&lt;/p&gt;
+&lt;h3 id="v-zakliuchenii"&gt;В заключении&lt;/h3&gt;
+&lt;p&gt;...хотелось бы сказать, что эта &lt;a href="/tag/tekhnologiya/"&gt;технология&lt;/a&gt; является
+очень производительным и эффективным решением вопроса кэширования для
+масштабных интернет-проектов. Возможности по ее применению не
+ограничиваются Сетью, ведь она реализована в виде обычного daemon'а, что
+открывает ее для всего спектра программного обеспечения, так или иначе
+следующего &lt;a href="/tag/unix-way/"&gt;"Unix&amp;nbsp;way"&lt;/a&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Thu, 21 Feb 2008 18:08:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-02-21:storage/2008/obzor-memcached/</guid><category>cash</category><category>cashing</category><category>daemon</category><category>Memcached</category><category>информационные технологии</category><category>кэш</category><category>кэширование</category><category>производительность</category><category>реализация</category><category>технология</category><category>unix way</category></item><item><title>Отношения online</title><link>https://www.insight-it.ru//theory/2008/otnosheniya-online/</link><description>&lt;p&gt;Допустим, у Вас появилось желание оставить на своем интернет-ресурсе
+ссылку на сайт своего старого друга. Объяснить этот факт простому
+читателю достаточно просто:
+&lt;code&gt;&amp;lt;a&amp;nbsp;href="www.site.ru"&amp;gt;Сайт&amp;nbsp;моего&amp;nbsp;друга&amp;lt;/a&amp;gt;&lt;/code&gt;, но поймет ли такую
+надпись очередной раз инспектирующий Ваш сайт &lt;a href="/tag/crawler/"&gt;crawler&lt;/a&gt;
+какой-нибудь поисковой системы? Может быть Вы просто злостно торгуете
+ссылками со своего сайта?
+&lt;!--more--&gt;
+Как Вы могли уже догадаться, для решения этой достаточно
+узкоспециализированной задачи - выражение отношений с владельцем сайта,
+на который указывает ссылка - существует специальный
+&lt;a href="/tag/mikroformaty/"&gt;микроформат&lt;/a&gt; под названием &lt;a href="/tag/xfn/"&gt;&lt;strong&gt;XFN&lt;/strong&gt;&lt;/a&gt;, что расшифровывается как &lt;em&gt;XHTML Friends Network&lt;/em&gt;. С
+его помощью любой человек, у которого есть сайт может продемонстрировать
+всем желающим в каких отношениях он находится с владельцем сайта, на
+который он ссылается.&lt;/p&gt;
+&lt;p&gt;Реализуется этот микроформат с помощью атрибута &lt;code&gt;rel&lt;/code&gt; тэга &lt;code&gt;&amp;lt;a&amp;gt;&lt;/code&gt;,
+возможные варианты значения (имеется возможность их комбинировать):&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;strong&gt;Категории значений&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;Значения XFN&lt;/strong&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;дружба:&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;friend&lt;/code&gt;(кто-либо, кого Вы считаете другом),  &lt;code&gt;acquaintance&lt;/code&gt; (знакомый, просто пару раз здоровались или недолго общались), &lt;code&gt;contact&lt;/code&gt; (кто-либо, с кем Вы знаете как связаться в случае необходимости)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;физические:&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;met&lt;/code&gt; (кто-либо, с кем вы когда-то лично встречались)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;профессиональные:&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;co-worker&lt;/code&gt; (коллега по работе),&lt;code&gt;colleague&lt;/code&gt; (коллега по учебе или иной форме активности)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;географические:&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;co-resident&lt;/code&gt; (живете на одной улице),&lt;code&gt;neighbor&lt;/code&gt; (сосед)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;семейные:&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;child&lt;/code&gt; (ребенок, в том числе и приемный),&lt;code&gt;parent&lt;/code&gt; (родители, в том числе и приемные),&lt;code&gt;sibling&lt;/code&gt; (все братья и сетры),&lt;code&gt;spouse&lt;/code&gt; (муж/жена), &lt;code&gt;kin&lt;/code&gt; (дальний родственник)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;романтические:&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;muse&lt;/code&gt; (муза, источник вдохновения), &lt;code&gt;crush&lt;/code&gt; (кто-либо, к кому у Вас страстное увлечение), &lt;code&gt;date&lt;/code&gt; (кто-либо, с кем Вы встречаетесь), &lt;code&gt;sweetheart&lt;/code&gt; (кто-либо, в кого Вы влюбились"}&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;личность:&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;me&lt;/code&gt; (ссылка на самого себя на другом сайте. Обязательно должна быть симметрична; отношение 'me' неявно подразумевается между поддиректорией и всем ее содержимым)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Как не трудно заметить, практически все возможные варианты отношений
+могут быть описаны одним из значений или их комбинацией. Наш пример из
+начала этого поста с использованием XFN выглядел бы:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;a&lt;/span&gt; &lt;span class="na"&gt;href=&lt;/span&gt;&lt;span class="s"&gt;"www.site.ru"&lt;/span&gt; &lt;span class="na"&gt;rel=&lt;/span&gt;&lt;span class="s"&gt;"friend&amp;nbsp;met"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    Сайт&amp;nbsp;моего&amp;nbsp;друга
+&lt;span class="nt"&gt;&amp;lt;/a&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Помимо этого есть еще один маленький нюанс, необходимый для того, чтобы
+browser'ы и поисковые системы знали, что данная страница оффциально
+поддерживает этот микроформат, для этого необходимо указать следующий
+атрибут тэгу &lt;code&gt;&amp;lt;head&amp;gt;&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;head&lt;/span&gt; &lt;span class="na"&gt;profile=&lt;/span&gt;&lt;span class="s"&gt;"http://gmpg.org/xfn/11"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Этот пост был написан по мотивам &lt;a href="https://www.insight-it.ru/goto/faee6117/" rel="nofollow" target="_blank" title="http://www.gmpg.org/xfn/"&gt;официального сайта XFN&lt;/a&gt;, если Вас заинтересовал этот микроформат,
+возможно имеет смысл посетить и его: там можно найти FAQ, утилиты для
+автоматической генерации кода, а также всю остальную информацию по
+данному микроформату (на английском естественно).&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sat, 16 Feb 2008 13:07:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-02-16:theory/2008/otnosheniya-online/</guid><category>online</category><category>xfn</category><category>XHTML</category><category>интернет</category><category>Микроформаты</category><category>семантика</category><category>Сеть</category><category>технология</category></item><item><title>Модификация алгоритма хэширования</title><link>https://www.insight-it.ru//php/2008/modifikaciya-algoritma-khehshirovaniya/</link><description>&lt;p&gt;Если Вы уже успели прочитать &lt;a href="https://www.insight-it.ru/security/2008/obratnogo-puti-net/"&gt;одну из моих предыдущих записей о
+хэшировании&lt;/a&gt;, то Вы уже
+имеете базовое представление о теме сегодняшнего разговора.
+Одним из возможных способов применения хэшей является хранение
+аутентификационных данных пользователей интернет-приложения, об
+особенностях реализации формирования и проверки хэшей при регистрации и
+авторизации пользователей средствами &lt;a href="/tag/php/"&gt;PHP&lt;/a&gt; я и хотел бы с Вами
+поговорить.
+&lt;!--more--&gt;
+Сомневаюсь, что Вы услышите что-то новое, если я скажу, что в
+&lt;a href="/tag/php/"&gt;PHP&lt;/a&gt; даже в "стандартной комплектации" реализована масса
+алгоритмов хэширования, начиная с широкораспространенных &lt;strong&gt;md5();&lt;/strong&gt; и
+&lt;strong&gt;sha1();&lt;/strong&gt; и заканчивая модулями &lt;strong&gt;hash&lt;/strong&gt; и &lt;strong&gt;mhash&lt;/strong&gt;, в которых
+реализована еще целая масса алгоритмов. Все они давно уже
+стандартизованы и доступны для изучения всем желающим получить о них
+какую-либо информацию.&lt;/p&gt;
+&lt;p&gt;Допустим мы храним пароли пользователей в виде какого-то стандартного
+хэша, для примера - &lt;strong&gt;md5&lt;/strong&gt;, в базе данных. Все было отлично, но в один
+прекрасный момент нашелся подлый злоумышленник, который неким хитрым
+способом получил доступ к базе данных логинов и паролей. Перед ним стоит
+цель - узнать изначальный пароль у максимального числа пользователей.
+Посмотрим на ситуацию с его стороны:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Первым делом он бы попытался определить, какой именно хэш перед ним
+    находится - чаще всего это делается либо просто взглянув на длину
+    хэша, либо если приложение широко распространено (популярная CMS
+    скажем) - покопавшись в ее исходниках, еще есть вариант найти свой
+    собственный аккаунт - и зная пароль попробовать на нем разные
+    алгоритмы, способов можно придумать множество - все ограничивается
+    лишь воображением. Узнав ответ на свой вопрос ему лишь останется
+    набрать в &lt;a href="/tag/google/"&gt;Google&lt;/a&gt; фразу вроде &lt;em&gt;"md5 decrypt"&lt;/em&gt;, а
+    дальше уже дело техники.&lt;/li&gt;
+&lt;li&gt;Еще один вариант решения задачи - взглянуть на список хэшей на
+    предмет наличия совпадений. С очень высокой степенью вероятности за
+    значительной группой одинаковых хэшей будет скрываться какой-либо
+    банальный пароль вроде &lt;em&gt;123456&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Задача же разработчика приложения максимально обезопасить систему от
+подобных ситуаций. Конечно же можно просто стараться минимизировать
+возможности реализации методов получения информации из базы данных, но
+предугадать все варианты невозможно: в любом из используемых компонентов
+системы может оказаться уязвимость в коде, на которую наверняка найдется
+умник, который напишет &lt;em&gt;exploit&lt;/em&gt;, а значит полностью исключить такую
+вероятность не получится, в лучшем случае выйдет просто ее
+минимизировать.&lt;/p&gt;
+&lt;p&gt;Именно по этим причинам и стоит задуматься об усложнении задачи
+злоумышленника в случае возникновения описанной выше ситуации. Для
+исключения возможности просто расшифровывания хэшей по словарю (то есть
+первый случай, когда определяется тип хэша и соответствующий ему словарь
+&lt;em&gt;хэш =&amp;gt; исходное значение&lt;/em&gt;) достаточно исключить возможность
+идентификации алгоритма хэширования или наличия к нему заранее
+подготовленного словаря. Для этого достаточно лишь сделать шаг в сторону
+от стандартного алгоритма любым пришедшим в голову способом, например:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;хранить хэш не от самого пароля, а от &lt;em&gt;пароль + какая-либо
+    фиксированная строка&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;поменять местами группы символов в получившемся стандартном хэше&lt;/li&gt;
+&lt;li&gt;сделать сдвиг символов в стандартном хэше (или можно даже не сами
+    символы двигать, а с помощью битовых операций их значения)&lt;/li&gt;
+&lt;li&gt;комбинировать два стандартных алгоритма хэширования, или алгоритм
+    хэширования с алгоритмом обратимого шифрования, которых доступно
+    также множество&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Список этот можно было бы продолжать достаточно долго, это было лишь
+первое, что пришло мне в голову. Но ни один из приведенных способов не
+избавит от возможности второго варианта раскрывания исходного пароля.
+Основывается он на однозначности стандартных алгоритмов - одним и тем же
+исходным данным соответствует один и тот же хэш. Для отказа от этого
+свойства стандартных алгоритмов придется выполнить более сложную
+модификацию используемой для генерации хэша функции (которая конечно же
+тоже поможет и для борьбы с первым вариантом). Сразу приведу пример
+&lt;a href="/tag/kod/"&gt;кода&lt;/a&gt;, реализующего этот механизм, а дальше попытаюсь его
+объяснить:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;generateHash&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$input&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$salt&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;false&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="nv"&gt;$salt&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nv"&gt;$salt&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nx"&gt;randomString&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="nv"&gt;$hash&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;md5&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$input&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nv"&gt;$salt&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nv"&gt;$salt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;substr&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$hash&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Как не трудно заметить - используется самодельная функция
+&lt;strong&gt;randomString();&lt;/strong&gt;, которая возвращает случайную строку, состоящую из
+указанного количества шестнадцатеричных цифр (надеюсь Вы в состоянии
+написать ее своими силами). Именно этот момент и гарантирует элемент
+случайности при каждой новой генерации хэша. В том месте, где я прочитал
+про этот механизм (ссылку, к сожалению, привести не могу - в bookmark'ах
+не нашел), этот случайный компонент назывался словом &lt;strong&gt;salt&lt;/strong&gt;, смысл его
+заключается в том, что он приписывается ко входным данным, передаваемым
+стандартной функции хэширования, а затем им же подменяется какая-либо
+фиксированная часть полученного хэша.
+Наверняка у Вас возник вопрос: а как же потом понять, что пользователь
+ввел верные данные, ведь для тех же исходных данных получится другой хэш
+и возможности их сравнить не будет? Ответ достаточно прост, его можно
+было увидеть даже в коде: при повторной инициализации хэша из &lt;a href="/tag/bd/"&gt;базы
+данных&lt;/a&gt; достается заранее известная часть хранящегося там хэша,
+соответствующего конкретному пользователю - тот самый &lt;strong&gt;salt&lt;/strong&gt;, и
+передается нашей функции. В этом случае в механизме будет использоваться
+именно он, а не новое случайное значение, и, как следствие, в случае
+правильности введенных данных на выходе получатся совпадающие хэши. Вот
+такой вот простенький, но иногда достаточно полезный трюк.&lt;/p&gt;
+&lt;p&gt;Если Вам понравился этот пост - возможно Вам придутся по душе и
+&lt;a href="https://www.insight-it.ru/dzhentelmenskij-nabor-php-programmista/"&gt;остальные записи из этой серии статей&lt;/a&gt;, а не пропустить
+публикацию новых записей Вам может помочь &lt;a href="/feed/"&gt;RSS feed&lt;/a&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Fri, 15 Feb 2008 13:17:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-02-15:php/2008/modifikaciya-algoritma-khehshirovaniya/</guid><category>hash</category><category>md5</category><category>PHP</category><category>sha1</category><category>код</category><category>кодинг</category><category>Программирование</category><category>технология</category><category>хранение данных</category><category>хэш</category><category>хэширование</category><category>шифрование</category></item><item><title>Микроформаты</title><link>https://www.insight-it.ru//theory/2008/mikroformaty/</link><description>&lt;p&gt;&lt;img alt="Microformats" class="left" src="https://www.insight-it.ru/images/microformats.png" title="Microformats"/&gt;&lt;/p&gt;
+&lt;p&gt;Не смотря на тот факт, что эта технология еще только начинает получать
+широкое распространение и применение на просторах Сети, слов о ней уже
+написано немало, не вижу ни одной причины почему бы мне тоже не написать
+несколько слов о &lt;a href="https://www.insight-it.ru/goto/b960d7c/" rel="nofollow" target="_blank" title="http://microformats.org"&gt;микроформатах.&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Основной идеей микроформатов является попытка дополнить смыслом
+существующие элементы стандартов разметки - XHTML и HTML, такого рода
+смысл нынче модно назвать словом &lt;em&gt;семантика&lt;/em&gt;, что так или иначе влияет
+как на людей, пользующихся услугами Сети, так и на программы,
+обслуживающие ее функционирование.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h3 id="chto-predstavliaiut-soboi-mikroformaty"&gt;Что представляют собой микроформаты?&lt;/h3&gt;
+&lt;p&gt;Строго говоря, микроформаты являются набором форматов данных,
+основывающихся на существующих широкораспространенных стандартах
+представления данных (в частности XHTML), каждый из них предназначен для
+решения конкретной узкоспециализированной задачи, то есть для
+обеспечения конкретной семантикой конкретной части стандарта.&lt;/p&gt;
+&lt;p&gt;Как не трудно догадаться, измение существующих и добавление новых тэгов
+к стандарту XHTML в микроформатах недопустимо, ведь иначе документ
+перестанет соответствовать исходному стандарту. Именно по-этому для
+реализации микроформатов используются атрибуты тэгов XHTML, в которых
+допускаются некоторые вольности - &lt;strong&gt;rel&lt;/strong&gt; и &lt;strong&gt;class&lt;/strong&gt;.&lt;/p&gt;
+&lt;h3 id="chto-zhe-mozhet-dat-osmyslennost-razmetki"&gt;Что же может дать осмысленность разметки?&lt;/h3&gt;
+&lt;p&gt;В перспективе вся эта затея направлена на повышение качества сервисов,
+предоставляемых в Сети. На данный момент большая часть сервисов,
+основанных на анализе данных расположенных в Сети, способна лишь на
+частичное использование разметки документа для уточнения смысла той или
+иной информации. Показать это лучше всего на примере: тэги &lt;code&gt;&amp;lt;em&amp;gt;&lt;/code&gt; и
+&lt;code&gt;&amp;lt;strong&amp;gt;&lt;/code&gt; говорят о том, что содержащаяся внутри них информация
+имеет некий смысловой акцент, но в то же время многие другие тэги не
+несут за собой никакой дополнительной смысловой информации, помимо
+содержащегося внутри них текста. Одним из таких тэгов является
+&lt;code&gt;&amp;lt;a&amp;gt;&lt;/code&gt;, который говорит о наличии ссылки на некоторую
+интернет-страницу, как-то связанную с текстом между открывающим и
+закрывающим тэгами, а также расположенную по URL, указанному в атрибуте
+&lt;code&gt;href&lt;/code&gt;, можно конечно к этому прибавить атрибут &lt;code&gt;title&lt;/code&gt;, но так или
+иначе на этом информация о ресурсе, на который ссылается автор
+документа, заканчивается. Один из микроформатов, позволяющих расширить
+возможности простых ссылок, называется &lt;a href="https://www.insight-it.ru/goto/faee6117/" rel="nofollow" target="_blank" title="http://www.gmpg.org/xfn/"&gt;XFN&lt;/a&gt; и
+предоставляет авторам документов возможность описать свое отношение к
+другим авторам, на работы которых они ссылаются, выглядит это примерно
+следующим образом:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;a&lt;/span&gt; &lt;span class="na"&gt;href=&lt;/span&gt;&lt;span class="s"&gt;"http://www.my-friend.ru"&lt;/span&gt; &lt;span class="na"&gt;rel=&lt;/span&gt;&lt;span class="s"&gt;"friend"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    Сайт моего друга
+&lt;span class="nt"&gt;&amp;lt;/a&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Теперь понять, что сайт, на который происходит ссылка, является сайтом
+друга автора текущего документа, может не только читатель, но и
+программа, занимающаяся индексированием страниц Сети для какого-либо
+сервиса, например этот микроформат полезен для повышения качества работы
+социальных сетей. Это была лишь небольшая часть возможностей
+микроформата XFN, подробнее останавливаться на нем не буду - ведь каждый
+из них явно заслуживает отдельной записи.&lt;/p&gt;
+&lt;h3 id="klassifikatsiia"&gt;Классификация&lt;/h3&gt;
+&lt;p&gt;Наверняка к Вам в голову приходила мысль: а почему необходимо
+пользоваться именно вот этими микроформатами? Если в XHTML допускаются
+любые значения тэгов &lt;code&gt;rel&lt;/code&gt; и &lt;code&gt;class&lt;/code&gt;, почему я не могу придумать
+свои микроформаты и пользоваться ими? Ответ прост: микроформаты призваны
+повысить качество Сети вцелом, а не какого-то конкретного сайта
+отдельно. Только часть микроформатов получила широкое распространение, и
+именно ими приходится пользоваться всем остальным сайтам под влиянием
+&lt;em&gt;сетевого эффекта&lt;/em&gt; (т.е. того факта, что ценность технологии прямо
+пропорциональна обширности ее применения, в нашем случае в рамках Сети),
+просто чтобы быть совместимыми с остальной частью Интернета.&lt;/p&gt;
+&lt;p&gt;Но не смотря на это - количество и разнообразие распространенных
+микроформатов велико, и как-либо классифицировать их достаточно сложно.
+Самым простым и точным вариантом можно назвать разделение по структуре
+формата:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;элементарные&lt;/em&gt; - применимые только к одному конкретному типу тэгов.
+    В эту группу попадают упомянутый выше &lt;strong&gt;XFN&lt;/strong&gt;, а также множество
+    других, например &lt;em&gt;rel-tag&lt;strong&gt;, &lt;/strong&gt;rel-nofollow&lt;/em&gt;*, и так далее;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;композитные (или составные)&lt;/em&gt; - имеют более сложную структуру, и для
+    своей реализации требуют модификации нескольких тэгов одного
+    элемента. Микроформаты из этой категории предназначены для описания
+    более сложной структуры, например &lt;strong&gt;hCard&lt;/strong&gt;, используемый для
+    описания людей или организаций (можно посмотреть на пример его
+    использования &lt;a href="https://www.insight-it.ru/author/"&gt;на моей странице "О себе"&lt;/a&gt;).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Это пожалуй единственный общепринятый тип классификации микроформатов,
+можно конечно попытаться провести границы по типам используемых
+атрибутов или модифицируемых тэгов, но такого рода классификации
+несущественны и не являются широко распространенными.&lt;/p&gt;
+&lt;h3 id="primenenie-na-praktike"&gt;Применение на практике&lt;/h3&gt;
+&lt;p&gt;Вариантов их применения на сегодняшний день не так уж и много. Как я уже
+упоминал, эта технология еще находится лишь на пути к получению
+повсеместной распространенности на просторах Сети, но уже сейчас они
+проявили себя достаточно, чтобы оказывать влияние на многие аспекты сети
+Интернет:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Многие поисковые системы активно используют при составлении своего
+    индекса микроформат &lt;strong&gt;rel-nofollow&lt;/strong&gt;, об этом мне уже &lt;a href="https://www.insight-it.ru/theory/2008/putevoditel-dlya-robotov/"&gt;доводилось
+    упоминать в одной из предыдущих
+    записей&lt;/a&gt;;&lt;/li&gt;
+&lt;li&gt;Plug-in для Firefox под названием
+    &lt;a href="https://www.insight-it.ru/goto/c84adfbb/" rel="nofollow" target="_blank" title="https://addons.mozilla.org/en-US/firefox/addon/4106"&gt;&lt;em&gt;Operator&lt;/em&gt;&lt;/a&gt; -
+    позволяет просматривать используемые на текущей странице
+    микроформаты, а также предлагает небольшой ассортимент действий, с
+    ними связанных. Например, &lt;strong&gt;hCard&lt;/strong&gt; предлагается экспортировать в
+    адресную книгу, а для &lt;strong&gt;rel-tag&lt;/strong&gt; - осуществить поиск по скромному
+    списку интернет-сервисов. &lt;img alt="Operator screenshot" class="right" src="https://www.insight-it.ru/images/firefox-operator.png" title="Operator menu"/&gt;
+    Лично я уже достаточно его себе установил и всегда держу включенным,
+    не для того, чтобы реально им пользоваться, а просто чтобы быть в
+    курсе, что тот или иной ресурс вдруг начал поддерживать эту
+    замечательную технологию;&lt;/li&gt;
+&lt;li&gt;Появляется все больше и больше CMS, поддерживающих различные
+    микроформаты "из коробки" или с помощью plug-in'ов, что ведет к все
+    более активному расширению списка сайтов, следующих этим стандартам
+    представления данных. &lt;a href="https://www.insight-it.ru/goto/92e8fc22/" rel="nofollow" target="_blank" title="http://wordpress.org"&gt;WordPress&lt;/a&gt;, &lt;del&gt;на которой работает этот блог&lt;/del&gt;, тоже относится к категории CMS, поддерживающих
+    микроформаты, в чем вы можете убедиться, установив упомянутый в
+    предыдущем пункте &lt;em&gt;Operator&lt;/em&gt;. Сам по себе этот факт какой-либо
+    полезности не несет, но является лишним стимулом для разработчиков
+    программного обеспечения и интернет-ресурсов, поддерживающих
+    микроформаты.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Этот список можно было бы продолжать еще достаточно долго, так что
+позволю себе остановиться, ограничившись лишь перечислением наиболее
+актуальных с моей точки зрения аспектов применения микроформатов.&lt;/p&gt;
+&lt;h3 id="podvodim-itogi"&gt;Подводим итоги&lt;/h3&gt;
+&lt;p&gt;По сути являясь своеобразной "надстройкой" над XHTML, микроформаты
+создаются по принципу "чем проще - тем лучше", но в то же время
+благодаря своей узкой специализации и простоте, каждый из них способен
+быть составной частью модульной структуры форматов данных, способной
+поднять Сеть на качественно новый уровень развития.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sun, 27 Jan 2008 19:31:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-01-27:theory/2008/mikroformaty/</guid><category>hcard</category><category>hreview</category><category>html</category><category>xfn</category><category>XHTML</category><category>интернет</category><category>Микроформаты</category><category>семантика</category><category>смысл</category><category>технология</category></item><item><title>Путеводитель для роботов</title><link>https://www.insight-it.ru//theory/2008/putevoditel-dlya-robotov/</link><description>&lt;p&gt;Ни для кого не секрет, что одним их основных факторов, влияющих на
+расположение страниц интернет-ресурса на просторах поисковых систем,
+является уникальность контента (или другими словами - содержания).
+Конечно же простейшим способом избежать дублирующегося контента является
+просто собственноручная его генерация (или в крайнем случае с помощью
+наемных работников или посетителей Вашего сайта). Но, к сожалению, это
+позволяет избежать лишь повторов между разными сайтами. Помимо этого
+свою роль играют и повторы в рамках одного сайта. Наверняка Вы замечали,
+что многие CMS размещают один и тот же текст на разных страницах сайта:
+например на обычной странице, в RSS-ленте и каком-нибудь архиве.&lt;/p&gt;
+&lt;p&gt;Именно для решения этой маленькой проблемы и была создана технология под
+названием &lt;strong&gt;Robots Exclusion Protocol&lt;/strong&gt;. С ее помощью можно
+минимизировать возможность повторов содержимого, проиндексированного
+поисковыми системами в рамках одного сайта, а также исключить из индекса
+неинформативные страницы.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Надеюсь, что Вы представляете себе в чем заключается принцип работы
+поисковых систем, но в любом случае не вижу причин для того чтобы не
+рассказать вкратце об этом. Помимо собственно сайта, где пользователи
+вводят ключевую фразу для поиска, любая поисковая система имеет еще две
+части: базу данных (другими словами - индекс сайтов) и специальной
+программы (которую чаще всего называют &lt;em&gt;пауком&lt;/em&gt; или по-английски -
+&lt;em&gt;crawler&lt;/em&gt; или &lt;em&gt;spider&lt;/em&gt;, но иногда используется более общий термин -
+&lt;em&gt;робот&lt;/em&gt;). Эта программа запущена на серверах поисковых систем во
+множестве экземпляров и основной целью их работы является пополнение и
+обновления индекса поисковой системы. Сам же сайт лишь делает выборку из
+индекса в соответствии с запросом и сортирует результат.&lt;/p&gt;
+&lt;p&gt;Принцип работы такого класса программ я уже упоминал в &lt;a href="https://www.insight-it.ru/security/2008/otkuda-voznikaet-spam-i-kak-s-nim-borotsya/" title="Откуда возникает спам и как с ним бороться"&gt;записи о борьбе со спамом&lt;/a&gt;,
+так что повторюсь лишь вкратце в надежде, что Вы ее уже читали: они
+перемещаются по просторам Сети следуя по гиперссылкам, и на каждой
+странице, куда они попадают, стараются выполнить заранее определенное
+действие, в нашем случае - проиндексировать ее.&lt;/p&gt;
+&lt;p&gt;Обсуждаемая нами технология дает возможность веб-мастеру предоставить
+crawler'ам, образно говоря, &lt;em&gt;путеводитель&lt;/em&gt; по его сайту. Методов для
+этого имеется несколько:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Любой crawler прежде чем перейти на новый домен проверяет
+    существование файла по адресу &lt;code&gt;http://www.некий-домен.ru/robots.txt&lt;/code&gt;.
+    В таком файле веб-мастер может разместить директивы для
+    потенциальных компьютеризированных посетителей в соответствии с
+    &lt;a href="https://www.insight-it.ru/goto/32ecd79a/" rel="nofollow" target="_blank" title="http://www.robotstxt.org/norobots-rfc.txt"&gt;соответствующим стандартом&lt;/a&gt;. Если поисковый робот обнаруживает этот файл, то прочитав его он
+    корректирует свой маршрут обхода всего интернет-ресурса в
+    соответствии с указанными директивами.&lt;/li&gt;
+&lt;li&gt;Внутри заголовка любой HTML-страницы или любого другого документа,
+    передаваемого по http протоколу (с помощью заголовков самого
+    протокола), можно разместить специальный meta-tag для роботов,
+    который также должен соответствовать &lt;a href="https://www.insight-it.ru/goto/fef0ecbb/" rel="nofollow" target="_blank" title="http://www.robotstxt.org/meta.html"&gt;стандарту, опубликованному в 1996 году&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Основной частью &lt;em&gt;путеводителя&lt;/em&gt; чаще всего является карта &lt;a href="https://www.insight-it.ru/goto/9821991b/" rel="nofollow" target="_blank" title="http://sitemaps.org/"&gt;сайта в формате XML&lt;/a&gt;. С ее помощью программа может
+    быстро определить весь ассортимент страниц, которые ей было бы
+    неплохо проиндексировать.&lt;/li&gt;
+&lt;li&gt;Самым последним был воплощен в жизнь метод, основанный на
+    &lt;a href="https://www.insight-it.ru/goto/a9b68873/" rel="nofollow" target="_blank" title="http://microformats.org/wiki/rel-nofollow"&gt;микроформатах&lt;/a&gt;.
+    Реализуется он с помощью параметра &lt;code&gt;rel="nofollow"&lt;/code&gt;, указанного
+    внутри тэга &lt;code&gt;&amp;lt;a&amp;gt;&lt;/code&gt;, который обозначает ссылку, не предназначенную для
+    перехода по ней пауком.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Карты сайтов и директивы robots.txt предназначены для определения
+маршрута путешествия crawler'а, в то время как микроформаты и
+meta-тэги - для влияния на сам процесс индексации.&lt;/p&gt;
+&lt;p&gt;У каждого из описанных выше методов есть своя узкая специализация:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;robots.txt предоставляет базовый набор директив для роботов, которым
+    они следуют даже в случае конфликтов с другими использованными
+    методами.&lt;/li&gt;
+&lt;li&gt;Карта сайта влияет на последовательность и набор страниц, посещенных
+    пауком, с помощью указания приоритетов страниц или времени последней
+    модификации.&lt;/li&gt;
+&lt;li&gt;Мета-тэги распространяют свое действие на весь документ и влияет на
+    индексирование страниц (если они одновременно присутствуют как в
+    заголовке (X)HTML документа, так и в заголовках &lt;code&gt;X-Robots-Tags&lt;/code&gt;
+    HTTP-протокола, то приоритет считается выше у заголовков протокола).&lt;/li&gt;
+&lt;li&gt;Микроформаты позволяют в случае необходимости переопределять
+    параметры любого конкретного тэга документа, не смотря на указания в
+    мета-тэгах.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;С синтаксисом robots.txt лучше всего ознакомиться прямо в
+соответствующей спецификации, ссылку на которую я уже приводил (хотя
+возможно в будущем я всетаки соберусь написать запись и по этому
+поводу). Не знаю занимается ли кто-нибудь генерацией карт сайта вручную,
+но для общего развития будет полезно изучить и ее формат, неплохим
+примером может послужить &lt;a href="/sitemap.xml" title="XML Sitemap"&gt;XML-карта этого блога&lt;/a&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Fri, 18 Jan 2008 01:13:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-01-18:theory/2008/putevoditel-dlya-robotov/</guid><category>crawler</category><category>robots exclusion protocol</category><category>robots.txt</category><category>SEO</category><category>spider</category><category>интернет</category><category>информационные технологии</category><category>поисковые системы</category><category>принцип работы поисковых систем</category><category>технология</category></item><item><title>Общаемся с базой данных</title><link>https://www.insight-it.ru//php/2008/obshhaemsya-s-bazojj-dannykh/</link><description>&lt;p&gt;На этот раз хочется обсудить такой одновременно важный и несложный
+момент в реализации работы любого интернет-проекта, как координации
+работы Ваших скриптов с СУБД.&lt;/p&gt;
+&lt;p&gt;Если подойти к этому вопросу "в лоб", то код станет очень неудобен как
+для понимания, так и для использования: код станет переполнен различными
+функциями соединения с БД, отправки запросов, преобразования результатов
+запросов в массивы PHP, подсчета строк, которые затронул запрос, а также
+многие и многие другие.&lt;/p&gt;
+&lt;p&gt;Для желающих минимизировать подобного рода издержки в процессе написания
+кода, хочу предложить один из, на мой взгляд, самых эффективных способов
+решения этой проблемы.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Этим способом будет являться написание класса, реализующего интерфейс
+между СУБД и PHP-скриптами. Для начала стоит определиться с
+ассортиментом функций, которые будет призван выполнять наш класс:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;установка соединения&lt;/em&gt;, а также проверка успешности выполнения этого
+    действия;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;отправка запросов&lt;/em&gt;, как заданных извне так и, возможно, из
+    какого-либо ассортимента заранее написанных запросов;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;обработка результатов запросов&lt;/em&gt;, не ограничивающаяся одним SELECT,
+    должны быть предоставлены методы обработки результатов любых видов
+    запросов (или хотябы большинства).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Вполне очевидным является тот факт, что методы этого класса будут
+использоваться практически повсеместно в большинстве проектов.
+Вследствии чего становится нецелесообразным создание объекта нашего
+класса и передача его по всем функциям и методам всех скриптов, в таких
+случае намного предпочтительнее делать владельцем методов и переменных
+сам класс, а не экземпляр класса, с помощью ключевого слова &lt;strong&gt;static&lt;/strong&gt;.
+Это позволит пользоваться услугами нашего класса из любого места кода.
+Приступим-с собственно к кодингу, начать стоит с заготовки пустого
+класса:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;SQL&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;В зависимости от предпочитаемой Вами СУБД набор конкретных функций,
+используемых в реализации нашего класса, будет вариироваться. В
+большинстве случаев предпочитаю пользоваться PostgreSQL, на это причин у
+меня несколько, но это тема для отдельного разговора. Благодаря этому
+факту приводимый в качестве примера код будет использовать функции для
+работы именно с этой СУБД. Для поклонников же других этот систем вопрос
+в подавляющем большинстве случаев заключается лишь в замене этих функций
+на аналогичные из других модулей PHP, например для популярной и
+широкораспространенной MySQL достаточно будет всеголишь пройтись
+автозаменой &lt;strong&gt;pg_ =&amp;gt; mysql_&lt;/strong&gt; и слегка подредактировать параметры
+некоторых функций.&lt;/p&gt;
+&lt;p&gt;Перейдем к реализации установления соединения с СУБД, не стоит ожидать
+увидеть здесь ничего необычного:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;connect&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;  &lt;span class="c1"&gt;// установка соединения&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="nx"&gt;self&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nv"&gt;$connection&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;pg_pconnect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"host=localhost dbname=pgsql user=pgsql password=MyPassword"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="c1"&gt;// не забываем менять указанные данные для авторизации на правильные&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="nb"&gt;isset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;self&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nv"&gt;$connection&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+  &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"Сайт не работает по техническим причинам.&lt;/span&gt;
+&lt;span class="s2"&gt;Просим прощения за доставленные неудобства."&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;exit&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;   &lt;span class="c1"&gt;// ни в коем случае не выводим более информативных сообщений об ошибке, чем это&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;А вот с отправкой и обработкой результатов запросов ситуация далеко не
+так однозначна. Помимо простой передачи самого текста запроса в СУБД,
+необходимо правильно определить тип запроса и в соответствии с этим
+обработать результат. Можно конечно попытаться сделать это автоматически
+на основе вытаскивания первого слова из текста запроса, но мне всетаки
+кажется более предпочтительным определение "вручную" желаемого вида
+представление результата. Выполнение произвольных запросов может
+выглядеть, например, следующим образом:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;query&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$str&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$bool&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;false&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;// произвольный запрос&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="c1"&gt;//echo $str."&lt;/span&gt;
+&lt;span class="s2"&gt;"; // очень удобно на стадии разработки в процессе поиска ошибок&lt;/span&gt;
+&lt;span class="s2"&gt;  &lt;/span&gt;&lt;span class="si"&gt;$result&lt;/span&gt;&lt;span class="s2"&gt;=@pg_query(self::&lt;/span&gt;&lt;span class="si"&gt;$connection&lt;/span&gt;&lt;span class="s2"&gt;,&lt;/span&gt;&lt;span class="si"&gt;$str&lt;/span&gt;&lt;span class="s2"&gt;); // @ - для сокрытия теоретически возможных ошибок&lt;/span&gt;
+&lt;span class="s2"&gt;  // or die('Query failed: '.pg_last_error());&lt;/span&gt;
+&lt;span class="s2"&gt;  // не забываем убирать в комментарий в финальном варианте проекта&lt;/span&gt;
+&lt;span class="s2"&gt;  // или совсем удалять&lt;/span&gt;
+&lt;span class="s2"&gt;  if(&lt;/span&gt;&lt;span class="si"&gt;$result&lt;/span&gt;&lt;span class="s2"&gt;)  // Если получен результат, отличный от false&lt;/span&gt;
+&lt;span class="s2"&gt;  {&lt;/span&gt;
+&lt;span class="s2"&gt;    if(&lt;/span&gt;&lt;span class="si"&gt;$bool&lt;/span&gt;&lt;span class="s2"&gt;)  // Если выбран результат в виде boolean&lt;/span&gt;
+&lt;span class="s2"&gt;    {&lt;/span&gt;
+&lt;span class="s2"&gt;      return true;&lt;/span&gt;
+&lt;span class="s2"&gt;    }&lt;/span&gt;
+&lt;span class="s2"&gt;    else  // Если выбран результат в виде массива&lt;/span&gt;
+&lt;span class="s2"&gt;    {&lt;/span&gt;
+&lt;span class="s2"&gt;      &lt;/span&gt;&lt;span class="si"&gt;$n&lt;/span&gt;&lt;span class="s2"&gt;=pg_num_rows(&lt;/span&gt;&lt;span class="si"&gt;$result&lt;/span&gt;&lt;span class="s2"&gt;);  // для создания универсального формата массива&lt;/span&gt;
+&lt;span class="s2"&gt;      if(&lt;/span&gt;&lt;span class="si"&gt;$n&lt;/span&gt;&lt;span class="s2"&gt;==1)return pg_fetch_array(&lt;/span&gt;&lt;span class="si"&gt;$result&lt;/span&gt;&lt;span class="s2"&gt;,0,PGSQL_ASSOC);&lt;/span&gt;
+&lt;span class="s2"&gt;      else  // даже когда результат содержит только одну строку&lt;/span&gt;
+&lt;span class="s2"&gt;      {&lt;/span&gt;
+&lt;span class="s2"&gt;        &lt;/span&gt;&lt;span class="si"&gt;$j&lt;/span&gt;&lt;span class="s2"&gt;=pg_num_rows(&lt;/span&gt;&lt;span class="si"&gt;$result&lt;/span&gt;&lt;span class="s2"&gt;);&lt;/span&gt;
+&lt;span class="s2"&gt;        &lt;/span&gt;&lt;span class="si"&gt;$list&lt;/span&gt;&lt;span class="s2"&gt;=array();&lt;/span&gt;
+&lt;span class="s2"&gt;        for(&lt;/span&gt;&lt;span class="si"&gt;$i&lt;/span&gt;&lt;span class="s2"&gt;=0;&lt;/span&gt;&lt;span class="si"&gt;$i&lt;/span&gt;&lt;span class="s2"&gt;&amp;lt;&lt;/span&gt;&lt;span class="si"&gt;$j&lt;/span&gt;&lt;span class="s2"&gt;;&lt;/span&gt;&lt;span class="si"&gt;$i&lt;/span&gt;&lt;span class="s2"&gt;++)&lt;/span&gt;
+&lt;span class="s2"&gt;        &lt;/span&gt;&lt;span class="si"&gt;$list&lt;/span&gt;&lt;span class="s2"&gt;[]=pg_fetch_array(&lt;/span&gt;&lt;span class="si"&gt;$result&lt;/span&gt;&lt;span class="s2"&gt;,&lt;/span&gt;&lt;span class="si"&gt;$i&lt;/span&gt;&lt;span class="s2"&gt;,PGSQL_ASSOC);&lt;/span&gt;
+&lt;span class="s2"&gt;        return &lt;/span&gt;&lt;span class="si"&gt;$list&lt;/span&gt;&lt;span class="s2"&gt;;&lt;/span&gt;
+&lt;span class="s2"&gt;      }&lt;/span&gt;
+&lt;span class="s2"&gt;    }&lt;/span&gt;
+&lt;span class="s2"&gt;  }else return false;&lt;/span&gt;
+&lt;span class="s2"&gt;}&lt;/span&gt;
+&lt;span class="s2"&gt;?&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Помимо базовой отправки запросов, в некоторых случаях имеет смысл
+написать несколько методов, отправляющих частоиспользуемые запросы, что
+в некоторых случаях позволяет сократить объем и уменьшить
+нагроможденность кода. Хоть я и предпочитаю не пользоваться такими
+вещами, но привести пример такого рода метода все же стоит:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;selectAll&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$table&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="c1"&gt;// пример метода отправки чаcтоиспользуемых запросов&lt;/span&gt;
+  &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;self&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="na"&gt;query&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"select * from "&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nv"&gt;$table&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="s2"&gt;";"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Если чувствуете необходимость в подобных функциях, можно написать
+огромное количество, все ограничивается лишь Вашим воображением и
+знаниями SQL.&lt;/p&gt;
+&lt;p&gt;Что ж, осталось лишь собрать весь код в единый листинг:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;SQL&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="nv"&gt;$connection&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// соединение с СУБД&lt;/span&gt;
+  &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;connect&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;  &lt;span class="c1"&gt;// установка соединения&lt;/span&gt;
+  &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nx"&gt;self&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nv"&gt;$connection&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;pg_pconnect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"host=localhost dbname=pgsql user=pgsql password=MyPassword"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="c1"&gt;// не забываем менять указанные данные для авторизации на правильные&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="nb"&gt;isset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;self&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nv"&gt;$connection&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="k"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"Сайт не работает по техническим причинам.&amp;lt;br /&amp;gt;Просим прощения за доставленные неудобства."&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+      &lt;span class="k"&gt;exit&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// ни в коем случае не выводим более информативных сообщений об ошибке, чем это&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;query&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$str&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$bool&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;false&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;// произвольный запрос&lt;/span&gt;
+  &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="c1"&gt;//echo $str."&amp;lt;br&amp;gt;"; // очень удобно на стадии разработки в процессе поиска ошибок&lt;/span&gt;
+    &lt;span class="nv"&gt;$result&lt;/span&gt;&lt;span class="o"&gt;=@&lt;/span&gt;&lt;span class="nb"&gt;pg_query&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;self&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nv"&gt;$connection&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$str&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="c1"&gt;// @ - для сокрытия теоретически возможных ошибок&lt;/span&gt;
+    &lt;span class="c1"&gt;// or die('Query failed: '.pg_last_error());&lt;/span&gt;
+    &lt;span class="c1"&gt;// не забываем убирать в комментарий в финальном варианте проекта&lt;/span&gt;
+    &lt;span class="c1"&gt;// или совсем удалять&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$result&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;// Если получен результат, отличный от false&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$bool&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;// Если выбран результат в виде boolean&lt;/span&gt;
+      &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="k"&gt;true&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+      &lt;span class="p"&gt;}&lt;/span&gt;
+      &lt;span class="k"&gt;else&lt;/span&gt;  &lt;span class="c1"&gt;// Если выбран результат в виде массива&lt;/span&gt;
+      &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="nv"&gt;$n&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;pg_num_rows&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$result&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;  &lt;span class="c1"&gt;// для создания универсального формата массива&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$n&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;pg_fetch_array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$result&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;PGSQL_ASSOC&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="k"&gt;else&lt;/span&gt;  &lt;span class="c1"&gt;// даже когда результат содержит только одну строку&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt;
+          &lt;span class="nv"&gt;$j&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;pg_num_rows&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$result&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+          &lt;span class="nv"&gt;$list&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;array&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+          &lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nv"&gt;$j&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+          &lt;span class="nv"&gt;$list&lt;/span&gt;&lt;span class="p"&gt;[]&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;pg_fetch_array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$result&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;PGSQL_ASSOC&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+          &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nv"&gt;$list&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+      &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="k"&gt;false&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+  &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;selectAll&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$table&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="c1"&gt;// пример метода отправки чаcтоиспользуемых запросов&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;self&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="na"&gt;query&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"select * from "&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nv"&gt;$table&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="s2"&gt;";"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;```&lt;/p&gt;
+&lt;p&gt;Вот так вот оно и выглядит в простейшем варианте, дорабатывать под
+собственные нужды код можно до бесконечности естественно, но в
+большинстве случаев даже такой реализации вполне должно хватать.&lt;/p&gt;
+&lt;p&gt;Эта статья является частью &lt;a href="https://www.insight-it.ru/dzhentelmenskij-nabor-php-programmista/"&gt;серии статей "Джентельменский набор PHP программиста"&lt;/a&gt;, если Вам
+понравилась эта статья то очень вероятно, что Вам придутся по душе и
+остальные статьи.&lt;/p&gt;
+&lt;p&gt;Не забываем &lt;a href="/feed/"&gt;подписываться на RSS блога&lt;/a&gt;!&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Wed, 16 Jan 2008 22:04:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-01-16:php/2008/obshhaemsya-s-bazojj-dannykh/</guid><category>MySQL</category><category>PHP</category><category>PostgreSQL</category><category>SQL</category><category>БД</category><category>интерфейс</category><category>кодинг</category><category>ООП</category><category>СУБД</category><category>технология</category><category>хранение данных</category></item><item><title>Безопасное общение</title><link>https://www.insight-it.ru//security/2008/bezopasnoe-obshhenie/</link><description>&lt;h3 class="right" id="ili-vvedenie-v-kriptografiiu"&gt;...или введение в криптографию&lt;/h3&gt;
+&lt;p&gt;Представим, что два человека хотят общаться, но при этом хотят сохранить
+свой разговор в секрете. Для этого у них есть идеальный канал связи,
+который представляет собой цельную, непроницаемую для внешних
+воздействий трубу, что приводит к тому, что когда один из них шепчет
+что-либо в нее то только второй человек сможет получить сообщение,
+приложив ухо к противоположному концу трубы. Общение по такому каналу
+связи сравнимо с ситуацией, когда помимо них во всем мире не
+существовало бы других людей.&lt;/p&gt;
+&lt;p&gt;Но, к сожалению, таких каналов связи не существует, но это не мешает
+стремиться снабжать существующие каналы связи свойствами, приближающими
+их к идеальному, об этом мы сегодня и поговорим.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Как известно, наукой, посвященной теории и практике сокрытия данных,
+является криптография (из греческого: &amp;kappa;&amp;rho;&amp;upsilon;&amp;pi;&amp;tau;ό&amp;sigmaf; - скрытый и &amp;gamma;&amp;rho;ά&amp;phi;&amp;omega; -
+писать). Несмотря на свою историю, насчитывающую не одну тысячу лет, эта
+наука и в современном мире нашла множество применений.&amp;nbsp; С применением
+этой науки возможно решение самых разнообразных проблем, но основной
+задачей, с которой призвана справляться современная криптография
+является как раз относительно безопасная передача данных через
+ненадежное пространство.&lt;/p&gt;
+&lt;p&gt;Для максимального приближения реальных каналов связи к идеальному,
+необходимо выделить основные цели, к которым необходимо стремиться, в
+нашем случае их две:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;приватность&lt;/strong&gt; - сокрытие содержимого передаваемых данных от
+    возможных злоумышленников, с целью предотвращения возможности их
+    получения или изменения&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;аутентификация&lt;/strong&gt; - возможность получателя данных убедиться, что
+    принятые им данные действительно были переданы отправителем и не
+    претерпели в процессе никаких изменений&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Для реализации этих целей криптография предоставляет отправителю и
+получателю &lt;em&gt;протокол&lt;/em&gt;, в общем случае он представляет собой совокупность
+программ и алгоритмов. Протокол должен предоставлять как минимум по
+одному алгоритму (реализованному в программе) каждому участнику процесса
+передачи данных, в нашем случае получателю и отправителю. Отправителю
+должна быть предоставлена возможность упаковать данные, предназначенные
+для отправки, именно таким образом, чтобы получатель с помощью своей
+программы мог не только распаковать данные в первоначальную форму, но и
+убедиться, что они были отправлены именно в таком виде.&lt;/p&gt;
+&lt;p&gt;Залогом уверенности в том, что передача данных безопасна, является
+наличие чего-либо что знает или может сделать получатель, но не знает
+или не может сделать. Использование этой формы &lt;em&gt;асимметрии&lt;/em&gt; и является
+основой для большинства современных методов шифрования информации. Этот
+объект, обуславливающий возникновение асимметрии, принято называть
+словом &lt;em&gt;ключ&lt;/em&gt;. Формально говоря ключ является одним из параметров
+шифрования, определяющим каким именно образом были преобразованы данные
+заранее известным алгоритмом. Основная классификация алгоритмов
+шифрования основывается на том, кто изначально владеет ключом, принято
+разделять их на алгоритмы с симметричным (т.е. секретным) и
+асимметричным (т.е. публичным) ключами.&lt;/p&gt;
+&lt;h3 id="algoritmy-s-simmetrichnym-kliuchom"&gt;Алгоритмы с симметричным ключом&lt;/h3&gt;
+&lt;p&gt;В самом простом случае получатель и отправитель являются владельцами
+одного и того же ключа, представляющего собой случайно выбранную строку,
+то есть последовательность бит заданной длины. С помощью этого ключа они
+получают возможность исключить вмешательство посторонних лиц в передачу
+данных (будем считать что ключи
+хранятся на компьютерах отправителя и получателя, и какая-либо
+возможность получения их оттуда третьими лицами отсутствует).
+Логичным было бы возникновение вопроса о том как же изначально ключ
+попал в их распоряжение, не попав в руки злоумышленников, но ответ на
+него выходит за рамки этого повествования, для нас намного важнее сам
+процесс использования ключа.&lt;/p&gt;
+&lt;p&gt;Сам процесс передачи достаточно прост: с помощью первого
+предоставленного протоколом алгоритма и имеющегося ключа, отправитель
+&lt;em&gt;шифрует (&lt;a href="/tag/encrypt/"&gt;encrypt&lt;/a&gt;)&lt;/em&gt; сообщение, и получает на выходе
+зашифрованное сообщение, которое и будет отправлено получателю через
+ненадежный канал. Получатель же в свою очередь, применив второй алгоритм
+и все тот же ключ, &lt;em&gt;расшифровывает (&lt;a href="/tag/decrypt/"&gt;decrypt&lt;/a&gt;)&lt;/em&gt; полученное
+сообщение и в идеале получает исходное сообщение.&lt;/p&gt;
+&lt;p&gt;Приватность в этом случае достигается за счет того, что даже зная
+алгоритм и перехватив передаваемое сообщение восстановление исходного
+текста без ключа невозможно. Но в некоторых случаях даже не имея
+возможности точно расшифровать сообщения, злоумышленник может с
+некоторой ненулевой вероятностью предположить содержимое исходного
+сообщения, основываясь на длине передаваемого сообщения (вполне
+очевидно, что в большинстве случаев длина сообщения и длина исходного
+текста - величины зависимые). Но такая вероятность чаще всего ничтожно
+мала, но если злоумышленник знает что-либо о структуре исходного
+сообщения и о том что оно собой представляет, этот факт может позволить
+ему предполагать с более высоким шансом на успех.&lt;/p&gt;
+&lt;p&gt;Аутентификация реализуется несколько более сложным образом: для того
+чтобы предоставить гарантию что сообщение было передано именно
+отправителем, протокол предоставляет еще два алгоритма (которые правда
+могут совпадать) алгоритма. Помимо самого сообщения отправитель
+вычисляет "метку" - результат выполнения некой функции, аргументами
+которой являются ключ и исходное сообщение. Метка отправляется вместе с
+зашифрованным сообщением, и когда&amp;nbsp; получатель применяет свой второй
+алгоритм на полученной метке и сообщении, он может точно определить
+обладал ли составитель этого сообщения ключом и, как следствие, не
+являлся ли он "злоумышленником".&lt;/p&gt;
+&lt;h3 id="algoritmy-s-asimmetrichnym-kliuchom"&gt;Алгоритмы с асимметричным ключом&lt;/h3&gt;
+&lt;p&gt;Главной особенностью этого класса алгоритмов является использование
+&lt;strong&gt;пары&lt;/strong&gt; ключей: &lt;em&gt;публичного&lt;/em&gt; и &lt;em&gt;секретного&lt;/em&gt;. Их названия говорят сами
+за себя: публичный ключ участника передачи данных предоставляется им в
+свободный доступ и привязывается к его личности, а секретный так и
+остается известен только его владельцу.&lt;/p&gt;
+&lt;p&gt;Передача сообщения происходит следующим образом: отправитель получает
+копию публичного ключа &lt;em&gt;получателя&lt;/em&gt; из какого-либо общедоступного
+источника, с его помощью зашифровывает по заранее известному алгоритму
+сообщение и отправляет получателю. Получатель же, обладая &lt;em&gt;секретным&lt;/em&gt;
+ключом, предназначенным для расшифровывания сообщений, которые были
+составлены с помощью &lt;em&gt;его же&lt;/em&gt; публичного ключа, получает исходное
+сообщение.&lt;/p&gt;
+&lt;p&gt;В отличии от алгоритмов с симметричным ключом получатель и отправитель
+могут даже быть незнакомы, но это все равно позволяет отправителю
+передавать сообщения получателю и быть точно уверенным, что &lt;em&gt;только&lt;/em&gt;
+получатель сможет получить из переданного сообщения исходное, другими
+словами этот механизм реализует &lt;em&gt;приватность&lt;/em&gt; передачи данных.&lt;/p&gt;
+&lt;p&gt;Передача сообщений по тому же принципу может быть организована и с
+помощью пары ключей отправителя, в этом случае идет речь о так
+называемой &lt;strong&gt;цифровой подписи&lt;/strong&gt;. Отправитель прикрепляет к сообщению
+последовательность бит, которая является результатом функции от его
+секретного ключа и исходного сообщения, получатель же имеет возможность
+с помощью публичного ключа отправителя проверить действительно ли
+сообщение было составлено именно им и не притерпело никаких изменений в
+процессе передачи, что говорит о наличии &lt;em&gt;аутентификации&lt;/em&gt; в этом методе.&lt;/p&gt;
+&lt;p&gt;В отличии от алгоритмов с симметричным ключом, цифровая подпись может
+быть при необходимости использована в суде как доказательство того, что
+сообщение было отправлено именно им, ведь возможность подделать ее
+отсутствует как у получателя так и у всех остальных лиц не обладающих
+секретным ключом (если секретный ключ был бы известен получателю, как в
+ситуации с симметричным ключом, то была бы возможность подделки со
+стороны получателя). Даже если отправитель заявит что секретный ключ был
+украден, этот факт расценивается как проблема отправителя и
+ответственности за документы подписанные этим ключом с него не снимает.&lt;/p&gt;
+&lt;h3 id="v-kachestve-zakliucheniia"&gt;В качестве заключения...&lt;/h3&gt;
+&lt;p&gt;...хотелось бы сказать, что каждый упомянутый подход к обеспечению
+безопасности передачи информации имеет свое право на существование, что
+легко подтверждается тем, что каждый из них нашел свое применение в
+жизни. Надеюсь этот теоритический обзор дал Вам возможность получить
+общее представление о принципах современного обеспечения безопасности
+передачи данных через ненадежное пространство, которым в большинстве
+случаев является международная сеть Интернет.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Wed, 09 Jan 2008 17:34:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-01-09:security/2008/bezopasnoe-obshhenie/</guid><category>decrypt</category><category>encrypt</category><category>дешифрование</category><category>ключ</category><category>Криптография</category><category>общение</category><category>протокол</category><category>процесс передачи сообщения</category><category>Сеть</category><category>технология</category><category>цифровая подпись</category><category>шифр</category><category>шифрование</category></item><item><title>Мы делаем новости!</title><link>https://www.insight-it.ru//theory/2008/my-delaem-novosti/</link><description>&lt;p&gt;&lt;a href="/feed/"&gt;&lt;img alt="RSS Logo." class="right" src="https://www.insight-it.ru/images/rss.png" title="Логотип RSS"/&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Ярко-рыжий логотип, который можно увидеть на практически любом сайте,
+наверняка не раз привлекал Ваше внимание. Если Ваше любопытство хоть раз
+заставляло Вас перейти по ссылке, которая чаще всего стоит за таким
+логотипом, то Вы наверняка уже успели представить себе о чем пойдет
+речь.&lt;/p&gt;
+&lt;p&gt;Такая ссылка в подавляющем большинстве случаев ведет на новости сайта,
+на котором она расположена, представленные в формате представления
+данных под названием RSS (хотя это даже не обязательно должны быть
+новости в обычном понимании этого слова, с помощью этого формата можно
+публиковать любой контент). Этот формат предоставляет пользователям
+возможность подписываться на &lt;em&gt;каналы&lt;/em&gt; новостей с помощью специально
+предназначенных для этого программ - &lt;em&gt;аггрегаторов&lt;/em&gt;, позволяя иметь
+быстрый и удобный доступ ко всем интересующим его/ее информационным
+ресурсам, без необходимости собственно посещать все эти сайты.&lt;/p&gt;
+&lt;p&gt;О процессе создания такого канала я и хочу Вам рассказать.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Конечно же многие CMS поддерживают автоматическую генерацию RSS-каналов,
+и &lt;a href="https://www.insight-it.ru/goto/f4bdda87/" rel="nofollow" target="_blank" title="http://www.wordpress.org"&gt;WordPress&lt;/a&gt;, &lt;del&gt;на которой работает этот
+блог&lt;/del&gt;, к ним относится. &lt;a href="/feed/"&gt;RSS-канал этого блога&lt;/a&gt;, хоть и
+не является новостным по сути, но также прекрасно генерируется из постов
+блога. Но для того, чтобы работать с технологией обычно бывает не лишним
+понимать как она работает, по-этому в этой записи я поведаю Вам о ручном
+составлении RSS-канала, а в одной из последующих - об автоматической
+генерации.&lt;/p&gt;
+&lt;p&gt;Прежде всего стоит сказать, что RSS является методом, основанным на XML
+и предназначенным для оперативного распространения новостей и контента
+сайта как среди потенциальных читателей, так и среди других сайтов.&lt;/p&gt;
+&lt;p&gt;Как следствие, на RSS распространяются все &lt;a href="https://www.insight-it.ru/theory/2008/9-osnovnyx-pravil-napisaniya-xml/"&gt;правила написания XML-документов&lt;/a&gt;, с которыми имеет смысл ознакомиться перед тем, как продолжить чтение этой записи. Помимо них, для RSS существует отдельный стандарт и соответственно набор не менее простых правил.&lt;/p&gt;
+&lt;p&gt;В качестве примера можно использовать любой понравившийся канал,
+например мой. Для того, чтобы увидеть сам текст документа, необходимо
+нажать правой кнопкой мыши на открытый в браузере документ и выбрать
+пункт, называющийся как-нибудь вроде "Просмотр исходного кода страницы"
+или "View Page Source".&lt;/p&gt;
+&lt;p&gt;По сравнению с XML, RSS-документ должен обладать четко определенной
+структурой:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;За стандартным XML-заголовком открывается корневой элемент &lt;code&gt;&amp;lt;rss&amp;gt;&lt;/code&gt;,
+    содержащий указание версии RSS&lt;/li&gt;
+&lt;li&gt;В корневой элементе должен должен содержаться ровно один элемент
+    &lt;code&gt;&amp;lt;channel&amp;gt;&lt;/code&gt;, символизирующий наш канал&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Внутри &lt;code&gt;&amp;lt;channel&amp;gt;&lt;/code&gt; обязательно должны содержаться три элемента:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;title&amp;gt;&lt;/code&gt; - заголовок канала&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;link&amp;gt;&lt;/code&gt; - ссылка на сам сайт&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;description&amp;gt;&lt;/code&gt; - описание канала&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Помимо них он должен содержать один или несколько элементов
+    &lt;code&gt;&amp;lt;item&amp;gt;&lt;/code&gt;, которые будут обозначать одну конкретную новость,
+    запись, пост, статью, заметку, не важно какое из этих слов больше
+    подходит к каждому конкретному случаю - суть от этого не меняется.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;Элементы между парой тэгов &lt;code&gt;&amp;lt;item&amp;gt;&lt;/code&gt;, как ни странно, тоже должны
+    в себя включать в себя волшебно-обязательные элементы, разница лишь
+    в значении, которое им придается:&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;title&amp;gt;&lt;/code&gt; - заголовок новости-записи-поста-статьи-заметки&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;link&amp;gt;&lt;/code&gt; - ссылка на нее же, обычно на страницу внутри сайта&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;description&amp;gt;&lt;/code&gt; - собственно говоря сам текст&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Пример:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?xml version="1.0" encoding="UTF-8" ?&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;rss&lt;/span&gt; &lt;span class="na"&gt;version=&lt;/span&gt;&lt;span class="s"&gt;"2.0"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;channel&amp;gt;&lt;/span&gt;
+ &lt;span class="nt"&gt;&amp;lt;title&amp;gt;&lt;/span&gt;Insight IT&lt;span class="nt"&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
+ &lt;span class="nt"&gt;&amp;lt;description&amp;gt;&lt;/span&gt;Блог об информационных технологиях&lt;span class="nt"&gt;&amp;lt;/description&amp;gt;&lt;/span&gt;
+ &lt;span class="nt"&gt;&amp;lt;link&amp;gt;&lt;/span&gt;https://www.insight-it.ru&lt;span class="nt"&gt;&amp;lt;/link&amp;gt;&lt;/span&gt;
+ &lt;span class="nt"&gt;&amp;lt;lastBuildDate&amp;gt;&lt;/span&gt;Sun, 07 Jan 2008 23:42:01 +0000&lt;span class="nt"&gt;&amp;lt;/lastBuildDate&amp;gt;&lt;/span&gt;
+ &lt;span class="nt"&gt;&amp;lt;pubDate&amp;gt;&lt;/span&gt;Sun, 07 Jan 2008 23:42:01 +0000&lt;span class="nt"&gt;&amp;lt;/pubDate&amp;gt;&lt;/span&gt;
+ &lt;span class="nt"&gt;&amp;lt;ttl&amp;gt;&lt;/span&gt;1800&lt;span class="nt"&gt;&amp;lt;/ttl&amp;gt;&lt;/span&gt;
+
+ &lt;span class="nt"&gt;&amp;lt;item&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;title&amp;gt;&lt;/span&gt;Мы делаем новости!&lt;span class="nt"&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;description&amp;gt;&lt;/span&gt;Ярко-рыжий логотип, который можно увидеть на практически любом сайте, наверняка не раз привлекал Ваше внимание.&lt;span class="nt"&gt;&amp;lt;/description&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;link&amp;gt;&lt;/span&gt;http://www.insight-it.ru/?p=18&lt;span class="nt"&gt;&amp;lt;/link&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;guid&lt;/span&gt; &lt;span class="na"&gt;isPermaLink=&lt;/span&gt;&lt;span class="s"&gt;"true"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;7bd204c6-1655-4c27-aeee-53f933c5395f&lt;span class="nt"&gt;&amp;lt;/guid&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;pubDate&amp;gt;&lt;/span&gt;Sun, 07 Jan 2008 23:42:01 +0000&lt;span class="nt"&gt;&amp;lt;/pubDate&amp;gt;&lt;/span&gt;
+ &lt;span class="nt"&gt;&amp;lt;/item&amp;gt;&lt;/span&gt;
+
+&lt;span class="nt"&gt;&amp;lt;/channel&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/rss&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Перечисленного выше вполне достаточно для написания простейшего
+RSS-канала, но возможности RSS далеко выходят за рамки просто размещения
+в Сети текстовых сообщений. Для их реализации стандартом предусмотрен
+еще целый ряд тэгов,&amp;nbsp; доступных для использования. Позволю себе привести
+краткую справку по основным из них (для полноты картины повторю
+обязательные):&lt;/p&gt;
+&lt;h4&gt;Дочерние элементы &lt;channel&gt;&lt;/channel&gt;&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;strong&gt;Элемент&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;Описание&lt;/strong&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;category&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Не обязателен, определяет одну или несколько категорий для канала, позволяет &lt;em&gt;аггрегаторам&lt;/em&gt; группировать записи по этому параметру&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;cloud&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Не обязателен, используется для осуществления об обновлении канала с помощью технологии RPC&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;copyright&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Опционально, предназначен для предупреждения о необходимости соблюдения авторских прав&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;description&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Обязательное описание канала&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;docs&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Необязательная ссылка на описания формата, использованного в данном канале&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;generator&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Указание программы, сгенерировавшей канал, обычно они сами заполняют этот тэг. В случае заполнения вручную он вообще не нужен&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;image&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Опциональное отображение логотипа канала в &lt;em&gt;аггрегаторе&lt;/em&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;language&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Определяет язык, на котором написано содержимое канала. Не обязательно, но желательно&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;lastBuildDate&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Время последнего обновления содержимого канала. Опционально.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;link&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Обязательная ссылка канала&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;managingEditor&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Адрес электронной почты редактора канала, не обязателен.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;pubDate&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Опциональная дата последней публикации на канале&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;rating&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Опциональный PICS рейтинг канала&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;skipDays&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Количество дней, которые аггрегатор должен пропускать между проверкой обновлений канала&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;skipHours&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;По аналогии с предыдущим, только в часах&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;textInput&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Определяет текстовое поле, которое может отображаться рядом с каналом. Не обязательно.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;title&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Обязательная тема канала&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;ttl&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Время в минутах, в течении которого канал может отображаться из кэша &lt;em&gt;аггрегатора&lt;/em&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;webMaster&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Адрес электронной почты веб-мастера, не обязательно.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4&gt;Дочерние элементы &lt;item&gt;&lt;/item&gt;&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;strong&gt;Элемент&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;Описание&lt;/strong&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;author&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Название говорит само за себя - автор, указывать не обязательно&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;category&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Категория или категории, куда можно отнести запись. Опционально&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;comments&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Ссылка на комментарии к записи. Опционально.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;description&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Обязательное описние записи, то есть само ее содержание&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;enclosure&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Существует возможность по желанию сопровождать запись ссылкой на меда-файл так или иначе с ней связанный&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;guid&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Уникальный идентификатор элемента&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;link&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Обязательная ссылка записи&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;pubDate&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Дата публкации. Не обязательно.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;source&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Опциональная ссылка на внешний источник записи&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;lt;title&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Обязательный заголовок записи&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Более подробно о каждом из них можно узнать, ознакомившись со
+&lt;a href="https://www.insight-it.ru/goto/aa3956d6/" rel="nofollow" target="_blank" title="http://cyber.law.harvard.edu/rss/rss.html"&gt;спецификацией на английском&lt;/a&gt;. Напоследок хочу напомнить, что вся эта запись представлена лишь для общего понимания принципов организации RSS-документа. На практике в большинстве случаев такие документы генерируются автоматически, о чем и пойдет речь в одной из последующих записей.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Mon, 07 Jan 2008 23:42:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-01-07:theory/2008/my-delaem-novosti/</guid><category>RSS</category><category>XML</category><category>аггрегатор</category><category>новости</category><category>Сеть</category><category>технология</category><category>хранение данных</category></item><item><title>7 способов защитить свой интернет-ресурс от нежелательной информации</title><link>https://www.insight-it.ru//security/2008/7-sposobov-zashhitit-svoj-internet-resurs-ot-nezhelatelnoj-informacii/</link><description>&lt;p&gt;В одном из предыдущих постов я поднял &lt;a href="https://www.insight-it.ru/security/2008/otkuda-voznikaet-spam-i-kak-s-nim-borotsya/"&gt;тему о технологии под названием captcha&lt;/a&gt;, которая является одним из самых распространенных и эффективных способов борьбы с автоматическим заполнением интернет-ресурсов нежелательным контентом. В этом же посте хотелось бы развить начатый разговор повествованием о различных способах воплощения этой технологии в жизнь.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h3 id="1-klassicheskii-variant-graficheskaia-realizatsiia"&gt;1. Классический вариант - графическая реализация&lt;/h3&gt;
+&lt;p&gt;Самым популярным вариантом реализации является "графическая" captcha
+(позволю себе "обращаться" к этому слову в женском роде, просто из-за
+того, что по-моему оно так лучше звучит, не смотря на то, что по логике
+все же стоило использовать "он", так как при дословном переводе
+получилось бы слово "тест" с кучкой прилагательных
+и определений). Она представляет собой изображение, содержащее чаще
+всего какой-либо сильно искаженный текст или набор цифр, и перед
+посетителем ставится задача воспроизведения в текстовом поле,
+находящемся неподалеку, того что он/она видит на изображении.
+Большинству людей не составит труда прочесть и набрать на клавиатуре
+даже искаженный до неузнаваемости текст, а вот для программы данная
+задача является как минимум нетривиальной.&lt;/p&gt;
+&lt;p&gt;Существует некоторое количество алгоритмов (называются &lt;a href="/tag/ocr/"&gt;&lt;abbr title="Optical Character Recognition"&gt;OCR&lt;/abbr&gt;&lt;/a&gt;), позволяющих программе
+пытаться понять что же за текст расположен на изображении. Эти алгоритмы
+разрабатывались для вполне мирных целей - для оцифровки книг и любых
+других напечатанных на бумаге документов. Но все же эти алгоритмы
+предназначены для распознавания аккуратно написанного текста черным
+шрифтом на белом фоне и являются плохо приспособленными для
+распознавания &lt;a href="/tag/captcha/"&gt;captch'и&lt;/a&gt;. Но все же существует довольно
+большое количество модификаций этих алгоритмов, приспособленных для
+чтения даже искаженного текста.&lt;/p&gt;
+&lt;p&gt;Казалось бы это существование таких алгоритмов делает бессмысленным
+использованием такого рода "защиты", но на практике это далеко не так:
+большинство из них пригодны только для распознавания только узкого
+набора реализаций графических &lt;a href="/tag/captcha/"&gt;captch&lt;/a&gt;, особенно это
+актуально для популярных готовых решений реализации этого типа защиты
+находящимся в свободном доступе в сети Интернет, а также сервисов,
+предоставляющих услуги по генерации такого рода изображений. Что делает
+довольно актуальным написание собственной реализации графической
+&lt;a href="/tag/captcha/"&gt;captch'и&lt;/a&gt; для появления уверенности в отсутствии готовой
+модификации &lt;a href="/tag/ocr/"&gt;&lt;abbr title="Optical Character Recognition"&gt;OCR&lt;/abbr&gt;&lt;/a&gt; алгоритма, для преодоления используемой
+преграды. Об этом и пойдет речь в &lt;a href="https://www.insight-it.ru/php/2008/zashhita-internet-resursov-v-kartinkax/"&gt;записи про собственноручную реализацию технологии CAPTCHA.&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Но запись еще далека от завершения, ведь описанная выше графическая
+реализация, не является единственной. Во-первых, стоило упомянуть пару
+несколько реже используемые модификации визуальных тестов:&lt;/p&gt;
+&lt;h3 id="2-sommon-sense"&gt;2. Сommon sense&lt;/h3&gt;
+&lt;p&gt;Эта категория модификаций основывается на вопросах построенных на так
+называемом &lt;em&gt;common sense&lt;/em&gt;, то есть на каких-то общеизвестных вещах,
+очевидных для любого человека, но не поддающимся четкому осознаванию
+программой с помощью какого-либо алгоритма. К сожалению, этот факт
+вместе с тем порождает и основной недостаток этой категории проверок-
+такой тест невозможно автоматически сгенерировать, что делает реализацию
+существенно более трудоемкой и неэффективной, что собственно и
+обуславливает редкость их применения на практике.&lt;/p&gt;
+&lt;h3 id="3-matematicheskii-test"&gt;3. Математический тест&lt;/h3&gt;
+&lt;p&gt;Помимо просто перенабирания некоторого набора цифр с изображения, авторы
+captch'и могут попросить своего посетителя выполнить какую-либо
+несложную операцию (например: &lt;code&gt;2 x 2 = ???&lt;/code&gt;). Но такого рода тесты также далеки от идеала, так как в подавляющем большинстве алгоритм их решения прост для безобразия - вполне достаточно бывает базового &lt;a href="/tag/ocr/"&gt;&lt;abbr title="Optical Character Recognition"&gt;OCR&lt;/abbr&gt;&lt;/a&gt; и реализации калькулятора внутри &lt;a href="/tag/crawler/"&gt;crawler&lt;/a&gt;'a, чтобы он смог преодолеть такого рода барьер.&lt;/p&gt;
+&lt;h3 id="4-vybor-izobrazheniia"&gt;4. Выбор изображения&lt;/h3&gt;
+&lt;p&gt;Хочется также упомянуть один из достаточно оригинальных вариантов
+реализации, являющийся по сути вариацией на тему common sense captch'и,
+который меня как минимум удивил, когда я его впервые увидел на сайте
+одного из мобильных операторов рядом с формой для &lt;strong&gt;online&lt;/strong&gt; отправки SMS. Суть его заключалось в том, что предлагался набор небольших фотографий, из которых предлагалось выбрать 2-4 изображения обладающих каким-либо свойством, например являющимися живыми объектами. Помимо позитивненького оформления и симпатичных фотографий, чисто технически такой подход является достаточно эффективным и легко реализуемым, единственное предъявляемое к такой реализации требование - достаточно обширная база данных изображений.&lt;/p&gt;
+&lt;h3 id="5-vykhod-za-ramki-standartov"&gt;5. Выход за рамки стандартов&lt;/h3&gt;
+&lt;p&gt;Большинство вещей, предназначенных для массового использования, принято
+делать по принципу "чем проще тем лучше". Обусловлено это тем, что
+количество пользователей обратно пропорционально уровню требований, к
+ним предъявляемых. Формы на интернет-страницах, как ни странно,
+исключением из этого принципа не являются, что является причиной их
+построения с использованием только базовых языков разметки -
+&lt;a href="/tag/html/"&gt;HTML&lt;/a&gt;, &lt;a href="/tag/xhtml/"&gt;XHTML&lt;/a&gt; или в крайнем случае
+&lt;a href="/tag/xml/"&gt;XML&lt;/a&gt;. Именно такую форму и ожидает увидеть spider, попадая на
+страницу. Но если поступиться этим принципом - легко поставить программу
+в тупиковое положение, задействовав какую-либо непривычную для нее
+технологию. В качестве примера в голову приходит Flash-ролик вместо
+изображения в &lt;em&gt;графическом&lt;/em&gt; варианте реализации.&lt;/p&gt;
+&lt;p&gt;Этот способ является очень эффективным, но обладает существенными
+недостатками, такими как, например, необходимость использования
+современных браузеров с определенными plug-in'ами.&lt;/p&gt;
+&lt;h3 id="6-skrytie-razmetki"&gt;6. Скрытие разметки&lt;/h3&gt;
+&lt;p&gt;В качестве продолжения предыдущей мысли: &lt;em&gt;&lt;a href="/tag/javascript/"&gt;JavaScript&lt;/a&gt;&lt;/em&gt;
+предоставляет далеко не один способ скрыть внутри себя код разметки, что
+позволяет сделать вид, что формы &lt;em&gt;как бы&lt;/em&gt; не существует (в основном
+базирующиеся на обратимом шифровании), заставляя программу подумать "да
+тут и заполнять-то нечего" и пройти мимо на какой-нибудь другой сайт.
+Все бы хорошо, только посетители сайта с отключенным
+&lt;em&gt;&lt;a href="/tag/javascript/"&gt;JavaScript&lt;/a&gt;&lt;/em&gt;'ом формы тоже не увидят...&lt;/p&gt;
+&lt;h3 id="7-zvukovoe-voploshchenie"&gt;7. Звуковое воплощение&lt;/h3&gt;
+&lt;p&gt;Как не трудно было заметить, что все варианты, которые я упомянул до
+этого момента, так или иначе базировались на визуальном восприятии
+информации. И вполне обосновано - для большинства людей зрение играет
+роль основного чувства, но существуют и интернет-ресурсы, для которых
+важен абсолютно каждый посетитель, в том числе и люди с ограниченными
+способности, для которых стандартные проверки являются непреодолимыми.
+Для такой категории людей были сделаны альтернативные варианты,
+основывающиеся на таком чувстве, как слух. Суть же от этого изменилась:
+посетителя просят набрать с клавиатуры нечто услышанное при
+воспроизведении аудио-записи, либо ответить на какой-либо вопрос,
+основывающийся на уже упомянутом принципе &lt;em&gt;common sense&lt;/em&gt; и заданный тоже
+с помощью в аудио-файле.&lt;/p&gt;
+&lt;p&gt;Вместо заключения хотелось бы предложить Вам &lt;a href="/feed/"&gt;подписаться на RSS этого блога&lt;/a&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Thu, 03 Jan 2008 20:41:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-01-03:security/2008/7-sposobov-zashhitit-svoj-internet-resurs-ot-nezhelatelnoj-informacii/</guid><category>captcha</category><category>common sense</category><category>JavaScript</category><category>OCR</category><category>online</category><category>защита интернет-ресурсов</category><category>изображение</category><category>классификация</category><category>проверка</category><category>реализация</category><category>технология</category><category>форма</category></item></channel></rss>

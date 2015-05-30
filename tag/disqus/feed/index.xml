@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/disqus/feed/index.xml" rel="self"></atom:link><lastBuildDate>Wed, 02 Mar 2011 03:37:00 +0300</lastBuildDate><item><title>Архитектура DISQUS</title><link>https://www.insight-it.ru//highload/2011/arkhitektura-disqus/</link><description>&lt;p&gt;&lt;img alt="DISQUS" class="left" src="https://www.insight-it.ru/images/disqus.jpg" title="DISQUS"/&gt;
+&lt;a href="https://www.insight-it.ru/goto/a754581e/" rel="nofollow" target="_blank" title="https://disqus.com"&gt;DISQUS&lt;/a&gt; - самая популярная система
+комментирования и одновременно самое большое в мире Django-приложение.
+Она установлена более чем на полумиллионе сайтов и блогов, в том числе и
+очень крупных, таких как Engadget, CNN, MTV, IGN. Основной особенностью
+в её реализации является тот факт, что DISQUS не является тем сайтом,
+который хотят увидеть пользователи, он лишь предоставляет механизмы
+комментирования, авторизации и интеграции с социальными сетями. Пики
+нагрузки возникают одновременно c появлением какой-то шумихи в
+Интернете, что достаточно непредсказуемо. Как же им удается справляться
+с этой ситуацией?&lt;!--more--&gt;&lt;/p&gt;
+&lt;h2 id="platforma"&gt;Платформа&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/linux/"&gt;Linux&lt;/a&gt; - операционная система&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/python/"&gt;Python&lt;/a&gt; - язык программирования&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/django/"&gt;Django&lt;/a&gt; - основной framework&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/apache/"&gt;Apache 2.2&lt;/a&gt; +&amp;nbsp;&lt;a href="/tag/wsgi/"&gt;mod_wsgi&lt;/a&gt; - веб-сервер&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/postgresql/"&gt;PostgreSQL&lt;/a&gt; - СУБД&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/memcached/"&gt;memcached&lt;/a&gt; - кэширование&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/haproxy/"&gt;HAProxy&lt;/a&gt; - балансировка нагрузки&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/slony/"&gt;Slony&lt;/a&gt; - репликация данных&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/heartbeat/"&gt;heartbeat&lt;/a&gt; - обеспечение
+    доступности&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="statistika"&gt;Статистика&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;До 17 тысяч запросов в секунду&lt;/li&gt;
+&lt;li&gt;500 000 сайтов&lt;/li&gt;
+&lt;li&gt;15 миллионов зарегистрированных пользователей&lt;/li&gt;
+&lt;li&gt;75 миллионов комментариев&lt;/li&gt;
+&lt;li&gt;250 миллионов посетителей (на август 2010г.)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="osnovnye-trudnosti"&gt;Основные трудности&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Непредсказуемость нагрузки (основными причинами шумихи в Интернете
+    являются катастрофы и выходки знаменитостей)&lt;/li&gt;
+&lt;li&gt;Обсуждения никогда не теряют актуальность (нельзя держать в кэше все
+    дискуссии с 2008 года)&lt;/li&gt;
+&lt;li&gt;Нельзя угадать на каком сайте из тысяч возникнет пик трафика&lt;/li&gt;
+&lt;li&gt;Персональные настройки, динамическое разбиение на страницы и
+    сортировки снижают эффективность кэширования&lt;/li&gt;
+&lt;li&gt;Высокая доступность (из-за разнообразия сайтов и их аудитории сложно
+    запланировать технические работы)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="arkhitektura"&gt;Архитектура&lt;/h2&gt;
+&lt;p&gt;&lt;img alt="Архитектура DISQUS" class="responsive-img" src="https://www.insight-it.ru/images/disqus_architecture.jpeg" title="Архитектура DISQUS"/&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Оборудование&lt;/strong&gt;, в сумме около 100 серверов:&lt;ul&gt;
+&lt;li&gt;30% веб-серверов (Apache + &lt;code&gt;mod_wsgi&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;10% серверов баз данных (PostgreSQL)&lt;/li&gt;
+&lt;li&gt;25% кэш-серверов (memcached)&lt;/li&gt;
+&lt;li&gt;20% балансировка нагрузки и обеспечение доступности (HAProxy +
+    heartbeat)&lt;/li&gt;
+&lt;li&gt;15% прочие сервера (Python скрипты)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Балансировка нагрузки&lt;/strong&gt;:&lt;ul&gt;
+&lt;li&gt;HAProxy:&lt;ul&gt;
+&lt;li&gt;Высокая производительность&lt;/li&gt;
+&lt;li&gt;Интеллектуальная проверка доступности&lt;/li&gt;
+&lt;li&gt;Неплохая статистика&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Репликация&lt;/strong&gt;:&lt;ul&gt;
+&lt;li&gt;Используется Slony-I&lt;/li&gt;
+&lt;li&gt;Основана на триггерах&lt;/li&gt;
+&lt;li&gt;Master/Slave для обеспечения большего объема операций чтения&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Высокая доступность&lt;/strong&gt;:&lt;ul&gt;
+&lt;li&gt;heartbeat&lt;/li&gt;
+&lt;li&gt;Пассивная копия мастер баз данных на случай сбоя основной&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Партиционирование&lt;/strong&gt;:&lt;ul&gt;
+&lt;li&gt;Реализовано на уровне кода&lt;/li&gt;
+&lt;li&gt;Простая реализация, быстрые положительные результаты&lt;/li&gt;
+&lt;li&gt;Два метода разделения данных:&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Вертикальное:&lt;/em&gt;&lt;ul&gt;
+&lt;li&gt;Создание нескольких таблиц с меньшим количеством колонок
+    вместо одной (она же нормализация)&lt;/li&gt;
+&lt;li&gt;Позволяет разделять базы данных&lt;/li&gt;
+&lt;li&gt;Данные объединяются в коде (медленнее, чем на уровне
+    СУБД, но не намного)&lt;/li&gt;
+&lt;li&gt;Бартер производительности на масштабируемость&lt;/li&gt;
+&lt;li&gt;Более эффективное кэшировние&lt;/li&gt;
+&lt;li&gt;Механизм роутеров в Django позволяет достаточно легко
+    реализовать данный функционал&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Горизонтальное:&lt;/em&gt;&lt;ul&gt;
+&lt;li&gt;Некоторые сайты имеют очень большие массивы данных&lt;/li&gt;
+&lt;li&gt;Партнеры требуют повышенного уровня доступности&lt;/li&gt;
+&lt;li&gt;Помогает снижать загрузку по записи на мастер базе
+    данных&lt;/li&gt;
+&lt;li&gt;В основном используется все же вертикальное
+    партиционирование&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Производительность базы данных&lt;/strong&gt;:&lt;ul&gt;
+&lt;li&gt;Особое внимание уделяется тому, чтобы индексы помещались в
+    оперативную память&lt;/li&gt;
+&lt;li&gt;Логирование медленных запросов (автоматизировано с помощью
+    syslog-ng + pgFouine + cron)&lt;/li&gt;
+&lt;li&gt;Использование пулов соединений (Django не умеет этого,
+    используется pgbouncer, позволяет экономить на ресурсоемких
+    операциях установления и прекращения соединений)&lt;/li&gt;
+&lt;li&gt;Оптимизация QuerySet'ов:&lt;ul&gt;
+&lt;li&gt;Не используется чистый SQL&lt;/li&gt;
+&lt;li&gt;Встроенный кэш позволяет выделять части выборки&lt;/li&gt;
+&lt;li&gt;Но это не всегда нужно, они убрали этот кэш&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Атомарные операции:&lt;ul&gt;
+&lt;li&gt;Поддерживают консистентность данных&lt;/li&gt;
+&lt;li&gt;Использование update(), так как save() не является
+    thread-safe&lt;/li&gt;
+&lt;li&gt;Отлично работают для таких вещей, как счетчики&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Транзакции:&lt;ul&gt;
+&lt;li&gt;TransactionMiddleware поначалу использовалось, но со
+    временем стало обузой&lt;/li&gt;
+&lt;li&gt;В &lt;code&gt;postgrrsql_psycopg2&lt;/code&gt; есть опция autocommit:&lt;ul&gt;
+&lt;li&gt;Это означает что каждый запрос выполняется в отдельной
+    транзакции&lt;/li&gt;
+&lt;li&gt;Обработка каждого пользовательского HTTP-запроса не
+    начинает новую транзакцию&lt;/li&gt;
+&lt;li&gt;Но все же транзакции из нескольких операций записи в
+    СУБД нужны (сохранение нескольких объектов одновременно
+    и полный откат в случае ошибки)&lt;/li&gt;
+&lt;li&gt;В итоге все HTTP-запросы по-умолчанию начинаются в
+    режиме autocommit, но в случае необходимости
+    переключаются в транзакционный режим&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Отложенные сигналы&lt;/strong&gt;:&lt;ul&gt;
+&lt;li&gt;Постановка в очередь низкоприоритетных задач (даже если они не
+    длинные по времени)&lt;/li&gt;
+&lt;li&gt;Асинхронные сигналы очень удобны для разработчика (но не так,
+    как настоящие сигналы)&lt;/li&gt;
+&lt;li&gt;Модели отправляются в очередь в сериализованном виде&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Кэширование&lt;/strong&gt;:&lt;ul&gt;
+&lt;li&gt;Используется memcached&lt;/li&gt;
+&lt;li&gt;Новый pylibmcна основе libmemcached в качестве клиента (проекты
+    django-pylibmc и django-newcache)&lt;/li&gt;
+&lt;li&gt;Настраиваемые алгоритмы поведения клиента&lt;/li&gt;
+&lt;li&gt;Используется &lt;code&gt;_auto_reject_hosts&lt;/code&gt; и &lt;code&gt;_retry_timeout&lt;/code&gt; для
+    предотвращения повторных подключений к вышедшим из строя
+    кэш-серверам&lt;/li&gt;
+&lt;li&gt;Алгоритм размещения ключей: консистентное хэширование на основе
+    libketama&lt;/li&gt;
+&lt;li&gt;Существует проблема, когда одно очень часто используемое
+    значение в кэше инвалидируется:&lt;ul&gt;
+&lt;li&gt;Множество клиентов одновременно пытаются получить новое
+    значение из СУБД одновременно&lt;/li&gt;
+&lt;li&gt;В большинстве случаев правильным решением было бы вернуть
+    большинству устаревшие данные и позволить одному клиенту
+    обновить кэш&lt;/li&gt;
+&lt;li&gt;django-newcache и MintCache умеют это делать&lt;/li&gt;
+&lt;li&gt;Заполнение кэша новым значением вместо удаления при
+    инвалидации также помогает избежать этой проблемы&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Мониторинг&lt;/strong&gt;:&lt;ul&gt;
+&lt;li&gt;Информация о производительности запросов к БД, внешних вызовов и
+    рендеринге шаблонов записывается через собственный middleware&lt;/li&gt;
+&lt;li&gt;Сбор и отображение с помощью Ganglia&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Отключение функционала&lt;/strong&gt;:&lt;ul&gt;
+&lt;li&gt;Необходим способ быстро отключить новый функционал, если
+    оказывается, что он работает не так, как планировалось&lt;/li&gt;
+&lt;li&gt;Система должна срабатывать мгновенно, по всем серверам, без
+    записи на диск&lt;/li&gt;
+&lt;li&gt;Позволяет запускать новые возможности постепенно, лишь для части
+    аудитории&lt;/li&gt;
+&lt;li&gt;Позволяет постоянно использовать основную ветку кода&lt;/li&gt;
+&lt;li&gt;Аналогичная система используется и в &lt;a href="/tag/facebook/"&gt;Facebook&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Масштабирование команды разработчиков&lt;/strong&gt;:&lt;ul&gt;
+&lt;li&gt;Небольшая команда&lt;/li&gt;
+&lt;li&gt;Месячная аудитория / количество разработчиков = 40 миллионов&lt;/li&gt;
+&lt;li&gt;Это означает:&lt;ul&gt;
+&lt;li&gt;Автоматическое тестирование&lt;/li&gt;
+&lt;li&gt;И максимально простой процесс разработки&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Новый сотрудник может начать работать уже через несколько минут,
+    нужно лишь:&lt;ul&gt;
+&lt;li&gt;Установить и настроить PostgreSQL&lt;/li&gt;
+&lt;li&gt;Скачать исходный код из &lt;a href="/tag/git/"&gt;git&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;С помощью pip и virtualenv установить зависимости&lt;/li&gt;
+&lt;li&gt;Изменить настройки в settings.py&lt;/li&gt;
+&lt;li&gt;Выполнить автоматическое создание структуры данных
+    средствами Django&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Непрерывное тестирование&lt;/strong&gt;:&lt;ul&gt;
+&lt;li&gt;Ежедневное развертывание с помощью &lt;a href="/tag/fabric/"&gt;Fabric&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/hudson/"&gt;Hudson&lt;/a&gt; обеспечивает регулярно осуществляет и
+    тестирует сборки&lt;/li&gt;
+&lt;li&gt;Интегрирован &lt;a href="/tag/selenium/"&gt;Selenium&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Быстрое тестирование с помощью &lt;a href="/tag/pyflakes/"&gt;Pyflakes&lt;/a&gt; и
+    post-commit hooks&lt;/li&gt;
+&lt;li&gt;70 тысяч строк Python кода, 73% покрытие тестами, прогон всех
+    тестов занимает 20 минут&lt;/li&gt;
+&lt;li&gt;Собственная система исполнения тестов с поддержкой XML,
+    Selenium, подсчета количества запросов, тестирования
+    Master/Slave базы данных и интеграцией с очередью&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Отслеживание проблем и задач&lt;/strong&gt;:&lt;ul&gt;
+&lt;li&gt;Переключились с Trac на Redmine (из-за поддержки под-задач)&lt;/li&gt;
+&lt;li&gt;Отправка исключений на e-mail - плохая идея&lt;/li&gt;
+&lt;li&gt;Раньше использовали django-db-log, но теперь опубликовали свою
+    систему сбора ошибок и логов под названием
+    &lt;a href="https://www.insight-it.ru/goto/2e33ac0/" rel="nofollow" target="_blank" title="https://github.com/dcramer/django-sentry"&gt;Sentry&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="delaem-vyvody"&gt;Делаем выводы&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Язык программирования, каким бы он ни был, не является проблемой&lt;/li&gt;
+&lt;li&gt;Django в целом очень хорош (но приходится все же использовать набор
+    собственных патчей)&lt;/li&gt;
+&lt;li&gt;Даже при использовании низкопроизводительного framework можно
+    построить масштабируемую систему&lt;/li&gt;
+&lt;li&gt;Вертикальное партиционирование позволяет пожертвовать
+    производительностью в пользу масштабируемости&lt;/li&gt;
+&lt;li&gt;Даже небольшой командой разработчиков можно добиться высоких
+    результатов, если не пренебрегать автоматизацией тестирования&lt;/li&gt;
+&lt;li&gt;Большое значение имеет возможность вовремя отслеживать и оперативно
+    реагировать на сбои&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="istochnik-informatsii"&gt;Источник информации&lt;/h2&gt;
+&lt;p&gt;Данная статья написана на основе выступления Jason Yan и David Cramer на
+DjangoConf 2010. В презентации можно найти примеры кода, ссылки на
+упоминаемые проекты и дополнительные материалы:&lt;/p&gt;
+&lt;div class="video-container no-controls"&gt;
+&lt;iframe allowfullscreen="" frameborder="0" height="355" marginheight="0" marginwidth="0" scrolling="no" src="//www.slideshare.net/slideshow/embed_code/key/21F2PzBmYATx2Y" width="425"&gt; &lt;/iframe&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;em&gt;Другие статьи по масштабируемости высоконагруженных систем можно
+почитать &lt;a href="https://www.insight-it.ru/highload/"&gt;в соответствующем разделе&lt;/a&gt;, а вовремя узнавать о
+новых - &lt;a href="/feed/"&gt;подписавшись на RSS&lt;/a&gt;. Вчера, кстати, прикрутил DISQUS к
+Insight IT, приглашаю постоянных читателей и всех остальных
+потестировать :)&lt;/em&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Wed, 02 Mar 2011 03:37:00 +0300</pubDate><guid>tag:www.insight-it.ru,2011-03-02:highload/2011/arkhitektura-disqus/</guid><category>Apache</category><category>DISQUS</category><category>django</category><category>Fabric</category><category>Ganglia</category><category>Git</category><category>HAProxy</category><category>heartbeat</category><category>Hudson</category><category>Linux</category><category>Memcached</category><category>pgbouncer</category><category>pgFouine</category><category>PostgreSQL</category><category>Pyflakes</category><category>Python</category><category>Selenium</category><category>Slony</category><category>syslog-ng</category><category>WSGI</category><category>Архитектура DISQUS</category><category>Масштабируемость</category></item></channel></rss>

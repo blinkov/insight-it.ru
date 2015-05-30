@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/polimorfizm/feed/index.xml" rel="self"></atom:link><lastBuildDate>Sat, 05 Jan 2008 22:28:00 +0300</lastBuildDate><item><title>Три основных компонента парадигмы объектно-ориентированного программирования</title><link>https://www.insight-it.ru//theory/2008/tri-osnovnyx-komponenta-paradigmy-obektno-orientirovannogo-programmirovaniya/</link><description>&lt;p&gt;Представьте: Россия, солнце только-только начинает свой путь по
+бескрайним просторам неба, Вы находитесь на одной из самых оживленных
+улиц своего города и вокруг Вас нетрудно заметить множество людей,
+спешащих по своим делам. И вот, Вы видите как один человек зашел в
+большое офисное здание.&lt;/p&gt;
+&lt;p&gt;Вы спросите у меня: как это все может быть связано с темой этой
+записи? - об этом я и собираюсь Вам поведать.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;div class="card blue lighten-4"&gt;
+&lt;p&gt;&lt;div class="card-content"&gt;Перед тем как продолжить чтение этой записи, очень рекомендую сначала ознакомиться с &lt;a href="https://www.insight-it.ru/goto/e52e6866/" rel="nofollow" target="_blank" title="{theory}/obektno-orientirovannoe-programmirovanie-a-chto-zhe-eto.md"&gt;введением в объектно-ориентированное програмирование&lt;/a&gt;, если Вы еще не успели этого сделать.
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;img alt="Три основных компонента" class="right" src="https://www.insight-it.ru/images/cubes.png"/&gt;&lt;/p&gt;
+&lt;p&gt;Человек, которого Вы, надеюсь, успешно представили в процессе прочтения
+вступления к этой записи, будет служить нам примером в процессе
+обсуждения трех базовых вещей, на которых основывается вся концепция
+&lt;strong&gt;ООП&lt;/strong&gt;, которые имеет смысл сразу обозначить прямо сейчас:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;наследование&lt;/li&gt;
+&lt;li&gt;инкапсуляция&lt;/li&gt;
+&lt;li&gt;полиморфизм&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Все они являются равнозначными и перечислены они просто в порядке их
+упоминания в этом посте. Но прежде чем перейти к их рассмотрению по
+отдельности было бы не лишним несколько конкретизировать пример,
+упомянутый чуть выше. Основной акцент в этой записи делается на теорию,
+но для упрощения понимания я буду стараться приводить элементарные
+примеры реализации на языке &lt;em&gt;Java&lt;/em&gt; (выбранный как наиболее характерный
+представитель языков программирования, приспособленных для ООП), которые
+правда будут лишь иллюстрировать повествование, но не будут нести за
+собой никакой практической пользы.&lt;/p&gt;
+&lt;p&gt;Для начала можно рассматривать этого человека просто "со стороны": с
+этой точки зрения можно определить его рост, возраст, пол, цвет волос и
+глаз, и возможно какие-либо внешние признаки. Помимо этого можно
+предположить, что он обладает элементарными навыками, которые он успел
+продемонстрировать, проходя мимо Вас: он умеет ходить и еще, видимо,
+работать, правда не ясно кем.&lt;/p&gt;
+&lt;p&gt;Теперь посмотрим на него, как на объект, который необходимо
+смоделировать внутри программы. Внешние данные, перечисленные в
+предыдущем абзаце, станут &lt;em&gt;состоянием&lt;/em&gt;, которое необходимо будет описать
+примерно следующим образом в описании класса, экземпляром которого и
+будет впоследствии являться наш человек:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Human&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;height&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// рост&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;age&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// возраст&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;gender&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// пол&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;eyesColor&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// цвет глаз&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;hairColor&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// цвет волос&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Помимо этого мы говорили о его навыках, которые тоже необходимо здесь же
+упомянуть, для простоты не будем ничего сложного придумывать в плане
+реализации:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Human&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;height&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// рост&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;age&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// возраст&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;gender&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// пол&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;eyesColor&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// цвет глаз&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;hairColor&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// цвет волос&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;walk&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Я иду!"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;work&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Я работаю в большом офисном здании"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Пожалуй этого будет достаточно для перехода собственно к обсуждению
+первого из трех компонентов парадигмы.&lt;/p&gt;
+&lt;h3 id="nasledovanie"&gt;Наследование&lt;/h3&gt;
+&lt;p&gt;В отличии от реальной жизни, в рамках данной концепции наследование
+относится не к материальным вещам, а к переменным и методам класса. Тот
+класс, который передает "наследство", принято называть &lt;strong&gt;базовым&lt;/strong&gt;, а
+получателя "наследства", соответственно - &lt;strong&gt;наследующим&lt;/strong&gt;. Наследующий
+класс в дополнение к собственным методам и переменным получает еще и
+полный доступ ко всем переменным и методам базового класса (за некоторым
+исключением, о котором пойдет речь при разговоре об инкапсуляции, но обо
+всем по порядку).&lt;/p&gt;
+&lt;p&gt;Для иллюстрации этого механизма предлагаю предположить кем же мог
+работать наш человек. Для примера возьмем три варианта: менеджер,
+программист и директор. Менеджер будет уметь командовать подчиненными,
+программист писать код, а директор - ничего не делать. но не будем
+забывать, что человек, обладающий каждой из этих трех профессий, все же
+остается просто человеком и может выполнять все стандартные действия,
+которые мог бы выполнять обычный безработный, и обладать теми же
+признаками.&lt;/p&gt;
+&lt;p&gt;Конечно же можно было бы написать для каждой из профессии класс, просто
+добавив по одному методу, это выглядело бы примерно так:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Director&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;height&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// рост&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;age&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// возраст&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;gender&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// пол&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;eyesColor&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// цвет глаз&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;hairColor&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// цвет глаз&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;walk&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Я иду!"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;work&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Я работаю в большом офисном здании"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;idle&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Я ничего не делаю!"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Но такой подход годится только для людей даже краем уха не слышавших об
+ООП, ведь он далеко не самый эффективный, особенно с точки зрения
+затрачиваемого на написание кода времени. Воспользовавшись механизмом
+наследования, можно сократить как объем кода, так и время, затраченное
+на его написание. В используемом для примеров языке программирования
+Java, для этого достаточно лишь указать в заголовке наследующего класса
+ключевое слово &lt;em&gt;extends&lt;/em&gt; и название базового класса. Аналогичный
+предыдущему класс с использованием этого механизма существенно
+упрощается:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Director&lt;/span&gt; &lt;span class="kd"&gt;extends&lt;/span&gt; &lt;span class="n"&gt;Human&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;idle&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Я ничего не делаю!"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Как не трудно заметить объем кода существенно сократился, но это далеко
+не единственное преимущество. Помимо этого, например, если появится
+необходимость произвести изменения во всех профессиях - нужно будет
+произвести их один раз в базовом классе, а не три раза, как было бы в
+случае не использования наследования. А в некоторых случаях базовый
+класс может быть уже написан разработчиками языка программирования и для
+того чтобы им воспользоваться останется лишь написать пару волшебных
+слов.&lt;/p&gt;
+&lt;h3 id="polimorfizm"&gt;Полиморфизм&lt;/h3&gt;
+&lt;p&gt;Это слово пришло к нам из греческого языка, понимания этого термина
+легко достичь, просто переведя его на русский язык: &lt;code&gt;&amp;pi;&amp;omicron;&amp;lambda;ύ&amp;mu;&amp;omicron;&amp;rho;&amp;phi;&amp;omicron;&amp;sigmaf;&lt;/code&gt; - многоформенность. То есть в наиболее
+простом случае подразумевается использование одной и той же переменной
+(или массива) для хранения информации об объектах, описываемых разными
+классами. Представим, что нам необходим стандартизованный способ узнать
+кем же работает тот или иной человек, естественно для этого необходимо
+описание соответствующего метода для выполнения этой функции в каждом
+классе, причем он должен одинаково называться в каждом из них. Для
+реализации этого примера на языке Java нет необходимости использовать
+дополнительных ключевых слов (в отличие от, например, C#, где
+необходимо использование слова virtual в заголовке метода в базовом
+классе и override - в производных). Продолжая приводить примеры на Java
+имеем три производных класса (для упрощения опустим дополнительные
+методы, которые могли бы присутствовать):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Director&lt;/span&gt; &lt;span class="kd"&gt;extends&lt;/span&gt; &lt;span class="n"&gt;Human&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;work&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Я работаю директором!"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Programmer&lt;/span&gt; &lt;span class="kd"&gt;extends&lt;/span&gt; &lt;span class="n"&gt;Human&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;work&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Я работаю программистом!"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Manager&lt;/span&gt; &lt;span class="kd"&gt;extends&lt;/span&gt; &lt;span class="n"&gt;Human&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;work&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Я работаю менеджером!"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Для того, чтобы воспользоваться механизмом полиморфизма достаточно лишь
+написать функцию, которая будет создавать экземпляры наших классов и
+"спрашивать" к них кем они работают, выглядит это ничуть не сложнее, чем
+и описания классов, хочу лишь обратить Ваще внимание на то, что
+полиморфная переменная должна иметь тип базового класса:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;AskHuman&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;static&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;String&lt;/span&gt;&lt;span class="o"&gt;[]&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;Human&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;person&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Director&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+    &lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;work&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+    &lt;span class="n"&gt;person&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Manager&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+    &lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;work&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+    &lt;span class="n"&gt;person&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Programmer&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+    &lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;work&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;В ответ на выполнение этого мы метода мы получим каждую фразу из всех
+четырех классов, то есть не смотря на то, что у переменной заявлен тип
+базового класса, будут вызываться методы производных:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Я работаю директором! Я работаю менеджером! Я работаю программистом!&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Этот механизм расширяет возможности использования классов, позволяя
+более гибко использовать переменные и методы (да, этот механизм
+справедлив и для методов), а также позволяет писать более абстрактные
+программы и существенно упрощает работу программ, имеющих модульную
+структуру.&lt;/p&gt;
+&lt;p&gt;Также имеет смысл упомянуть, что в некоторых языках программирования
+существует такое понятие как &lt;strong&gt;интерфейс&lt;/strong&gt;, предназначенное именно для
+стандартизации механизма полиморфизма. Смысл интерфейса состоит в том,
+что он предоставляет классу список методов, которые класс &lt;em&gt;обязан&lt;/em&gt;
+реализовать (ключевое слово в Java - &lt;code&gt;implements&lt;/code&gt;), при этом сам
+интерфейс не содержит какой-либо реализации и может быть только
+определен. Выглядит примерно следующим образом:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;interface&lt;/span&gt; &lt;span class="nc"&gt;Worker&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;work&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Director&lt;/span&gt; &lt;span class="kd"&gt;extends&lt;/span&gt; &lt;span class="n"&gt;Human&lt;/span&gt; &lt;span class="kd"&gt;implements&lt;/span&gt; &lt;span class="n"&gt;Worker&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;work&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Я работаю директором!"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Programmer&lt;/span&gt; &lt;span class="kd"&gt;extends&lt;/span&gt; &lt;span class="n"&gt;Human&lt;/span&gt; &lt;span class="kd"&gt;implements&lt;/span&gt; &lt;span class="n"&gt;Worker&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;work&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Я работаю программистом!"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Manager&lt;/span&gt; &lt;span class="kd"&gt;extends&lt;/span&gt; &lt;span class="n"&gt;Human&lt;/span&gt; &lt;span class="kd"&gt;implements&lt;/span&gt; &lt;span class="n"&gt;Worker&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;work&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+  &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Я работаю менеджером!"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;В этом случае производные классы будут &lt;em&gt;обязаны&lt;/em&gt; иметь метод work, что
+даст гарантию классу AskHuman, что он не вызовет несуществующий метод.&lt;/p&gt;
+&lt;h3 id="inkapsuliatsiia"&gt;Инкапсуляция&lt;/h3&gt;
+&lt;p&gt;Наверняка Вы уже задавались вопросом о том, что же значит слово
+&lt;code&gt;public&lt;/code&gt; во всех предыдущих примерах. Это ключевое слово является
+частью реализации механизма инкапсуляции в языке Java, суть его состоит
+в том, чтобы дать возможность определить &lt;em&gt;область видимости&lt;/em&gt; для
+составных частей класса, это очень актуально при написании ПО,
+использующего библиотеки, plug-in'ы или при написании программы группой
+людей. Ведь если Ваш класс подразумевает какие-либо ограничения для
+переменных или методов (например - возраст не может быть отрицательным),
+то их легко обойти воспользовавшись прямым доступом к ним из-за пределов
+класса или просто выполнив наследование.&lt;/p&gt;
+&lt;p&gt;Для предотвращения этого используется система параметров, назначаемых
+переменным и методам внутри класса для присвоения им "уровней доступа"
+(на примере опять же Java, но в большинстве известных мне
+высокоуровневых языков используется та же система):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;public&lt;/code&gt; - назначается по-умолчанию - полностью свободный доступ&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;private&lt;/code&gt; - доступ предоставляется &lt;em&gt;только&lt;/em&gt; другим компонентам
+   класса&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;protected&lt;/code&gt; - доступ предоставляется остальным компонентам класса,
+   а также всем &lt;em&gt;наследникам&lt;/em&gt; данного класса&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Данный механизм является незаменимым помощником разработчиков любых
+более-менее крупных проектов, следующих принципам ООП.&lt;/p&gt;
+&lt;h4&gt;Вместо заключения&lt;/h4&gt;
+&lt;p&gt;Казалось бы бестолковая история про человека, идущего на работу,
+позволила Вам получить базовое представление об основах
+объектно-ориентированного программирования. Надеюсь у меня не раз еще
+найдется повод вернуться к обсуждению этой парадигмы.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sat, 05 Jan 2008 22:28:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-01-05:theory/2008/tri-osnovnyx-komponenta-paradigmy-obektno-orientirovannogo-programmirovaniya/</guid><category>инкапсуляция</category><category>интерфейс</category><category>наследование</category><category>объектно-ориентированное программирование</category><category>ООП</category><category>парадигма</category><category>полиморфизм</category><category>Программирование</category><category>программное обеспечение</category></item></channel></rss>

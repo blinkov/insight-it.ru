@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/bd/feed/index.xml" rel="self"></atom:link><lastBuildDate>Tue, 13 Nov 2012 02:09:00 +0400</lastBuildDate><item><title>Обзор Riak</title><link>https://www.insight-it.ru//storage/2012/obzor-riak/</link><description>&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/187746b6/" rel="nofollow" target="_blank" title="http://basho.com/products/riak-overview/"&gt;Riak&lt;/a&gt; - распределенная
+&lt;em&gt;opensource&lt;/em&gt;&amp;nbsp;база данных, разработанная на &lt;a href="/tag/erlang/"&gt;Erlang&lt;/a&gt; и
+спроектированная в расчете на:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Высокую доступность и устойчивость к сбоям;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Масштабируемость и простоту обслуживания;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Универсальность.&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;У проекта отличная&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/5083ec33/" rel="nofollow" target="_blank" title="http://docs.basho.com/riak/latest"&gt;официальная документация&lt;/a&gt;&amp;nbsp;на английском, далее же в этой статье я расскажу об основных её особенностях чуть подробнее, а также хитростях и подводных камнях, выявленных в процессе применения на практике (с перспективы веб-разработки).&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h2 id="vysokaia-dostupnost-i-ustoichivost-k-sboiam"&gt;Высокая доступность и устойчивость к сбоям&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Все данные в кластере&amp;nbsp;&lt;em&gt;реплицируются&lt;/em&gt; по принципу соседей на хэш
+    кольце (см. логотип для иллюстрации) и даже в случае сбоев
+    &lt;em&gt;доступны&lt;/em&gt; посредством интеллектуального перенаправления запросов
+    внутри кластера.&lt;/li&gt;
+&lt;li&gt;В случае возникновения коллизий из-за разрыва сетевого соединения
+    или просто одновременной записи, на запрос получения данных &lt;em&gt;может
+    вернуться несколько версий&lt;/em&gt; и приложение само может решить как их
+    объединить или какую версию использовать.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="masshtabiruemost-i-prostota-obsluzhivaniia"&gt;Масштабируемость и простота обслуживания&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Добавление нового сервера тривиально путем копирования конфига и
+    одной команды.&lt;/li&gt;
+&lt;li&gt;Перераспределение данных и все остальное прозрачно происходит за
+    сценой.&lt;/li&gt;
+&lt;li&gt;Минимальный рекомендуемый размер Riak кластера - 5 серверов, меньшее
+    количество не дает раскрыть весь потенциал.&lt;/li&gt;
+&lt;li&gt;Одинаково легко обслуживать как маленький, так и большой кластер.&lt;/li&gt;
+&lt;li&gt;Есть коммерческая &lt;em&gt;Enterprise&lt;/em&gt; версия с поддержкой от &lt;strong&gt;Basho&lt;/strong&gt;,
+    компании-разработчика Riak (изначально выходцы из Akamai),
+    равноправной зашифрованной репликацией между датацентрами и
+    поддержкой &lt;em&gt;SNMP&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;Есть встроенный веб-интерфейс для мониторинга и управления
+    кластером, у меня правда так и не дошли руки его освоить:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="video-container"&gt;
+&lt;iframe allowfullscreen="" frameborder="0" height="480" src="//www.youtube.com/embed/R0_PLMCrtZw?rel=0" width="853"&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+&lt;h2 id="universalnost"&gt;Универсальность&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Схема отсутствует, ключи и данные - произвольные бинарные строки.
+    Ключи располагаются в пространствах имен &lt;em&gt;(bucket)&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;Сериализация - на усмотрение разработчика, популярные варианты -
+    Erlang'овский &lt;em&gt;BERT&lt;/em&gt;, &lt;em&gt;JSON&lt;/em&gt; для других платформ, можно использовать
+    просто как &lt;em&gt;файловую систему&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;Модульная система хранилищ данных, альтернатив много, основная -
+    &lt;a href="/tag/google/"&gt;Google&lt;/a&gt; &lt;a href="/tag/leveldb/"&gt;LevelDB&lt;/a&gt;;&amp;nbsp;еще интересный
+    вариант с хранением полностью в оперативной памяти - получается
+    продвинутый распределенный кэш с репликацией, поиском и пр.&lt;/li&gt;
+&lt;li&gt;Гибко настраиваемое количество узлов кластера, которые должны
+    подтвердить успешность операции, чтобы она считалась успешной: можно
+    указывать для всего кластера, пространства имен и даже конкретного
+    запроса. Riak в любом случае остается eventually consistent базой
+    данных (AP из CAP теоремы), но с возможностью управлять балансом
+    производительности операций и надежностью выполнения запросов.&lt;/li&gt;
+&lt;li&gt;Три интерфейса доступа &lt;em&gt;(API)&lt;/em&gt;:&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/protocol-buffers/"&gt;Google ProtocolBuffers&lt;/a&gt; - для основного
+    использования в боевых условиях.&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/http/"&gt;HTTP&lt;/a&gt; &lt;a href="/tag/rest/"&gt;REST&lt;/a&gt; - для использования в
+    языках, где нет готового клиента на ProtocolBuffers и для того,
+    чтобы по-быстрому что-то посмотреть из консоли через curl. Хотя
+    по факту клиенты для большинства языков программирования есть и
+    проще делать запросы через интерпретатор.&lt;/li&gt;
+&lt;li&gt;Еще есть прямой интерфейс Erlang-сообщений, но даже из самого
+    Erlang им пользоваться не рекомендуют, не говоря уже о
+    реализациях Erlang node (BERT) на других платформах.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Вместе с данными хранятся метаданные для разных целей, которые
+    используются в соответствующих типах запросов:&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/3d61cc81/" rel="nofollow" target="_blank" title="http://ru.wikipedia.org/wiki/%D0%92%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D0%BD%D1%8B%D0%B5_%D1%87%D0%B0%D1%81%D1%8B"&gt;Векторные часы&lt;/a&gt;
+    для разрешения конфликтов версий данных&amp;nbsp;&lt;em&gt;(обязательно, есть
+    автоматическое разрешение);&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Индекс для полнотекстного поиска &lt;em&gt;(концептуально позаимствован у
+    &lt;a href="/tag/lucene/"&gt;Lucene&lt;/a&gt;/&lt;a href="/tag/solr/"&gt;Solr&lt;/a&gt;, опционально);&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Индекс для простых выборок &lt;em&gt;(по бинарным и числовым полям,
+    опционально);&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Связанные ключи &lt;em&gt;(отдаленный аналог внешних ключей,
+    опционально).&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Встроенная поддержка &lt;a href="/tag/mapreduce/"&gt;MapReduce&lt;/a&gt;, фазы можно
+    реализовывать на &lt;a href="/tag/erlang/"&gt;Erlang&lt;/a&gt; или
+    &lt;a href="/tag/javascript/"&gt;JavaScript&lt;/a&gt;;&amp;nbsp;для обоих языков есть библиотека с
+    наиболее популярными случаями, которые можно использовать для
+    образца.&lt;/li&gt;
+&lt;li&gt;Есть поддержка выполнения операций до/после операций записи/чтения
+    &lt;em&gt;(hooks)&lt;/em&gt;, чаще всего используются для построения полнотекстного
+    индекса, но можно реализовать и свои, специфичные для приложения.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="nedokumentirovannye-vozmozhnosti"&gt;Недокументированные возможности&lt;/h2&gt;
+&lt;p&gt;Пока я их нашел всего две:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Счетчики:&lt;/strong&gt;&amp;nbsp;как такового API в для&amp;nbsp;увеличения/уменьшения числовых
+    значений &lt;em&gt;(increment/decrement)&lt;/em&gt; в Riak нет, так как он не лезет
+    внутрь хранящихся данных. Зато есть векторные часы, которые растут с
+    каждой операцией записи по ключу. Чтобы реализовать увеличение
+    &lt;em&gt;(increment)&lt;/em&gt; необходимо записать в Riak пустую бинарную строку с
+    опцией &lt;em&gt;return_body,&amp;nbsp;&lt;/em&gt;и у вернувшегося значения сложить все поля в
+    векторных часах. &lt;a href="https://www.insight-it.ru/goto/6a894d09/" rel="nofollow" target="_blank" title="https://gist.github.com/4061705"&gt;Пример на
+    Erlang&lt;/a&gt;. Если нужно еще и
+    уменьшение (decrement) этого можно добиться с помощью пары счетчиков
+    "плюс и минус" и вычитать второе значение из первого. Для&amp;nbsp;авто
+    инкремента&amp;nbsp;основных ключей не самый лучший вариант, но для не особо
+    критичных случаев вполне себе работает.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Выборка по списку ключей &lt;em&gt;(multiget)&lt;/em&gt;:&amp;nbsp;&lt;/strong&gt;такого API тоже нет, но
+    здесь на выручку приходит &lt;em&gt;MapReduce&lt;/em&gt;. Это, пожалуй, наиболее
+    популярное его применение. На вход подаем имеющийся список ключей и
+    используем фазы из готовой библиотеки: &lt;em&gt;reduce_set_union&lt;/em&gt; и
+    &lt;em&gt;map_identity&lt;/em&gt;. Данные возвращаются&amp;nbsp;неотсортированные &amp;nbsp;и требуют
+    небольшой обертки на выходе, но все равно это намного быстрее, чем
+    последовательно проходить по списку ключей и делать для каждого
+    обычный &lt;em&gt;get&lt;/em&gt;. &lt;a href="https://www.insight-it.ru/goto/d557f797/" rel="nofollow" target="_blank" title="https://gist.github.com/4061784"&gt;Пример на Erlang&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="card blue lighten-4"&gt;
+&lt;p&gt;&lt;div class="card-content"&gt;
+Буду рад, если Вы поможете мне дополнить этот список, оставив известные
+Вам подобные трюки в комментариях.
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;h2 id="podvodnye-kamni"&gt;Подводные камни&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Если в Вашем приложении необходима функциональность &lt;strong&gt;постраничного
+    просмотра отсортированных данных&lt;/strong&gt; &lt;em&gt;(pagination)&lt;/em&gt;, то будьте готовы
+    реализовать её на клиенте. То есть Riak быстро сделал нужную выборку
+    всех "страниц" и уже на клиенте её придется отсортировать и выкинуть
+    лишнее. Вообще в большинстве случаев результаты запросов к Riak
+    приходят в произвольном порядке из-за его распределенной природы.&lt;/li&gt;
+&lt;li&gt;В продолжение к предыдущему: в &lt;a href="https://www.insight-it.ru/goto/cb1ee41b/" rel="nofollow" target="_blank" title="http://docs.basho.com/riak/latest/cookbooks/Riak-Search---Querying/#Querying-via%20the%20Solr%20Interface"&gt;REST Solr интерфейсе&lt;/a&gt;&amp;nbsp;есть
+    аргументы (в ProtoBuf это тоже добавили в одной из последних
+    версий), которые, казалось бы, достаточны для реализации
+    постраничного просмотра: &lt;strong&gt;sort&lt;/strong&gt;, &lt;strong&gt;start&lt;/strong&gt;, &lt;strong&gt;rows&lt;/strong&gt; - что еще
+    нужно? На практике оно работает не так, как было бы логично.
+    Сортировка по значению (заданная в sort) применяется ПОСЛЕ того, как
+    была отсчитана страница по start и rows. Они отмеряются по ключам
+    или рейтингу значения в полнотекстном поиске и никак иначе. С тем же
+    успехом эти 5-10 значений можно очень быстро отсортировать и на
+    клиенте. Зачем-то это может быть и нужно, но в моем случае оказалось
+    совершенно бесполезно.&lt;/li&gt;
+&lt;li&gt;У Riak есть 4 основных типа запросов: простой
+    get/set,&amp;nbsp;полнотекстовый&amp;nbsp;поиск, вторичные ключи &lt;em&gt;(secondary
+    indices)&lt;/em&gt;, МapReduce и проход по связанным ключам &lt;em&gt;(link walking)&lt;/em&gt;.&lt;ul&gt;
+&lt;li&gt;Если Ваши данные являются сериализованным JSON, BERT или XML, то
+    в большинстве случаев Вам нужны лишь первые два из них,
+    исключение - упомянутая выше выборка по списку ключей через
+    MapReduce.&lt;/li&gt;
+&lt;li&gt;Основной сценарий использования вторичных индексов - метаданные
+    к произвольным неструктурированным бинарным данным, например в
+    случае с аналогом файловой системы. Либо совсем примитивные
+    случаи, когда правда нужно сделать простую выборку по одному
+    целочисленному полю, что бывает редко.&lt;/li&gt;
+&lt;li&gt;Если данные сериализованы, то связанные ключи проще хранить
+    внутри данных, а не средствами СУБД. Разницы в
+    производительности нет, в итоге делается тот же MapReduce с теми
+    же фазами.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Хоть Riak "из коробки" и правда надежнее многих других СУБД и 1-2
+    упавших/отключенных сервера в кластере внешне практически не
+    заметны, есть одно но. Если один узел упал - соединения всех
+    подключенных к нему клиентов теряются. Два основных
+    пути&amp;nbsp;преодоления&amp;nbsp;этого момента:&lt;ul&gt;
+&lt;li&gt;Если кластер клиентов и кластер Riak расположены на разных
+    серверах, то между ними можно поставить отказоустойчивый TCP
+    балансировщик нагрузки, в частности &lt;a href="/tag/haproxy/"&gt;HAProxy&lt;/a&gt; или
+    &lt;a href="/tag/ipvs/"&gt;IPVS&lt;/a&gt; здесь наиболее органично вписываются.&lt;/li&gt;
+&lt;li&gt;Если на одних и тех же, то есть вариант поставить балансировщик
+    нагрузки перед клиентами (для веба возможно и в HTTP/HTTPS
+    режиме), а каждый клиент подключается к своему локальному
+    серверу Riak и если один, другой или оба сразу упали, то
+    отрубать весь физический сервер целиком.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="vyvody"&gt;Выводы&lt;/h2&gt;
+&lt;p&gt;Riak отлично подходит для многих вариантов использования, как в Интернет
+среде, так и в смежных вроде телекома. Обладает отличным набором
+положительных "черт характера", о которых шла речь в начале статьи.
+Прекрасно справляется с большим потоком как операций записи, так и
+операций чтения.&lt;/p&gt;
+&lt;p&gt;Как уже упоминалось, практически единственный сценарий, где Riak совсем
+не справляется, это выборки по большим объемам данных с сортировкой и
+постраничным выводом. Но даже в этом случае никто не мешает использовать
+отдельный сервис, который будет индексировать нужным образом данные и
+подготавливать список идентификаторов для последующей multiget выборки
+из Riak. К слову, проекты по этой части уже появляются, например
+&lt;a href="https://www.insight-it.ru/goto/1232aa05/" rel="nofollow" target="_blank" title="https://github.com/rzezeski/yokozuna"&gt;Yokozuna&lt;/a&gt; - интеграция
+полноценного Solr с Riak &lt;em&gt;(Riak Search - лишь частичный порт Solr+Lucene
+на Erlang)&lt;/em&gt;.&lt;/p&gt;
+&lt;h2 id="dopolnitelnaia-informatsiia-po-teme"&gt;Дополнительная информация по теме&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/432a7a72/" rel="nofollow" target="_blank" title="http://basho.com/community/ricon2012"&gt;Riakcon 2012&lt;/a&gt; - свежая
+    конференция от Basho, рассказывают о различных сферах применения
+    Riak в реальных проектах&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/a6b96b20/" rel="nofollow" target="_blank" title="http://basho.com/company/production-users"&gt;Список компаний, использующих Riak&lt;/a&gt;&amp;nbsp;- можно увидеть очень солидные известные имена&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/b011dd8d/" rel="nofollow" target="_blank" title="http://docs.basho.com/riak/latest/references/appendices/comparisons"&gt;Сравнение Riak с другими NoSQL СУБД&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/c29f125e/" rel="nofollow" target="_blank" title="http://docs.basho.com/riak/latest/references/apis"&gt;Документация по API&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/5f671db1/" rel="nofollow" target="_blank" title="https://github.com/basho"&gt;Официальный GitHub&lt;/a&gt; и &lt;a href="https://www.insight-it.ru/goto/b59384fb/" rel="nofollow" target="_blank" title="http://docs.basho.com/riak/latest/references/Community-Developed-Libraries-and-Projects"&gt;список сторонних opensource проектов&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/4ec186ad/" rel="nofollow" target="_blank" title="http://docs.basho.com/riak/latest/tutorials/querying"&gt;Сравнительная таблица MapReduce, Secondary Indices и Link Walking&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Tue, 13 Nov 2012 02:09:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-11-13:storage/2012/obzor-riak/</guid><category>Basho</category><category>Erlang</category><category>LevelDB</category><category>Protocol Buffers</category><category>REST</category><category>Riak</category><category>БД</category><category>обзор</category><category>СУБД</category></item><item><title>Общаемся с базой данных</title><link>https://www.insight-it.ru//php/2008/obshhaemsya-s-bazojj-dannykh/</link><description>&lt;p&gt;На этот раз хочется обсудить такой одновременно важный и несложный
+момент в реализации работы любого интернет-проекта, как координации
+работы Ваших скриптов с СУБД.&lt;/p&gt;
+&lt;p&gt;Если подойти к этому вопросу "в лоб", то код станет очень неудобен как
+для понимания, так и для использования: код станет переполнен различными
+функциями соединения с БД, отправки запросов, преобразования результатов
+запросов в массивы PHP, подсчета строк, которые затронул запрос, а также
+многие и многие другие.&lt;/p&gt;
+&lt;p&gt;Для желающих минимизировать подобного рода издержки в процессе написания
+кода, хочу предложить один из, на мой взгляд, самых эффективных способов
+решения этой проблемы.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Этим способом будет являться написание класса, реализующего интерфейс
+между СУБД и PHP-скриптами. Для начала стоит определиться с
+ассортиментом функций, которые будет призван выполнять наш класс:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;установка соединения&lt;/em&gt;, а также проверка успешности выполнения этого
+    действия;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;отправка запросов&lt;/em&gt;, как заданных извне так и, возможно, из
+    какого-либо ассортимента заранее написанных запросов;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;обработка результатов запросов&lt;/em&gt;, не ограничивающаяся одним SELECT,
+    должны быть предоставлены методы обработки результатов любых видов
+    запросов (или хотябы большинства).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Вполне очевидным является тот факт, что методы этого класса будут
+использоваться практически повсеместно в большинстве проектов.
+Вследствии чего становится нецелесообразным создание объекта нашего
+класса и передача его по всем функциям и методам всех скриптов, в таких
+случае намного предпочтительнее делать владельцем методов и переменных
+сам класс, а не экземпляр класса, с помощью ключевого слова &lt;strong&gt;static&lt;/strong&gt;.
+Это позволит пользоваться услугами нашего класса из любого места кода.
+Приступим-с собственно к кодингу, начать стоит с заготовки пустого
+класса:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;SQL&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;В зависимости от предпочитаемой Вами СУБД набор конкретных функций,
+используемых в реализации нашего класса, будет вариироваться. В
+большинстве случаев предпочитаю пользоваться PostgreSQL, на это причин у
+меня несколько, но это тема для отдельного разговора. Благодаря этому
+факту приводимый в качестве примера код будет использовать функции для
+работы именно с этой СУБД. Для поклонников же других этот систем вопрос
+в подавляющем большинстве случаев заключается лишь в замене этих функций
+на аналогичные из других модулей PHP, например для популярной и
+широкораспространенной MySQL достаточно будет всеголишь пройтись
+автозаменой &lt;strong&gt;pg_ =&amp;gt; mysql_&lt;/strong&gt; и слегка подредактировать параметры
+некоторых функций.&lt;/p&gt;
+&lt;p&gt;Перейдем к реализации установления соединения с СУБД, не стоит ожидать
+увидеть здесь ничего необычного:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;connect&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;  &lt;span class="c1"&gt;// установка соединения&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="nx"&gt;self&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nv"&gt;$connection&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;pg_pconnect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"host=localhost dbname=pgsql user=pgsql password=MyPassword"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="c1"&gt;// не забываем менять указанные данные для авторизации на правильные&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="nb"&gt;isset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;self&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nv"&gt;$connection&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+  &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"Сайт не работает по техническим причинам.&lt;/span&gt;
+&lt;span class="s2"&gt;Просим прощения за доставленные неудобства."&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;exit&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;   &lt;span class="c1"&gt;// ни в коем случае не выводим более информативных сообщений об ошибке, чем это&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;А вот с отправкой и обработкой результатов запросов ситуация далеко не
+так однозначна. Помимо простой передачи самого текста запроса в СУБД,
+необходимо правильно определить тип запроса и в соответствии с этим
+обработать результат. Можно конечно попытаться сделать это автоматически
+на основе вытаскивания первого слова из текста запроса, но мне всетаки
+кажется более предпочтительным определение "вручную" желаемого вида
+представление результата. Выполнение произвольных запросов может
+выглядеть, например, следующим образом:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;query&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$str&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$bool&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;false&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;// произвольный запрос&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="c1"&gt;//echo $str."&lt;/span&gt;
+&lt;span class="s2"&gt;"; // очень удобно на стадии разработки в процессе поиска ошибок&lt;/span&gt;
+&lt;span class="s2"&gt;  &lt;/span&gt;&lt;span class="si"&gt;$result&lt;/span&gt;&lt;span class="s2"&gt;=@pg_query(self::&lt;/span&gt;&lt;span class="si"&gt;$connection&lt;/span&gt;&lt;span class="s2"&gt;,&lt;/span&gt;&lt;span class="si"&gt;$str&lt;/span&gt;&lt;span class="s2"&gt;); // @ - для сокрытия теоретически возможных ошибок&lt;/span&gt;
+&lt;span class="s2"&gt;  // or die('Query failed: '.pg_last_error());&lt;/span&gt;
+&lt;span class="s2"&gt;  // не забываем убирать в комментарий в финальном варианте проекта&lt;/span&gt;
+&lt;span class="s2"&gt;  // или совсем удалять&lt;/span&gt;
+&lt;span class="s2"&gt;  if(&lt;/span&gt;&lt;span class="si"&gt;$result&lt;/span&gt;&lt;span class="s2"&gt;)  // Если получен результат, отличный от false&lt;/span&gt;
+&lt;span class="s2"&gt;  {&lt;/span&gt;
+&lt;span class="s2"&gt;    if(&lt;/span&gt;&lt;span class="si"&gt;$bool&lt;/span&gt;&lt;span class="s2"&gt;)  // Если выбран результат в виде boolean&lt;/span&gt;
+&lt;span class="s2"&gt;    {&lt;/span&gt;
+&lt;span class="s2"&gt;      return true;&lt;/span&gt;
+&lt;span class="s2"&gt;    }&lt;/span&gt;
+&lt;span class="s2"&gt;    else  // Если выбран результат в виде массива&lt;/span&gt;
+&lt;span class="s2"&gt;    {&lt;/span&gt;
+&lt;span class="s2"&gt;      &lt;/span&gt;&lt;span class="si"&gt;$n&lt;/span&gt;&lt;span class="s2"&gt;=pg_num_rows(&lt;/span&gt;&lt;span class="si"&gt;$result&lt;/span&gt;&lt;span class="s2"&gt;);  // для создания универсального формата массива&lt;/span&gt;
+&lt;span class="s2"&gt;      if(&lt;/span&gt;&lt;span class="si"&gt;$n&lt;/span&gt;&lt;span class="s2"&gt;==1)return pg_fetch_array(&lt;/span&gt;&lt;span class="si"&gt;$result&lt;/span&gt;&lt;span class="s2"&gt;,0,PGSQL_ASSOC);&lt;/span&gt;
+&lt;span class="s2"&gt;      else  // даже когда результат содержит только одну строку&lt;/span&gt;
+&lt;span class="s2"&gt;      {&lt;/span&gt;
+&lt;span class="s2"&gt;        &lt;/span&gt;&lt;span class="si"&gt;$j&lt;/span&gt;&lt;span class="s2"&gt;=pg_num_rows(&lt;/span&gt;&lt;span class="si"&gt;$result&lt;/span&gt;&lt;span class="s2"&gt;);&lt;/span&gt;
+&lt;span class="s2"&gt;        &lt;/span&gt;&lt;span class="si"&gt;$list&lt;/span&gt;&lt;span class="s2"&gt;=array();&lt;/span&gt;
+&lt;span class="s2"&gt;        for(&lt;/span&gt;&lt;span class="si"&gt;$i&lt;/span&gt;&lt;span class="s2"&gt;=0;&lt;/span&gt;&lt;span class="si"&gt;$i&lt;/span&gt;&lt;span class="s2"&gt;&amp;lt;&lt;/span&gt;&lt;span class="si"&gt;$j&lt;/span&gt;&lt;span class="s2"&gt;;&lt;/span&gt;&lt;span class="si"&gt;$i&lt;/span&gt;&lt;span class="s2"&gt;++)&lt;/span&gt;
+&lt;span class="s2"&gt;        &lt;/span&gt;&lt;span class="si"&gt;$list&lt;/span&gt;&lt;span class="s2"&gt;[]=pg_fetch_array(&lt;/span&gt;&lt;span class="si"&gt;$result&lt;/span&gt;&lt;span class="s2"&gt;,&lt;/span&gt;&lt;span class="si"&gt;$i&lt;/span&gt;&lt;span class="s2"&gt;,PGSQL_ASSOC);&lt;/span&gt;
+&lt;span class="s2"&gt;        return &lt;/span&gt;&lt;span class="si"&gt;$list&lt;/span&gt;&lt;span class="s2"&gt;;&lt;/span&gt;
+&lt;span class="s2"&gt;      }&lt;/span&gt;
+&lt;span class="s2"&gt;    }&lt;/span&gt;
+&lt;span class="s2"&gt;  }else return false;&lt;/span&gt;
+&lt;span class="s2"&gt;}&lt;/span&gt;
+&lt;span class="s2"&gt;?&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Помимо базовой отправки запросов, в некоторых случаях имеет смысл
+написать несколько методов, отправляющих частоиспользуемые запросы, что
+в некоторых случаях позволяет сократить объем и уменьшить
+нагроможденность кода. Хоть я и предпочитаю не пользоваться такими
+вещами, но привести пример такого рода метода все же стоит:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;selectAll&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$table&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="c1"&gt;// пример метода отправки чаcтоиспользуемых запросов&lt;/span&gt;
+  &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;self&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="na"&gt;query&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"select * from "&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nv"&gt;$table&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="s2"&gt;";"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Если чувствуете необходимость в подобных функциях, можно написать
+огромное количество, все ограничивается лишь Вашим воображением и
+знаниями SQL.&lt;/p&gt;
+&lt;p&gt;Что ж, осталось лишь собрать весь код в единый листинг:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;SQL&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="nv"&gt;$connection&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// соединение с СУБД&lt;/span&gt;
+  &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;connect&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;  &lt;span class="c1"&gt;// установка соединения&lt;/span&gt;
+  &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nx"&gt;self&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nv"&gt;$connection&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;pg_pconnect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"host=localhost dbname=pgsql user=pgsql password=MyPassword"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="c1"&gt;// не забываем менять указанные данные для авторизации на правильные&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="nb"&gt;isset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;self&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nv"&gt;$connection&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="k"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"Сайт не работает по техническим причинам.&amp;lt;br /&amp;gt;Просим прощения за доставленные неудобства."&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+      &lt;span class="k"&gt;exit&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// ни в коем случае не выводим более информативных сообщений об ошибке, чем это&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;query&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$str&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$bool&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;false&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;// произвольный запрос&lt;/span&gt;
+  &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="c1"&gt;//echo $str."&amp;lt;br&amp;gt;"; // очень удобно на стадии разработки в процессе поиска ошибок&lt;/span&gt;
+    &lt;span class="nv"&gt;$result&lt;/span&gt;&lt;span class="o"&gt;=@&lt;/span&gt;&lt;span class="nb"&gt;pg_query&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;self&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nv"&gt;$connection&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$str&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="c1"&gt;// @ - для сокрытия теоретически возможных ошибок&lt;/span&gt;
+    &lt;span class="c1"&gt;// or die('Query failed: '.pg_last_error());&lt;/span&gt;
+    &lt;span class="c1"&gt;// не забываем убирать в комментарий в финальном варианте проекта&lt;/span&gt;
+    &lt;span class="c1"&gt;// или совсем удалять&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$result&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;// Если получен результат, отличный от false&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$bool&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;// Если выбран результат в виде boolean&lt;/span&gt;
+      &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="k"&gt;true&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+      &lt;span class="p"&gt;}&lt;/span&gt;
+      &lt;span class="k"&gt;else&lt;/span&gt;  &lt;span class="c1"&gt;// Если выбран результат в виде массива&lt;/span&gt;
+      &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="nv"&gt;$n&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;pg_num_rows&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$result&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;  &lt;span class="c1"&gt;// для создания универсального формата массива&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$n&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;pg_fetch_array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$result&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;PGSQL_ASSOC&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="k"&gt;else&lt;/span&gt;  &lt;span class="c1"&gt;// даже когда результат содержит только одну строку&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt;
+          &lt;span class="nv"&gt;$j&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;pg_num_rows&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$result&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+          &lt;span class="nv"&gt;$list&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;array&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+          &lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nv"&gt;$j&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+          &lt;span class="nv"&gt;$list&lt;/span&gt;&lt;span class="p"&gt;[]&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;pg_fetch_array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$result&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;PGSQL_ASSOC&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+          &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nv"&gt;$list&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+      &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="k"&gt;false&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+  &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;selectAll&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$table&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="c1"&gt;// пример метода отправки чаcтоиспользуемых запросов&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;self&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="na"&gt;query&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"select * from "&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nv"&gt;$table&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="s2"&gt;";"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;```&lt;/p&gt;
+&lt;p&gt;Вот так вот оно и выглядит в простейшем варианте, дорабатывать под
+собственные нужды код можно до бесконечности естественно, но в
+большинстве случаев даже такой реализации вполне должно хватать.&lt;/p&gt;
+&lt;p&gt;Эта статья является частью &lt;a href="https://www.insight-it.ru/dzhentelmenskij-nabor-php-programmista/"&gt;серии статей "Джентельменский набор PHP программиста"&lt;/a&gt;, если Вам
+понравилась эта статья то очень вероятно, что Вам придутся по душе и
+остальные статьи.&lt;/p&gt;
+&lt;p&gt;Не забываем &lt;a href="/feed/"&gt;подписываться на RSS блога&lt;/a&gt;!&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Wed, 16 Jan 2008 22:04:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-01-16:php/2008/obshhaemsya-s-bazojj-dannykh/</guid><category>MySQL</category><category>PHP</category><category>PostgreSQL</category><category>SQL</category><category>БД</category><category>интерфейс</category><category>кодинг</category><category>ООП</category><category>СУБД</category><category>технология</category><category>хранение данных</category></item></channel></rss>

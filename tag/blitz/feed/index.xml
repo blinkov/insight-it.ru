@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/blitz/feed/index.xml" rel="self"></atom:link><lastBuildDate>Sat, 26 Jan 2008 15:25:00 +0300</lastBuildDate><item><title>Шаблонизация</title><link>https://www.insight-it.ru//php/2008/shablonizaciya/</link><description>&lt;p&gt;Наверняка Вы часто замечали, что в пределах одного сайта все (или
+покрайней мере большинство) страниц имеют много общего: структуру,
+расположение элементов, дизайн и так далее. Основным различием обычно
+является лишь содержание. Естественно, что делается это не спроста:
+именно общие компоненты сайта создают в голове посетителей тот самый
+образ, который производит общее подсознательное впечатление о сайте, а
+также позволяет посетителям отличать сайт А от сайта Б.&lt;/p&gt;
+&lt;p&gt;Продолжая разговор, начатый еще в
+&lt;a href="https://www.insight-it.ru/php/2008/obshhaemsya-s-bazojj-dannykh/"&gt;одной&lt;/a&gt; из &lt;a href="https://www.insight-it.ru/dzhentelmenskij-nabor-php-programmista/"&gt;предыдущих
+статей&lt;/a&gt;, рассмотрим организацию интерфейса между двумя другими составляющими практически любого
+интернет-проекта: скриптов (все так же на примере PHP) и страницами,
+отправляемыми посетителям посредством http-сервера.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;С точки зрения веб-разработчика было бы как минимум не логично мешать в
+кучу постоянные части страниц с динамическими. Для этого существует
+множество причин, в том числе, например, экономия вычислительной
+мощности сервера на отсутствии необходимости каждый раз заново
+генерировать статичные элементы или неминуемое сокращение объемов кода,
+который необходимо написать, в случае если статический и динамический
+контент разделены. Отделенную подобным образом статическую часть страниц
+(слегка модифицированную с целью обозначить правила, по которым будет
+проводиться "заполнение" ее динамическим контентом) принято называть
+словом &lt;em&gt;"шаблон"&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Наверняка у Вас уже возникло два вполне логичных вопроса:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Как можно разделить таким образом контент?&lt;/li&gt;
+&lt;li&gt;Как потом восстановить страницу в исходном виде?&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Вариантов ответа на каждый из них можно придумать множество: начиная с
+банальных вариаций на тему применения &lt;strong&gt;echo&lt;/strong&gt;, заканчивая применением
+достаточно серьезных готовых решений вроде широкораспространенного
+&lt;a href="https://www.insight-it.ru/goto/2915d764/" rel="nofollow" target="_blank" title="http://smarty.php.net"&gt;&lt;strong&gt;Smarty&lt;/strong&gt;&lt;/a&gt; или существенно более эффективного
+&lt;a href="https://www.insight-it.ru/goto/8c8929a1/" rel="nofollow" target="_blank" title="http://alexeyrybak.com/blitz/blitz_ru.html"&gt;&lt;strong&gt;Blitz&lt;/strong&gt;&lt;/a&gt;. Каждый из них
+имеет свои сильные и слабые стороны, но в целом любой из них можно
+оценить по двум критериям: производительности и удобстве организации
+кода.&lt;/p&gt;
+&lt;p&gt;Какие-либо цифры оценки производительности приводить не буду, так как,
+во-первых, в Сети можно найти много benchmark'ов, посвященных этой теме,
+а, во-вторых, просто-напросто вовсе не о цифрах я хотел с Вами
+поговорить. Как известно самым производительным по крайней мере с
+теоретической точки зрения является метод под названием &lt;strong&gt;php mess&lt;/strong&gt;, заключается он в следующем: вся страница размещается в рамках
+одного файла, при этом статическая часть документа пишется просто "как
+есть" в соответствии с необходимым стандартом, а изменяемые части
+организуются размещенным в необходимых местах PHP-кодом, окруженным
+стандартной конструкцией &lt;code&gt;&amp;lt;?php&amp;nbsp;&amp;nbsp;&amp;nbsp;?&amp;gt;&lt;/code&gt;. Но огромнейший недостаток
+очевиден - огромное количество информации расположенной в одном файле,
+при отсутствии какого-либо более четкого разделения PHP-кода и
+остального содержимого, чем указанная выше конструкция, приводит к
+постоянной путанице в коде, а также существенным затратам времени
+программиста при попытках исправить ту или иную часть документа.&lt;/p&gt;
+&lt;p&gt;На противоположной стороне нашей шкалы &lt;em&gt;удобство-производительность&lt;/em&gt; я
+бы расположил уже упомянутое выше решение под названием &lt;strong&gt;Smarty&lt;/strong&gt;.
+Представляет оно собой целую систему, реализованную также на PHP, и
+предоставляющую огромное количество возможностей по решению нашей
+задачи. Шаблоны хранятся в отдельных файлах, для определения мест
+расположения динамического контента используется специальный синтаксис,
+который прост как три копейки, так как разрабатывался с расчетом не на
+программистов, а по принципу "чем проще, тем лучше". Именно этот факт
+сделал &lt;strong&gt;Smarty&lt;/strong&gt; одним из самых (если не самым) распространенных
+движков шаблонизации (или как их принято правильно называть "Template
+Engine"). Но, к сожалению, за удобство приходится платить, в этом случае
+производительностью: вся система сама по себе громоздка и состоит из
+множества файлов, между которыми все данные так или иначе передаются, а
+так как написано она на PHP (который является далеко не самым
+производительным языком программирования, в основном в силу своей
+интерпритируемости и некоторых других особенностей), конкуренции в плане
+производительности многим другим вариантам решения нашей задачи
+&lt;strong&gt;Smarty&lt;/strong&gt; составить не в состоянии.&lt;/p&gt;
+&lt;p&gt;Одним из лучших "компромиссных" вариантов, которые доступны на данный
+момент, могу назвать также упомянутый выше &lt;strong&gt;Blitz&lt;/strong&gt;. Реализован он в
+виде модуля PHP, написанного на языке &lt;strong&gt;C&lt;/strong&gt;, что является залогом его
+отличной производительности. При этом общая его концепция близка к
+&lt;strong&gt;Smarty&lt;/strong&gt;: шаблоны также хранятся в отдельных файлах и подчинены
+незамысловатому синтаксису (который вообще можно понять и запомнить
+буквально за 15-20 минут, прочитав статью, &lt;a href="https://www.insight-it.ru/goto/8c8929a1/" rel="nofollow" target="_blank" title="http://alexeyrybak.com/blitz/blitz_ru.html"&gt;ссылку на
+которую&lt;/a&gt; я уже приводил
+выше), а в PHP-скриптах после установки становится доступен специальный
+класс для управления модулем. Но основное достоинство этого решения
+является одновременно и его основным недостатком - редкий хостинг имеет
+этот модуль в списке предустановленных (видимо в силу своей не очень
+обширной известности, обусловленной ), а доступ к http-серверу и
+PHP-интерпретатору, который необходим для установки PHP-модулей,
+предоставляется чаще всего только на дорогих тарифах виртуального
+хостинга или на различных вариантах VPS или арендуемых серверов.&lt;/p&gt;
+&lt;p&gt;Помимо этого некоторые энтузиасты берутся на написание "собственных"
+&lt;em&gt;Template Engine&lt;/em&gt;, базирующихся на различных вариантов использования
+PHP-функций вроде &lt;strong&gt;preg_replace&lt;/strong&gt;. Если честно такие попытки редко
+заканчиваются успехом: в лучшем случае удается добиться удобства
+использования самим разработчиком, но чаще всего в ущерб
+производительности. Заниматься подобными экспериментами я Вам не
+советую, вместо этого я предлагаю написать &lt;em&gt;"обертку"&lt;/em&gt; к приглянувшемуся
+распространенному &lt;em&gt;Template Engine&lt;/em&gt;, что позволит не только сделать его
+использование более удобным конкретно для Вас, но и позволит заменить
+его на другой с минимальными затратами сил и времени (например в случае,
+если модуль &lt;strong&gt;Blitz&lt;/strong&gt; недоступен).&lt;/p&gt;
+&lt;h3 id="razrabatyvaem-obertku"&gt;Разрабатываем "обертку"&lt;/h3&gt;
+&lt;p&gt;Сразу скажу, что цели привести конкретный пример пригодного для
+реального использования кода я перед собой не ставлю в этой части моего
+повествования. Я лишь хочу показать направление, в котором можно
+провести разработку с целью облегчения собственной же жизни, т.е.
+предоставить Вам альтернативу простому использованию тех или иных
+решений в том виде, в котором они предоставлены разработчиками.&lt;/p&gt;
+&lt;p&gt;Если Ваш выбор всетаки пал на написание "оболочки", не смотря на
+принесение в жертву несущественной части производительности, то стоит
+для начала определиться: а что же мы будем "заворачивать"? В качестве
+примера я, пожалуй, буду использовать &lt;strong&gt;Blitz&lt;/strong&gt;, как самый оптимальный
+вариант (по крайней мере с моей точки зрения). Начать стоит как обычно с пустой заготовки для класса.&lt;/p&gt;
+&lt;p&gt;Далее следует решить какие все же модификации мы будем производить для
+собственного удобства над стандартным решением. Попробую привести
+несколько примеров в отношении &lt;strong&gt;Blitz&lt;/strong&gt;, для начала хочу обратить
+внимание, что при внимательном прочтении все той же статьи от
+разработчика этого шаблонизатора, можно обнаружить, что модуль
+показывает более высокие показатели производительности при однократном
+вызове метода &lt;em&gt;set&lt;/em&gt;. Достичь это можно выполнением этого метода с
+указанием в качестве одного из входных параметров "многоуровнего"
+массива, составленного специальным образом (надеюсь Вы все же к этому
+моменту уже успели прочитать неоднократно упоминавшуюся статью, и
+представляете принцип работы модуля). Написание механизма составления
+такого массива позволит как сократить время разработки, так и сэкономит
+драгоценные миллисекунды, вычитаемые из свободного времени посетителей
+сайта в процессе генерации страницы.&lt;/p&gt;
+&lt;p&gt;В любом случае понадобится переменная для его хранения:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;TemplateEngine&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;array&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;array&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+    &lt;span class="c1"&gt;//можно сразу указать указать путь к папке с шаблонами&lt;/span&gt;
+    &lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;engine&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;Blitz&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'./template/'&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nv"&gt;$template&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="s1"&gt;'.tpl'&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;А также метод, переопределяющий стандартный &lt;em&gt;set&lt;/em&gt; на метод, добавляющий
+новые значения к нашему массиву (хотя можно и любое другое понравившееся
+название использовать):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;set&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$caption&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;array&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;$caption&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;После чего оригинальный &lt;em&gt;set&lt;/em&gt; можно использовать уже непосредственно
+перед &lt;em&gt;parse&lt;/em&gt;, с указанием уже собранного массива в качестве параметра.
+За компанию позволю произвести себе еще одну модификацию: в подавляющем
+большинстве случаев &lt;em&gt;parse&lt;/em&gt; используется в совокупности с &lt;strong&gt;echo&lt;/strong&gt;,
+чтобы не указывать каждый раз это слово - можно включить его прямо в наш
+класс:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;parse&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;count&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;array&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;engine&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;set&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;array&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="k"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;engine&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;parse&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Еще одним возможным вариантом модификации может стать обработка всех
+(или какой-то части, если есть необходимость) динамических данных с
+помощью какой-либо функции, например это актуально для
+&lt;strong&gt;htmlspecialchars&lt;/strong&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;set&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$caption&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;array&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;$caption&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;html&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$value&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;rawset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$caption&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;$value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;array&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;$caption&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="nf"&gt;html&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$array&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;is_array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$array&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+  &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;foreach&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$array&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nv"&gt;$caption&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="nv"&gt;$value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="nv"&gt;$value&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$this&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="na"&gt;html&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$value&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nv"&gt;$array&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;htmlspecialchars&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$array&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;ENT_QUOTES&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Как нетрудно заметить, в методе используется рекурсия, так как структура
+передаваемых параметром массивов неизвестна.&lt;/p&gt;
+&lt;p&gt;Надеюсь написанный выше текст подтолкнет Вас к действию или хотябы
+заставит задуматься над имеющимся выбором, если же Вы читали его лишь
+"для общего развития", то тем более хочется сказать Вам огромное
+&lt;em&gt;Спасибо за то, что дочитали до конца это повествование.&lt;/em&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sat, 26 Jan 2008 15:25:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-01-26:php/2008/shablonizaciya/</guid><category>blitz</category><category>PHP</category><category>Smarty</category><category>template</category><category>template engine</category><category>интернет</category><category>ООП</category><category>разработка</category><category>шаблон</category><category>шаблонизация</category></item></channel></rss>

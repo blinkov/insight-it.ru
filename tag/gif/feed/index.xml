@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/gif/feed/index.xml" rel="self"></atom:link><lastBuildDate>Sun, 13 Feb 2011 10:44:00 +0300</lastBuildDate><item><title>Инструменты для минимизации размера изображений</title><link>https://www.insight-it.ru//frontend/2011/instrumenty-dlya-minimizacii-razmera-izobrazhenijj/</link><description>&lt;p&gt;В то время как масштабируемость серверной части интернет проекта -
+сложное дело, требующее тщательного планирования, большинству сайтов
+можно обойтись существенно более простыми способами для повышения
+визуального быстродействия с точки зрения пользователей. О небольшой
+части из них я и хотел Вам сегодня рассказать.
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;h2 id="motivatsiia"&gt;Мотивация&lt;/h2&gt;
+&lt;p&gt;Если воспользоваться инструментами для анализа времени загрузки страницы
+(например Firebug или Chrome Developer Tools), то не сложно обратить
+внимание на тот факт, что во многих случаях существенную часть ожидания
+загрузки страницы проходит в процессе загрузки внешних файлов, требуемых
+для рендеринга страницы:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Изображения&lt;/li&gt;
+&lt;li&gt;Файлы стилей&lt;/li&gt;
+&lt;li&gt;Файлы JS-скриптов&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;На этот интервал времени абсолютно никак не влияет используемый язык
+программирования и баз данных, основных способов повлиять на него в
+меньшую сторону несколько:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Вынести на отдельный (под)домен (позволяет браузеру качать больше
+    файлов одновременно)&lt;/li&gt;
+&lt;li&gt;Отредактировать HTML для избежания блокировок (так называемого
+    "водопада")&lt;/li&gt;
+&lt;li&gt;Настроить HTTP-сервер на предмет правильных заголовков Expires и
+    Etags&lt;/li&gt;
+&lt;li&gt;Воспользоваться для отдачи статики nginx или аналогом&lt;/li&gt;
+&lt;li&gt;Сменить интернет-канал у сервера или сам сервер&lt;/li&gt;
+&lt;li&gt;Воспользоваться услугами CDN (Content Delivery Network)&lt;/li&gt;
+&lt;li&gt;Уменьшить размер передаваемых файлов&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Сейчас я хочу остановиться на последнем пункте в отношении изображений,
+про скрипты, стили и остальные методы стоит поговорить отдельно в другой
+раз.&lt;/p&gt;
+&lt;h2 id="vybor-pravilnogo-formata-izobrazhenii"&gt;Выбор правильного формата изображений&lt;/h2&gt;
+&lt;p&gt;Первым шагом по снижению объемов изображений должен быть выбор
+адекватного назначению изображения формата:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;JPEG&amp;nbsp;- для всех фотографий&lt;/li&gt;
+&lt;li&gt;GIF&amp;nbsp;- исключительно для анимации (например для крутящейся загрузки)&lt;/li&gt;
+&lt;li&gt;PNG - для всего, что не является фотографией или анимацией: иконки,
+    графики, элементы интерфейса&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="gif"&gt;GIF&lt;/h2&gt;
+&lt;p&gt;На многих сайтах до сих пор по старинке используется этот формат
+изображений, не смотря на то, что PNG при таком же качестве имеет
+меньший размер файлов.&lt;/p&gt;
+&lt;p&gt;Рецепт лежит на поверхности: конвертируйте все GIF в PNG. Проще всего
+это сделать с помощью &lt;a href="https://www.insight-it.ru/goto/71cf44a6/" rel="nofollow" target="_blank" title="http://www.imagemagick.org/"&gt;ImageMagick&lt;/a&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;# Конкретный файл&lt;/span&gt;
+&lt;span class="nv"&gt;$ &lt;/span&gt;convert foo.gif foo.png
+
+&lt;span class="c"&gt;# Все файлы в директории&lt;/span&gt;
+&lt;span class="nv"&gt;$ &lt;/span&gt;mogrify -format png *.gif
+
+&lt;span class="c"&gt;# Или&amp;nbsp;OptiPNG:&lt;/span&gt;
+&lt;span class="nv"&gt;$ &lt;/span&gt;optipng *.gif
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Дальше все просто: работаем с этими изображениями как и с остальными
+PNG, о чем пойдет речь ниже.&lt;/p&gt;
+&lt;h2 id="png"&gt;PNG&lt;/h2&gt;
+&lt;p&gt;К сожалению, многие редакторы изображений сохраняют PNG-файлы совершенно
+не заботясь об их размере.&lt;/p&gt;
+&lt;p&gt;Но за многие годы была разработана масса различных утилит, исправляющих
+данную ситуацию. Основных принципа, на которых они основываются, четыре:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Удаление лишнего:&lt;/strong&gt; так как PNG - расширяемый формат, далеко не
+    все данные и заголовки требуются для отображения изображения в
+    браузере. Их можно смело выкинуть.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Изменение типа PNG:&lt;/strong&gt; использование только оттенков серого или
+    произвольной палитры приемлемо для многих случаев, что по сравнению
+    с полной гаммой существенно снижает размер изображения&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Использование подходящего "фильтра":&lt;/strong&gt; они являются шагом перед
+    сжатием изображения, правильный фильтр позволяет компрессии работать
+    эффективнее&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Оптимизация самой компрессии:&lt;/strong&gt; использование более эффективного
+    алгоритма&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Примеры использования наиболее эффективных инструментов:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;# optipng&lt;/span&gt;
+&lt;span class="nv"&gt;$ &lt;/span&gt;optipng -o7 foo.png
+
+&lt;span class="c"&gt;# pngcrush&lt;/span&gt;
+&lt;span class="nv"&gt;$ &lt;/span&gt;pngcrush -rem alla -brute -reduce foo.png foo.png.temp
+&lt;span class="nv"&gt;$ &lt;/span&gt;mv foo.png.temp foo.png
+
+&lt;span class="c"&gt;# pngout&lt;/span&gt;
+&lt;span class="nv"&gt;$ &lt;/span&gt;pngout foo.png
+
+&lt;span class="c"&gt;# advpng&lt;/span&gt;
+&lt;span class="nv"&gt;$ &lt;/span&gt;advpng -z4 foo.png
+&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id="jpeg"&gt;JPEG&lt;/h2&gt;
+&lt;p&gt;В отличии от PNG и GIF каждое сохранение JPEG файла приходят к потерям
+данных и, как следствие, снижению качества фотографии, без потерь могут
+выполняться только изменение комментариев, метаданных и повороты на
+90/180/270 градусов. Основным инструментом для минимизации JPEG без
+потери качества является &lt;a href="https://www.insight-it.ru/goto/4ee62c2b/" rel="nofollow" target="_blank" title="http://www.phpied.com/installing-jpegtran-mac-unix-linux/"&gt;jpegtran&lt;/a&gt;, используется достаточно просто:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;# обычный режим&lt;/span&gt;
+&lt;span class="nv"&gt;$ &lt;/span&gt;jpegtran -copy none source.jpg &amp;gt; destination.jpg
+
+&lt;span class="c"&gt;# режим progressive&lt;/span&gt;
+&lt;span class="nv"&gt;$ &lt;/span&gt;jpegtran -copy none -progressive source.jpg &amp;gt; destination.jpg
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Прогрессивный режим заслуживает отдельного внимания:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Основная особенность - в нормальных браузерах (не IE) такой JPEG
+    быстро отображается в низком качестве, а по мере загрузки файла
+    полностью качество изображения улучшается (обычный JPEG грузится
+    сверху вниз)&lt;/li&gt;
+&lt;li&gt;По объему файла этот тип JPEG начинает выигрывать у обычного начиная
+    от размера файла в 10Кб&lt;/li&gt;
+&lt;li&gt;Изображение менее 10Кб все равно слишком маленькое, чтобы от самого
+    процесса прогрессивной загрузки был какой-либо толк&lt;/li&gt;
+&lt;li&gt;Если хочется подробнее разобраться - читаем
+    &lt;a href="https://www.insight-it.ru/goto/85664134/" rel="nofollow" target="_blank" title="http://yuiblog.com/blog/2008/12/05/imageopt-4/"&gt;здесь&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="zakliuchenie"&gt;Заключение&lt;/h2&gt;
+&lt;p&gt;Использование простых инструментов, описанных выше, позволяет сократить
+общий размер используемых на веб-странице изображений порой до 30%, а то
+и больше. Эффект, который дает этот процесс, конечно же зависит от
+"запущенности" ситуации, но в большинстве случаев тоже измеряется
+десятками процентов от общего времени загрузки страницы. Чтобы
+воспользоваться ими требуется всего несколько минут, что существенно
+меньше, чем попытки оптимизировать код или запросы к базе данных, не
+говоря уже о полной переработке архитектуры системы.&lt;/p&gt;
+&lt;p&gt;Если кто-то знает более эффективные приемы по уменьшению размеров
+изображений - прошу в комментарии. Про скрипты и стили поговорим
+отдельно :)&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Основным источником информации послужила &lt;a href="https://www.insight-it.ru/goto/54bb0fc6/" rel="nofollow" target="_blank" title="http://www.phpied.com/big-list-image-optimization-tools/"&gt;статья Stoyan Stefanov&lt;/a&gt;,
+которую я сильно подсократил до тех инструментов, которыми пользуюсь сам
+на практике, и моментов, которые считаю интересными. Желающим покопаться
+в этой тематике поглубже рекомендую изучить весь его блог - можно найти
+много интересного. Про &lt;a href="/feed/"&gt;подписку на Insight IT&lt;/a&gt; тоже не
+забываем)&lt;/em&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sun, 13 Feb 2011 10:44:00 +0300</pubDate><guid>tag:www.insight-it.ru,2011-02-13:frontend/2011/instrumenty-dlya-minimizacii-razmera-izobrazhenijj/</guid><category>gif</category><category>ImageMagick</category><category>jpeg</category><category>jpegtran</category><category>optipng</category><category>png</category><category>изображение</category><category>инструменты</category><category>клиентская оптимизация</category><category>компрессия</category><category>оптимизация</category><category>разработка</category><category>утилиты</category></item></channel></rss>

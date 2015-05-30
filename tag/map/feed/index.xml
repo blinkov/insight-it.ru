@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/map/feed/index.xml" rel="self"></atom:link><lastBuildDate>Wed, 27 Aug 2008 19:29:00 +0400</lastBuildDate><item><title>Еще раз про HBase</title><link>https://www.insight-it.ru//storage/2008/eshe-raz-pro-hbase/</link><description>&lt;p&gt;Некоторое время назад &lt;a href="https://www.insight-it.ru/goto/5bbb805b/" rel="nofollow" target="_blank" title="http://neuronus.blogspot.com"&gt;Neuronus&lt;/a&gt; в одном
+из комментариев к посту &lt;a href="https://www.insight-it.ru/storage/2008/hadoop-vozvrashhaetsya/"&gt;"Hadoop возвращается"&lt;/a&gt; не согласился с
+моим кратким определением HBase как "нереляционная база данных"
+(позаимствованным, собственно говоря, откуда-то с официального портала
+продукта). Этот факт подтолкнул меня попытаться найти более корректное
+определение в англоязычных источниках информации, получилось вполне
+успешно. Хочется прочитать более детально что к чему? Вперед!
+&lt;!--more--&gt;
+Если Вам уже приходилось иметь дело с этой системой,возможно Вы уже
+поняли, что самым сложным этапом работы является просто-напросто
+осознавание того, чем она на самом деле является. Обычно приходится
+мысленно отказаться от всех привычек, доставшихся при работе с
+традиционный RDBMS, и начинать постигать базовые принципы организации
+хранения данных с нуля.&lt;/p&gt;
+&lt;p&gt;Стоит напомнить, что проект позиционируется как opensource реализация
+&lt;a href="/tag/bigtable/"&gt;BigTable&lt;/a&gt; от &lt;a href="/tag/google/"&gt;Google&lt;/a&gt;. Да, проекты
+реализованы разными людьми на разных языках программирования, но
+общие идеи и принципы функционирования у них сильно пересекаются.
+Наиболее значимой общей характеристикой у них является очень схожие
+модели данных (о чем
+&lt;a href="https://www.insight-it.ru/goto/aef0a732/" rel="nofollow" target="_blank" title="http://wiki.apache.org/hadoop/Hbase/HbaseArchitecture#head-daee3a0ce7a6892096ffb43f3cc3e0310d047f48"&gt;упоминается&lt;/a&gt;
+в вики HBase), а в свою очередь &lt;a href="https://www.insight-it.ru/goto/8667b351/" rel="nofollow" target="_blank" title="http://labs.google.com/papers/bigtable.html"&gt;в документации&lt;/a&gt; BigTable она описывается очень четко и определенно, точно определяя чем эти продукты по сути являются:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;A Bigtable is a sparse, distributed, persistent multidimensional sorted
+map.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Предлагаю по аналогии со &lt;a href="https://www.insight-it.ru/goto/af69f471/" rel="nofollow" target="_blank" title="http://jimbojw.com/wiki/index.php?title=Understanding_HBase_and_BigTable"&gt;статьей в вики&lt;/a&gt;,
+послужившей основой для данного поста, разбить это определение на
+отдельные слова и последовательно пройтись по ним, попутно составляя в
+голове полную картину.&lt;/p&gt;
+&lt;h3 id="map"&gt;map&lt;/h3&gt;
+&lt;p&gt;За этим термином нет четкого устоявшегося обозначения в русском языке
+(да и в английском тоже все далеко не так однозначно), математики обычно
+называют это &lt;em&gt;отображением одного множества в другое&lt;/em&gt;, в то время как
+если Вы знакомы с программированием, то Вам наверняка больше знакомы
+будут более знакомы такие обозначения, как &lt;em&gt;ассоциативный массив&lt;/em&gt;
+(&lt;a href="/tag/php/"&gt;PHP&lt;/a&gt;), &lt;em&gt;словарь&lt;/em&gt; (&lt;a href="/tag/python/"&gt;Python&lt;/a&gt;), &lt;em&gt;хэш&lt;/em&gt;
+(&lt;a href="/tag/ruby/"&gt;Ruby&lt;/a&gt;) или &lt;em&gt;объект&lt;/em&gt; (&lt;a href="/tag/javascript/"&gt;JavaScript&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;По сути же имеется ввиду просто набор однозначно соответствующих пар
+ключ-значение, в роли которых выступают массивы байт. Во все той же
+статейке в вики все очень наглядно демонстрируется примерами в нотации
+&lt;abbr title="JavaScript Object Notation"&gt;JSON&lt;/abbr&gt;, позволю себе тоже приводить аналогичные примеры. В &lt;abbr title="JavaScript Object Notation"&gt;JSON&lt;/abbr&gt; наш &lt;strong&gt;map&lt;/strong&gt; выглядел бы следующим образом:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="s2"&gt;"qqqq"&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"some"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  &lt;span class="s2"&gt;"abc"&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"sample"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  &lt;span class="s2"&gt;"zz"&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"JSON"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  &lt;span class="s2"&gt;"123"&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"map"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  &lt;span class="s2"&gt;"mnbvcxz"&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"looks like this"&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id="persistent"&gt;persistent&lt;/h3&gt;
+&lt;p&gt;Это прилагательное обозначает всего лишь "постоянный", то есть в данном
+контексте оно говорит только о том, что данная система не зависит от
+использующих ее приложений, а также хранится на устройствах постоянного
+хранения данных, а не в оперативной памяти.&lt;/p&gt;
+&lt;h3 id="distributed"&gt;distributed&lt;/h3&gt;
+&lt;p&gt;Распределенность этих систем можно рассматривать с двух точек зрения:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Как HBase, так и BigTable сами по себе могут функционировать на
+    большом количестве серверов, которые можно разделить на две большие
+    категории: master и slave. Slave сервера собственно выполняют всю
+    работу с данными, а master - лишь только координируют их действия и
+    управляют процессом в целом. Этот факт обеспечивают высокую степень
+    устойчивости к сбоям (в HBase правда количество master-серверов
+    ограничено одним, что представляет собой единственную точку, сбой в
+    которой приведет к отказу всей системы, но это лишь временная
+    проблема, которую наверняка устранят в следующих версиях), а также
+    существенно облегчает масштабируемость всей системы так как
+    добавление дополнительных серверов (а значит и увеличение
+    производительности и вместительности системы) достаточно тривиально,
+    безболезненно и не мешает общему ее функционированию.&lt;/li&gt;
+&lt;li&gt;Помимо этого каждая из этих систем обычно использует для хранения
+    данных кластерную файловую систему (HBase - &lt;a href="/tag/hdfs/"&gt;HDFS&lt;/a&gt;, а
+    BigTable - &lt;a href="/tag/gfs/"&gt;GFS&lt;/a&gt;), которые тоже по своей природе являются
+    распределенными и функционируют по схожему принципу, обеспечивая
+    дополнительную сохранность данных, реплицируя их в нескольких
+    экземплярах на нескольких серверах (обычно трех).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="sorted"&gt;sorted&lt;/h3&gt;
+&lt;p&gt;HBase и BigTable не строят никакие индексы для ускорения процесса
+извлечения данных, единственное используемое в них правило заключается в
+следующем: каждый slave-сервер в системе отвечает за определенный
+диапазон ключей (от и до определенных его значений), и держит все записи
+в строгом лексикографическом порядке по ключам (заметьте: сортировку
+значений никто не гарантирует!). Продолжая пример с &lt;abbr title="JavaScript Object Notation"&gt;JSON&lt;/abbr&gt; это выглядело
+бы примерно вот так:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="s2"&gt;"123"&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"map"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  &lt;span class="s2"&gt;"abc"&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"sample"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  &lt;span class="s2"&gt;"mnbvcxz"&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"looks like this"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  &lt;span class="s2"&gt;"qqqq"&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"some"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  &lt;span class="s2"&gt;"zz"&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"JSON"&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Этим фактом можно активно пользоваться при планировании использовании
+системы, например если в качестве ключей планируется использовать
+доменные именные имена, то имеет смысл использовать их в "развернутом"
+виде, например: "com.example.www" вместо "www.example.com". Это почти
+наверняка обеспечит попадание всех поддоменов одного и того же домена на
+один slave-сервер, а также группировку доменов по зонам.&lt;/p&gt;
+&lt;h3 id="multidimensional"&gt;multidimensional&lt;/h3&gt;
+&lt;p&gt;До сих пор ключ интерпретировался нами как нечто единое и неделимое, но
+на самом деле в данной ситуации это далеко не так. На самом деле
+пространство имен HBase и BigTable имеет несколько пространств, по
+аналогии с трехмерным материальным пространством, где есть ширина,
+высота и глубина. Если мы попытаемся представить это с помощью &lt;abbr title="JavaScript Object Notation"&gt;JSON&lt;/abbr&gt;, то
+это будет выглядеть как набор вложенных простых map'ов:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="s2"&gt;"table-1"&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+  &lt;span class="p"&gt;{&lt;/span&gt;
+     &lt;span class="s2"&gt;"column-family-1"&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+     &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="s2"&gt;"column-1"&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt;
+           &lt;span class="s2"&gt;"row-1"&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+           &lt;span class="p"&gt;{&lt;/span&gt;
+              &lt;span class="s2"&gt;"timestamp-1"&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"value-1"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+              &lt;span class="s2"&gt;"timestamp-2"&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"value-2"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+              &lt;span class="s2"&gt;"timestamp-3"&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"value-3"&lt;/span&gt;
+           &lt;span class="p"&gt;},&lt;/span&gt;
+           &lt;span class="s2"&gt;"row-2"&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+           &lt;span class="p"&gt;{&lt;/span&gt;
+              &lt;span class="s2"&gt;"timestamp-1"&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"value-4"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+              &lt;span class="s2"&gt;"timestamp-2"&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"value-5"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+              &lt;span class="s2"&gt;"timestamp-3"&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"value-6"&lt;/span&gt;
+           &lt;span class="p"&gt;}&lt;/span&gt;
+        &lt;span class="p"&gt;},&lt;/span&gt;
+        &lt;span class="s2"&gt;"column-2"&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt;
+           &lt;span class="s2"&gt;"row-1"&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+           &lt;span class="p"&gt;{&lt;/span&gt;
+              &lt;span class="s2"&gt;"timestamp-1"&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"value-1"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+              &lt;span class="s2"&gt;"timestamp-3"&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"value-3"&lt;/span&gt;
+           &lt;span class="p"&gt;},&lt;/span&gt;
+           &lt;span class="s2"&gt;"row-2"&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+           &lt;span class="p"&gt;{&lt;/span&gt;
+              &lt;span class="s2"&gt;"timestamp-1"&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"value-4"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+              &lt;span class="s2"&gt;"timestamp-2"&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"value-5"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+              &lt;span class="s2"&gt;"timestamp-3"&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"value-6"&lt;/span&gt;
+           &lt;span class="p"&gt;}&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+     &lt;span class="s2"&gt;"column-family-2"&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+     &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="s2"&gt;"column-1"&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt;
+           &lt;span class="c1"&gt;// ...&lt;/span&gt;
+        &lt;span class="p"&gt;},&lt;/span&gt;
+        &lt;span class="s2"&gt;""&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt;
+           &lt;span class="s2"&gt;"row-1"&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"some-value"&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+        &lt;span class="c1"&gt;// ...&lt;/span&gt;
+     &lt;span class="p"&gt;}&lt;/span&gt;
+     &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Как можно увидеть из примера, таких пространств используется пять:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;таблицы;&lt;/li&gt;
+&lt;li&gt;наборы столбцов;&lt;/li&gt;
+&lt;li&gt;столбцы;&lt;/li&gt;
+&lt;li&gt;строки;&lt;/li&gt;
+&lt;li&gt;время;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Таким образом, каждое значение в хранилище данных однозначно
+соответствует ключу, состоящему из пяти компонентов, например в примере
+значению "value-5" соответствует ключ, состоящий из:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;table-1;&lt;/li&gt;
+&lt;li&gt;column-family-1;&lt;/li&gt;
+&lt;li&gt;column-1;&lt;/li&gt;
+&lt;li&gt;row-2;&lt;/li&gt;
+&lt;li&gt;timestamp-2;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Принцип очень похож на используемый в более привычных базах данных, с
+той лишь разницей, что добавляется еще и время (которое обычно
+представляется в виде целочисленного значения, обозначающего количество
+секунд с начала эпохи). Изначально оно задумывалось для предоставления
+возможности отследить историю изменения данных, но этому дополнительному
+измерению можно найти и массу нестандартных применений, например
+используя его как самый обыкновенный стек.&lt;/p&gt;
+&lt;p&gt;Хочется обратить внимание, что ассортимент наборов столбцов (column
+family) указывается при создании таблиц, и изменения в них должны
+производиться с помощью специального запроса, в то время как сами
+столбцы являются динамическими и для его создания достаточно лишь
+добавить в него данные.&lt;/p&gt;
+&lt;h3 id="sparse"&gt;sparse&lt;/h3&gt;
+&lt;p&gt;Развивая мысль предыдущего абзаца, можно понять, что наличие значения
+столбца в каждой строке вовсе не обязательно, оно запросто может и
+отсутствовать вовсе. Таким образом каждая строка может содержать
+произвольное количество значений для столбцов в рамках одной column
+family, ровно как может и не содержать их вовсе. Несуществующие данные
+не хранятся в виде какого-либо NULL-значения, они просто отсутствуют.
+Запрос на несуществующие данные просто вернет пустой результат. Если же
+взглянуть с другой стороны, то тот же самый факт можно представить и как
+возможность наличия пробелов в списке ключей строк.&lt;/p&gt;
+&lt;h3 id="i-naposledok"&gt;И напоследок...&lt;/h3&gt;
+&lt;p&gt;хочется сказать, что все это лишь дело терминологии, ровно то же самое
+можно подразумевать и под краткой фразой "нереляционная база данных", не
+смотря на то, что она существенно менее точна и полноценна. В данном
+контексте самое главное лишь чтобы люди просто понимали друг друга.
+Надеюсь после прочтения этого поста в вашем сознании сложилась четкая
+картина этого продукта и предоставляемых им возможностей, которая Вам
+пригодится как для "общего развития", так и для потенциального
+практического применения этого продукта. Если остались неясные моменты -
+смело оставляйте комментарии. &lt;a href="/feed/"&gt;Традиционная подписка на RSS&lt;/a&gt; -
+приветствуется :)&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Wed, 27 Aug 2008 19:29:00 +0400</pubDate><guid>tag:www.insight-it.ru,2008-08-27:storage/2008/eshe-raz-pro-hbase/</guid><category>Hadoop</category><category>HBase</category><category>map</category><category>кластер</category></item></channel></rss>

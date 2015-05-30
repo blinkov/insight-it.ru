@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/chrome/feed/index.xml" rel="self"></atom:link><lastBuildDate>Sat, 06 Sep 2008 00:36:00 +0400</lastBuildDate><item><title>Google Chrome</title><link>https://www.insight-it.ru//linux/2008/google-chrome/</link><description>&lt;p&gt;&lt;img alt="Google Chrome" class="right" src="https://www.insight-it.ru/images/google-chrome.png" title="Google Chrome"/&gt;
+Наверное многие из вас уже успели за последние пару дней стать
+свидетелями всей этой шумихи на просторах Сети, связанной с выходом
+Google на рынок браузеров. Сопутствующие релизу
+&lt;a href="https://www.insight-it.ru/goto/c770d69f/" rel="nofollow" target="_blank" title="http://www.google.com/googlebooks/chrome/#"&gt;комиксы&lt;/a&gt; произвели на меня
+вполне положительное впечатление, благодаря достаточно большой
+актуальности поднятых в них проблем и интересным вариантам их решений.
+Так что я определенно решил, что поглядеть что за зверь такой - &lt;strong&gt;Google
+Chrome&lt;/strong&gt;, определенно стоит, а что из этого вышло я и хотел бы тут
+рассказать, так что очередную рекламу нового продукта или какие-либо
+практически полезные советы у Вас врядли получится здесь обнаружить.
+&lt;!--more--&gt;
+Первым делом я посетил &lt;a href="https://www.insight-it.ru/goto/34cc95f4/" rel="nofollow" target="_blank" title="http://www.google.com/chrome"&gt;официальную страничку
+браузера&lt;/a&gt; и практически сразу немного
+разочаровался, увидев в заголовке надпись &lt;strong&gt;Google Chrome (BETA) for
+W****ws&lt;/strong&gt;. Сразу напросился вопрос: а где версия для &lt;strong&gt;Linux&lt;/strong&gt;?
+Покопавшись в соседних страничках ничего подобного обнаружить не
+удалось - пришлось пожать плечами с мыслью "наверное еще не сделали".&lt;/p&gt;
+&lt;p&gt;Зато через какое-то время наткнувшись на очередную заметку про все ту же
+довольно избитую тему, я заметил ма-а-аленькую неприметную
+&lt;a href="https://www.insight-it.ru/goto/2e08eade/" rel="nofollow" target="_blank" title="http://dev.chromium.org/developers/how-tos/build-instructions-linux"&gt;ссылку&lt;/a&gt;
+на "инструкцию по компиляции Google Chrome из исходников в Linux". В
+очередной раз пожав плечами с мыслью "а нам не привыкать, все равно
+Gentoo пользуюсь" отправился вводить заветное заклинание в
+свежесозданную консольку.&lt;/p&gt;
+&lt;p&gt;Заклинание это выглядит примерно следующим образом:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class="nv"&gt;CHROME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/usr/local/src
+mkdir &lt;span class="nv"&gt;$CHROME&lt;/span&gt;/chrome
+&lt;span class="nb"&gt;cd&lt;/span&gt; &lt;span class="nv"&gt;$CHROME&lt;/span&gt;/chrome
+&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;LANG&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;C
+&lt;span class="nv"&gt;$CHROME&lt;/span&gt;/depot_tools/gclient config http://src.chromium.org/svn/trunk/src
+&lt;span class="nv"&gt;$CHROME&lt;/span&gt;/depot_tools/gclient sync
+&lt;span class="nb"&gt;cd&lt;/span&gt; &lt;span class="nv"&gt;$CHROME&lt;/span&gt;/src/chrome
+../third_party/scons/scons.py Hammer
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Для успешного каста требуются следующие ингридиенты:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;subversion &amp;gt;= 1.4&lt;/li&gt;
+&lt;li&gt;pkg-config &amp;gt;= 0.20&lt;/li&gt;
+&lt;li&gt;python &amp;gt;= 2.4&lt;/li&gt;
+&lt;li&gt;perl &amp;gt;= 5.x&lt;/li&gt;
+&lt;li&gt;gcc/g++ &amp;gt;= 4.2&lt;/li&gt;
+&lt;li&gt;bison &amp;gt;= 2.3&lt;/li&gt;
+&lt;li&gt;flex &amp;gt;= 2.5.34&lt;/li&gt;
+&lt;li&gt;gperf &amp;gt;= 3.0.3&lt;/li&gt;
+&lt;li&gt;libnss3-dev &amp;gt;= 3.12&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Начался процесс вполне оптимистично - строчки, генерируемые &lt;strong&gt;svn co&lt;/strong&gt;
+побежали по экрану вполне весело, но когда этот процесс затянулся на
+более чем час &amp;ndash; стало очевидно, что даже &lt;em&gt;Google&lt;/em&gt; оказалось не по зубам
+выдержать такой наплыв желающх "заценить" новую игрушку и обеспечить
+достаточную пропускную способность на сервере с SVN. Правда и масштабы
+проекта мягко говоря впечатляют - директория с исходным кодом перед
+инициализацией компиляции оказалось очень даже весомой: &lt;strong&gt;2.6 GB&lt;/strong&gt;. В
+общем в итоге я не придумал ничего лучше, чем по старой традиции
+оставить браузер компилироваться на ночь и с чистой совестью уползти
+спать.&lt;/p&gt;
+&lt;p&gt;В итоге оказалось, что в результате получается не вовсе браузер, а лишь
+некоторые непонятно зачем нужные бинарники: надо было внимательно читать
+инструкцию, особенно обведенный в красную рамку блок - студенческая
+привычка при чтении чего-либо подсознательно отфильтровывать всю на
+первый взгляд второстепенную информацию, попадающую в категорию "слишком
+много букв", дала о себе знать :( В общем там об этом все заранее
+предупреждали - я просто не заметил, ну да ладно: в wine-то оно точно
+заведется, все тот же Google с легкостью помог обнаружить
+соответствующий мануал, для моего Gentoo он свелся к следующему:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/bin/bash&lt;/span&gt;
+emerge --sync&lt;span class="p"&gt;;&lt;/span&gt; emerge -av wine cabextract
+&lt;span class="nb"&gt;cd&lt;/span&gt; /usr/bin
+sudo wget www.kegel.com/wine/winetricks
+sudo chmod +x winetricks
+winetricks riched20 riched30 flash allfonts
+&lt;span class="nb"&gt;cd&lt;/span&gt; ~
+wget gpdl.google.com/chrome/install/149.27/chrome_installer.exe
+wine chrome_installer.exe
+rm chrome_installer.exe
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Запуск с ходу из инсталлятора ничем хорошим не закончилcя, но вот такая
+команда вполне нормально запустила-таки браузер&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;wine ~/.wine/drive_c/windows/profiles/blinkov/Local Settings/Application Data/Google/Chrome/Application/chrome.exe--new-http --in-process-plugins
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;em&gt;(если кто соберется копипастить - не забываем подменять &lt;code&gt;blinkov&lt;/code&gt; на свое имя
+пользователя)&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Первое впечатление - ужасный V**ta-like дизайн, вернее не то чтобы он
+совсем ужасный - минималистичность очень даже полезное свойство для
+дизайна браузера, но в мое KDE 3.5.9 темно-фиолетовой раскраски он не
+вписывается ну совсем никак. Ну да ладно - пока он стоит "просто
+побаловаться", то можно и потерпеть. Далее я решил пройтись по основным
+"фишечкам", заинтересовавшим меня в комиксах - все реализовано вполне
+"как обещали", очень много концептуально правильных решений, которых в
+старом-добром FF определенно не хватает (перечислять наверное смысла
+нет - все и так уже, наверное, в курсе что там есть "вкусненького"). Но
+и многих абсолютно жизненно-важных вещей я там не обнаружил - начиная с
+блокировки рекламы и заканчивая все тем же стандартно-фиксированным
+дизайном и отсутствием центрального репозитория плагинов. Кое-какие
+неприятности можно свалить на все еще не окончательную доведенность до
+ума wine (проблемы с SSL/TSL, скажем), но на них я смело закрывал
+глаза - пока не будет полноценной Linux-версии о регулярном
+использовании данного продукта речи быть просто не может. Скорость
+работы новинки также произвела впечатление - на его фоне даже FF чисто
+субъективно показался медлительным (не смотря на все огрехи wine, как
+оно будет выглядить в native-версии - предсказать сложно).&lt;/p&gt;
+&lt;p&gt;Меню настроек оказалось вполне стандартным - ничего лишнего, лишь самые
+необходимые вещи, даже ребенок разберется. Хотя сложно на самом деле
+сказать плюс это или минус: если вдруг взбредет в голову потюнить
+что-либо более специфическое, могут возникнуть проблемы, хотя впринципе
+возможно там всетаки предусмотренно какое-то более расширенное меню
+настроек, по аналогии с about:config в FF, а я его просто не нашел.&lt;/p&gt;
+&lt;p&gt;Вдоволь наигравшись, я смело закрыл окошко браузера, с твердой
+уверенностью, что когда-нибудь потом обязательно заморочусь и с
+установкой и (возможно) эксплуатацией полноценной native Linux версии,
+когда граждане из Google соизволят-таки довести ее до работоспособного
+состояния - к тому времени глядишь и ситуацию с плагинами и темами
+исправят. Вот такая вот бестолковая история, спасибо, что дочитали до
+конца :)&lt;/p&gt;
+&lt;p&gt;P.S.: А вот &lt;a href="/feed/"&gt;тут есть RSS&lt;/a&gt;, если вдруг кто еще не в курсе.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sat, 06 Sep 2008 00:36:00 +0400</pubDate><guid>tag:www.insight-it.ru,2008-09-06:linux/2008/google-chrome/</guid><category>Chrome</category><category>Google</category><category>Google Chrome</category><category>online</category><category>браузер</category></item></channel></rss>

@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/ec2/feed/index.xml" rel="self"></atom:link><lastBuildDate>Wed, 15 Aug 2012 22:26:00 +0400</lastBuildDate><item><title>Архитектура Pinterest</title><link>https://www.insight-it.ru//highload/2012/arkhitektura-pinterest/</link><description>&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/c1302f36/" rel="nofollow" target="_blank" title="http://pinterest.com"&gt;Pinterest&lt;/a&gt; - по непонятным для меня причинам
+популярная в определенных кругах социальная сеть, построенная вокруг
+произвольных картинок чаще всего не собственного производства. Как и
+&lt;a href="https://www.insight-it.ru/highload/2012/arkhitektura-instagram/"&gt;Instagram&lt;/a&gt;
+проект довольно молодой, с очень похожей историей и стеком технологий.
+Тем не менее, Pinterest определенно заслуживает внимания как один из
+самых быстрорастущих по посещаемости вебсайтов за всю историю.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h2 id="platforma"&gt;Платформа&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/amazon/"&gt;Amazon&lt;/a&gt; &lt;a href="/tag/aws/"&gt;AWS&lt;/a&gt;&amp;nbsp;- хостинг и вспомогательные
+    сервисы&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/nginx/"&gt;nginx&lt;/a&gt;&amp;nbsp;- вторичная балансировка нагрузки, отдача
+    статики&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/python/"&gt;Python&lt;/a&gt;&amp;nbsp;- язык программирования&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/django/"&gt;Django&lt;/a&gt;&amp;nbsp;- фреймворк&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt;&amp;nbsp;- основная СУБД&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/memcached/"&gt;memcached&lt;/a&gt;&amp;nbsp;- кэширование объектов&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/redis/"&gt;Redis&lt;/a&gt;&amp;nbsp;- кэширование коллекций объектов&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/solr/"&gt;Solr&lt;/a&gt;&amp;nbsp;- поиск&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/hadoop/"&gt;Hadoop&lt;/a&gt;&amp;nbsp;- анализ данных&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="statistika"&gt;Статистика&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;3 миллиона уникальных посетителей в день&lt;/li&gt;
+&lt;li&gt;18 миллионов уникальных посетителей в месяц&lt;/li&gt;
+&lt;li&gt;4-я по популярности социальная сеть в США после
+    &lt;a href="/tag/facebook/"&gt;Facebook&lt;/a&gt;,&amp;nbsp;&lt;a href="/tag/twitter/"&gt;Twitter&lt;/a&gt;&amp;nbsp;и
+    &lt;a href="/tag/linkedin/"&gt;LinkedIn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Порядка 500 виртуальных машин в EC2&lt;/li&gt;
+&lt;li&gt;80 миллионов объектов в S3&lt;/li&gt;
+&lt;li&gt;410Тб пользовательских данных&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="razvitie"&gt;Развитие&lt;/h2&gt;
+&lt;h4&gt;Март 2010&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;1 маленький виртуальный веб-сервер&lt;/li&gt;
+&lt;li&gt;1 маленький виртуальный сервер MySQL&lt;/li&gt;
+&lt;li&gt;Все это в Rackspace, 1 разработчик&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Январь 2011&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;1 сервер nginx для балансировки нагрузки, 4 веб-сервера&lt;/li&gt;
+&lt;li&gt;2 сервера MySQL с master/slave репликацией&lt;/li&gt;
+&lt;li&gt;3 сервера для отложенного выполнения задач&lt;/li&gt;
+&lt;li&gt;1 сервер MongoDB&lt;/li&gt;
+&lt;li&gt;Переехали на Amazon &lt;a href="/tag/ec2/"&gt;EC2&lt;/a&gt; + &lt;a href="/tag/s3/"&gt;S3&lt;/a&gt; +
+    &lt;a href="/tag/cloudfront/"&gt;CloudFront&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Осень 2011&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;2 сервера nginx, 16 веб-серверов, 2 сервера для API&lt;/li&gt;
+&lt;li&gt;5 функционально разделенных серверов MySQL с 9 read slave&lt;/li&gt;
+&lt;li&gt;Кластер из 4 узлов Cassandra&lt;/li&gt;
+&lt;li&gt;15 серверов Membase в 3 отдельных кластерах&lt;/li&gt;
+&lt;li&gt;8 серверов memcached&lt;/li&gt;
+&lt;li&gt;10 серверов Redis&lt;/li&gt;
+&lt;li&gt;7 серверов для отложенной обработки задач&lt;/li&gt;
+&lt;li&gt;4 сервера Elastic Search&lt;/li&gt;
+&lt;li&gt;3 кластера MongoDB&lt;/li&gt;
+&lt;li&gt;3 разработчика&lt;/li&gt;
+&lt;li&gt;Если кто-то может объяснить зачем им сдался такой зоопарк, кроме как
+    потестировать разные варианты, можете взять с полки пирожок.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Зима 2011-2012&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Заменили CloudFront на &lt;a href="/tag/akamai/"&gt;Akamai&lt;/a&gt; - вполне объяснимо,
+    так как у Akamai намного лучше покрытие по миру, а
+    качественный&amp;nbsp;&lt;a href="/tag/cdn/"&gt;CDN&lt;/a&gt; для сайта с большим количеством
+    изображений - чуть ли не залог успеха.&lt;/li&gt;
+&lt;li&gt;90 веб серверов и 50 серверов для API&lt;/li&gt;
+&lt;li&gt;66 + 66 MySQL серверов на m1.xlarge инстансах EC2&lt;/li&gt;
+&lt;li&gt;59 серверов Redis&lt;/li&gt;
+&lt;li&gt;51 серверов memcached&lt;/li&gt;
+&lt;li&gt;25+1 сервер для отложенной обработки задач на основе Redis&lt;/li&gt;
+&lt;li&gt;Кластеризованный Solr&lt;/li&gt;
+&lt;li&gt;6 разработчиков&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Весна-лето 2012&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Снова сменили CDN, на этот раз в пользу ранее неизвестного мне &lt;a href="/tag/edge-cast/"&gt;Edge
+    Cast&lt;/a&gt;. Покрытие по всему миру довольно скромное,
+    так что единственное логичное объяснение, которое мне приходит в
+    голову - не потянули Akamai по деньгам.&lt;/li&gt;
+&lt;li&gt;135 веб серверов и 75 серверов для API&lt;/li&gt;
+&lt;li&gt;80 + 80 серверов MySQL&lt;/li&gt;
+&lt;li&gt;110 серверов Redis&lt;/li&gt;
+&lt;li&gt;60 серверов memcached&lt;/li&gt;
+&lt;li&gt;60 + 2&amp;nbsp;сервера&amp;nbsp;для отложенной обработки задач на основе Redis&lt;/li&gt;
+&lt;li&gt;25 разработчиков&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="vybor"&gt;Выбор&lt;/h2&gt;
+&lt;h4&gt;Почему Amazon Ec2/S3?&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Очень хорошая надежность, отчетность и поддержка&lt;/li&gt;
+&lt;li&gt;Хорошие дополнительные сервисы: кэш, базы данных, балансировка
+    нагрузки, &lt;a href="/tag/mapreduce/"&gt;MapReduce&lt;/a&gt; и т.п.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Новые виртуальные машины готовы за считанные секунды&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Почему MySQL?&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Очень "зрелая", хорошо известная и любимая многими&lt;/li&gt;
+&lt;li&gt;Редки катастрофичные потери данных&lt;/li&gt;
+&lt;li&gt;Линейная зависимость времени отклика от частоты запросов&lt;/li&gt;
+&lt;li&gt;Хорошая поддержка сторонним ПО (XtraBackup, Innotop, Maatkit)&lt;/li&gt;
+&lt;li&gt;Надежное активное сообщество&lt;/li&gt;
+&lt;li&gt;Отличная поддержка от Percona&lt;/li&gt;
+&lt;li&gt;Бесплатна&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Почему memcached?&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Очень "зрелый", отличная производительность, хорошо известный и
+    любимый многими&lt;/li&gt;
+&lt;li&gt;Никогда не ломается&lt;/li&gt;
+&lt;li&gt;Бесплатен&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Почему Redis?&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Много удобных &lt;strong&gt;структур данных&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Поддержка персистентности и репликации&lt;/li&gt;
+&lt;li&gt;Также многим известен и нравится&lt;/li&gt;
+&lt;li&gt;Стабильно хорошая производительность и надежность&lt;/li&gt;
+&lt;li&gt;Также бесплатен&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="arkhitektura"&gt;Архитектура&lt;/h2&gt;
+&lt;h4&gt;Сlustering vs Sharding&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Большую часть презентации, на основе которой написана данная статья
+    (&lt;a href="https://www.insight-it.ru/goto/10005efe/" rel="nofollow" target="_blank" title="http://www.slideshare.net/eonarts/mysql-meetup-july2012scalingpinterest"&gt;ссылка&lt;/a&gt;,
+    если не охота листать до секции источников информации), занимает
+    раздел под названием "Clustering vs Sharding". В связи с путаницей в
+    терминологии пришлось несколько раз перечитывать, чтобы понять к
+    чему они клонят, сейчас попробую объяснить.&lt;/li&gt;
+&lt;li&gt;Вообще есть два фундаментальных способа распределить данные между
+    несколькими серверами:&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Вертикально:&lt;/strong&gt;&amp;nbsp;разные таблицы (или просто логически разные
+    типы данных) разносятся на разные сервера.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Горизонтально:&lt;/strong&gt; каждая таблица разбивается на некоторое
+    количество частей и эти части разносятся на разные сервера по
+    определенному алгоритму.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;С первого взгляда казалось, что они пытаются вертикальное разбиение
+    назвать &lt;em&gt;sharding&lt;/em&gt;, а горизонтальное - &lt;em&gt;clustering&lt;/em&gt;. Хотя вообще они
+    почти синонимы и на русский я их обычно примерно одинаково перевожу.&lt;/li&gt;
+&lt;li&gt;По факту же оказалось, что под словом clustering они понимают все
+    программные продукты для хранения данных, которые имеют встроенную
+    поддержку работы в кластере. В частности они имеют ввиду
+    &lt;a href="/tag/cassandra/"&gt;Cassandra&lt;/a&gt;, &lt;a href="/tag/membase/"&gt;Membase&lt;/a&gt;,
+    &lt;a href="/tag/hbase/"&gt;HBase&lt;/a&gt; и &lt;a href="/tag/riak/"&gt;Riak&lt;/a&gt;, которые прозрачно для
+    пользователя горизонтально распределяют данные по кластеру.&lt;/li&gt;
+&lt;li&gt;За словом &lt;em&gt;sharding&lt;/em&gt; в их терминологии стоит аналогичная схема
+    собственной разработки, использующая огромное количество логических
+    БД в MySQL, распределенных между меньшим количеством &lt;del&gt;физических серверов&lt;/del&gt; виртуальных машин. Именно по этому пути и пошли в
+    Pinterest, плюс очень похожий подход используется в
+    &lt;a href="https://www.insight-it.ru/highload/2010/arkhitektura-facebook/"&gt;Facebook&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;От себя добавлю, что хоть при наличии должных ресурсов разработка
+    собственной системы распределения данных и может быть
+    целесообразной, в большинстве случаев на начальном этапе проще
+    основываться на готовых решениях вроде перечисленных выше. К слову в
+    opensource доступны и основанные на MySQL подобные решения:&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/vitess/"&gt;Vitess&lt;/a&gt; от &lt;a href="/tag/google/"&gt;Google&lt;/a&gt; /
+    &lt;a href="/tag/youtube/"&gt;YouTube&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/flockdb/"&gt;FlockDB&lt;/a&gt; от &lt;a href="/tag/twitter/"&gt;Twitter&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;В их проекте данная подсистема развивалась следующим образом:&lt;ul&gt;
+&lt;li&gt;1 БД + внешние ключи + join'ы&amp;nbsp;&amp;rarr;&lt;/li&gt;
+&lt;li&gt;1 БД + денормализация + кэш&amp;nbsp;&amp;rarr;&lt;/li&gt;
+&lt;li&gt;1 БД + master/slave + кэш&amp;nbsp;&amp;rarr;&lt;/li&gt;
+&lt;li&gt;несколько функциональных разделенных БД + master/slave + кэш&amp;nbsp;&amp;rarr;&lt;/li&gt;
+&lt;li&gt;вертикально и горизонтально разделенные БД (по
+    идентификаторам) + по резервные БД (пассивный slave) + кэш&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;При использовании аналогичного решения остерегайтесь:&lt;ul&gt;
+&lt;li&gt;Невозможности выполнять большинство запросов с join&lt;/li&gt;
+&lt;li&gt;Отсутствия транзакций&lt;/li&gt;
+&lt;li&gt;Дополнительных манипуляций для поддержания ограничений
+    уникальности&lt;/li&gt;
+&lt;li&gt;Необходимости тщательного планирования для изменений схемы&lt;/li&gt;
+&lt;li&gt;Необходимости выполнения одного и того же запроса с последующей
+    агрегацией для построения отчетов&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Остальные моменты&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Кэширование многоуровневое:&lt;ul&gt;
+&lt;li&gt;Коллекции объектов хранятся в списках Redis&lt;/li&gt;
+&lt;li&gt;Сами объекты - в memcached&lt;/li&gt;
+&lt;li&gt;На уровне SQL запросы в основном примитивны и написаны вручную,
+    так что часты попадания в кэш MySQL&lt;/li&gt;
+&lt;li&gt;Кэш файловой системы - само собой&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Еще пара фактов про кэширование в Pinterest:&lt;ul&gt;
+&lt;li&gt;Кэш разбит также на несколько частей (шардов), для упрощения
+    обслуживания и масштабирования&lt;/li&gt;
+&lt;li&gt;В коде для кэширования используются Python'овские декораторы, на
+    вид собственной разработки, хотя точно не уверен&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Балансировка нагрузки осуществляется в первую очередь за счет Amazon
+    ELB, что позволяет легко подключать/отключать новые сервера
+    посредством API.&lt;/li&gt;
+&lt;li&gt;Так как большинство пользователей живут в США по ночам нагрузка
+    сильно падает, что позволяет им по ночам отключать до 40%
+    виртуальных машин. В пиковые часы EC2 обходится порядка 52$ в час,
+    а по ночам - всего 15$.&lt;/li&gt;
+&lt;li&gt;Elastic Map Reduce, основанный на Hadoop, используется для анализа
+    данных и стоит всего несколько сотен долларов в месяц&lt;/li&gt;
+&lt;li&gt;Текущие проблемы:&lt;ul&gt;
+&lt;li&gt;Масштабирование команды&lt;/li&gt;
+&lt;li&gt;Основанная на сервисах архитектура:&lt;ul&gt;
+&lt;li&gt;Ограничения соединений&lt;/li&gt;
+&lt;li&gt;Изоляция функционала&lt;/li&gt;
+&lt;li&gt;Изоляция доступа (безопасность)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="uroki-ot-komandy-pinterest"&gt;Уроки от команды Pinterest&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;em&gt;"Оно сломается. Все должно быть просто."&lt;/em&gt; - столько раз уже слышу
+    это наставление, но ни разу не видел разработчиков, которые реально
+    к нему прислушивались.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;"Кластеризация - страшная штука."&lt;/em&gt; - конечно страшная, большая и
+    сложная. Но кому сейчас легко?&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;"Продолжайте получать удовольствие."&lt;/em&gt; - с этим не могу не
+    согласиться, без удовольствия работать совершенно невозможно в любой
+    сфере.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="istochniki-informatsii"&gt;Источники информации&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/10005efe/" rel="nofollow" target="_blank" title="http://www.slideshare.net/eonarts/mysql-meetup-july2012scalingpinterest"&gt;Scaling Pinterest @ MySQL Meetup&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;В презентации можно посмотреть примеры кода и SQL-запросов&lt;/li&gt;
+&lt;li&gt;Если кто-то знает где можно посмотреть/послушать запись этого
+    мероприятия - поделитесь ссылкой, пожалуйста&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/ac4a03d6/" rel="nofollow" target="_blank" title="http://highscalability.com/blog/2012/5/21/pinterest-architecture-update-18-million-visitors-10x-growth.html"&gt;Pinterest Architecture Update&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/db0647b0/" rel="nofollow" target="_blank" title="http://pinterest.com/about/careers/"&gt;Вакансии в Pinterest&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Wed, 15 Aug 2012 22:26:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-08-15:highload/2012/arkhitektura-pinterest/</guid><category>Akamai</category><category>Amazon</category><category>Apache Hadoop</category><category>AWS</category><category>CDN</category><category>CloudFront</category><category>django</category><category>EC2</category><category>Edge Cast</category><category>Hadoop</category><category>Memcached</category><category>MySQL</category><category>nginx</category><category>Pinterest</category><category>Python</category><category>Redis</category><category>S3</category><category>Solr</category><category>Архитектура Pinterest</category><category>архиткутера</category><category>Масштабируемость</category></item><item><title>Архитектура Instagram</title><link>https://www.insight-it.ru//highload/2012/arkhitektura-instagram/</link><description>&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/a8e562b3/" rel="nofollow" target="_blank" title="https://instagram.com/"&gt;Instagram&lt;/a&gt; - всего лишь &lt;a href="/tag/ios/"&gt;iOS&lt;/a&gt;, а теперь
+и &lt;a href="/tag/android/"&gt;Android&lt;/a&gt;, приложение для обмена фотографиями с
+друзьями. Последнее время находится на слуху благодаря новости о покупке
+проекта &lt;a href="/tag/facebook/"&gt;Facebook&lt;/a&gt;'ом за кругленькую сумму. Недавно один
+из основателей проекта, Mike Krieger, выступил на конференции с докладом
+о техническом аспекте проекта, который я и хотел бы вкратце пересказать.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h2 id="statistika"&gt;Статистика&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Начало:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;1 сервер слабее Macbook Pro&lt;/li&gt;
+&lt;li&gt;25к регистраций в первый день&lt;/li&gt;
+&lt;li&gt;2 разработчика&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Сегодня:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;40+ миллионов пользователей&lt;/li&gt;
+&lt;li&gt;100+ виртуальных серверов в EC2, в том числе:&lt;/li&gt;
+&lt;li&gt;Проект куплен Facebook за &lt;em&gt;1 млрд. долл&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;1 миллион регистраций за 12 часов после запуска Android-версии&lt;/li&gt;
+&lt;li&gt;5 разработчиков&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="tekhnologii"&gt;Технологии&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/ubuntu/"&gt;Ubuntu&lt;/a&gt; &lt;a href="/tag/linux/"&gt;Linux&lt;/a&gt; 11.04&lt;/strong&gt; - основная
+операционная система&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/python/"&gt;Python&lt;/a&gt;&lt;/strong&gt; - основной язык программирования серверной части&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/django/"&gt;Django&lt;/a&gt;&lt;/strong&gt; - фреймворк&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/amazon/"&gt;&lt;strong&gt;Amazon&lt;/strong&gt;&lt;/a&gt;:&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/ec2/"&gt;EC2&lt;/a&gt;&lt;/strong&gt;&amp;nbsp;- хостинг&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/elb/"&gt;ELB&lt;/a&gt;&lt;/strong&gt;&amp;nbsp;- балансировка входящих HTTP-запросов&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/route53/"&gt;Route53&lt;/a&gt;&lt;/strong&gt; - DNS&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/s3/"&gt;S3&lt;/a&gt;&lt;/strong&gt; - хранение фотографий&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/cloudfront/"&gt;CloudFront&lt;/a&gt;&lt;/strong&gt; - &lt;a href="/tag/cdn/"&gt;CDN&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/nginx/"&gt;nginx&lt;/a&gt;&lt;/strong&gt; - второй уровень балансировки входящихHTTP-запросов&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/gunicorn/"&gt;gunicorn&lt;/a&gt;&lt;/strong&gt; - WSGI-сервер&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/haproxy/"&gt;&lt;strong&gt;HAProxy&lt;/strong&gt;&lt;/a&gt;&amp;nbsp;- балансировка нагрузки внутри системы&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/postgresql/"&gt;&lt;strong&gt;PostgreSQL&lt;/strong&gt;&lt;/a&gt; - основное хранилище данных&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/postgis/"&gt;&lt;strong&gt;postgis&lt;/strong&gt;&lt;/a&gt; - поддержка гео-запросов&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/pgfouine/"&gt;&lt;strong&gt;pgfouine&lt;/strong&gt;&lt;/a&gt; - отчеты на основе логов&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/pgbouncer/"&gt;pgbouncer&lt;/a&gt;&lt;/strong&gt; - создание пула соединений&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/redis/"&gt;&lt;strong&gt;Redis&lt;/strong&gt;&lt;/a&gt; - дополнительное хранилище данных&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/memcached/"&gt;&lt;strong&gt;Memcached&lt;/strong&gt;&lt;/a&gt; - кэширование&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/gearman/"&gt;&lt;strong&gt;Gearman&lt;/strong&gt;&lt;/a&gt; - очередь задач&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/solr/"&gt;&lt;strong&gt;Solr&lt;/strong&gt;&lt;/a&gt; - гео-поиск&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/munin/"&gt;munin&lt;/a&gt;&lt;/strong&gt;, &lt;a href="/tag/statsd/"&gt;&lt;strong&gt;statsd&lt;/strong&gt;&lt;/a&gt;, &lt;a href="/tag/pingdom/"&gt;&lt;strong&gt;pingdom&lt;/strong&gt;&lt;/a&gt; - мониторинг&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/fabric/"&gt;&lt;strong&gt;Fabric&lt;/strong&gt;&lt;/a&gt; - управление кластером&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/xfs/"&gt;&lt;strong&gt;xfs&lt;/strong&gt;&lt;/a&gt; - файловая система&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="filosofiia"&gt;Философия&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;Простота&lt;/li&gt;
+&lt;li&gt;Минимизация операционных издержек&lt;/li&gt;
+&lt;li&gt;Использование подходящих инструментов&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="istoriia"&gt;История&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Забыли сделать &lt;strong&gt;favicon.ico&lt;/strong&gt; до запуска - в первый же день логи
+пестрили ошибками 404&lt;/li&gt;
+&lt;li&gt;Для хранения данных использовали просто &lt;strong&gt;Django &lt;a href="/tag/orm/"&gt;ORM&lt;/a&gt;&lt;/strong&gt; и
+&lt;strong&gt;PostgreSQL&lt;/strong&gt; (из-за postgis)&lt;/li&gt;
+&lt;li&gt;Начали с одного слабого сервера, после успешного запуска решили
+переехать на &lt;strong&gt;EC2&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Довольно быстро пришлось вынести &lt;a href="/tag/subd/"&gt;СУБД&lt;/a&gt; на отдельный сервер
+(виртуальный, естественно)&lt;/li&gt;
+&lt;li&gt;Количество фотографий продолжало расти и расти, даже самый большой
+инстанс &lt;strong&gt;EC2&lt;/strong&gt; не справлялся&lt;/li&gt;
+&lt;li&gt;Решили вертикально разделить данные на несколько баз, с использованием
+механизма &lt;strong&gt;routers&lt;/strong&gt; из ORM, параллельно избавившись от внешних ключей&lt;/li&gt;
+&lt;li&gt;Через несколько месяцев суммарный размер базы данных перевалил за 60Гб и
+перестало справляться и это решение&lt;/li&gt;
+&lt;li&gt;Следующим шагом стало горизонтальное разбиение данных &lt;em&gt;(sharding)&lt;/em&gt;:&lt;/li&gt;
+&lt;li&gt;Создали несколько тысяч логических баз данных.&lt;/li&gt;
+&lt;li&gt;Распределили их по существенно меньшему количеству физических серверов (читай: виртуальных машин).&lt;/li&gt;
+&lt;li&gt;Написали свой механизм определения где искать какую базу данных, с поддержкой миграции (вероятно тоже на основе routers).&lt;/li&gt;
+&lt;li&gt;По последним данным под &lt;strong&gt;PostgreSQL&lt;/strong&gt; используется 12+12 виртуальных
+машин с максимальной оперативной памятью (68.4Гб), а также сетевые диски
+EBS, объединенные в программный RAID посредством mdadm. Это необходимо,
+чтобы весь массив данных помещался в памяти, EBS не в состоянии
+обеспечить достаточную производительность.&lt;/li&gt;
+&lt;li&gt;С некоторыми задачами лучше справляется &lt;strong&gt;Redis&lt;/strong&gt;:&lt;/li&gt;
+&lt;li&gt;Для каждого пользователя в Redis есть список идентификаторов новых
+фотографий от других пользователей, на которых он подписан.&lt;/li&gt;
+&lt;li&gt;При отображении потока новых для пользователя фотографий делается
+выборка части такого списка, после чего посредством multiget достается
+подробная о них информация из memcached.&lt;/li&gt;
+&lt;li&gt;Пробовали возложить на него задачу хранения списков подписчиков, но в
+итоге вернулись к решению на &lt;strong&gt;PostgreSQL&lt;/strong&gt; с небольшим кэшированием.&lt;/li&gt;
+&lt;li&gt;В Redis также хранится информация о сессиях.&lt;/li&gt;
+&lt;li&gt;Несколько фактов о Redis:&lt;ul&gt;
+&lt;li&gt;Так как все находится в памяти - очень быстрые операции записи и работы с множествами.&lt;/li&gt;
+&lt;li&gt;Является не заменой, а дополнением к основному хранилищу данных.&lt;/li&gt;
+&lt;li&gt;Redis хорош для структур данных, которые относительно ограничены.&lt;/li&gt;
+&lt;li&gt;Отлично подходит для кэширования комплексных структур данных, где нужно большее, чем просто получить значение по ключу (например - счетчики, подмножества, проверка вхождения в множества).&lt;/li&gt;
+&lt;li&gt;Механизм репликации (посредством slaveof) позволяет легко
+масштабировать операции чтения.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Пользователи синхронно загружают фотографии на медиа-сервер с
+(опциональными) заголовком и месте на карте, все остальное происходит
+асинхронно посредством очередей, например:&lt;ul&gt;
+&lt;li&gt;Сохраняются гео-метки, обновляется &lt;strong&gt;Solr&lt;/strong&gt; (который впоследствии заменил postgis).&lt;/li&gt;
+&lt;li&gt;Идентификатор нового фото добавляется в обсуждавшиеся выше списки для всех подписчиков автора.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Поначалу использовали &lt;a href="/tag/apache/"&gt;Apache&lt;/a&gt; + &lt;code&gt;mod_wsgi&lt;/code&gt; для запуска
+&lt;strong&gt;Django&lt;/strong&gt;, впоследствии перешли к gunicorn из-за меньшего потребления
+ресурсов и простоты настройки.&lt;/li&gt;
+&lt;li&gt;С недавних пор начали использовать&amp;nbsp;&lt;strong&gt;Amazon ELB&lt;/strong&gt;&amp;nbsp;вместо &lt;strong&gt;DNS
+round-robin&lt;/strong&gt; для первичной балансировки входяших HTTP-запросов, что
+позволило:&lt;/li&gt;
+&lt;li&gt;избежать необходимости дешифровки &lt;a href="/tag/ssl/"&gt;&lt;strong&gt;SSL&lt;/strong&gt;&lt;/a&gt; посредством nginx;&lt;/li&gt;
+&lt;li&gt;ускорить исключение из балансировки проблемных серверов.&lt;/li&gt;
+&lt;li&gt;Благодаря использованию &lt;strong&gt;xfs&lt;/strong&gt; есть возможность "замораживать" и
+"размораживать" дисковые массивы при резервном копировании.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="podvodim-itogi"&gt;Подводим итоги&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Многие проблемы с масштабируемостью - результат банальных
+    человеческих ошибок.&lt;/li&gt;
+&lt;li&gt;Масштабирование = замена всех деталей в машине на скорости 150 км/ч.&lt;/li&gt;
+&lt;li&gt;Заранее сложно узнать как в основном будут обращаться к данным, без
+    реального использования.&lt;/li&gt;
+&lt;li&gt;В первую очередь попытайтесь адаптировать известные Вам технологии и
+    инструменты для создания простого и понятного решения, прежде чем
+    бросаться на поиски чего-то нетривиального.&lt;/li&gt;
+&lt;li&gt;Дополните свое основное хранилище более гибким компонентом, вроде
+    Redis.&lt;/li&gt;
+&lt;li&gt;Постарайтесь не использовать два инструмента для решения одной и той
+    же задачи.&lt;/li&gt;
+&lt;li&gt;Оставайтесь гибкими и ловкими = напоминайте себе о том, что на самом
+    деле имеет значение.&lt;/li&gt;
+&lt;li&gt;Разрабатывайте решения, к которым не придется постоянно возвращаться
+    из-за их сбоев.&lt;/li&gt;
+&lt;li&gt;Активное юнит- и функциональное тестирование стоят потраченного на
+    них времени.&lt;/li&gt;
+&lt;li&gt;DRY: не делайте одну и ту же работу несколько раз.&lt;/li&gt;
+&lt;li&gt;Слабая связанность посредством уведомлений или сигналов позволяет
+    легко менять структуру проекта.&lt;/li&gt;
+&lt;li&gt;Дисковый ввод-вывод часто оказывается узким местом, особенно на EC2.&lt;/li&gt;
+&lt;li&gt;Спускаться до C нужно только при необходимости, большую часть работы
+    лучше делать в Python.&lt;/li&gt;
+&lt;li&gt;Короткий цикл разработки - залог быстрого развития.&lt;/li&gt;
+&lt;li&gt;Частые совместные рассмотрения кода нужны, чтобы все были в курсе
+    происходящего.&lt;/li&gt;
+&lt;li&gt;Не изобретайте велосипед.&lt;/li&gt;
+&lt;li&gt;Окружите себя с толковыми &lt;a href="https://www.insight-it.ru/consulting/"&gt;консультантами&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Культура открытости вокруг разработки.&lt;/li&gt;
+&lt;li&gt;Делитесь с &lt;a href="/tag/opensource/"&gt;opensource&lt;/a&gt; сообществом.&lt;/li&gt;
+&lt;li&gt;Фокусируйтесь на том, что вы делаете лучше всего.&lt;/li&gt;
+&lt;li&gt;Вашим пользователям абсолютно без разницы, написали ли Вы
+    собственную СУБД или нет.&lt;/li&gt;
+&lt;li&gt;Не переоптимизируйте и не предполагайте заранее как сайт будет
+    расти.&lt;/li&gt;
+&lt;li&gt;Не рассчитывайте, что "кто-то еще присоединится к команде и
+    разберется с этим".&lt;/li&gt;
+&lt;li&gt;Для социальных стартапов очень мало, или даже совсем нет, нерешимых
+    вопросов, связанных с масштабируемостью.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="istochnik-informatsii"&gt;Источник информации&lt;/h2&gt;
+&lt;p&gt;Упоминавшаяся во вступлении неприлично длинная презентация из 185
+слайдов:&lt;/p&gt;
+&lt;iframe class="scribd_iframe_embed" data-aspect-ratio="" data-auto-height="true" frameborder="0" height="600" id="doc_73113" scrolling="no" src="http://www.scribd.com/embeds/89025069/content?start_page=1&amp;amp;view_mode=scroll" width="100%"&gt;&lt;/iframe&gt;
+&lt;p&gt;На видео, к сожалению, это выступление не записывалось.&lt;/p&gt;
+&lt;p&gt;Часть информации взята из &lt;a href="https://www.insight-it.ru/goto/ce2d4e38/" rel="nofollow" target="_blank" title="http://instagram-engineering.tumblr.com/"&gt;технического блога Instagram&lt;/a&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Fri, 13 Apr 2012 20:11:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-04-13:highload/2012/arkhitektura-instagram/</guid><category>Amazon</category><category>Android</category><category>CloudFront</category><category>django</category><category>EC2</category><category>ELB</category><category>Fabric</category><category>Facebook</category><category>gearman</category><category>gunicorn</category><category>HAProxy</category><category>Intagram</category><category>iOS</category><category>Linux</category><category>Memcached</category><category>Munin</category><category>nginx</category><category>ORM</category><category>pgbouncer</category><category>pgFouine</category><category>Pingdom</category><category>postgis</category><category>PostgreSQL</category><category>Python</category><category>Redis</category><category>Route53</category><category>S3</category><category>Solr</category><category>statsd</category><category>Ubuntu</category><category>WSGI</category><category>xfs</category><category>Архитектура Instagram</category></item></channel></rss>

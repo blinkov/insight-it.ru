@@ -1,0 +1,2103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/python/feed/index.xml" rel="self"></atom:link><lastBuildDate>Sat, 30 May 2015 20:10:00 +0300</lastBuildDate><item><title>Реинкарнация сайта</title><link>https://www.insight-it.ru//misc/2015/reinkarnatsiia-saita/</link><description>&lt;p&gt;После, пожалуй, самого длительного периода без обновлений в истории &lt;strong class="trebuchet"&gt;Insight&amp;nbsp;IT&lt;/strong&gt;, сайт прошел через "реинкарнацию" - был переделан с нуля, сохранен лишь контент. Этого сложно не заметить, если Вы здесь не впервые. Желающих получить ответы на вопросы в духе "как так?", "зачем?", "что поменялось?" и "что дальше?" - прошу читать далее.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h2 id="kak-tak"&gt;Как так?&lt;/h2&gt;
+&lt;p&gt;Многие годы, занимаясь &lt;strong class="trebuchet"&gt;Insight IT&lt;/strong&gt;, я совмещал приятное с полезным: по большому счёту оставаясь просто хобби, сайт помогал мне знакомиться с будущими партнерами, клиентами, коллегами, что долгое время позволяло мне обходиться без стабильного источника дохода. Когда я в итоге "сдался" и пошел работать в крупную компанию за зарплату - эта дополнительная ценность стала менее значимой. Во многом из-за этого здесь нельзя найти ни одной записи датированной прошлым годом (хотя есть и другие причины, конечно, но об этом в заключении).&lt;/p&gt;
+&lt;h2 id="zachem"&gt;Зачем?&lt;/h2&gt;
+&lt;p&gt;Резонный вопрос - зачем вкладывать столько сил, чтобы всё переделать на в заброшенном сайте? Началось всё со спортивного интереса: я начал замечать, что постепенно теряю хватку в мирах opensource и веб-разработки. В Яндексе вокруг меня по большей части разный backend внутренней разработки. Кандидат для экспериментов в лице &lt;strong class="trebuchet"&gt;Insight IT&lt;/strong&gt; нашелся быстро, что из этого получилось - в следующем разделе.&lt;/p&gt;
+&lt;h2 id="chto-pomenialos"&gt;Что поменялось?&lt;/h2&gt;
+&lt;h3 id="r-i-p-wordpress"&gt;R.I.P. WordPress&lt;/h3&gt;
+&lt;p&gt;Первые 6 c половиной лет своего существования &lt;strong class="trebuchet"&gt;Insight IT&lt;/strong&gt; проработал на &lt;a href="/tag/wordpress/"&gt;WordPress&lt;/a&gt; в качестве &lt;abbr title="Content Management System"&gt;CMS&lt;/abbr&gt;. С пьедестала самой популярной &lt;abbr title="Content Management System"&gt;CMS&lt;/abbr&gt; в мире, насколько я знаю, за всё это время WordPress так никто и не сместил. Думаю, в первую очередь благодаря крайне простому в использовании интерфейсу для управления сайтом, а во вторую - выдающемуся ассортименту плагинов и тем. Плюс имевший место в 2008-м акцент на блоги отходит в сторону, сейчас на нем какие только сайты не делают.&lt;/p&gt;
+&lt;p&gt;Но за &lt;del&gt;красоту&lt;/del&gt; простоту приходится платить:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;abbr title="What You See Is What You Get"&gt;WYSIWYG&lt;/abbr&gt; редактор создает верстку сомнительного качества,&lt;/li&gt;
+&lt;li&gt;При установке большого числа плагинов и без того далёкая от идеала производительность становится невыносимой,&lt;/li&gt;
+&lt;li&gt;У всех компонентов разные разработчики и релизные циклы, постоянно нужно следить за совместимостью, регулярно накатывать обновления как минимум по части безопасности, после обновлений часто всё ломается.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Вопрос с производительностью решается агрессивным кешированием и клиентской оптимизацией. Не раз занимался этим для других сайтов, в том числе и на WordPress, но для некоммерческого проекта не понятно как оправдать трудозатраты на изначальную настройку и поддержание этого всего в рабочем состоянии. Зачастую плагины разрабатываются без оглядки на то, что, например, &lt;a href="/tag/javascript/"&gt;JavaScript&lt;/a&gt;-библиотека, от которой они зависят, может быть ещё не быть загружена и пытаются ей пользоваться в распечатанном прямо вперемешку с HTML JavaScript, что даже само по себе плохо, а с перенесенными вниз зависимостями и вовсе не работает.&lt;/p&gt;
+&lt;p&gt;Верстку тоже можно "чинить" через текстовый режим редактора, но такие правки имеют обыкновение пропадать после любого изменения в визуальном режиме, что крайне надоедает.&lt;/p&gt;
+&lt;p&gt;Уже в 2009-м минусы WordPress для меня начали перевешивать плюсы. Тогда достойной альтернативы, увы, не нашлось и всё осталось как есть. Но не в этот раз.&lt;/p&gt;
+&lt;h3 id="staticheskie-saity"&gt;Статические сайты&lt;/h3&gt;
+&lt;p&gt;Несколько лет назад начал набирать популярность подход с &lt;strong&gt;генерацией статических сайтов&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Вместо хранения в базе данных статьи и другой контент приравнивается к исходному коду, то есть:&lt;ul&gt;
+&lt;li&gt;Хранятся в системе контроля версий в виде файлов в специализированном формате (как правило, &lt;a href="https://www.insight-it.ru/goto/4eefcf89/" rel="nofollow" target="_blank" title="https://ru.wikipedia.org/wiki/Markdown"&gt;Markdown&lt;/a&gt; или ReStructured Text), который удобен для написания человеко-читаемых текстов и однозначно преобразовывается в чистый, валидный, HTML.&lt;/li&gt;
+&lt;li&gt;Пишутся в текстовых редакторах, ориентированных на разработчиков, с подсветкой синтаксиса, автодополнением и т.п.&lt;/li&gt;
+&lt;li&gt;При необходимости легко начать использовать общепринятые инструменты для работы с кодом, в том числе совместной (ревью кода, ветвление, непрерывная интеграция, отслеживание проблем).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;С помощью &lt;code&gt;make&lt;/code&gt; или аналога сайт собирается примерно так же, как это делала бы программа на &lt;a href="/tag/c/"&gt;C++&lt;/a&gt;:&lt;ul&gt;
+&lt;li&gt;Создается output директория с будущим результатом.&lt;/li&gt;
+&lt;li&gt;В ней генерируются все страницы сайта - для статей с помощью шаблонизатора добавляется вся необходимая HTML-обвязка, а навигационные страницы (по категориям и тегам, с по-страничным выводом) создаются с нуля, тоже по шаблону.&lt;/li&gt;
+&lt;li&gt;Весь клиентский код на JavaScript и CSS, а также статические файлы вроде изображений, группируются и прогоняются через разные фильтры для уменьшения количества файлов и их размеров.&lt;/li&gt;
+&lt;li&gt;Внутренние ссылки в исходном коде как правило реализованы по путям в локальной файловой системе, а как они будут выглядеть в итоговом сайте конфигурируется и тоже применяется при сборке.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;В итоге, чтобы посмотреть на результат в браузере подойдет любой веб-сервер, умеющий отдавать статические файлы из папки, то есть совсем любой за вычетом специализированных.&lt;/li&gt;
+&lt;li&gt;Как легко такую папочку кешировать на всех уровнях, а также как быстро и дешево можно такой сайт показывать пользователям, рассказывать, думаю, не нужно.&lt;/li&gt;
+&lt;li&gt;Но у отсутствия динамической серверной логики есть и минусы:&lt;ul&gt;
+&lt;li&gt;&lt;del&gt;Тоска по гламурной админке WordPress.&lt;/del&gt;&lt;/li&gt;
+&lt;li&gt;Для реализации некоторого функционала &lt;em&gt;(в нашем случае - комментариев и поиска по сайту)&lt;/em&gt; требуется как-то изворачиваться, возможные варианты:&lt;ul&gt;
+&lt;li&gt;Воспользоваться сторонним сервисом - &lt;a href="/tag/disqus/"&gt;Disqus&lt;/a&gt; уже использовался и раньше, а обе лидирующие поисковые системы предоставляют сервис поиска по конкретному сайту, так что я пошел по этому пути).&lt;/li&gt;
+&lt;li&gt;Поселить рядом с кучей статики какой-о набор скриптов, но не очень понятно как их интегрировать с системой сборки сайта, которая по сути выполняет роль &lt;abbr title="Content Management System"&gt;CMS&lt;/abbr&gt;.&lt;/li&gt;
+&lt;li&gt;Реализовать его на JavaScript - скажем для поиска по сайту можно при сборке сложить весь контент в один большой JSON, и искать по нему уже на клиенте. Но я решил пожалеть пользователей с долгоиграющими ноутбуками, особенно новых без вентиляторов. Раньше ещё можно было пожалеть владельцев смартфонов, но когда их стали делать восьми-ядерными...&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Время, которое технически необходимо для публикации нового контента или изменений в шаблонах, начинает зависеть от размера самого сайта - не смотря на попытки реализовать кеширование при сборке, многие изменения требуют перегенерации примерно всего сайта.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;И, напоследок, ввиду низкой серверной ресурсоемкости таких сайтов, для него легко найти качественный хостинг бесплатно.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Взвесив "за" и "против", я решил, что для &lt;strong class="trebuchet"&gt;Insight IT&lt;/strong&gt; такой вариант очень даже подходит. Осталось выбрать конкретную реализацию такой системы сборки сайта.&lt;/p&gt;
+&lt;p&gt;Первопроходцем и лидером рынка здесь является &lt;a href="https://www.insight-it.ru/goto/d9898f57/" rel="nofollow" target="_blank" title="http://jekyllrb.com/"&gt;Jekyll&lt;/a&gt;. Всем хорош, очень много кем используется, масса тем и плагинов. Но один субъективный минус поставил на нём лично для меня крест - &lt;a href="/tag/ruby/"&gt;Ruby&lt;/a&gt;. Вот тошнит меня от его синтаксиса и всё.&lt;/p&gt;
+&lt;p&gt;Был вариант, конечно, закрыть на это глаза и не лезть вглубь, а просто собрать сайт из готовых компонентов, но опыт подсказывает, что без напильника нынче ничего не взлетает.&lt;/p&gt;
+&lt;p&gt;Подходящую альтернативу искать долго не пришлось: выбор пал на &lt;a href="https://www.insight-it.ru/goto/f5099f2a/" rel="nofollow" target="_blank" title="http://getpelican.com"&gt;Pelican&lt;/a&gt;, практически единственный вариант на &lt;a href="/tag/python/"&gt;Python&lt;/a&gt;. Готовых плагинов у него не так много, но самое основное есть, а недостающее мне определенно было не сложно допилить, благо с экосистемой Python я тесно знаком. В качестве шаблонизатора используется &lt;a href="/tag/jinja2/"&gt;Jinja2&lt;/a&gt;, лучше которого я по-прежнему ничего не видел. Про сам перенос сайта можно написать отдельный пост, и не один, что я надеюсь и сделаю в скором будущем, так что здесь эту тему дальше развивать не буду.&lt;/p&gt;
+&lt;h3 id="https"&gt;https://&lt;/h3&gt;
+&lt;p&gt;Как при желании можно было заметить, &lt;strong class="trebuchet"&gt;Insight IT&lt;/strong&gt; уже много лет живет за &lt;a href="https://www.insight-it.ru/goto/26a5858d/" rel="nofollow" target="_blank" title="https://www.cloudflare.com/"&gt;CloudFlare&lt;/a&gt; - многофункциональной распределенной прокси, выполняющей роль &lt;abbr title="Content Delivery Network"&gt;CDN&lt;/abbr&gt;, &lt;abbr title="Domain Name System"&gt;DNS&lt;/abbr&gt;,защиты от разного рода атак и многого другого. Изначально поддержка &lt;abbr title="Secure Sockets Layer"&gt;SSL&lt;/abbr&gt; была доступна только на платном тарифе, который некоммерческому проекту был ни к чему, но с недавних пор это стало не так и я за компанию решил перейти на &lt;code&gt;https://&lt;/code&gt;, раз уж всё равно все внутренние ссылки переехали. Плюсы не критичны, но всё же есть:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Само отображение защищенного соединения в адресной строке браузеров внушает уверенность если не всем, то какой-то части посетителей&lt;/li&gt;
+&lt;li&gt;Поддержка современных протоколов в лице SPDY и, вероятно, со временем HTTP/2.0&lt;/li&gt;
+&lt;li&gt;Говорят, использование защищенного соединения положительно сказывается на репутации сайта в глазах как минимум поиска Google&lt;/li&gt;
+&lt;li&gt;Владельцы публичных WiFi точек не могут показывать свою рекламу на сайте&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Основной минус - дополнительные накладные расходы на инициализацию соединения и, собственно, шифрование, но как правило это не особо критично.&lt;/p&gt;
+&lt;p&gt;К слову, стоявший за CloudFlare простенький &lt;abbr title="Virtual Private Server"&gt;VPS&lt;/abbr&gt; тоже заменен, на наиболее популярный среди хостингов статичных сайтов &lt;a href="https://www.insight-it.ru/goto/e7e0e370/" rel="nofollow" target="_blank" title="https://pages.github.com/"&gt;GitHub Pages&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id="kontent"&gt;Контент&lt;/h3&gt;
+&lt;p&gt;В состав Pelican входит инструмент для конвертации статей из XML-формата WordPress в Markdown, которым я и воспользоваться. Большую часть работы он сделал, но всё равно потребовался ручной просмотр и адаптация всех страниц сайта. Это заняло уйму времени, но в целом того стоило:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Везде причёсан HTML, во многом благодаря &lt;a href="/tag/markdown/"&gt;Markdown&lt;/a&gt;; лучше оформлены изображения и врезки, ещё раз проверены опечатки.&lt;/li&gt;
+&lt;li&gt;Исторически статьи раскладывались по рубрикам по мере написания, по-этому общая структура сайта была хаотичной. Теперь разбил их на категории по-другому, на этот раз, надеюсь, более логичным образом.&lt;/li&gt;
+&lt;li&gt;Пока перечитывал осознал, что значительная часть контента морально устарела и годится только для совсем начинающих или как историческая перспектива. Решил сделать некоторый акцент на годе публикации - теперь он присутствует в URL статей, а также в &lt;a href="https://www.insight-it.ru/highload/"&gt;оглавлении публикаций об архитектуре высоконагруженных интернет-проектов&lt;/a&gt;. Совсем-совсем неактуальным пришлось пожертвовать или явно подписать соответствующим образом.&lt;/li&gt;
+&lt;li&gt;Как следствие из предыдущих двух пунктов, в очередной раз полностью поменялась структура ссылок сайта. По-возможности со старых адресов сохранены редиректы, но, к сожалению, в концепции статических сайтов возможны только клиентские, через meta-тег или JavaScript. Поисковые системы же предпочитают серверные, через 301/307 HTTP-код и заголовок Location.&lt;/li&gt;
+&lt;li&gt;В общем, позиции &lt;strong class="trebuchet"&gt;Insight IT&lt;/strong&gt; в поисковых системах определенно пострадают, остается лишь надеяться что не катастрофическим образом - ведь сейчас это основной источник посетителей. Если вам не безразлична судьба сайта - твиты, лайки и прочие входящие ссылки по новым адресам крайне приветствуются.&lt;/li&gt;
+&lt;li&gt;Теперь весь контент публикуется под лицензией &lt;a href="https://www.insight-it.ru/goto/c3aba0/" rel="nofollow" target="_blank" title="http://creativecommons.org/licenses/by-nc-nd/4.0/"&gt;Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License&lt;/a&gt;, о чем свидетельствует значок в правом-нижнем углу каждой страницы.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="dizain"&gt;Дизайн&lt;/h3&gt;
+&lt;p&gt;В плане дизайна я не особо гурман, но предыдущий определенно требовал замены. Изыски здесь ни к чему, так что всё свелось к выбору готовой визуальной концепции.&lt;/p&gt;
+&lt;p&gt;За всё те же последние несколько лет &lt;a href="https://www.insight-it.ru/goto/80e3ad2/" rel="nofollow" target="_blank" title="http://getbootstrap.com/"&gt;Twitter Bootstrap&lt;/a&gt; стал решением по-умолчанию для подобных ситуаций благодаря низкому порогу входа и хорошей комбинации встроенного функционала, кроссбраузерности и приличного внешнего вида. По иронии ровно это и стало причиной моего от него отказа в данном случае: уж больно он всем приелся и на каждом углу почти без изменений используется.&lt;/p&gt;
+&lt;p&gt;В своё время мне приглянулось своей стройностью и логичностью концепция &lt;a href="https://www.insight-it.ru/goto/7d571a9f/" rel="nofollow" target="_blank" title="http://www.google.com/design/spec/"&gt;Material Design&lt;/a&gt; от &lt;a href="/tag/google/"&gt;Google&lt;/a&gt;, которую они активно внедряют сами и всем советуют. Не долго думая, я пошел поискать opensource решения с готовой реализацией для веб-сайтов и остановился на &lt;a href="https://www.insight-it.ru/goto/823b55/" rel="nofollow" target="_blank" title="http://materializecss.com"&gt;варианте&lt;/a&gt;, который одновременно имел достаточный функционал, сколько-либо большое сообщество и минимум зависимостей, особенно от громоздких &lt;a href="/tag/javascript/"&gt;JavaScript&lt;/a&gt;-библиотек, чем грешили альтернативные варианты.&lt;/p&gt;
+&lt;p&gt;Основной цвет сменился с желтовато-зеленого на ярко синий, появился набор акцентных цветов, а типографичный логотип остался почти неизменным. Иконочный шрифт сделан специальный, только с использующимися иконками, получается очень маленький по байтам.&lt;/p&gt;
+&lt;p&gt;Итого, с моей субъективной колокольни получилось заметно лучше прежнего, но хочется всё же услышать и ваше мнение в комментариях.&lt;/p&gt;
+&lt;h2 id="chto-dalshe_1"&gt;Что дальше?&lt;/h2&gt;
+&lt;p&gt;Как обычно, многое зависит от вас, читателей. Вложенные в реконструкцию сайта силы дают некоторый толчок к мотивации писать новые материалы, но без обратной связи её определенно на долго не хватит.&lt;/p&gt;
+&lt;p&gt;С закрытием Google Reader два года назад число подписчиков на счетчике от FeedBurner упало почти на два порядка, так что можно считать, что сейчас и правда для &lt;strong class="trebuchet"&gt;Insight IT&lt;/strong&gt; всё начинается почти с начала.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sat, 30 May 2015 20:10:00 +0300</pubDate><guid>tag:www.insight-it.ru,2015-05-30:misc/2015/reinkarnatsiia-saita/</guid><category>Pelican</category><category>Python</category><category>Creative Commons</category><category>https</category><category>Material Design</category><category>Cloudflare</category><category>GitHub</category><category>GitHub Pages</category><category>Markdown</category><category>git</category><category>SSL</category><category>https</category></item><item><title>Вакансии: разработчики облачной IaaS платформы в Крок</title><link>https://www.insight-it.ru//vacancy/2013/vakansii-razrabotchiki-oblachnojj-iaas-platformy-v-krok/</link><description>&lt;div class="card orange darken-3"&gt;
+&lt;p&gt;&lt;div class="card-content white-text center"&gt;
+&lt;strong&gt;Вакансии более не актуальны&lt;/strong&gt;
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Ведущая российская ИТ-компания ищет талантливых, креативных и энергичных
+инженеров и разработчиков для развития коммерческой облачной платформы
+КРОК, предоставляющей услугу типа &amp;laquo;Инфраструктура как сервис&amp;raquo; (IaaS). В современном высокотехнологичном офисе Вас ждет дружная сплоченная команда профессионалов, занимающаяся разработкой передовой &amp;laquo;облачной&amp;raquo; платформы, у которой всегда найдется для Вас множество интересных, сложных и разнообразных задач, способных удовлетворить даже самые заоблачные амбиции!&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h2 id="razrabotchik-na-platforme-linux"&gt;Разработчик на платформе Linux&lt;/h2&gt;
+&lt;h3 id="obiazannosti"&gt;Обязанности&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Проектирование архитектуры компонентов &amp;laquo;облачного&amp;raquo; решения;&lt;/li&gt;
+&lt;li&gt;Разработка и интеграция модулей облачной платформы;&lt;/li&gt;
+&lt;li&gt;Исследования в области распределенных высоконагруженных систем.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="trebovaniia"&gt;Требования&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Опыт в области shell-программирования;&lt;/li&gt;
+&lt;li&gt;Уверенное знание Python, приветствуется знание С++ или Java;&lt;/li&gt;
+&lt;li&gt;Владение средствами разработки (autotools, git, svn и др.);&lt;/li&gt;
+&lt;li&gt;Опыт администрирования ОС Linux от 1 года (преимущественно RHEL,
+    CentOS, Debian или SLES);&lt;/li&gt;
+&lt;li&gt;Опыт работы с технологиями виртуализации (Qemu/KVM, XEN, Hyper-V или
+    VMware);&lt;/li&gt;
+&lt;li&gt;Знание &amp;laquo;облачных&amp;raquo; технологий особенно приветствуется.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="inzhener-po-oblachnym-resheniiam_1"&gt;Инженер по облачным решениям&lt;/h2&gt;
+&lt;h3 id="obiazannosti_1"&gt;Обязанности&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Общение с техническими специалистами заказчика для определения задач
+    и специфических требований, предъявляемых к информационной системе;&lt;/li&gt;
+&lt;li&gt;Исследовательская работа по поиску, тестированию и внедрению
+    различных технологий;&lt;/li&gt;
+&lt;li&gt;Участие во внедрении решений для автоматизации ИТ-инфраструктуры;&lt;/li&gt;
+&lt;li&gt;Тестирование различных вариантов исполнения инфраструктурных
+    решений;&lt;/li&gt;
+&lt;li&gt;Техническая поддержка внедряемых решений решения.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="trebovaniia_1"&gt;Требования&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Навыки администрирования современных ОС GNU/Linux и Windows;&lt;/li&gt;
+&lt;li&gt;Понимание принципов виртуализации вычислительных ресурсов;&lt;/li&gt;
+&lt;li&gt;Приветствуется опыт написания сценариев на языках shell и Python;&lt;/li&gt;
+&lt;li&gt;Личные качества: коммуникабельность, общительность, активная
+    жизненная позиция.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="usloviia_1"&gt;Условия&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Конкурентная заработная плата по результатам собеседования;&lt;/li&gt;
+&lt;li&gt;Возможность профессионального и карьерного роста;&lt;/li&gt;
+&lt;li&gt;Компания оплачивает обучение и сертификацию;&lt;/li&gt;
+&lt;li&gt;Социальный пакет (медицинская страховка, бесплатное питание в офисе,
+    спортивные программы и компенсация фитнеса, английский язык);&lt;/li&gt;
+&lt;li&gt;Компания оказывает помощь при переезде в Москву (оплата стоимости
+    проезда для прохождения собеседований, &amp;laquo;подъемные&amp;raquo; при выходе на
+    работу).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="kuda-otpravliat-reziume"&gt;Куда отправлять резюме?&lt;/h2&gt;
+&lt;div class="card orange darken-3"&gt;
+&lt;p&gt;&lt;div class="card-content white-text center"&gt;
+&lt;strong&gt;Вакансии более не актуальны&lt;/strong&gt;
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Thu, 19 Sep 2013 19:40:00 +0400</pubDate><guid>tag:www.insight-it.ru,2013-09-19:vacancy/2013/vakansii-razrabotchiki-oblachnojj-iaas-platformy-v-krok/</guid><category>autotools</category><category>C++</category><category>CentOS</category><category>Debian</category><category>Git</category><category>IaaS</category><category>Java</category><category>KVM</category><category>Linux</category><category>Python</category><category>Qemu</category><category>RHEL</category><category>SLES</category><category>SVN</category><category>Xen</category><category>вакансии</category><category>виртуализация</category><category>Крок</category><category>облачные вычисления</category></item><item><title>Вакансии: команда Python разработчиков в EVAplacer</title><link>https://www.insight-it.ru//vacancy/2013/vakansii-komanda-python-razrabotchikov-v-evaplacer/</link><description>&lt;div class="card orange darken-3"&gt;
+&lt;p&gt;&lt;div class="card-content white-text center"&gt;
+&lt;strong&gt;Вакансии более не актуальны&lt;/strong&gt;
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Новая &lt;em&gt;международная геоинформационная социальная сеть&lt;/em&gt; EVAplacer
+набирает команду разработчиков.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h2 id="vedushchii-razrabotchik-servernoi-chasti-na-python"&gt;Ведущий разработчик серверной части на Python&lt;/h2&gt;
+&lt;h3 id="zadachi"&gt;Задачи&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Разработка серверной части проекта на Python&lt;/li&gt;
+&lt;li&gt;Проектирование архитектуры системы и схемы базы данных&lt;/li&gt;
+&lt;li&gt;Организация взаимодействия серверной части проекта с клиентской&lt;/li&gt;
+&lt;li&gt;Принятие технических решений&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="trebovaniia"&gt;Требования&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Свежий опыт веб-разработки на Python &lt;em&gt;без использования Django&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Суммарный опыт веб-разработки от 5 лет&lt;/li&gt;
+&lt;li&gt;Самостоятельность и заинтересованность в качестве результата своей
+    работы&lt;/li&gt;
+&lt;li&gt;Умение делегировать часть работы коллегам&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="tekhnologii"&gt;Технологии&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Предстоит работать со следующими технологиями:&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/2e568974/" rel="nofollow" target="_blank" title="http://flask.pocoo.org/"&gt;Flask&lt;/a&gt; +
+    &lt;a href="https://www.insight-it.ru/goto/35c21496/" rel="nofollow" target="_blank" title="http://jinja.pocoo.org/"&gt;Jinja2&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/bf2b1e00/" rel="nofollow" target="_blank" title="http://www.mongodb.org/"&gt;MongoDB&lt;/a&gt; +
+    &lt;a href="https://www.insight-it.ru/goto/a6920afe/" rel="nofollow" target="_blank" title="http://lucene.apache.org/solr/"&gt;Solr&lt;/a&gt; +
+    &lt;a href="https://www.insight-it.ru/goto/9ecaff4c/" rel="nofollow" target="_blank" title="http://memcached.org/"&gt;memcached&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/39ecae7b/" rel="nofollow" target="_blank" title="http://www.zeromq.org/"&gt;ZeroMQ&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Опыт работы именно с ними очень желателен, но не обязателен&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="zarplata"&gt;Зарплата&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;В диапазоне 100-150 тысяч рублей в месяц в зависимости от опыта&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="klientskii-razrabotchik_1"&gt;Клиентский разработчик&lt;/h2&gt;
+&lt;h3 id="zadachi_1"&gt;Задачи&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Разработка клиентской части проекта&lt;/li&gt;
+&lt;li&gt;Работа на стыке с серверной частью (Python), создание HTML и других
+    шаблонов на Jinja2&lt;/li&gt;
+&lt;li&gt;Оптимизация скорости загрузки страниц&lt;/li&gt;
+&lt;li&gt;Принятие технических решений по клиентской части&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="trebovaniia_1"&gt;Требования&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Опыт разработки на JavaScript/CoffeeScript и валидной верстки на
+    HTML5&lt;/li&gt;
+&lt;li&gt;Понимание основных принципов клиентской оптимизации&lt;/li&gt;
+&lt;li&gt;Суммарный опыт веб-разработки от 3 лет&lt;/li&gt;
+&lt;li&gt;Усидчивость, самостоятельность и заинтересованность в качестве
+    результата своей работы&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="tekhnologii_1"&gt;Технологии&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Предстоит работать со следующими технологиями:&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/35c21496/" rel="nofollow" target="_blank" title="http://jinja.pocoo.org/"&gt;Jinja2&lt;/a&gt; +
+    &lt;a href="https://www.insight-it.ru/goto/312f4825/" rel="nofollow" target="_blank" title="http://elsdoerfer.name/docs/webassets/"&gt;webassets&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/834fa52/" rel="nofollow" target="_blank" title="http://coffeescript.org/"&gt;CoffeeScript&lt;/a&gt; +
+    &lt;a href="https://www.insight-it.ru/goto/dca1748a/" rel="nofollow" target="_blank" title="http://sass-lang.com/"&gt;SASS&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/f573c764/" rel="nofollow" target="_blank" title="http://twitter.github.com/bootstrap/"&gt;Twitter Bootstrap&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/3b02d98c/" rel="nofollow" target="_blank" title="http://jquery.com/"&gt;jQuery&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/96340c7c/" rel="nofollow" target="_blank" title="http://leafletjs.com/"&gt;Leaflet&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Опыт работы именно с ними очень желателен, но не обязателен&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="zarplata_1"&gt;Зарплата&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;В диапазоне 60-100 тысяч рублей в месяц в зависимости от опыта&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="spetsialist-po-testirovaniiu_1"&gt;Специалист по тестированию&lt;/h2&gt;
+&lt;h3 id="zadachi_2"&gt;Задачи&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Основные:&lt;ul&gt;
+&lt;li&gt;Разработка автоматических тестов для серверной части проекта на
+    Python&lt;/li&gt;
+&lt;li&gt;Регрессионное тестирование сайта с помощью
+    &lt;a href="https://www.insight-it.ru/goto/561c2b8c/" rel="nofollow" target="_blank" title="http://seleniumhq.org/"&gt;Selenium&lt;/a&gt; или альтернатив&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Дополнительные:&lt;ul&gt;
+&lt;li&gt;Нагрузочное тестирование с использованием
+    &lt;a href="https://www.insight-it.ru/goto/52bdc53f/" rel="nofollow" target="_blank" title="http://jmeter.apache.org/"&gt;JMeter&lt;/a&gt; или альтернатив&lt;/li&gt;
+&lt;li&gt;Ручное визуальное тестирование, в т.ч. на кроссбраузерность&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="trebovaniia_2"&gt;Требования&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Свежий опыт тестирования интернет-проектов, желательно на Python&lt;/li&gt;
+&lt;li&gt;Суммарный опыт в тестировании от 3 лет&lt;/li&gt;
+&lt;li&gt;Внимательность, самостоятельность и заинтересованность в качестве
+    результата работы команды&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="zarplata_2"&gt;Зарплата&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;В диапазоне 50-100 тысяч рублей в месяц в зависимости от опыта&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="usloviia_1"&gt;Условия&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Премии по достижении ключевых вех проекта&lt;/li&gt;
+&lt;li&gt;Офис в центре Москвы (м. Охотный ряд, меньше 5 минут пешком)&lt;/li&gt;
+&lt;li&gt;Работа на MacBook Pro&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="card orange darken-3"&gt;
+&lt;p&gt;&lt;div class="card-content white-text center"&gt;
+&lt;strong&gt;Вакансии более не актуальны&lt;/strong&gt;
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Fri, 08 Feb 2013 10:20:00 +0400</pubDate><guid>tag:www.insight-it.ru,2013-02-08:vacancy/2013/vakansii-komanda-python-razrabotchikov-v-evaplacer/</guid><category>CoffeeScript</category><category>EVAplacer</category><category>Flask</category><category>html5</category><category>JavaScript</category><category>Jinja2</category><category>JMeter</category><category>JQuery</category><category>Leaflet</category><category>MacBook Pro</category><category>Memcached</category><category>MongoDB</category><category>Python</category><category>sass</category><category>Selenium</category><category>Solr</category><category>Twitter Bootstrap</category><category>webassets</category><category>ZeroMQ</category><category>вакансии</category><category>разработчик</category><category>тестировщик</category></item><item><title>Вакансии: PHP и Python разработчики в Киеве</title><link>https://www.insight-it.ru//vacancy/2012/vakansii-php-i-python-razrabotchiki-v-kieve/</link><description>&lt;div class="card orange darken-3"&gt;
+&lt;p&gt;&lt;div class="card-content white-text center"&gt;
+&lt;strong&gt;Вакансии более не актуальны&lt;/strong&gt;
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Киевская команда разработчиков игр для социальных и мобильных платформ
+&lt;a href="https://www.insight-it.ru/goto/68cbb10f/" rel="nofollow" target="_blank" title="http://levelupers.com"&gt;Level UP&lt;/a&gt; ищет опытных специалистов по
+веб-разработке на Python и PHP.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h2 id="senior-python-developer"&gt;Senior Python Developer&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Задачи:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Разработка высоконагруженных веб-приложений;&lt;/li&gt;
+&lt;li&gt;Разработка внутренних и публичных API;&lt;/li&gt;
+&lt;li&gt;Разработка архитектуры комплексных сервисов;&lt;/li&gt;
+&lt;li&gt;Конвертирование бизнес-задач в технические решения (R&amp;amp;D).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Требования:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Опыт разработки на &lt;strong&gt;Python&lt;/strong&gt; более 3х лет;&lt;/li&gt;
+&lt;li&gt;Сильные навыки применения реляционных и нереляционных баз данных;&lt;/li&gt;
+&lt;li&gt;Опыт в разработке высоконагруженных веб-приложений;&lt;/li&gt;
+&lt;li&gt;Дружба с &lt;strong&gt;Linux&lt;/strong&gt; и &lt;strong&gt;Git&lt;/strong&gt;;&lt;/li&gt;
+&lt;li&gt;Хорошее знание клиентских технологий (HTML, CSS, Javascript);&lt;/li&gt;
+&lt;li&gt;Опыт работы в команде.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Плюсом будет:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Опыт разработки комплексных проектов на &lt;strong&gt;PHP&lt;/strong&gt; или серверном
+    &lt;strong&gt;Javascript&lt;/strong&gt; &lt;em&gt;(node.js)&lt;/em&gt;;&lt;/li&gt;
+&lt;li&gt;Опыт разработки инструментов для верстки, автоматизации верстки,
+    шаблонизаторов и пр.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="senior-php-developer"&gt;Senior PHP Developer&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Задачи:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Разработка высоконагруженных социальных веб-приложений;&lt;/li&gt;
+&lt;li&gt;Работа в небольшой дружной команде до 15 человек;&lt;/li&gt;
+&lt;li&gt;Решение нетривиальных задач и создание инструментов для внутреннего
+    использования;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Требования:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Опыт разработки на &lt;strong&gt;PHP&lt;/strong&gt; более 3х лет;&lt;/li&gt;
+&lt;li&gt;Опыт работы с &lt;strong&gt;MySQL&lt;/strong&gt; и &lt;strong&gt;MongoDB&lt;/strong&gt;;&lt;/li&gt;
+&lt;li&gt;Опыт в разработке высоконагруженных веб-приложений;&lt;/li&gt;
+&lt;li&gt;Дружба с &lt;strong&gt;Linux&lt;/strong&gt; и &lt;strong&gt;Git&lt;/strong&gt;;&lt;/li&gt;
+&lt;li&gt;Хорошее знание клиентских технологий (HTML, CSS, Javascript);&lt;/li&gt;
+&lt;li&gt;Опыт примененения функционарного и юнит тестирования.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Плюсом будет:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Опыт разработки на &lt;strong&gt;Python&lt;/strong&gt; или серверном &lt;strong&gt;Javascript&lt;/strong&gt;
+&lt;em&gt;(nodejs)&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="usloviia-dlia-oboikh-vakansii"&gt;Условия для обоих вакансий&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Зарплата в диапазоне &lt;strong&gt;\$2500-4000&lt;/strong&gt; в месяц по результатам
+    собеседования;&lt;/li&gt;
+&lt;li&gt;Полный рабочий день в &lt;strong&gt;Киевском офисе&lt;/strong&gt;, иногородним помощь с
+    переездом;&lt;/li&gt;
+&lt;li&gt;За успешную рекомендацию специалиста по данным вакансиям компания
+    выплачивает&amp;nbsp;&lt;strong&gt;бонус в размере $1000&lt;/strong&gt; так что сообщите своим
+    знакомым, кому-то это может быть интересно.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="zainteresovalo"&gt;Заинтересовало?&lt;/h2&gt;
+&lt;div class="card orange darken-3"&gt;
+&lt;p&gt;&lt;div class="card-content white-text center"&gt;
+&lt;strong&gt;Вакансии более не актуальны&lt;/strong&gt;
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Не лишним будет, если кроме резюме Вы напишите - почему Вам нравится
+серверная разработка на Python или PHP и почему Вам интересна данная
+вакансия. Плюс упомяните, пожалуйста, что Вы узнали о данной вакансии
+через &lt;strong&gt;Insight IT&lt;/strong&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Thu, 20 Sep 2012 20:16:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-09-20:vacancy/2012/vakansii-php-i-python-razrabotchiki-v-kieve/</guid><category>css</category><category>Git</category><category>html</category><category>JavaScript</category><category>Level UP</category><category>Linux</category><category>MongoDB</category><category>MySQL</category><category>node.js</category><category>PHP</category><category>Python</category><category>вакансии</category><category>Киев</category></item><item><title>Архитектура Pinterest</title><link>https://www.insight-it.ru//highload/2012/arkhitektura-pinterest/</link><description>&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/c1302f36/" rel="nofollow" target="_blank" title="http://pinterest.com"&gt;Pinterest&lt;/a&gt; - по непонятным для меня причинам
+популярная в определенных кругах социальная сеть, построенная вокруг
+произвольных картинок чаще всего не собственного производства. Как и
+&lt;a href="https://www.insight-it.ru/highload/2012/arkhitektura-instagram/"&gt;Instagram&lt;/a&gt;
+проект довольно молодой, с очень похожей историей и стеком технологий.
+Тем не менее, Pinterest определенно заслуживает внимания как один из
+самых быстрорастущих по посещаемости вебсайтов за всю историю.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h2 id="platforma"&gt;Платформа&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/amazon/"&gt;Amazon&lt;/a&gt; &lt;a href="/tag/aws/"&gt;AWS&lt;/a&gt;&amp;nbsp;- хостинг и вспомогательные
+    сервисы&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/nginx/"&gt;nginx&lt;/a&gt;&amp;nbsp;- вторичная балансировка нагрузки, отдача
+    статики&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/python/"&gt;Python&lt;/a&gt;&amp;nbsp;- язык программирования&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/django/"&gt;Django&lt;/a&gt;&amp;nbsp;- фреймворк&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt;&amp;nbsp;- основная СУБД&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/memcached/"&gt;memcached&lt;/a&gt;&amp;nbsp;- кэширование объектов&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/redis/"&gt;Redis&lt;/a&gt;&amp;nbsp;- кэширование коллекций объектов&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/solr/"&gt;Solr&lt;/a&gt;&amp;nbsp;- поиск&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/hadoop/"&gt;Hadoop&lt;/a&gt;&amp;nbsp;- анализ данных&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="statistika"&gt;Статистика&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;3 миллиона уникальных посетителей в день&lt;/li&gt;
+&lt;li&gt;18 миллионов уникальных посетителей в месяц&lt;/li&gt;
+&lt;li&gt;4-я по популярности социальная сеть в США после
+    &lt;a href="/tag/facebook/"&gt;Facebook&lt;/a&gt;,&amp;nbsp;&lt;a href="/tag/twitter/"&gt;Twitter&lt;/a&gt;&amp;nbsp;и
+    &lt;a href="/tag/linkedin/"&gt;LinkedIn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Порядка 500 виртуальных машин в EC2&lt;/li&gt;
+&lt;li&gt;80 миллионов объектов в S3&lt;/li&gt;
+&lt;li&gt;410Тб пользовательских данных&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="razvitie"&gt;Развитие&lt;/h2&gt;
+&lt;h4&gt;Март 2010&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;1 маленький виртуальный веб-сервер&lt;/li&gt;
+&lt;li&gt;1 маленький виртуальный сервер MySQL&lt;/li&gt;
+&lt;li&gt;Все это в Rackspace, 1 разработчик&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Январь 2011&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;1 сервер nginx для балансировки нагрузки, 4 веб-сервера&lt;/li&gt;
+&lt;li&gt;2 сервера MySQL с master/slave репликацией&lt;/li&gt;
+&lt;li&gt;3 сервера для отложенного выполнения задач&lt;/li&gt;
+&lt;li&gt;1 сервер MongoDB&lt;/li&gt;
+&lt;li&gt;Переехали на Amazon &lt;a href="/tag/ec2/"&gt;EC2&lt;/a&gt; + &lt;a href="/tag/s3/"&gt;S3&lt;/a&gt; +
+    &lt;a href="/tag/cloudfront/"&gt;CloudFront&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Осень 2011&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;2 сервера nginx, 16 веб-серверов, 2 сервера для API&lt;/li&gt;
+&lt;li&gt;5 функционально разделенных серверов MySQL с 9 read slave&lt;/li&gt;
+&lt;li&gt;Кластер из 4 узлов Cassandra&lt;/li&gt;
+&lt;li&gt;15 серверов Membase в 3 отдельных кластерах&lt;/li&gt;
+&lt;li&gt;8 серверов memcached&lt;/li&gt;
+&lt;li&gt;10 серверов Redis&lt;/li&gt;
+&lt;li&gt;7 серверов для отложенной обработки задач&lt;/li&gt;
+&lt;li&gt;4 сервера Elastic Search&lt;/li&gt;
+&lt;li&gt;3 кластера MongoDB&lt;/li&gt;
+&lt;li&gt;3 разработчика&lt;/li&gt;
+&lt;li&gt;Если кто-то может объяснить зачем им сдался такой зоопарк, кроме как
+    потестировать разные варианты, можете взять с полки пирожок.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Зима 2011-2012&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Заменили CloudFront на &lt;a href="/tag/akamai/"&gt;Akamai&lt;/a&gt; - вполне объяснимо,
+    так как у Akamai намного лучше покрытие по миру, а
+    качественный&amp;nbsp;&lt;a href="/tag/cdn/"&gt;CDN&lt;/a&gt; для сайта с большим количеством
+    изображений - чуть ли не залог успеха.&lt;/li&gt;
+&lt;li&gt;90 веб серверов и 50 серверов для API&lt;/li&gt;
+&lt;li&gt;66 + 66 MySQL серверов на m1.xlarge инстансах EC2&lt;/li&gt;
+&lt;li&gt;59 серверов Redis&lt;/li&gt;
+&lt;li&gt;51 серверов memcached&lt;/li&gt;
+&lt;li&gt;25+1 сервер для отложенной обработки задач на основе Redis&lt;/li&gt;
+&lt;li&gt;Кластеризованный Solr&lt;/li&gt;
+&lt;li&gt;6 разработчиков&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Весна-лето 2012&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Снова сменили CDN, на этот раз в пользу ранее неизвестного мне &lt;a href="/tag/edge-cast/"&gt;Edge
+    Cast&lt;/a&gt;. Покрытие по всему миру довольно скромное,
+    так что единственное логичное объяснение, которое мне приходит в
+    голову - не потянули Akamai по деньгам.&lt;/li&gt;
+&lt;li&gt;135 веб серверов и 75 серверов для API&lt;/li&gt;
+&lt;li&gt;80 + 80 серверов MySQL&lt;/li&gt;
+&lt;li&gt;110 серверов Redis&lt;/li&gt;
+&lt;li&gt;60 серверов memcached&lt;/li&gt;
+&lt;li&gt;60 + 2&amp;nbsp;сервера&amp;nbsp;для отложенной обработки задач на основе Redis&lt;/li&gt;
+&lt;li&gt;25 разработчиков&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="vybor"&gt;Выбор&lt;/h2&gt;
+&lt;h4&gt;Почему Amazon Ec2/S3?&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Очень хорошая надежность, отчетность и поддержка&lt;/li&gt;
+&lt;li&gt;Хорошие дополнительные сервисы: кэш, базы данных, балансировка
+    нагрузки, &lt;a href="/tag/mapreduce/"&gt;MapReduce&lt;/a&gt; и т.п.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Новые виртуальные машины готовы за считанные секунды&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Почему MySQL?&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Очень "зрелая", хорошо известная и любимая многими&lt;/li&gt;
+&lt;li&gt;Редки катастрофичные потери данных&lt;/li&gt;
+&lt;li&gt;Линейная зависимость времени отклика от частоты запросов&lt;/li&gt;
+&lt;li&gt;Хорошая поддержка сторонним ПО (XtraBackup, Innotop, Maatkit)&lt;/li&gt;
+&lt;li&gt;Надежное активное сообщество&lt;/li&gt;
+&lt;li&gt;Отличная поддержка от Percona&lt;/li&gt;
+&lt;li&gt;Бесплатна&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Почему memcached?&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Очень "зрелый", отличная производительность, хорошо известный и
+    любимый многими&lt;/li&gt;
+&lt;li&gt;Никогда не ломается&lt;/li&gt;
+&lt;li&gt;Бесплатен&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Почему Redis?&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Много удобных &lt;strong&gt;структур данных&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Поддержка персистентности и репликации&lt;/li&gt;
+&lt;li&gt;Также многим известен и нравится&lt;/li&gt;
+&lt;li&gt;Стабильно хорошая производительность и надежность&lt;/li&gt;
+&lt;li&gt;Также бесплатен&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="arkhitektura"&gt;Архитектура&lt;/h2&gt;
+&lt;h4&gt;Сlustering vs Sharding&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Большую часть презентации, на основе которой написана данная статья
+    (&lt;a href="https://www.insight-it.ru/goto/10005efe/" rel="nofollow" target="_blank" title="http://www.slideshare.net/eonarts/mysql-meetup-july2012scalingpinterest"&gt;ссылка&lt;/a&gt;,
+    если не охота листать до секции источников информации), занимает
+    раздел под названием "Clustering vs Sharding". В связи с путаницей в
+    терминологии пришлось несколько раз перечитывать, чтобы понять к
+    чему они клонят, сейчас попробую объяснить.&lt;/li&gt;
+&lt;li&gt;Вообще есть два фундаментальных способа распределить данные между
+    несколькими серверами:&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Вертикально:&lt;/strong&gt;&amp;nbsp;разные таблицы (или просто логически разные
+    типы данных) разносятся на разные сервера.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Горизонтально:&lt;/strong&gt; каждая таблица разбивается на некоторое
+    количество частей и эти части разносятся на разные сервера по
+    определенному алгоритму.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;С первого взгляда казалось, что они пытаются вертикальное разбиение
+    назвать &lt;em&gt;sharding&lt;/em&gt;, а горизонтальное - &lt;em&gt;clustering&lt;/em&gt;. Хотя вообще они
+    почти синонимы и на русский я их обычно примерно одинаково перевожу.&lt;/li&gt;
+&lt;li&gt;По факту же оказалось, что под словом clustering они понимают все
+    программные продукты для хранения данных, которые имеют встроенную
+    поддержку работы в кластере. В частности они имеют ввиду
+    &lt;a href="/tag/cassandra/"&gt;Cassandra&lt;/a&gt;, &lt;a href="/tag/membase/"&gt;Membase&lt;/a&gt;,
+    &lt;a href="/tag/hbase/"&gt;HBase&lt;/a&gt; и &lt;a href="/tag/riak/"&gt;Riak&lt;/a&gt;, которые прозрачно для
+    пользователя горизонтально распределяют данные по кластеру.&lt;/li&gt;
+&lt;li&gt;За словом &lt;em&gt;sharding&lt;/em&gt; в их терминологии стоит аналогичная схема
+    собственной разработки, использующая огромное количество логических
+    БД в MySQL, распределенных между меньшим количеством &lt;del&gt;физических серверов&lt;/del&gt; виртуальных машин. Именно по этому пути и пошли в
+    Pinterest, плюс очень похожий подход используется в
+    &lt;a href="https://www.insight-it.ru/highload/2010/arkhitektura-facebook/"&gt;Facebook&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;От себя добавлю, что хоть при наличии должных ресурсов разработка
+    собственной системы распределения данных и может быть
+    целесообразной, в большинстве случаев на начальном этапе проще
+    основываться на готовых решениях вроде перечисленных выше. К слову в
+    opensource доступны и основанные на MySQL подобные решения:&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/vitess/"&gt;Vitess&lt;/a&gt; от &lt;a href="/tag/google/"&gt;Google&lt;/a&gt; /
+    &lt;a href="/tag/youtube/"&gt;YouTube&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/flockdb/"&gt;FlockDB&lt;/a&gt; от &lt;a href="/tag/twitter/"&gt;Twitter&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;В их проекте данная подсистема развивалась следующим образом:&lt;ul&gt;
+&lt;li&gt;1 БД + внешние ключи + join'ы&amp;nbsp;&amp;rarr;&lt;/li&gt;
+&lt;li&gt;1 БД + денормализация + кэш&amp;nbsp;&amp;rarr;&lt;/li&gt;
+&lt;li&gt;1 БД + master/slave + кэш&amp;nbsp;&amp;rarr;&lt;/li&gt;
+&lt;li&gt;несколько функциональных разделенных БД + master/slave + кэш&amp;nbsp;&amp;rarr;&lt;/li&gt;
+&lt;li&gt;вертикально и горизонтально разделенные БД (по
+    идентификаторам) + по резервные БД (пассивный slave) + кэш&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;При использовании аналогичного решения остерегайтесь:&lt;ul&gt;
+&lt;li&gt;Невозможности выполнять большинство запросов с join&lt;/li&gt;
+&lt;li&gt;Отсутствия транзакций&lt;/li&gt;
+&lt;li&gt;Дополнительных манипуляций для поддержания ограничений
+    уникальности&lt;/li&gt;
+&lt;li&gt;Необходимости тщательного планирования для изменений схемы&lt;/li&gt;
+&lt;li&gt;Необходимости выполнения одного и того же запроса с последующей
+    агрегацией для построения отчетов&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Остальные моменты&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Кэширование многоуровневое:&lt;ul&gt;
+&lt;li&gt;Коллекции объектов хранятся в списках Redis&lt;/li&gt;
+&lt;li&gt;Сами объекты - в memcached&lt;/li&gt;
+&lt;li&gt;На уровне SQL запросы в основном примитивны и написаны вручную,
+    так что часты попадания в кэш MySQL&lt;/li&gt;
+&lt;li&gt;Кэш файловой системы - само собой&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Еще пара фактов про кэширование в Pinterest:&lt;ul&gt;
+&lt;li&gt;Кэш разбит также на несколько частей (шардов), для упрощения
+    обслуживания и масштабирования&lt;/li&gt;
+&lt;li&gt;В коде для кэширования используются Python'овские декораторы, на
+    вид собственной разработки, хотя точно не уверен&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Балансировка нагрузки осуществляется в первую очередь за счет Amazon
+    ELB, что позволяет легко подключать/отключать новые сервера
+    посредством API.&lt;/li&gt;
+&lt;li&gt;Так как большинство пользователей живут в США по ночам нагрузка
+    сильно падает, что позволяет им по ночам отключать до 40%
+    виртуальных машин. В пиковые часы EC2 обходится порядка 52$ в час,
+    а по ночам - всего 15$.&lt;/li&gt;
+&lt;li&gt;Elastic Map Reduce, основанный на Hadoop, используется для анализа
+    данных и стоит всего несколько сотен долларов в месяц&lt;/li&gt;
+&lt;li&gt;Текущие проблемы:&lt;ul&gt;
+&lt;li&gt;Масштабирование команды&lt;/li&gt;
+&lt;li&gt;Основанная на сервисах архитектура:&lt;ul&gt;
+&lt;li&gt;Ограничения соединений&lt;/li&gt;
+&lt;li&gt;Изоляция функционала&lt;/li&gt;
+&lt;li&gt;Изоляция доступа (безопасность)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="uroki-ot-komandy-pinterest"&gt;Уроки от команды Pinterest&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;em&gt;"Оно сломается. Все должно быть просто."&lt;/em&gt; - столько раз уже слышу
+    это наставление, но ни разу не видел разработчиков, которые реально
+    к нему прислушивались.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;"Кластеризация - страшная штука."&lt;/em&gt; - конечно страшная, большая и
+    сложная. Но кому сейчас легко?&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;"Продолжайте получать удовольствие."&lt;/em&gt; - с этим не могу не
+    согласиться, без удовольствия работать совершенно невозможно в любой
+    сфере.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="istochniki-informatsii"&gt;Источники информации&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/10005efe/" rel="nofollow" target="_blank" title="http://www.slideshare.net/eonarts/mysql-meetup-july2012scalingpinterest"&gt;Scaling Pinterest @ MySQL Meetup&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;В презентации можно посмотреть примеры кода и SQL-запросов&lt;/li&gt;
+&lt;li&gt;Если кто-то знает где можно посмотреть/послушать запись этого
+    мероприятия - поделитесь ссылкой, пожалуйста&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/ac4a03d6/" rel="nofollow" target="_blank" title="http://highscalability.com/blog/2012/5/21/pinterest-architecture-update-18-million-visitors-10x-growth.html"&gt;Pinterest Architecture Update&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/db0647b0/" rel="nofollow" target="_blank" title="http://pinterest.com/about/careers/"&gt;Вакансии в Pinterest&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Wed, 15 Aug 2012 22:26:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-08-15:highload/2012/arkhitektura-pinterest/</guid><category>Akamai</category><category>Amazon</category><category>Apache Hadoop</category><category>AWS</category><category>CDN</category><category>CloudFront</category><category>django</category><category>EC2</category><category>Edge Cast</category><category>Hadoop</category><category>Memcached</category><category>MySQL</category><category>nginx</category><category>Pinterest</category><category>Python</category><category>Redis</category><category>S3</category><category>Solr</category><category>Архитектура Pinterest</category><category>архиткутера</category><category>Масштабируемость</category></item><item><title>Архитектура Instagram</title><link>https://www.insight-it.ru//highload/2012/arkhitektura-instagram/</link><description>&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/a8e562b3/" rel="nofollow" target="_blank" title="https://instagram.com/"&gt;Instagram&lt;/a&gt; - всего лишь &lt;a href="/tag/ios/"&gt;iOS&lt;/a&gt;, а теперь
+и &lt;a href="/tag/android/"&gt;Android&lt;/a&gt;, приложение для обмена фотографиями с
+друзьями. Последнее время находится на слуху благодаря новости о покупке
+проекта &lt;a href="/tag/facebook/"&gt;Facebook&lt;/a&gt;'ом за кругленькую сумму. Недавно один
+из основателей проекта, Mike Krieger, выступил на конференции с докладом
+о техническом аспекте проекта, который я и хотел бы вкратце пересказать.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h2 id="statistika"&gt;Статистика&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Начало:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;1 сервер слабее Macbook Pro&lt;/li&gt;
+&lt;li&gt;25к регистраций в первый день&lt;/li&gt;
+&lt;li&gt;2 разработчика&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Сегодня:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;40+ миллионов пользователей&lt;/li&gt;
+&lt;li&gt;100+ виртуальных серверов в EC2, в том числе:&lt;/li&gt;
+&lt;li&gt;Проект куплен Facebook за &lt;em&gt;1 млрд. долл&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;1 миллион регистраций за 12 часов после запуска Android-версии&lt;/li&gt;
+&lt;li&gt;5 разработчиков&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="tekhnologii"&gt;Технологии&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/ubuntu/"&gt;Ubuntu&lt;/a&gt; &lt;a href="/tag/linux/"&gt;Linux&lt;/a&gt; 11.04&lt;/strong&gt; - основная
+операционная система&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/python/"&gt;Python&lt;/a&gt;&lt;/strong&gt; - основной язык программирования серверной части&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/django/"&gt;Django&lt;/a&gt;&lt;/strong&gt; - фреймворк&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/amazon/"&gt;&lt;strong&gt;Amazon&lt;/strong&gt;&lt;/a&gt;:&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/ec2/"&gt;EC2&lt;/a&gt;&lt;/strong&gt;&amp;nbsp;- хостинг&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/elb/"&gt;ELB&lt;/a&gt;&lt;/strong&gt;&amp;nbsp;- балансировка входящих HTTP-запросов&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/route53/"&gt;Route53&lt;/a&gt;&lt;/strong&gt; - DNS&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/s3/"&gt;S3&lt;/a&gt;&lt;/strong&gt; - хранение фотографий&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/cloudfront/"&gt;CloudFront&lt;/a&gt;&lt;/strong&gt; - &lt;a href="/tag/cdn/"&gt;CDN&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/nginx/"&gt;nginx&lt;/a&gt;&lt;/strong&gt; - второй уровень балансировки входящихHTTP-запросов&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/gunicorn/"&gt;gunicorn&lt;/a&gt;&lt;/strong&gt; - WSGI-сервер&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/haproxy/"&gt;&lt;strong&gt;HAProxy&lt;/strong&gt;&lt;/a&gt;&amp;nbsp;- балансировка нагрузки внутри системы&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/postgresql/"&gt;&lt;strong&gt;PostgreSQL&lt;/strong&gt;&lt;/a&gt; - основное хранилище данных&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/postgis/"&gt;&lt;strong&gt;postgis&lt;/strong&gt;&lt;/a&gt; - поддержка гео-запросов&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/pgfouine/"&gt;&lt;strong&gt;pgfouine&lt;/strong&gt;&lt;/a&gt; - отчеты на основе логов&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/pgbouncer/"&gt;pgbouncer&lt;/a&gt;&lt;/strong&gt; - создание пула соединений&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/redis/"&gt;&lt;strong&gt;Redis&lt;/strong&gt;&lt;/a&gt; - дополнительное хранилище данных&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/memcached/"&gt;&lt;strong&gt;Memcached&lt;/strong&gt;&lt;/a&gt; - кэширование&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/gearman/"&gt;&lt;strong&gt;Gearman&lt;/strong&gt;&lt;/a&gt; - очередь задач&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/solr/"&gt;&lt;strong&gt;Solr&lt;/strong&gt;&lt;/a&gt; - гео-поиск&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/munin/"&gt;munin&lt;/a&gt;&lt;/strong&gt;, &lt;a href="/tag/statsd/"&gt;&lt;strong&gt;statsd&lt;/strong&gt;&lt;/a&gt;, &lt;a href="/tag/pingdom/"&gt;&lt;strong&gt;pingdom&lt;/strong&gt;&lt;/a&gt; - мониторинг&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/fabric/"&gt;&lt;strong&gt;Fabric&lt;/strong&gt;&lt;/a&gt; - управление кластером&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/xfs/"&gt;&lt;strong&gt;xfs&lt;/strong&gt;&lt;/a&gt; - файловая система&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="filosofiia"&gt;Философия&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;Простота&lt;/li&gt;
+&lt;li&gt;Минимизация операционных издержек&lt;/li&gt;
+&lt;li&gt;Использование подходящих инструментов&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="istoriia"&gt;История&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Забыли сделать &lt;strong&gt;favicon.ico&lt;/strong&gt; до запуска - в первый же день логи
+пестрили ошибками 404&lt;/li&gt;
+&lt;li&gt;Для хранения данных использовали просто &lt;strong&gt;Django &lt;a href="/tag/orm/"&gt;ORM&lt;/a&gt;&lt;/strong&gt; и
+&lt;strong&gt;PostgreSQL&lt;/strong&gt; (из-за postgis)&lt;/li&gt;
+&lt;li&gt;Начали с одного слабого сервера, после успешного запуска решили
+переехать на &lt;strong&gt;EC2&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Довольно быстро пришлось вынести &lt;a href="/tag/subd/"&gt;СУБД&lt;/a&gt; на отдельный сервер
+(виртуальный, естественно)&lt;/li&gt;
+&lt;li&gt;Количество фотографий продолжало расти и расти, даже самый большой
+инстанс &lt;strong&gt;EC2&lt;/strong&gt; не справлялся&lt;/li&gt;
+&lt;li&gt;Решили вертикально разделить данные на несколько баз, с использованием
+механизма &lt;strong&gt;routers&lt;/strong&gt; из ORM, параллельно избавившись от внешних ключей&lt;/li&gt;
+&lt;li&gt;Через несколько месяцев суммарный размер базы данных перевалил за 60Гб и
+перестало справляться и это решение&lt;/li&gt;
+&lt;li&gt;Следующим шагом стало горизонтальное разбиение данных &lt;em&gt;(sharding)&lt;/em&gt;:&lt;/li&gt;
+&lt;li&gt;Создали несколько тысяч логических баз данных.&lt;/li&gt;
+&lt;li&gt;Распределили их по существенно меньшему количеству физических серверов (читай: виртуальных машин).&lt;/li&gt;
+&lt;li&gt;Написали свой механизм определения где искать какую базу данных, с поддержкой миграции (вероятно тоже на основе routers).&lt;/li&gt;
+&lt;li&gt;По последним данным под &lt;strong&gt;PostgreSQL&lt;/strong&gt; используется 12+12 виртуальных
+машин с максимальной оперативной памятью (68.4Гб), а также сетевые диски
+EBS, объединенные в программный RAID посредством mdadm. Это необходимо,
+чтобы весь массив данных помещался в памяти, EBS не в состоянии
+обеспечить достаточную производительность.&lt;/li&gt;
+&lt;li&gt;С некоторыми задачами лучше справляется &lt;strong&gt;Redis&lt;/strong&gt;:&lt;/li&gt;
+&lt;li&gt;Для каждого пользователя в Redis есть список идентификаторов новых
+фотографий от других пользователей, на которых он подписан.&lt;/li&gt;
+&lt;li&gt;При отображении потока новых для пользователя фотографий делается
+выборка части такого списка, после чего посредством multiget достается
+подробная о них информация из memcached.&lt;/li&gt;
+&lt;li&gt;Пробовали возложить на него задачу хранения списков подписчиков, но в
+итоге вернулись к решению на &lt;strong&gt;PostgreSQL&lt;/strong&gt; с небольшим кэшированием.&lt;/li&gt;
+&lt;li&gt;В Redis также хранится информация о сессиях.&lt;/li&gt;
+&lt;li&gt;Несколько фактов о Redis:&lt;ul&gt;
+&lt;li&gt;Так как все находится в памяти - очень быстрые операции записи и работы с множествами.&lt;/li&gt;
+&lt;li&gt;Является не заменой, а дополнением к основному хранилищу данных.&lt;/li&gt;
+&lt;li&gt;Redis хорош для структур данных, которые относительно ограничены.&lt;/li&gt;
+&lt;li&gt;Отлично подходит для кэширования комплексных структур данных, где нужно большее, чем просто получить значение по ключу (например - счетчики, подмножества, проверка вхождения в множества).&lt;/li&gt;
+&lt;li&gt;Механизм репликации (посредством slaveof) позволяет легко
+масштабировать операции чтения.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Пользователи синхронно загружают фотографии на медиа-сервер с
+(опциональными) заголовком и месте на карте, все остальное происходит
+асинхронно посредством очередей, например:&lt;ul&gt;
+&lt;li&gt;Сохраняются гео-метки, обновляется &lt;strong&gt;Solr&lt;/strong&gt; (который впоследствии заменил postgis).&lt;/li&gt;
+&lt;li&gt;Идентификатор нового фото добавляется в обсуждавшиеся выше списки для всех подписчиков автора.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Поначалу использовали &lt;a href="/tag/apache/"&gt;Apache&lt;/a&gt; + &lt;code&gt;mod_wsgi&lt;/code&gt; для запуска
+&lt;strong&gt;Django&lt;/strong&gt;, впоследствии перешли к gunicorn из-за меньшего потребления
+ресурсов и простоты настройки.&lt;/li&gt;
+&lt;li&gt;С недавних пор начали использовать&amp;nbsp;&lt;strong&gt;Amazon ELB&lt;/strong&gt;&amp;nbsp;вместо &lt;strong&gt;DNS
+round-robin&lt;/strong&gt; для первичной балансировки входяших HTTP-запросов, что
+позволило:&lt;/li&gt;
+&lt;li&gt;избежать необходимости дешифровки &lt;a href="/tag/ssl/"&gt;&lt;strong&gt;SSL&lt;/strong&gt;&lt;/a&gt; посредством nginx;&lt;/li&gt;
+&lt;li&gt;ускорить исключение из балансировки проблемных серверов.&lt;/li&gt;
+&lt;li&gt;Благодаря использованию &lt;strong&gt;xfs&lt;/strong&gt; есть возможность "замораживать" и
+"размораживать" дисковые массивы при резервном копировании.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="podvodim-itogi"&gt;Подводим итоги&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Многие проблемы с масштабируемостью - результат банальных
+    человеческих ошибок.&lt;/li&gt;
+&lt;li&gt;Масштабирование = замена всех деталей в машине на скорости 150 км/ч.&lt;/li&gt;
+&lt;li&gt;Заранее сложно узнать как в основном будут обращаться к данным, без
+    реального использования.&lt;/li&gt;
+&lt;li&gt;В первую очередь попытайтесь адаптировать известные Вам технологии и
+    инструменты для создания простого и понятного решения, прежде чем
+    бросаться на поиски чего-то нетривиального.&lt;/li&gt;
+&lt;li&gt;Дополните свое основное хранилище более гибким компонентом, вроде
+    Redis.&lt;/li&gt;
+&lt;li&gt;Постарайтесь не использовать два инструмента для решения одной и той
+    же задачи.&lt;/li&gt;
+&lt;li&gt;Оставайтесь гибкими и ловкими = напоминайте себе о том, что на самом
+    деле имеет значение.&lt;/li&gt;
+&lt;li&gt;Разрабатывайте решения, к которым не придется постоянно возвращаться
+    из-за их сбоев.&lt;/li&gt;
+&lt;li&gt;Активное юнит- и функциональное тестирование стоят потраченного на
+    них времени.&lt;/li&gt;
+&lt;li&gt;DRY: не делайте одну и ту же работу несколько раз.&lt;/li&gt;
+&lt;li&gt;Слабая связанность посредством уведомлений или сигналов позволяет
+    легко менять структуру проекта.&lt;/li&gt;
+&lt;li&gt;Дисковый ввод-вывод часто оказывается узким местом, особенно на EC2.&lt;/li&gt;
+&lt;li&gt;Спускаться до C нужно только при необходимости, большую часть работы
+    лучше делать в Python.&lt;/li&gt;
+&lt;li&gt;Короткий цикл разработки - залог быстрого развития.&lt;/li&gt;
+&lt;li&gt;Частые совместные рассмотрения кода нужны, чтобы все были в курсе
+    происходящего.&lt;/li&gt;
+&lt;li&gt;Не изобретайте велосипед.&lt;/li&gt;
+&lt;li&gt;Окружите себя с толковыми &lt;a href="https://www.insight-it.ru/consulting/"&gt;консультантами&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Культура открытости вокруг разработки.&lt;/li&gt;
+&lt;li&gt;Делитесь с &lt;a href="/tag/opensource/"&gt;opensource&lt;/a&gt; сообществом.&lt;/li&gt;
+&lt;li&gt;Фокусируйтесь на том, что вы делаете лучше всего.&lt;/li&gt;
+&lt;li&gt;Вашим пользователям абсолютно без разницы, написали ли Вы
+    собственную СУБД или нет.&lt;/li&gt;
+&lt;li&gt;Не переоптимизируйте и не предполагайте заранее как сайт будет
+    расти.&lt;/li&gt;
+&lt;li&gt;Не рассчитывайте, что "кто-то еще присоединится к команде и
+    разберется с этим".&lt;/li&gt;
+&lt;li&gt;Для социальных стартапов очень мало, или даже совсем нет, нерешимых
+    вопросов, связанных с масштабируемостью.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="istochnik-informatsii"&gt;Источник информации&lt;/h2&gt;
+&lt;p&gt;Упоминавшаяся во вступлении неприлично длинная презентация из 185
+слайдов:&lt;/p&gt;
+&lt;iframe class="scribd_iframe_embed" data-aspect-ratio="" data-auto-height="true" frameborder="0" height="600" id="doc_73113" scrolling="no" src="http://www.scribd.com/embeds/89025069/content?start_page=1&amp;amp;view_mode=scroll" width="100%"&gt;&lt;/iframe&gt;
+&lt;p&gt;На видео, к сожалению, это выступление не записывалось.&lt;/p&gt;
+&lt;p&gt;Часть информации взята из &lt;a href="https://www.insight-it.ru/goto/ce2d4e38/" rel="nofollow" target="_blank" title="http://instagram-engineering.tumblr.com/"&gt;технического блога Instagram&lt;/a&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Fri, 13 Apr 2012 20:11:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-04-13:highload/2012/arkhitektura-instagram/</guid><category>Amazon</category><category>Android</category><category>CloudFront</category><category>django</category><category>EC2</category><category>ELB</category><category>Fabric</category><category>Facebook</category><category>gearman</category><category>gunicorn</category><category>HAProxy</category><category>Intagram</category><category>iOS</category><category>Linux</category><category>Memcached</category><category>Munin</category><category>nginx</category><category>ORM</category><category>pgbouncer</category><category>pgFouine</category><category>Pingdom</category><category>postgis</category><category>PostgreSQL</category><category>Python</category><category>Redis</category><category>Route53</category><category>S3</category><category>Solr</category><category>statsd</category><category>Ubuntu</category><category>WSGI</category><category>xfs</category><category>Архитектура Instagram</category></item><item><title>Архитектура YouTube 2012</title><link>https://www.insight-it.ru//highload/2012/arkhitektura-youtube-2012/</link><description>&lt;blockquote&gt;
+&lt;p&gt;Выбирайте самое простое решение с наиболее общими гарантиями, которые
+практически полезны.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;- Дао YouTube&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;YouTube&lt;/strong&gt; практически на протяжении всех 7 лет своего существования
+является мировым лидером в сфере интернет-видео. С точки зрения
+технической реализации проект оказался достаточно консервативным -
+команда придерживается того же курса и стека технологий, с которых все
+начиналось еще до приобретения проекта &lt;strong&gt;Google&lt;/strong&gt;. Но с 2008 года, когда
+я написал первый обзор&amp;nbsp;&lt;a href="https://www.insight-it.ru/highload/2008/arkhitektura-youtube/"&gt;архитектуры YouTube&lt;/a&gt;, все же произошли интересные изменения, о которых я и хотел бы сегодня вкратце рассказать.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h2 id="statistika"&gt;Статистика&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;4 млрд. просмотров страниц в день&lt;/li&gt;
+&lt;li&gt;60 часов видео загружается каждую минуту&lt;/li&gt;
+&lt;li&gt;350 миллионов устройств подключено к YouTube&lt;/li&gt;
+&lt;li&gt;На февраль 2012 года в США по данным comScore:&lt;ul&gt;
+&lt;li&gt;147,4 млн. уникальных зрителей&lt;/li&gt;
+&lt;li&gt;16,7 млрд. просмотров видео (в октябре 2011 было больше 20 млрд.)&lt;/li&gt;
+&lt;li&gt;Каждый зритель посмотрел в среднем 7 часов видео за месяц&lt;/li&gt;
+&lt;li&gt;1.1 млрд. просмотров видео рекламы, суммарной длительностью в 10.8
+млн. часов&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="tekhnologii"&gt;Технологии&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/linux/"&gt;Linux&lt;/a&gt; - операционная система&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/apache/"&gt;Apache&lt;/a&gt; - основной HTTP-сервер&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/lighttpd/"&gt;lighttpd&lt;/a&gt; - отдача видео из YouTube CDN&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/zookeeper/"&gt;Zookeeper&lt;/a&gt; - распределенные блокировки, хранение
+конфигураций&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="/tag/python/"&gt;Python&lt;/a&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/wiseguy/"&gt;wiseguy&lt;/a&gt; - FastCGI-прослойка между Apache и Python&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/pycurl/"&gt;pycurl&lt;/a&gt; - лучшая доступная реализация HTTP-клиента,
+но в итоге все равно заменили на самописное низкоуровневое решение,
+выиграв 8% в потреблении вычислительных ресурсов.&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/spitfire/"&gt;spitfire&lt;/a&gt; - высокопроизводительный шаблонизатор на
+основе абстрактного синтаксического дерева с регулируемым уровнем
+оптимизации (как в gcc)&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/bson/"&gt;bson&lt;/a&gt; в качестве формата сериализации&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="/tag/bigtable/"&gt;BigTable&lt;/a&gt; - хранение изображений&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt; - используется просто как хранилище данных, версия
+5.1.52 с InnoDB&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/vitess/"&gt;Vitess&lt;/a&gt; - система для масштабирования MySQL-кластера&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="vitess"&gt;Vitess&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Основная цель проекта - предоставление всех необходимых инструментов и
+серверов для горизонтального масштабирования баз данных на основе MySQL,
+с учетом потребностей современных интернет-проектов.&lt;/li&gt;
+&lt;li&gt;Реализован на &lt;a href="/tag/go/"&gt;Go&lt;/a&gt; - все еще экзотическом языке
+программирования, также родившемся в стенах &lt;a href="/tag/google/"&gt;Google&lt;/a&gt;.
+Сравним по производительности с &lt;a href="/tag/c/"&gt;C++&lt;/a&gt; и &lt;a href="/tag/java/"&gt;Java&lt;/a&gt;, но
+несколько более "выразителен".&lt;/li&gt;
+&lt;li&gt;Опубликован в opensource 24 февраля 2012 года, совсем недавно, так что
+&lt;a href="/tag/youtube/"&gt;YouTube&lt;/a&gt; - по-прежнему единственный пример его
+использования на практике в крупном проекте.&lt;/li&gt;
+&lt;li&gt;Готовые клиентские библиотеки пока только для&amp;nbsp;&lt;strong&gt;Python&lt;/strong&gt;&amp;nbsp;и&amp;nbsp;&lt;strong&gt;Go&lt;/strong&gt;, что
+не удивительно, но есть и универсальные интерфейсы на основе HTTP и
+просто TCP-сокетов.&lt;/li&gt;
+&lt;li&gt;Основной формат данных - &lt;strong&gt;bson&lt;/strong&gt;, как и в &lt;a href="/tag/mongodb/"&gt;MongoDB&lt;/a&gt;, но
+по словам разработчиков &lt;em&gt;Vitess&lt;/em&gt;&amp;ensp;&lt;a href="https://www.insight-it.ru/goto/b807d615/" rel="nofollow" target="_blank" title="http://code.google.com/p/vitess/source/browse/#hg%2Fgo%2Fbson"&gt;их
+реализация&lt;/a&gt;
+выполняет (де)сериализацию в 10-15 раз быстрее.&lt;/li&gt;
+&lt;li&gt;Ядром проекта выступает &lt;strong&gt;Vtocc&lt;/strong&gt;, &amp;nbsp;SQL-прокси с RPC интерфейсом,
+позволяющий перераспределять запросы от большого количества (более 10
+тыс.) одновременно подключенных клиентов в сравнительно небольшое
+количество соединений с базами данных. Пропускная способность порядка 10
+тыс. запросов в секунду.&lt;/li&gt;
+&lt;li&gt;Встроенные возможности &lt;strong&gt;Vtocc&lt;/strong&gt;:&lt;ul&gt;
+&lt;li&gt;парсер и анализатор SQL-запросов для оптимизации их выполнения;&lt;/li&gt;
+&lt;li&gt;заполнение типичных запросов переменными с поддержкой кэширования
+результатов;&lt;/li&gt;
+&lt;li&gt;управление транзакциями и сроками их выполнения ("убивает"
+затянувшиеся);&lt;/li&gt;
+&lt;li&gt;для каждого пространства ключей (логической таблицы) можно указать
+фактор репликации, что создаст необходимое количество второстепенных
+баз данных в дополнение к мастеру;&lt;/li&gt;
+&lt;li&gt;можно явно указать, что чтение необходимо произвести с мастера
+(важно когда пользователь только что выполнил какое-то действие и
+должен сразу же увидеть его результат);&lt;/li&gt;
+&lt;li&gt;отдельные пулы соединений для выполнения операций чтения и записи;&lt;/li&gt;
+&lt;li&gt;исключение "зависших" соединений из пулов;&lt;/li&gt;
+&lt;li&gt;перезапуск без простоя системы;&lt;/li&gt;
+&lt;li&gt;поддержка DML.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Партиционирование&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Во всех таблицах должна быть колонка с уникальным ключем, на основе
+которого данные будут распределяться по кластеру.&lt;/li&gt;
+&lt;li&gt;Партиционирование основано на диапазонах ключей, что позволяет держать
+"карту" партиций в памяти и очень быстро определять где располагаются те
+или иные данные, но обратной стороной медали является вероятное
+возникновение "горячих" узлов в кластере, особенно при монотонно
+увеличивающихся значениях ключей (рекомендуется использовать случайные).&lt;/li&gt;
+&lt;li&gt;Поддерживаются ключи в виде натуральных чисел или произвольных бинарных
+данных.&lt;/li&gt;
+&lt;li&gt;При высокой нагрузке на одну партицию она может быть распределена на две
+путем фильтрованной репликации; в дальнейшем планируется реализовать и
+обратный процесс.&lt;/li&gt;
+&lt;li&gt;Еще в планах:&lt;ul&gt;
+&lt;li&gt;Поэтапное внесение изменений в схему данных без видимого простоя
+системы;&lt;/li&gt;
+&lt;li&gt;Поддержка работы в нескольких датацентрах с концентрацией
+мастер-серверов в одном датацентре и использования остальных в
+режиме только для чтения.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="podvodim-itogi"&gt;Подводим итоги&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;YouTube&lt;/strong&gt; - еще один проект мирового масштаба, который с самого начала
+использовал MySQL и оказался не в силах от него отказаться, не смотря на
+трудности с горизонтальным масштабированием.&lt;/li&gt;
+&lt;li&gt;По аналогичному пути пошли и другие проекты, схожие с &lt;strong&gt;Vitess&lt;/strong&gt;
+надстройки над MySQL используются в &lt;a href="https://www.insight-it.ru/highload/2010/arkhitektura-facebook/"&gt;Facebook&lt;/a&gt; и &lt;a href="https://www.insight-it.ru/highload/2011/arkhitektura-twitter-dva-goda-spustya/"&gt;Twitter&lt;/a&gt;:&lt;ul&gt;
+&lt;li&gt;В &lt;a href="/tag/facebook/"&gt;Facebook&lt;/a&gt; она дополнена сильной интеграцией с
+&lt;a href="/tag/memcached/"&gt;memcached&lt;/a&gt;&amp;nbsp;и сильно ограниченным интерфейсом, не
+имеющим практически ничего общего с SQL.&amp;nbsp;Планы о публикации в
+opensource, кажется, были, но я не слышал чтобы они воплотились в
+жизнь. &lt;em&gt;// Уже почти дописав статью случайно заметил в коде, а потом
+и мелким шрифтом в документации, что в Vitess тоже используется
+memcached для кэширования из-за проблем со сборщиком мусора Go.&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/twitter/"&gt;Twitter&lt;/a&gt;&amp;nbsp;по-прежнему использует свою связку
+&lt;a href="https://www.insight-it.ru/goto/4fe0530b/" rel="nofollow" target="_blank" title="https://github.com/twitter/flockdb"&gt;FlockDB&lt;/a&gt; +
+&lt;a href="https://www.insight-it.ru/goto/c4275cdf/" rel="nofollow" target="_blank" title="https://github.com/twitter/gizzard"&gt;Gizzard&lt;/a&gt;&amp;nbsp;на
+&lt;a href="/tag/scala/"&gt;Scala&lt;/a&gt;, которые уже пару лет публично доступны. В
+отличии от Vitess она заточена на хранение информации о социальных
+графах, по-этому сфера её применения как в Twitter, так и за его
+пределами ограничена.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Vitess - пожалуй первая относительно успешная попытка построить
+распределенную горизонтально масштабируемую СУБД на основе реляционной
+базы данных, сохранив при этом SQL-интерфейс, пускай и с некоторыми
+ограничениями.&lt;/li&gt;
+&lt;li&gt;Выбирайте подходящее хранилище для каждого типа данных в системе - если
+Vitess стал подходящим решением для структурированных данных вроде
+информации о пользователях, метаданных видео и комментариев, это не
+значит, что он хорошо (или плохо) справится, например, с медиа-файлами
+вроде изображений и видео (для них в
+&lt;a href="/tag/youtube/"&gt;YouTube&lt;/a&gt;&amp;nbsp;по-прежнему используют стек технологий
+&lt;a href="/tag/google/"&gt;Google&lt;/a&gt;, подробности не публикуются).&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/python/"&gt;Python&lt;/a&gt; - вполне пригодный инструмент для реализации
+бизнес-логики интернет-проектов, свет клином на &lt;a href="/tag/php/"&gt;PHP&lt;/a&gt; не
+сошелся. Python предлагает широкий ассортимент инструментов для решения
+любых типичных для интернет-проектов задач, хотя субъективно выбор
+некоторых из них разработчиками YouTube мне кажется странным.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="card light-blue lighten-5"&gt;
+&lt;div class="card-content"&gt;
+        В комментариях предлагаю обсудить слабые и сильные стороны использования
+        надстроек над реляционными базами данных, скажем по сравнению с
+        использованием изначально-распределенных СУБД, таких как Riak, Cassandra
+        и многих других. Может быть кто-то уже успел прикрутить к своему проекту
+        Vitess или хотя бы FlockDB и готов поделиться впечатлениями?
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;h2 id="istochniki-informatsii"&gt;Источники информации&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/fb446b63/" rel="nofollow" target="_blank" title="https://www.youtube.com/watch?v=G-lGCC4KKok"&gt;Mike Solomon на PyCon'12&lt;/a&gt; (один из первых
+    разработчиков проекта)&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/29524853/" rel="nofollow" target="_blank" title="http://code.google.com/p/vitess"&gt;О проекте Vitess&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/652a935e/" rel="nofollow" target="_blank" title="http://www.comscore.com/Press_Events/Press_Releases/2012/3/comScore_Releases_February_2012_U.S._Online_Video_Rankings"&gt;Статистика comScore на февраль '12&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sat, 24 Mar 2012 16:50:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-03-24:highload/2012/arkhitektura-youtube-2012/</guid><category>bson</category><category>Go</category><category>Google</category><category>lighttpd</category><category>Linux</category><category>MySQL</category><category>pycurl</category><category>Python</category><category>spitfire</category><category>Vitess</category><category>wiseguy</category><category>YouTube</category><category>ZooKeeper</category></item><item><title>Tornado</title><link>https://www.insight-it.ru//python/2012/tornado/</link><description>&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/21e3a9b2/" rel="nofollow" target="_blank" title="http://www.tornadoweb.org"&gt;&lt;strong&gt;Tornado&lt;/strong&gt;&lt;/a&gt;&amp;nbsp;- масштабируемый
+неблокирующий&amp;nbsp;&lt;a href="/tag/http/"&gt;HTTP&lt;/a&gt;-сервер на основе&amp;nbsp;&lt;a href="/tag/epoll/"&gt;epoll&lt;/a&gt;,
+написанный полностью на &lt;a href="/tag/python/"&gt;Python&lt;/a&gt;. Изначально он был
+разработан в рамках проекта FriendFeed, на сегодняшний же день
+его&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/8839735b/" rel="nofollow" target="_blank" title="https://github.com/facebook/tornado/"&gt;поддержкой&lt;/a&gt;&amp;nbsp;занимается&amp;nbsp;&lt;a href="/tag/facebook/"&gt;Facebook&lt;/a&gt;.
+Сегодня я хотел бы рассказать о том, как с его помощью можно быстро и
+легко создавать веб-проекты на Python, которые в дальнейшем будет
+относительно легко горизонтально масштабировать.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h2 id="http"&gt;HTTP&lt;/h2&gt;
+&lt;p&gt;Не смотря на приличное количество опциональных модулей, идущих в
+комплекте с Tornado, проект в первую очередь является именно
+HTTP-сервером. Используемый механизм
+&lt;a href="https://www.insight-it.ru/linux/2012/kak-rabotaet-epoll/"&gt;epoll&lt;/a&gt; (по
+ссылке можно прочитать о том, в чем он заключается) практически
+полностью определяет основные принципы работы Tornado:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;он работает в рамках одного процесса;&lt;/li&gt;
+&lt;li&gt;использование потоков внутри него нежелательно;&lt;/li&gt;
+&lt;li&gt;для использования всех доступных ядер процессора обычно запускают
+    несколько копий одинаковых процессов на разных портах (недавно
+    добавили модуль
+    &lt;a href="https://www.insight-it.ru/goto/f0b10879/" rel="nofollow" target="_blank" title="http://www.tornadoweb.org/documentation/process.html"&gt;tornado.process&lt;/a&gt;
+    для упрощения реализации этого);&lt;/li&gt;
+&lt;li&gt;обычно обрабатывает HTTP-запросы не напрямую, а через балансировщик
+    нагрузки (&lt;a href="/tag/nginx/"&gt;nginx&lt;/a&gt; или &lt;a href="/tag/haproxy/"&gt;HAProxy&lt;/a&gt;).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Эта ситуация мотивирует с самого начала задумываться о распределении
+нагрузки, а также о выносе выполнения вычислительно сложных задач в
+отдельные сервисы, скажем конвертирование фото/видео или подсчет
+какой-то статистики.&lt;/p&gt;
+&lt;p&gt;Стоит добавить, что вместе с проектом поставляется модуль
+&lt;a href="https://www.insight-it.ru/goto/1b53962f/" rel="nofollow" target="_blank" title="http://www.tornadoweb.org/documentation/wsgi.html"&gt;tornado.wsgi&lt;/a&gt;,
+который позволяет запускать внутри себя другие веб-ориентированные
+проекты на Python (в частности небезызвестный &lt;a href="/tag/django/"&gt;Django&lt;/a&gt;), а
+также "притворяться" таковым для каких-то внешних серверов или сервисов,
+которые умеют общаться с Python-приложениями только по
+WSGI-протоколу,&amp;nbsp;например таковым является&amp;nbsp;&lt;a href="/tag/gae/"&gt;Google App Engine&lt;/a&gt;. Пользоваться этим модулем крайне не рекомендую,
+только при постепенном мигрировании проекта с каких-то других
+технологий.&lt;/p&gt;
+&lt;h2 id="obrabotka-zaprosov"&gt;Обработка запросов&lt;/h2&gt;
+&lt;p&gt;При использовании &lt;strong&gt;Tornado&lt;/strong&gt; не приходится работать с HTTP напрямую -
+разбор заголовков и URL он берет на себя. От разработчика требуется лишь
+словарь, состоящий из регулярных выражений и соответствующих им
+классов-обработчиков запросов.&lt;/p&gt;
+&lt;p&gt;При создании этих классов настоятельно рекомендую по полной
+воспользоваться возможностями &lt;a href="/tag/oop/"&gt;ООП&lt;/a&gt;, в частности
+наследования. Tornado предоставляет базовый класс
+&lt;a href="https://www.insight-it.ru/goto/6a529884/" rel="nofollow" target="_blank" title="http://www.tornadoweb.org/documentation/web.html#tornado.web.RequestHandler"&gt;RequestHandler&lt;/a&gt;,
+который берет на себя всю грязную работу, а разработчику предлагается
+реализовать лишь логику, переопределив метод(ы) &lt;em&gt;get&lt;/em&gt;, &lt;em&gt;post&lt;/em&gt;, &lt;em&gt;delete&lt;/em&gt;
+или &lt;em&gt;head&lt;/em&gt;. На практике же обычно удобнее иметь свой собственный базовый
+класс для обработчиков запросов, который унаследован от RequestHandler и
+реализовывает общую для текущего конкретного проекта логику (примеры
+ниже).&lt;/p&gt;
+&lt;h2 id="dostup-k-baze-dannykh"&gt;Доступ к базе данных&lt;/h2&gt;
+&lt;p&gt;Модуль &lt;a href="https://www.insight-it.ru/goto/3642a74b/" rel="nofollow" target="_blank" title="http://www.tornadoweb.org/documentation/database.html"&gt;tornado.database&lt;/a&gt;&amp;nbsp;предлагает довольно простой доступ к &lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt;. С одной стороны благодаря нему можно сходу начинать разрабатывать приложение на Tornado без использования дополнительных библиотек, с другой - далеко не в каждом проекте используется именно эта &lt;a href="/tag/subd/"&gt;СУБД&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;В любом случае никто не запрещает использовать любую другую библиотеку
+для доступа к любой другой СУБД, но есть одно большое &lt;strong&gt;НО!&lt;/strong&gt;
+Большинство из них являются &lt;em&gt;блокирующими&lt;/em&gt;, то есть не возвращают
+управление до тех пор, пока СУБД не вернет ответ. Почуяли неладное?
+Правильно, в таком случае весь процесс Tornado, вместе со всеми
+попавшими в него запросами, будет простаивать пока управление не будет
+получено обратно, что очень не здорово.&lt;/p&gt;
+&lt;p&gt;Решается эта неприятная ситуация путем отправки асинхронных запросов к
+СУБД, то есть после отправки запроса управление сразу же возвращается, а
+для обработки запроса регистрируется callback, который получит
+управление, когда прийдет ответ от СУБД. За планирование очередности
+передачи управления отвечает &lt;a href="https://www.insight-it.ru/goto/987cbc33/" rel="nofollow" target="_blank" title="http://www.tornadoweb.org/documentation/ioloop.html"&gt;IOLoop&lt;/a&gt;, который и является "сердцем" Tornado.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/fa9e55f2/" rel="nofollow" target="_blank" title="https://github.com/facebook/tornado/wiki/Links"&gt;Ассортимент&lt;/a&gt;&amp;nbsp;готовых
+библиотек, интегрированных с &lt;strong&gt;Tornado IOLoop&lt;/strong&gt;, довольно широк и не
+ограничивается одним доступом к СУБД. Хотя готовое решение получается
+найти все же не всегда - приходится возиться с этим всем вручную или
+мириться с блокировками...&lt;/p&gt;
+&lt;h2 id="vzaimodeistvie-s-vneshnim-mirom"&gt;Взаимодействие с внешним миром&lt;/h2&gt;
+&lt;p&gt;В комплекте с Tornado идет неблокирующий
+&lt;a href="https://www.insight-it.ru/goto/4d3aa901/" rel="nofollow" target="_blank" title="http://www.tornadoweb.org/documentation/httpclient.html"&gt;HTTP-клиент&lt;/a&gt;,
+так что внутренние сервисы проще всего реализовывать с интерфейсом на
+JSON over HTTP. Им же можно и обращаться к&amp;nbsp;API внешних сервисов.&lt;/p&gt;
+&lt;p&gt;С &lt;a href="/tag/thrift/"&gt;Thrift&lt;/a&gt; и &lt;a href="/tag/protocol-buffers/"&gt;Protocol Buffers&lt;/a&gt;
+ситуация несколько более печальна - о прецедентах их интеграции в
+&lt;strong&gt;Tornado IOLoop&lt;/strong&gt; я не слышал, если кто-то может поделиться
+информацией - буду благодарен, довольно актуальный вопрос.&lt;/p&gt;
+&lt;h2 id="generatsiia-html"&gt;Генерация HTML&lt;/h2&gt;
+&lt;p&gt;Шаблонизатор также предлагается свой собственный (не очень удачный, но
+вполне можно использовать), но его особо никто не навязывает -
+необходимо лишь переопределить метод render у базового RequestHandler с
+использованием любого другого аналогичного продукта.&lt;/p&gt;
+&lt;p&gt;Например,&amp;nbsp;&lt;a href="https://www.insight-it.ru/python/2012/jinja2/"&gt;Jinja2&lt;/a&gt;, о котором я недавно писал, подключается примерно вот так:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;connections&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;env&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;tornado.web&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;RequestHandler&lt;/span&gt;
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;BaseHandler&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;RequestHandler&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;render&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;template&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;context&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;context&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;context&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{}&lt;/span&gt;
+    &lt;span class="n"&gt;context&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;'user'&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;current_user&lt;/span&gt;
+    &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_template&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;template&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;render&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;context&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;flush&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id="prochie-bonusy"&gt;Прочие бонусы&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/4a1367c0/" rel="nofollow" target="_blank" title="http://www.tornadoweb.org/documentation/gen.html"&gt;tornado.gen&lt;/a&gt; -
+    набор инструментов для упрощения написания асинхронного кода.
+    Благодаря использованию механизма генераторов (yield), позволяет
+    уместить в рамках одного метода и отправку асинхронного запроса и
+    обработку его результата.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/51bf20aa/" rel="nofollow" target="_blank" title="http://www.tornadoweb.org/documentation/websocket.html"&gt;tornado.websocket&lt;/a&gt;
+    предлагает реализацию нескольких последних редакций одноименного
+    протокола, &amp;nbsp;доступна пара более кроссбраузерных альтернатив с
+    поддержкой нескольких протоколов:
+    &lt;a href="https://www.insight-it.ru/goto/4aaf7cbf/" rel="nofollow" target="_blank" title="https://github.com/MrJoes/sockjs-tornado"&gt;sockjs-tornado&lt;/a&gt; и
+    &lt;a href="https://www.insight-it.ru/goto/96d4faf2/" rel="nofollow" target="_blank" title="https://github.com/MrJoes/tornadio2"&gt;TornadIO&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;С помощью
+    &lt;a href="https://www.insight-it.ru/goto/89f20712/" rel="nofollow" target="_blank" title="http://www.tornadoweb.org/documentation/twisted.html"&gt;tornado.platform.twisted&lt;/a&gt;
+    можно запускать код, написанный под &lt;strong&gt;Twisted&lt;/strong&gt; (несколько более
+    громоздкий и пожилой конкурент), внутри &lt;strong&gt;Tornado
+    IOLoop.&lt;/strong&gt;&amp;nbsp;Актуально для "мигрирующих" проектов и прикручивания
+    библиотек, написанных под Twisted.&lt;/li&gt;
+&lt;li&gt;Без
+    &lt;a href="https://www.insight-it.ru/goto/656f36a1/" rel="nofollow" target="_blank" title="http://www.tornadoweb.org/documentation/autoreload.html"&gt;tornado.autoreload&lt;/a&gt;
+    разработка превратилась бы в настоящий кошмар.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="zakliuchenie"&gt;Заключение&lt;/h2&gt;
+&lt;p&gt;Асинхронная модель обработки запросов - и правда может оказаться очень
+большой головной болью, но к ней вполне реально приспособиться и
+получить выгоды в виде, как минимум:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;возможности поддерживать открытыми больше пользовательских
+    соединений при фиксированных ресурсах;&lt;/li&gt;
+&lt;li&gt;априори горизонтально масштабируемой архитектуры на уровне
+    приложения (базы данных - отдельная тема);&lt;/li&gt;
+&lt;li&gt;частичной независимости от быстродействия используемых сторонних и
+    внутренних сервисов;&lt;/li&gt;
+&lt;li&gt;мотивации выносить вычислительно-тяжелые операции в отдельные
+    сервисы (даже при многопоточной модели так стоит делать), а заодно и
+    использовать брокер сообщений внутри системы &lt;em&gt;(весь последний пункт
+    связан лишь косвенно)&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;В комментариях предлагаю подискутировать на тему пригодности
+&lt;strong&gt;Tornado&lt;/strong&gt;&amp;nbsp;и аналогичных продуктов для использования в различных
+интернет-проектах, как высоконагруженных, так и маленьких. Ещё&amp;nbsp;мне было
+бы интересно узнать насколько велик интерес аудитории к чуть более
+прикладным, чем обычно, статьям, вроде этой - с удовольствием выслушаю
+Ваше мнение. &lt;a href="/feed/"&gt;До новых встреч!&lt;/a&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Tue, 28 Feb 2012 23:03:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-02-28:python/2012/tornado/</guid><category>epoll</category><category>HTTP</category><category>Python</category><category>Tornado</category></item><item><title>Jinja2</title><link>https://www.insight-it.ru//python/2012/jinja2/</link><description>&lt;p&gt;Я уже много раз упоминал в комментариях и других постах, что когда мне
+приходится программировать, последние пару лет я чаще всего использую
+&lt;a href="/tag/python/"&gt;Python&lt;/a&gt;.&amp;nbsp;При этом так забавно получилось, что в рубрике "Программирование" об этом языке практически ни слова, даже подрубрики не было. Сегодня я попробую потихоньку начать исправлять данную ситуацию, речь пойдет об одном из самых продвинутых шаблонизаторов под Python - &lt;strong&gt;Jinja2&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Встречаем!&lt;!--more--&gt;&lt;/p&gt;
+&lt;h2 id="vvedenie"&gt;Введение&lt;/h2&gt;
+&lt;p&gt;Я хочу рассказать о том, что можно интересного сделать с помощью Jinja2,
+по вопросам как именно - лучше обратиться к &lt;a href="https://www.insight-it.ru/goto/221c343/" rel="nofollow" target="_blank" title="http://jinja.pocoo.org/docs"&gt;официальной документации&lt;/a&gt;. Хотя на конкретные вопросы
+по реализации в комментариях с удовольствием отвечу.&lt;/p&gt;
+&lt;p&gt;Прежде чем перейти к делу, хочу напомнить что имеется ввиду под словом
+&lt;em&gt;шаблонизатор&lt;/em&gt;: механизм для создания HTML-страниц путем заполнения
+HTML-шаблонов динамическими данными, получаемыми из СУБД или внешних
+источников. Шаблонизатор предоставляет некую надстройку над синтаксисом
+HTML для создания шаблонов и API для их использования.&lt;/p&gt;
+&lt;h2 id="bazovyi-funktsional"&gt;Базовый функционал&lt;/h2&gt;
+&lt;p&gt;Многое из этого можно увидеть и в альтернативных реализациях
+шаблонизаторов, так что ничего особенного:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;{{ ... }}&lt;/code&gt; позволяет распечатать значение переменной или какого-то
+выражения, синтаксис достаточно свободный - можно обращаться к элементам
+коллекций, методам/атрибутам объектов и.т.п.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;{% ... %}&lt;/code&gt;&amp;nbsp;позволяет вызвать дополнительные теги, среди которых
+условные выражения, различные варианты циклов и многое другое.&lt;/li&gt;
+&lt;li&gt;Присутствиет концепция
+&lt;a href="https://www.insight-it.ru/goto/fcce65d3/" rel="nofollow" target="_blank" title="http://jinja.pocoo.org/docs/templates/#builtin-filters"&gt;&lt;strong&gt;фильтров&lt;/strong&gt;&lt;/a&gt;,
+сильно напоминающих UNIX pipes: начинается все с переменной или
+выражения, после чего можно через символ &lt;code&gt;|&lt;/code&gt; указать как её обработать
+перед выводом в итоговый документ. Например, &lt;code&gt;{{ foo|lower }}&lt;/code&gt; выведет
+содержимое строки foo в нижнем регистре. Как и в pipes, из фильтров
+можно делать цепочки.&lt;/li&gt;
+&lt;li&gt;Механизм &lt;a href="https://www.insight-it.ru/goto/45907dba/" rel="nofollow" target="_blank" title="http://jinja.pocoo.org/docs/templates/#template-inheritance"&gt;&lt;strong&gt;наследования&lt;/strong&gt;&lt;/a&gt;
+позволяет избежать избыточности в коде. В коде шаблона выделяются
+именованные блоки тегом &lt;code&gt;{% block ... %}&lt;/code&gt;, после чего шаблон-потомок может переопределить содержимое блоков шаблона-родителя произвольным образом. Типичный пример использования:&lt;ul&gt;
+&lt;li&gt;Создается базовый шаблон страницы, состоящий из основного каркаса
+страницы &amp;nbsp;и всех общих для всего сайта элементов (ссылки на файлы
+стилей, общие &lt;a href="/tag/javascript/"&gt;JavaScript&lt;/a&gt; файлы и библиотеки,
+какие-то мета теги, title по-умолчанию)&lt;/li&gt;
+&lt;li&gt;В базовом шаблоне содержимое каждой части выделяется в именованный
+блок (как минимум шапка, место под контент, 1-2 сайдбара и подвал),
+иногда рядом со стилями и скриптами оставляют по пустому блоку на
+случай, если шаблонам-наследникам потребуется что-то специфичное.&lt;/li&gt;
+&lt;li&gt;Если какой-то блок будет содержать одну и ту же информацию на
+большинстве страниц сайта, то её тоже обычно помещают в базовый
+шаблон.&lt;/li&gt;
+&lt;li&gt;Создается по шаблону-потомку на каждый тип используемых на сайте
+страниц, в которых переопределяется как правило &amp;nbsp;(но далеко не
+всегда) только блок с конткентом и заголовок страницы. Из
+шаблонов-потомков также можно составить иерархию в случае, если у
+них есть много общей информации.&lt;/li&gt;
+&lt;li&gt;Стоит упомянуть, что есть альтернативный механизм включения
+(include) шаблонов по-аналогии с &lt;a href="/tag/php/"&gt;PHP&lt;/a&gt;-файлами, но я
+достойных применений ему не нашел.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Очень много внимания уделено &lt;strong&gt;экранированию символов&lt;/strong&gt;, хотя особо на
+него надеяться не стоит - с точки зрения безопасности намного важнее
+фильтровать попадающие на сайт данные, а не выводимые в шаблонах. Хотя
+как дополнительная подстраховка не помешает.&lt;/li&gt;
+&lt;li&gt;Простая &lt;a href="https://www.insight-it.ru/goto/c0aeaa06/" rel="nofollow" target="_blank" title="http://jinja.pocoo.org/docs/extensions/#i18n-extension"&gt;&lt;strong&gt;интеграция с gettext&lt;/strong&gt;&lt;/a&gt;&amp;nbsp;придется кстати интернациональным проектам.&lt;/li&gt;
+&lt;li&gt;Опциональное &lt;strong&gt;считывание шаблонов с диска&lt;/strong&gt; при каждом запросе страницы незаменимо при разработке.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="proizvoditelnost"&gt;Производительность&lt;/h2&gt;
+&lt;p&gt;Сравнительные тесты производительности шаблонизаторов под Python
+довольно условны, очень многое зависит от конкретных шаблонов и
+динамических данных. Тем не менее, во всех из них &lt;strong&gt;Jinja2&lt;/strong&gt; определенно
+не в аутсайдерах, в топ5 вполне стабильно.&lt;/p&gt;
+&lt;p&gt;Шаблоны компилируются в байткод для последующего использования, с этой
+особенностью связаны два момента, которые спользовать:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Байткод можно &lt;a href="https://www.insight-it.ru/goto/873c9444/" rel="nofollow" target="_blank" title="http://jinja.pocoo.org/docs/api/#bytecode-cache"&gt;хранить&lt;/a&gt; в &lt;a href="/tag/memcached/"&gt;memcached&lt;/a&gt; или любом другом внешним хранилище, достаточно лишь реализовать минимальный get/set интерфейс.&lt;/li&gt;
+&lt;li&gt;Доступен опциональный &lt;a href="https://www.insight-it.ru/goto/cd6194bd/" rel="nofollow" target="_blank" title="http://jinja.pocoo.org/docs/intro/#more-speed-with-markupsafe"&gt;модуль&lt;/a&gt; на &lt;a href="/tag/c/"&gt;C&lt;/a&gt;, который берет на себя часть работы по заполнению шаблонов, что делает этот процесс несколько быстрее.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="rasshiriaemost"&gt;Расширяемость&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Jinja2&lt;/strong&gt; предоставляет широкие возможности по подключению
+дополнительных модулей и самостоятельной реализации и использованию
+аналогов любых компонентов системы. Можно разрабатывать и подключать
+свои фильтры, проверки, глобальные функции, загрузчики шаблонов,
+расширения и пр. Пройдемся по потенциальным вариантам использования этих
+возможностей на благо проекта, в основном в целях клиентской
+оптимизации.&lt;/p&gt;
+&lt;h3 id="webassets"&gt;Webassets&lt;/h3&gt;
+&lt;p&gt;Этот &lt;a href="https://www.insight-it.ru/goto/5908cea6/" rel="nofollow" target="_blank" title="https://github.com/miracle2k/webassets"&gt;проект&lt;/a&gt;&amp;nbsp;позволяет делать с
+подключаемыми внешними Javascript и CSS файлами практически все, что
+угодно. В типичном варианте использования используется тег &lt;strong&gt;{% assets
+%}&lt;/strong&gt;&amp;nbsp;для:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Указания списка изначальных CSS/JS файлов, для конкатенации и
+    последующей обработки.&lt;/li&gt;
+&lt;li&gt;Указания окружения ссылки на итоговый файл, т.е. как именно должен
+    выглядеть тег &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt; или &lt;code&gt;&amp;lt;style&amp;gt;&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Списка фильтров, для минимизации или других преобразований кода.&lt;/li&gt;
+&lt;li&gt;Возможно использование &lt;a href="https://www.insight-it.ru/goto/9d74fdb3/" rel="nofollow" target="_blank" title="http://sass-lang.com"&gt;sass&lt;/a&gt;&amp;nbsp;или
+    &lt;a href="https://www.insight-it.ru/goto/48ae8bc7/" rel="nofollow" target="_blank" title="http://lesscss.org"&gt;less&lt;/a&gt;&amp;nbsp;файлов вместо чистого CSS.&lt;/li&gt;
+&lt;li&gt;Отключение конкатенации и минимизации при разработке доступно
+    изменением одного флага.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;В итоге вопрос с подготовкой минимизированных статических файлов
+становится полностью автоматическим.&lt;/p&gt;
+&lt;p&gt;Доступна интегрирация и с другими Python шаблонизаторами, в Jinja2 он
+подключается просто как расширение.&lt;/p&gt;
+&lt;h3 id="minimizatsiia-html"&gt;Минимизация HTML&lt;/h3&gt;
+&lt;p&gt;Этот вопрос решается путем наследования от поставляемого вместе с
+шаблонизатором загрузчика шаблонов. API позволяет делать между чтением
+шаблона и генерацией байткода что угодно с текстом шаблона, например
+можно пропустить все через примитивную регулярку (вернее через
+несколько) и свернуть тем самым весь HTML в одну строку. Хочется
+обратить внимание, что осуществляется этот процесс очень редко (особенно
+при использовании кэша байт кода), так что можно делать на этом этапе
+даже сильно ресурсоемкие преобразования текста.&lt;/p&gt;
+&lt;h3 id="drugoi-format-dannykh"&gt;Другой формат данных&lt;/h3&gt;
+&lt;p&gt;В одном из моих проектов при первом заходе на сайт или при отключенном
+JS сервер полностью отрисовывал страницу, а при переходах по ссылкам
+внутри сайта делался AJAX-запрос и сервер выдавал какие блоки нужно
+обновить и каким содержимым в формате JSON. Про клиентскую часть всего
+этого дела можно легко написать отдельную здоровую статью, так что в
+подробности не вдаюсь.&lt;/p&gt;
+&lt;p&gt;Да, наверняка многие скажут, что в этой ситуации надо было использовать
+универсальные шаблоны для JS и серверной части, но на Jinja2 такое тожно
+можно реализовать, с той лишь разницей, что пришлось гонять по сети не
+только сами данные, но и часть HTML-разметки (что, порой, тоже не
+плохо). Реализуется как и минимизация HTML посредством переопределения
+загрузчика страниц, который использовался вместо стандартного, если
+запрос пришел через AJAX.&lt;/p&gt;
+&lt;h3 id="sekonomim-eshche-paru-bait"&gt;Сэкономим еще пару байт&lt;/h3&gt;
+&lt;p&gt;С подобного рода оптимизацией не заборачивается, наверное и 0.01%
+интернет-проектов, но я в свое время как-то увлекся и написал штуку для
+"выжимания" десятка-другого байт с большинства страниц и CSS/JS файлов.
+"Проблема" состоит в следующем: &lt;strong&gt;классы и идентификаторы&lt;/strong&gt;,
+использующиеся в HTML, в "культурных" проектах &lt;strong&gt;имеют&lt;/strong&gt; хотя бы
+отдаленно &lt;strong&gt;человекочитаемые названия&lt;/strong&gt;, что почти всегда означает их
+длинность, что, учитывая их частую повторяемость в коде, в свою очередь
+негативно влияет на &lt;em&gt;итоговый&amp;nbsp;размер HTML/JS/CSS документов&lt;/em&gt;.
+Теоретическое решение лежит на поверхности: использовать "длинные"
+идентификаторы и классы в HTML при разработке, а при развертывании на
+публику&amp;nbsp;&lt;strong&gt;переименовывать их в "короткие"&lt;/strong&gt;: &lt;em&gt;a, b, c, ..., aa, ab, ac,
+...&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;На практике же все несколько сложнее: есть масса проблем с префиксностью
+и суффиксностью, в JS классы иногда неотличимы от других строк с точками
+(зависят от контекста), некоторые классы и идентификаторы генерируются
+динамически - на них прийдется либо забивать, либо обрабатывать
+индивидуально, и это далеко не все...&lt;/p&gt;
+&lt;p&gt;Если у кого-то возникнет желание тоже сделать что-то подобное средствами
+&lt;em&gt;Jinja2&lt;/em&gt;, то советую "вмешиваться" в обработку JS/CSS посредством
+дополнительного фильтра в &lt;em&gt;Webassets&lt;/em&gt;, а сами шаблоны редактировать как
+и в предыдущих разделах при считывании их с диска.&lt;/p&gt;
+&lt;h3 id="spraity-i-obrabotka-izobrazhenii"&gt;Спрайты и обработка изображений&lt;/h3&gt;
+&lt;p&gt;Создание &lt;a href="https://www.insight-it.ru/goto/a3d1c475/" rel="nofollow" target="_blank" title="http://ru.wikipedia.org/wiki/%D0%A1%D0%BF%D1%80%D0%B0%D0%B9%D1%82_(%D0%BA%D0%BE%D0%BC%D0%BF%D1%8C%D1%8E%D1%82%D0%B5%D1%80%D0%BD%D0%B0%D1%8F_%D0%B3%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0)"&gt;спрайтов&lt;/a&gt;&amp;nbsp;как таковых не предусмотрено, так как по сути это не по части шаблонизатора. Но есть вариант подключить их к Webassets, например через интеграцию&amp;nbsp;&lt;a href="/tag/ruby/"&gt;Ruby&lt;/a&gt;-проектом
+&lt;a href="https://www.insight-it.ru/goto/3998bac3/" rel="nofollow" target="_blank" title="https://github.com/chriseppstein/compass"&gt;compass&lt;/a&gt; (у которого есть
+плагин-генератор спрайтов).&lt;/p&gt;
+&lt;p&gt;Если говорить просто о уменьшении размеров изображений, то это легко
+делается средствами самого &lt;a href="/tag/python/"&gt;Python&lt;/a&gt; и с шаблонизатором
+практически не взаимодействует: достаточно обрабатывать изображения при
+загрузке их пользователями и держать статические изображения "в форме".&lt;/p&gt;
+&lt;h3 id="idei-dlia-filtrov-i-globalnykh-funktsii"&gt;Идеи для фильтров и глобальных функций&lt;/h3&gt;
+&lt;p&gt;Список встроенных в Jinja2 фильтров, функций и проверок, хоть и обширен,
+но того, что нужно, там зачастую не оказывается. Вот несколько примеров,
+чего в нем нет:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Форматирования даты/времени по шаблону&lt;/li&gt;
+&lt;li&gt;Фильтрации HTML с белым списком тегов&lt;/li&gt;
+&lt;li&gt;Получения атрибута объекта с неизвестным заранее именем (getattr)&lt;/li&gt;
+&lt;li&gt;Вывода строки в режиме "первая - заглавная, остальные - прописные&lt;/li&gt;
+&lt;li&gt;Генерации часто используемых HTML-тегов, например &lt;code&gt;&amp;lt;a href="..."&amp;gt;&amp;lt;/a&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Не смотря на то, что реализация каждого из вышеизложенных пунктов
+занимает буквально чуть-чуть строк кода, меня всегда удивляло отсутствие
+подобных достаточно примитивных вещей "в комплекте".&lt;/p&gt;
+&lt;h2 id="podvodim-itogi_1"&gt;Подводим итоги&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Jinja2&lt;/strong&gt; - отличный инструмент для тех проектов, которым важно не
+просто донести какую-то информацию до пользователей, а сделать это
+приятно и быстро, как для себя, так и для пользователя. Гибкость и
+расширяемость этого движка шаблонов позволяет адаптировать его под нужды
+любого проекта, а также воспользоваться в полной мере всеми
+возможностями современной &lt;em&gt;клиентской оптимизации&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;С удовольствием бы опубликовал упоминавшиеся в статье куски кода в
+opensource, но для этого нужно взять себя в руки и состряпать из них
+что-то "отчуждаемое" от тех проектов, для которых оно писалось.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;В комментариях предлагаю обсудить Jinja2 в сравнении с другими
+шаблонизаторами: кто какими альтернативами пользуется, в чем видит
+сильные и слабые стороны, какой фактор оказывается решающим при выборе
+движка для конкретного проекта?&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Спасибо за внимание, &lt;a href="/feed/"&gt;подписавшись на Insight IT&lt;/a&gt; можно
+узнавать о новых материалах одним из первых :)&lt;/strong&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sun, 19 Feb 2012 18:39:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-02-19:python/2012/jinja2/</guid><category>compass</category><category>html</category><category>Jinja2</category><category>less</category><category>Memcached</category><category>Python</category><category>sass</category><category>webassets</category><category>клиентская оптимизация</category><category>шаблон</category><category>шаблонизация</category></item><item><title>Добро пожаловать в Сказку! (вакансия закрыта)</title><link>https://www.insight-it.ru//vacancy/2011/dobro-pozhalovat-v-skazku-vakansiya/</link><description>&lt;div class="card orange darken-3"&gt;
+&lt;p&gt;&lt;div class="card-content white-text center"&gt;
+&lt;strong&gt;Вакансия более не актуальна&lt;/strong&gt;
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Компания SKAZKA, российский разработчик и издатель
+онлайн-игр, ищет опытного веб-разработчика на Python. Предлагается
+работа в команде MMO-проекта "Королевство", а также
+участие в разработке ряда новых игр (одна в активной разработке, а
+другая проектируется).&lt;/p&gt;
+&lt;h2 id="o-proekte"&gt;О проекте&lt;/h2&gt;
+&lt;p&gt;Проект "Королевство" состоит из 2-х частей:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;непосредственно игра (сервер &amp;ndash; C+Python, клиент &amp;ndash; Flash)&lt;/li&gt;
+&lt;li&gt;социальная сеть &amp;ndash; веб-часть проекта, содержащая все полагающиеся
+    атрибуты соцсетей в реалиях игры (nginx, Python, Twisted, XSLT,
+    memcached, PostgreSQL)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="obiazannosti"&gt;Обязанности&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Полная самостоятельная поддержка и разработка всех проектов компании
+    со стороны веба&lt;/li&gt;
+&lt;li&gt;Оптимизация существующего кода для увеличения производительности и
+    уменьшения нагрузок&lt;/li&gt;
+&lt;li&gt;Разработка модулей для существующего проекта&lt;/li&gt;
+&lt;li&gt;Доработка функционала, фикс багов&lt;/li&gt;
+&lt;li&gt;Интергация проектов с российскими и зарубежными соцсетями&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="trebovaniia-k-kandidatu"&gt;Требования к кандидату&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Уверенное знание Python&lt;/li&gt;
+&lt;li&gt;Уверенное знание JavaScript&lt;/li&gt;
+&lt;li&gt;Знание XSLT&lt;/li&gt;
+&lt;li&gt;Умение разбираться в чужом коде&lt;/li&gt;
+&lt;li&gt;Умение объективно оценивать собственные трудозатраты по той или иной
+    задаче и укладываться в поставленные сроки&lt;/li&gt;
+&lt;li&gt;Английский язык на уровне чтения технической документации&lt;/li&gt;
+&lt;li&gt;Коммуникабельность, дисциплинированность и ответственность&lt;/li&gt;
+&lt;li&gt;Приветствуется опыт работы над сложными/высоконагруженными
+    web-проектами&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="usloviia-raboty"&gt;Условия работы&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Полный рабочий день в офисе в Москве (пять минут пешком от метро
+    Третьяковская)&lt;/li&gt;
+&lt;li&gt;Работа над интересными, перспективными проектами&lt;/li&gt;
+&lt;li&gt;Отличная команда единомышленников, каждый из которых является
+    профессионалом в своей области&lt;/li&gt;
+&lt;li&gt;Начало рабочего дня: с 10.00 до 12.00 (по желанию)&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Зарплата: 50-100 тыс. руб. в месяц&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="kuda-pisat"&gt;Куда писать?&lt;/h2&gt;
+&lt;div class="card orange darken-3"&gt;
+&lt;p&gt;&lt;div class="card-content white-text center"&gt;
+&lt;strong&gt;Вакансия более не актуальна&lt;/strong&gt;
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;P.S.: Если Вы не дотягиваете до требований, но в Сказку хочется - все
+равно пишите, еще есть вакансия джуниора.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Mon, 14 Mar 2011 15:32:00 +0300</pubDate><guid>tag:www.insight-it.ru,2011-03-14:vacancy/2011/dobro-pozhalovat-v-skazku-vakansiya/</guid><category>nginx</category><category>Python</category><category>Twisted</category><category>XSLT</category><category>memcached</category><category>PostgreSQL</category><category>JavaScript</category></item><item><title>Архитектура DISQUS</title><link>https://www.insight-it.ru//highload/2011/arkhitektura-disqus/</link><description>&lt;p&gt;&lt;img alt="DISQUS" class="left" src="https://www.insight-it.ru/images/disqus.jpg" title="DISQUS"/&gt;
+&lt;a href="https://www.insight-it.ru/goto/a754581e/" rel="nofollow" target="_blank" title="https://disqus.com"&gt;DISQUS&lt;/a&gt; - самая популярная система
+комментирования и одновременно самое большое в мире Django-приложение.
+Она установлена более чем на полумиллионе сайтов и блогов, в том числе и
+очень крупных, таких как Engadget, CNN, MTV, IGN. Основной особенностью
+в её реализации является тот факт, что DISQUS не является тем сайтом,
+который хотят увидеть пользователи, он лишь предоставляет механизмы
+комментирования, авторизации и интеграции с социальными сетями. Пики
+нагрузки возникают одновременно c появлением какой-то шумихи в
+Интернете, что достаточно непредсказуемо. Как же им удается справляться
+с этой ситуацией?&lt;!--more--&gt;&lt;/p&gt;
+&lt;h2 id="platforma"&gt;Платформа&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/linux/"&gt;Linux&lt;/a&gt; - операционная система&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/python/"&gt;Python&lt;/a&gt; - язык программирования&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/django/"&gt;Django&lt;/a&gt; - основной framework&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/apache/"&gt;Apache 2.2&lt;/a&gt; +&amp;nbsp;&lt;a href="/tag/wsgi/"&gt;mod_wsgi&lt;/a&gt; - веб-сервер&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/postgresql/"&gt;PostgreSQL&lt;/a&gt; - СУБД&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/memcached/"&gt;memcached&lt;/a&gt; - кэширование&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/haproxy/"&gt;HAProxy&lt;/a&gt; - балансировка нагрузки&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/slony/"&gt;Slony&lt;/a&gt; - репликация данных&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/heartbeat/"&gt;heartbeat&lt;/a&gt; - обеспечение
+    доступности&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="statistika"&gt;Статистика&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;До 17 тысяч запросов в секунду&lt;/li&gt;
+&lt;li&gt;500 000 сайтов&lt;/li&gt;
+&lt;li&gt;15 миллионов зарегистрированных пользователей&lt;/li&gt;
+&lt;li&gt;75 миллионов комментариев&lt;/li&gt;
+&lt;li&gt;250 миллионов посетителей (на август 2010г.)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="osnovnye-trudnosti"&gt;Основные трудности&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Непредсказуемость нагрузки (основными причинами шумихи в Интернете
+    являются катастрофы и выходки знаменитостей)&lt;/li&gt;
+&lt;li&gt;Обсуждения никогда не теряют актуальность (нельзя держать в кэше все
+    дискуссии с 2008 года)&lt;/li&gt;
+&lt;li&gt;Нельзя угадать на каком сайте из тысяч возникнет пик трафика&lt;/li&gt;
+&lt;li&gt;Персональные настройки, динамическое разбиение на страницы и
+    сортировки снижают эффективность кэширования&lt;/li&gt;
+&lt;li&gt;Высокая доступность (из-за разнообразия сайтов и их аудитории сложно
+    запланировать технические работы)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="arkhitektura"&gt;Архитектура&lt;/h2&gt;
+&lt;p&gt;&lt;img alt="Архитектура DISQUS" class="responsive-img" src="https://www.insight-it.ru/images/disqus_architecture.jpeg" title="Архитектура DISQUS"/&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Оборудование&lt;/strong&gt;, в сумме около 100 серверов:&lt;ul&gt;
+&lt;li&gt;30% веб-серверов (Apache + &lt;code&gt;mod_wsgi&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;10% серверов баз данных (PostgreSQL)&lt;/li&gt;
+&lt;li&gt;25% кэш-серверов (memcached)&lt;/li&gt;
+&lt;li&gt;20% балансировка нагрузки и обеспечение доступности (HAProxy +
+    heartbeat)&lt;/li&gt;
+&lt;li&gt;15% прочие сервера (Python скрипты)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Балансировка нагрузки&lt;/strong&gt;:&lt;ul&gt;
+&lt;li&gt;HAProxy:&lt;ul&gt;
+&lt;li&gt;Высокая производительность&lt;/li&gt;
+&lt;li&gt;Интеллектуальная проверка доступности&lt;/li&gt;
+&lt;li&gt;Неплохая статистика&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Репликация&lt;/strong&gt;:&lt;ul&gt;
+&lt;li&gt;Используется Slony-I&lt;/li&gt;
+&lt;li&gt;Основана на триггерах&lt;/li&gt;
+&lt;li&gt;Master/Slave для обеспечения большего объема операций чтения&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Высокая доступность&lt;/strong&gt;:&lt;ul&gt;
+&lt;li&gt;heartbeat&lt;/li&gt;
+&lt;li&gt;Пассивная копия мастер баз данных на случай сбоя основной&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Партиционирование&lt;/strong&gt;:&lt;ul&gt;
+&lt;li&gt;Реализовано на уровне кода&lt;/li&gt;
+&lt;li&gt;Простая реализация, быстрые положительные результаты&lt;/li&gt;
+&lt;li&gt;Два метода разделения данных:&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Вертикальное:&lt;/em&gt;&lt;ul&gt;
+&lt;li&gt;Создание нескольких таблиц с меньшим количеством колонок
+    вместо одной (она же нормализация)&lt;/li&gt;
+&lt;li&gt;Позволяет разделять базы данных&lt;/li&gt;
+&lt;li&gt;Данные объединяются в коде (медленнее, чем на уровне
+    СУБД, но не намного)&lt;/li&gt;
+&lt;li&gt;Бартер производительности на масштабируемость&lt;/li&gt;
+&lt;li&gt;Более эффективное кэшировние&lt;/li&gt;
+&lt;li&gt;Механизм роутеров в Django позволяет достаточно легко
+    реализовать данный функционал&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Горизонтальное:&lt;/em&gt;&lt;ul&gt;
+&lt;li&gt;Некоторые сайты имеют очень большие массивы данных&lt;/li&gt;
+&lt;li&gt;Партнеры требуют повышенного уровня доступности&lt;/li&gt;
+&lt;li&gt;Помогает снижать загрузку по записи на мастер базе
+    данных&lt;/li&gt;
+&lt;li&gt;В основном используется все же вертикальное
+    партиционирование&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Производительность базы данных&lt;/strong&gt;:&lt;ul&gt;
+&lt;li&gt;Особое внимание уделяется тому, чтобы индексы помещались в
+    оперативную память&lt;/li&gt;
+&lt;li&gt;Логирование медленных запросов (автоматизировано с помощью
+    syslog-ng + pgFouine + cron)&lt;/li&gt;
+&lt;li&gt;Использование пулов соединений (Django не умеет этого,
+    используется pgbouncer, позволяет экономить на ресурсоемких
+    операциях установления и прекращения соединений)&lt;/li&gt;
+&lt;li&gt;Оптимизация QuerySet'ов:&lt;ul&gt;
+&lt;li&gt;Не используется чистый SQL&lt;/li&gt;
+&lt;li&gt;Встроенный кэш позволяет выделять части выборки&lt;/li&gt;
+&lt;li&gt;Но это не всегда нужно, они убрали этот кэш&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Атомарные операции:&lt;ul&gt;
+&lt;li&gt;Поддерживают консистентность данных&lt;/li&gt;
+&lt;li&gt;Использование update(), так как save() не является
+    thread-safe&lt;/li&gt;
+&lt;li&gt;Отлично работают для таких вещей, как счетчики&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Транзакции:&lt;ul&gt;
+&lt;li&gt;TransactionMiddleware поначалу использовалось, но со
+    временем стало обузой&lt;/li&gt;
+&lt;li&gt;В &lt;code&gt;postgrrsql_psycopg2&lt;/code&gt; есть опция autocommit:&lt;ul&gt;
+&lt;li&gt;Это означает что каждый запрос выполняется в отдельной
+    транзакции&lt;/li&gt;
+&lt;li&gt;Обработка каждого пользовательского HTTP-запроса не
+    начинает новую транзакцию&lt;/li&gt;
+&lt;li&gt;Но все же транзакции из нескольких операций записи в
+    СУБД нужны (сохранение нескольких объектов одновременно
+    и полный откат в случае ошибки)&lt;/li&gt;
+&lt;li&gt;В итоге все HTTP-запросы по-умолчанию начинаются в
+    режиме autocommit, но в случае необходимости
+    переключаются в транзакционный режим&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Отложенные сигналы&lt;/strong&gt;:&lt;ul&gt;
+&lt;li&gt;Постановка в очередь низкоприоритетных задач (даже если они не
+    длинные по времени)&lt;/li&gt;
+&lt;li&gt;Асинхронные сигналы очень удобны для разработчика (но не так,
+    как настоящие сигналы)&lt;/li&gt;
+&lt;li&gt;Модели отправляются в очередь в сериализованном виде&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Кэширование&lt;/strong&gt;:&lt;ul&gt;
+&lt;li&gt;Используется memcached&lt;/li&gt;
+&lt;li&gt;Новый pylibmcна основе libmemcached в качестве клиента (проекты
+    django-pylibmc и django-newcache)&lt;/li&gt;
+&lt;li&gt;Настраиваемые алгоритмы поведения клиента&lt;/li&gt;
+&lt;li&gt;Используется &lt;code&gt;_auto_reject_hosts&lt;/code&gt; и &lt;code&gt;_retry_timeout&lt;/code&gt; для
+    предотвращения повторных подключений к вышедшим из строя
+    кэш-серверам&lt;/li&gt;
+&lt;li&gt;Алгоритм размещения ключей: консистентное хэширование на основе
+    libketama&lt;/li&gt;
+&lt;li&gt;Существует проблема, когда одно очень часто используемое
+    значение в кэше инвалидируется:&lt;ul&gt;
+&lt;li&gt;Множество клиентов одновременно пытаются получить новое
+    значение из СУБД одновременно&lt;/li&gt;
+&lt;li&gt;В большинстве случаев правильным решением было бы вернуть
+    большинству устаревшие данные и позволить одному клиенту
+    обновить кэш&lt;/li&gt;
+&lt;li&gt;django-newcache и MintCache умеют это делать&lt;/li&gt;
+&lt;li&gt;Заполнение кэша новым значением вместо удаления при
+    инвалидации также помогает избежать этой проблемы&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Мониторинг&lt;/strong&gt;:&lt;ul&gt;
+&lt;li&gt;Информация о производительности запросов к БД, внешних вызовов и
+    рендеринге шаблонов записывается через собственный middleware&lt;/li&gt;
+&lt;li&gt;Сбор и отображение с помощью Ganglia&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Отключение функционала&lt;/strong&gt;:&lt;ul&gt;
+&lt;li&gt;Необходим способ быстро отключить новый функционал, если
+    оказывается, что он работает не так, как планировалось&lt;/li&gt;
+&lt;li&gt;Система должна срабатывать мгновенно, по всем серверам, без
+    записи на диск&lt;/li&gt;
+&lt;li&gt;Позволяет запускать новые возможности постепенно, лишь для части
+    аудитории&lt;/li&gt;
+&lt;li&gt;Позволяет постоянно использовать основную ветку кода&lt;/li&gt;
+&lt;li&gt;Аналогичная система используется и в &lt;a href="/tag/facebook/"&gt;Facebook&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Масштабирование команды разработчиков&lt;/strong&gt;:&lt;ul&gt;
+&lt;li&gt;Небольшая команда&lt;/li&gt;
+&lt;li&gt;Месячная аудитория / количество разработчиков = 40 миллионов&lt;/li&gt;
+&lt;li&gt;Это означает:&lt;ul&gt;
+&lt;li&gt;Автоматическое тестирование&lt;/li&gt;
+&lt;li&gt;И максимально простой процесс разработки&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Новый сотрудник может начать работать уже через несколько минут,
+    нужно лишь:&lt;ul&gt;
+&lt;li&gt;Установить и настроить PostgreSQL&lt;/li&gt;
+&lt;li&gt;Скачать исходный код из &lt;a href="/tag/git/"&gt;git&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;С помощью pip и virtualenv установить зависимости&lt;/li&gt;
+&lt;li&gt;Изменить настройки в settings.py&lt;/li&gt;
+&lt;li&gt;Выполнить автоматическое создание структуры данных
+    средствами Django&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Непрерывное тестирование&lt;/strong&gt;:&lt;ul&gt;
+&lt;li&gt;Ежедневное развертывание с помощью &lt;a href="/tag/fabric/"&gt;Fabric&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/hudson/"&gt;Hudson&lt;/a&gt; обеспечивает регулярно осуществляет и
+    тестирует сборки&lt;/li&gt;
+&lt;li&gt;Интегрирован &lt;a href="/tag/selenium/"&gt;Selenium&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Быстрое тестирование с помощью &lt;a href="/tag/pyflakes/"&gt;Pyflakes&lt;/a&gt; и
+    post-commit hooks&lt;/li&gt;
+&lt;li&gt;70 тысяч строк Python кода, 73% покрытие тестами, прогон всех
+    тестов занимает 20 минут&lt;/li&gt;
+&lt;li&gt;Собственная система исполнения тестов с поддержкой XML,
+    Selenium, подсчета количества запросов, тестирования
+    Master/Slave базы данных и интеграцией с очередью&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Отслеживание проблем и задач&lt;/strong&gt;:&lt;ul&gt;
+&lt;li&gt;Переключились с Trac на Redmine (из-за поддержки под-задач)&lt;/li&gt;
+&lt;li&gt;Отправка исключений на e-mail - плохая идея&lt;/li&gt;
+&lt;li&gt;Раньше использовали django-db-log, но теперь опубликовали свою
+    систему сбора ошибок и логов под названием
+    &lt;a href="https://www.insight-it.ru/goto/2e33ac0/" rel="nofollow" target="_blank" title="https://github.com/dcramer/django-sentry"&gt;Sentry&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="delaem-vyvody"&gt;Делаем выводы&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Язык программирования, каким бы он ни был, не является проблемой&lt;/li&gt;
+&lt;li&gt;Django в целом очень хорош (но приходится все же использовать набор
+    собственных патчей)&lt;/li&gt;
+&lt;li&gt;Даже при использовании низкопроизводительного framework можно
+    построить масштабируемую систему&lt;/li&gt;
+&lt;li&gt;Вертикальное партиционирование позволяет пожертвовать
+    производительностью в пользу масштабируемости&lt;/li&gt;
+&lt;li&gt;Даже небольшой командой разработчиков можно добиться высоких
+    результатов, если не пренебрегать автоматизацией тестирования&lt;/li&gt;
+&lt;li&gt;Большое значение имеет возможность вовремя отслеживать и оперативно
+    реагировать на сбои&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="istochnik-informatsii"&gt;Источник информации&lt;/h2&gt;
+&lt;p&gt;Данная статья написана на основе выступления Jason Yan и David Cramer на
+DjangoConf 2010. В презентации можно найти примеры кода, ссылки на
+упоминаемые проекты и дополнительные материалы:&lt;/p&gt;
+&lt;div class="video-container no-controls"&gt;
+&lt;iframe allowfullscreen="" frameborder="0" height="355" marginheight="0" marginwidth="0" scrolling="no" src="//www.slideshare.net/slideshow/embed_code/key/21F2PzBmYATx2Y" width="425"&gt; &lt;/iframe&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;em&gt;Другие статьи по масштабируемости высоконагруженных систем можно
+почитать &lt;a href="https://www.insight-it.ru/highload/"&gt;в соответствующем разделе&lt;/a&gt;, а вовремя узнавать о
+новых - &lt;a href="/feed/"&gt;подписавшись на RSS&lt;/a&gt;. Вчера, кстати, прикрутил DISQUS к
+Insight IT, приглашаю постоянных читателей и всех остальных
+потестировать :)&lt;/em&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Wed, 02 Mar 2011 03:37:00 +0300</pubDate><guid>tag:www.insight-it.ru,2011-03-02:highload/2011/arkhitektura-disqus/</guid><category>Apache</category><category>DISQUS</category><category>django</category><category>Fabric</category><category>Ganglia</category><category>Git</category><category>HAProxy</category><category>heartbeat</category><category>Hudson</category><category>Linux</category><category>Memcached</category><category>pgbouncer</category><category>pgFouine</category><category>PostgreSQL</category><category>Pyflakes</category><category>Python</category><category>Selenium</category><category>Slony</category><category>syslog-ng</category><category>WSGI</category><category>Архитектура DISQUS</category><category>Масштабируемость</category></item><item><title>Piccolo - построение распределенных систем в 11 раз быстрее Hadoop</title><link>https://www.insight-it.ru//python/2011/piccolo-postroenie-raspredelennykh-sistem-v-11-raz-bystree-hadoop/</link><description>&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/20aba73a/" rel="nofollow" target="_blank" title="http://piccolo.news.cs.nyu.edu/"&gt;Piccolo&lt;/a&gt; - это система для
+распределенных вычислений, использующая новую ориентированную на данные
+модель программирования для разработки приложений по параллельным
+вычислениям в памяти в масштабах дата-центров. В отличии от существующих
+моделей, основывающихся на &lt;em&gt;потоках&lt;/em&gt; данных, Piccolo позволяет
+вычислениям выполняться на различных машинах, при этом имея общее
+изменяющееся состояния через интерфейс таблиц пар "ключ-значение".
+Традиционные ориентированные на данные модели (такие как используются в
+&lt;a href="/tag/hadoop/"&gt;Apache Hadoop&lt;/a&gt;) предоставляют пользователю для работы
+лишь единственный объект в определенный момент времени, когда в Piccolo
+используется глобальная таблица состояний, одновременно доступная для
+всех частей вычисления. Это позволяет пользователям указывать алгоритм
+вычисления в интуитивно-понятной манере, очень похожей на разработку
+программ для одного компьютера.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;Использование хранилища, позволяющего хранить в памяти пары
+"ключ-значение", сильно отличается от канонического подхода
+&lt;a href="/tag/mapreduce/"&gt;map-reduce&lt;/a&gt;, который основан на распределенных
+файловых системах. Результаты впечатляют:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Эксперименты показали, что Piccolo очень быстр и отличные возможности
+по масштабируемости для многих прикладных задач. Производительность
+вычисления PageRank и k-средних выросла в 11 и 4 раза, соответственно,
+по сравнению с Hadoop. Вычисление PageRank для связанного графа из 1
+миллиарда страниц заняло лишь 70 секунд на 100 машинах в &lt;a href="/tag/ec2/"&gt;Amazon
+EC2&lt;/a&gt;. Распределенная система по скачиванию веб-страниц
+легко может полностью загрузить 100Мбит интернет-канал при работе на
+12 машинах.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;При разработке на Piccolo программисты создают наборы прикладных
+функций, которые принято называть ядром. Функции ядра запускаются
+параллельно на нескольких вычислительных узлах, при этом у них есть
+доступ к общему изменяемому состоянию, которое реализовано в виде набора
+таблиц, располагающихся в оперативной памяти различных узлов системы.
+Для доступа к этому состоянию используется примитивный интерфейс,
+позволяющий узнать &lt;em&gt;(get)&lt;/em&gt; и изменить &lt;em&gt;(put)&lt;/em&gt; то или иное состояние.
+Процесс отправки сообщений удаленным узлам, непосредственно имеющим в
+памяти требуемые данные, полностью берет на себя сам код Piccolo.&lt;/p&gt;
+&lt;p&gt;Предоставляя разработчикам доступ к глобальному общему состоянию,
+Piccolo предлагает несколько привлекательных возможностей:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Алгоритмы, основанные на общем промежуточном состоянии, могут быть
+    реализованы естественным, логичным и эффективным образом&lt;/li&gt;
+&lt;li&gt;Асинхронные online приложения получают возможность иметь
+    &lt;em&gt;оперативный&lt;/em&gt; доступ к новым и изменившимся данным, расположенным на
+    других узлах системы&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;В Piccolo используется ряд оптимизаций, обеспечивающий не только удобное
+использование интерфейса к таблице состояний, но и его быстроту:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Локальность&lt;/strong&gt; - для обеспечения выполнения локальности исполнения,
+    таблицы явным образом разбиваются на части, располагающиеся на
+    разных машинах. В пользовательском коде при взаимодействии с
+    таблицами доступна настройка локальности, обеспечивающая выполнение
+    кода на том же узле, где располагаются даннын.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Балансировка нагрузки&lt;/strong&gt; - далеко не вся нагрузка равномерна, часто
+    какая-то часть вычислений требует намного больше ресурсов, чем все
+    остальные. Ожидание без дела пока такая задача будет выполнена
+    впустую тратит ценное время и ресурсы. Для решения данной проблемы
+    Piccolo может мигрировать часть задач с загруженных машин на
+    простаивающие, при этом сохраняя настройки локальности и
+    корректность выполнения программы.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Обработка сбоев&lt;/strong&gt; - сбои оборудования неизбежны и обычно они
+    случаются в самые критические моменты. Piccolo делает создание
+    контрольных точек и восстановление простым и быстрым, обеспечивая
+    быстрое восстановление в случае сбоев.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Синхронизация&lt;/strong&gt; - управление корректной синхронизацией и
+    обновлениями в условиях распределенной системы может быть сложным и
+    медленным. Piccolo позволяет пользователям поручить реализацию
+    логики синхронизации системе. Вместо явной блокировки таблиц при
+    выполнении обновлении данных, пользователи могут присоединять
+    аккумулирующие функции к таблицам: они используются автоматически
+    системой для корректного комбинирования параллельных обновлений
+    ячеек таблиц.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Проект реализован в виде библиотеки для &lt;a href="/tag/python/"&gt;Python&lt;/a&gt; и
+&lt;a href="/tag/c/"&gt;C++&lt;/a&gt;. Более детально примеры использования и принципы работы
+системы разбираются в источниках информации (правда на английском), не
+поленитесь - загляните. Вместо заключения хотелось бы по традиции
+порекомендовать подписаться на &lt;a href="/feed/"&gt;RSS блога&lt;/a&gt;, если Вы еще этого не
+сделали.&lt;/p&gt;
+&lt;h3 id="istochniki-informatsii"&gt;Источники информации&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/1ccc4a5b/" rel="nofollow" target="_blank" title="http://www.cs.nyu.edu/~power/"&gt;Russell Power&lt;/a&gt; - автор проекта Piccolo&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/9d1ef591/" rel="nofollow" target="_blank" title="http://www.usenix.org/event/osdi10/tech/full_papers/Power.pdf"&gt;Piccolo: Building Fast, Distributed Programs with Partitioned Tables&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Проект был презентован на&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/5b92a3e0/" rel="nofollow" target="_blank" title="http://www.usenix.org/event/osdi10/tech/"&gt;OSDI10&lt;/a&gt;:&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/389782f7/" rel="nofollow" target="_blank" title="https://docs.google.com/viewer?url=http%3A%2F%2Fwww.usenix.org%2Fevent%2Fosdi10%2Ftech%2Fslides%2Fpower.pdf"&gt;презентация&lt;/a&gt; и&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/90a31eff/" rel="nofollow" target="_blank" title="http://piccolo.news.cs.nyu.edu/osditalk.mp4"&gt;видео&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sat, 12 Feb 2011 23:49:00 +0300</pubDate><guid>tag:www.insight-it.ru,2011-02-12:python/2011/piccolo-postroenie-raspredelennykh-sistem-v-11-raz-bystree-hadoop/</guid><category>C++</category><category>piccolo</category><category>Python</category><category>вычисления</category><category>Масштабируемость</category><category>разработка</category><category>распределенные вычисления</category></item><item><title>Django в гостях у Google</title><link>https://www.insight-it.ru//python/2009/django-v-gostyakh-u-google/</link><description>&lt;p&gt;&lt;img alt="Google App Engine" class="left" src="https://www.insight-it.ru/images/appengine.jpg" title="Google App Engine"/&gt;
+&lt;del&gt;Давным-давно, в далекой-предалекой галактике...&lt;/del&gt;&lt;/p&gt;
+&lt;p&gt;Хотя да, достаточно давно уже Google выпустили в свет платформу &lt;a href="https://www.insight-it.ru/goto/99b033c0/" rel="nofollow" target="_blank" title="Google App Engine"&gt;Google App Engine&lt;/a&gt;. Описание
+этого продукта меня заинтересовало еще до открытия публичного доступа к
+системе и я даже записался на полу-закрытое тестирование. Вскоре пришло
+подтверждение, что мол "мы рады сообщить, что Ваша учетная запись
+активирована и теперь у Вас есть возможность попробовать наш новый
+продукт, для этого нажмите ссылку такую-то". Но пришло оно как-то не
+очень удачно, когда ни лишнего свободного времени не было, да и идеи
+подходящей для создания чего-нибудь эдакого на новой платформе тоже на
+горизонте не наблюдалось. В общем зашел на их сайт, посмотрел админку,
+поставил демо-приложение, поигрался чуток и забросил. Но с тех пор руки
+так и не прекращали чесаться от желания попробовать GAE на каком-нибудь
+более приближенном к реальности приложении, что мне совсем недавно и
+довелось сделать. Спешу поделиться впечатлениями.
+&lt;!--more--&gt;
+Если Вы даже краем уха не слышали о платформе &lt;code&gt;Google App Engine&lt;/code&gt; и после
+прочтения вступления не удосужились скопировать это название в свою
+любимую поисковую систему, чтобы почитать по-подробнее, то Вам повезло:
+для порядка я все-таки расскажу чуть-чуть о тех вкусностях, которые так
+долго поддерживали мой интерес к данному проекту.&lt;/p&gt;
+&lt;p&gt;Если взглянуть издалека, то GAE представляет собой условно-бесплатный
+хостинг для веб-приложений, для разработчиков предоставляется все
+необходимое: начиная от минимально-необходимого &lt;a href="https://www.insight-it.ru/goto/d7620107/" rel="nofollow" target="_blank" title="SDK"&gt;SDK&lt;/a&gt;
+со встроенным веб-сервером, локально эмулирующим саму платформу,
+заканчивая неплохой документацией по самой системе и доступным из нее
+API от Google. Почему условно-бесплатный? Бесплатно приложениям
+выделяется лишь ограниченное количество вычислительных ресурсов, при
+превышении которых по выбору владельца приложения либо взимается вполне
+&lt;a href="https://www.insight-it.ru/goto/69548105/" rel="nofollow" target="_blank" title="скромная плата"&gt;скромная плата&lt;/a&gt;,
+либо всем пользователям начинают показывать "извиняйте, заходите завтра"
+(в прямом смысле, счетчики потребления ресурсов сбрасываются ежедневно).&lt;/p&gt;
+&lt;p&gt;Но финансовый вопрос далеко не самый интересный, давайте взглянем на
+техническую сторону медали. Написанное с использованием SDK приложение
+загружается в production-окружение, которое физически размещается на тех
+самых известных кластерах Google, о которых у меня даже &lt;a href="https://www.insight-it.ru/highload/2008/arkhitektura-google/" title="есть пост"&gt;есть пост&lt;/a&gt;
+(конечно же под GAE используется только очень небольшая часть их
+вычислительных можностей). Причем все заботы о распределенной работе
+приложения на большом количестве машин платформа берет на себя:
+разработчику не нужно думать ни о балансировке нагрузки, ни о
+партиционировании данных, ни о других аспектах. Сразу же после окончания
+процессов загрузки и развертывания приложение готово становится готово к
+работе и доступно по домену третьего уровня на &lt;code&gt;*.appspot.com&lt;/code&gt;, либо можно
+подключить свой отдельный домен.&lt;/p&gt;
+&lt;p&gt;Технические ограничения тоже имеют быть: для разработки под GAE можно
+использовать лишь небольшой набор языков программирования, в частности
+Python 2.5, а также Java и все остальные языки, компилируемые или
+интерпретируемые под JVM (JRuby, Scala, Rhino, etc.). Все приложения
+исполняются в песочнице, ограничивающей доступ к окружающему миру, то
+есть определенные подмножества языков становятся недоступны, например:
+доступ к файловым системам, встроенные средства обработки изображений,
+доступ к сторонним ресурсам по HTTP, отправка почты. Про реляционные
+базы данных, memcached и библиотеки, использующие нативный,
+платформозависимый код, также стоит забыть. Но не все так плохо, как
+кажется: для реализации всех "отобранных" у разработчиков функциональных
+компонент Google предоставляет собственные сервисы-заменители, доступные
+через хорошо документированный API или вовсе замаскированные под
+стандартные методы языка. В качестве дополнительных бонусов
+предоставляются и возможности по интеграции с другими продуктами Google,
+скажем можно легко сделать авторизацию пользователей в приложении по
+учетным записям от &lt;em&gt;GMail&lt;/em&gt; или нотификацию пользователей по Jabber через
+&lt;em&gt;GTalk&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Отдельного внимания заслуживает используемая в данной платформе система
+хранения данных, основанная на &lt;strong&gt;BigTable&lt;/strong&gt;, о которой более подробно
+можно почитать в уже упомянутом &lt;a href="https://www.insight-it.ru/highload/2008/arkhitektura-google/" title="посте об архитектуре Google"&gt;посте об архитектуре Google&lt;/a&gt;.
+Если в двух словах, то она представляет собой распределенное
+&lt;strong&gt;не&lt;/strong&gt;реляционное хранилище данных, автоматически обеспечивающее
+репликацию и кеширование данных, а также практически гарантирующее
+постоянную доступность данных вне зависимости от сбоев низлежащего
+оборудования. Для доступа к нему разработчикам предоставляется
+специальный API и язык доступа к данным &lt;em&gt;GQL&lt;/em&gt;, слегка напоминающий
+упрощенный диалект &lt;em&gt;SQL&lt;/em&gt; (лишь отдаленно). Продукт в обращении
+достаточно своеобразен, как оказалось самый простой способ привыкнуть к
+работе с ним - выкинуть из головы все знания о традиционных СУБД и
+взглянуть на процесс хранения данных с чистого листа. Разномастные
+JOIN'ы и прочие изыски лишь мешают думать в терминах подобных систем.&lt;/p&gt;
+&lt;p&gt;Закончив тему с рекламой GAE, позвольте перейти к моим личным
+впечатлениям. Попробовал я данную платформу на вполне конкретном примере
+(в конце поста дам ссылочку на частично-готовый результат, если кому
+интересно), надо же в конце-концов на что-то с пользой убивать внезапно
+появившееся свободное время. ОтJava и прочей компании языков, основанных
+на JVM, я невероятно устал на теперь уже "прошлой" работе, так что взор
+мой упал на Python и давно находящийся у меня на слуху (в основном
+благодаря &lt;a href="https://www.insight-it.ru/goto/d12c91be/" rel="nofollow" target="_blank" title="Ивану Сагалаеву"&gt;Ивану Сагалаеву&lt;/a&gt;)
+фреймворк &lt;a href="https://www.insight-it.ru/goto/8e1e1008/" rel="nofollow" target="_blank" title="Django"&gt;Django&lt;/a&gt;. Ни с
+тем, ни с другим я ранее почти не был знаком на практике, разве что
+когда-то пытался помогать своим очень хорошим подругам с прохождением
+Python в университете (пользуясь случаем, передаю привет Полине, Кате и
+Юле, очень по вам скучаю ;) ). Стоит упомянуть, что существует несколько
+сборок Django, адаптированных под GAE, наиболее продуманным и готовым к
+эксплуатации мне показался проект под названием &lt;a href="https://www.insight-it.ru/goto/2c5c0602/" rel="nofollow" target="_blank" title="app engine patch"&gt;app engine patch&lt;/a&gt;,
+которым я и воспользовался для экспериментов.&lt;/p&gt;
+&lt;p&gt;Django, как известно, является вполне традиционным веб-фрейморком,
+пропагандирующим свою вариацию на тему MVC (именуемую &lt;strong&gt;MVT&lt;/strong&gt; - &lt;code&gt;Model-View-Template&lt;/code&gt;, но по сути абсолютно то же самое), а также целый ряд философских верований (вроде &lt;em&gt;DRY, Don't repeat yourself&lt;/em&gt;), которым даже отведена &lt;a href="https://www.insight-it.ru/goto/ecd0c9e6/" rel="nofollow" target="_blank" title="отдельная страница на сайте"&gt;отдельная страница на официальном сайте&lt;/a&gt;.
+Адаптированная под GAE версия фреймворка отличается от стандартной по
+большому счету лишь замененной частью &lt;code&gt;Model&lt;/code&gt;, в которую очень неплохо
+вписался предоставляемый API к уже упоминавшемуся хранилищу данных. По
+всем остальным компонентам системы официальная документация по Django
+практически полностью актуальна и сильно помогла понять всю картину
+разработки веб-приложений с использованием данных технологий.&lt;/p&gt;
+&lt;p&gt;Пересказывать функциональные возможности Django как-то не входило в мои
+планы, все кому интересно и так уже в курсе или знают где посмотреть.
+Хочу лишь сказать, что со своей задачей упрощения и ускорения процесса
+разработки веб-приложений он полностью справляется: все основные
+функциональные компоненты реализуются просто, легко и быстро, при этом
+особой необходимости (да и желания) вникать в то, как оно в итоге
+работает не возникает. Если же взглянуть на Django в совокупности с
+возможностями GAE - вопросы масштабируемости также по большей части с
+плеч разработчика снимаются (если не забыть прочитать документацию по
+хранилищу и не творить глупостей). В общем что-что, а количество
+человекочасов, требуемых на создание качественного масштабируемого
+веб-приложения, эта парочка способна сократить изрядно.&lt;/p&gt;
+&lt;p&gt;Предложение Google по использованию платформы GAE выглядит очень
+заманчиво, не смотря на все ограничения под нее можно как портировать
+существующие приложения, так и легко создавать новые. Бесплатное
+использование до превышения квот также не может не радовать (кстати
+квоты там рассчитаны на мировой рынок, превысить большинство из них в
+рамках рунета - надо постараться, мне кажется). Но закончить данное
+повествование мне всетаки хотелось парой недокументированных или вкратце
+официально упоминавшихся "ложек дегтя". Первая неприятная особенность:
+процессы, обрабатывающие пользовательские запросы приложений, умирают
+после очень небольшого времени простоя (таймаут судя по всему секунд
+20-30). По истечении таймаута система освобождает использующиеся
+приложением ресурсы и когда после перерыва приходит очередной
+пользователь система вынуждена заново инициализироваться (чуть ли не
+заново компилировать байткод, хотя не уверен), что занимает около 5
+секунд, а то и больше, во время которых пользователю ничего не остается
+кроме как терпеливо ждать. Сделали данный механизм видимо в связи с тем
+фактом, что подавляющее большинство развернутых приложений были сделаны
+просто чтобы побаловаться и были сразу же заброшены, что делает
+неэффективным постоянное держание в готовом состоянии даже одного
+процесса для каждого приложения. Таким образом использование GAE для
+тяжелых веб-приложений с небольшой целевой аудиторией не очень
+эффективно.&amp;nbsp; Минус второй: существуют некоторые жесткие ограничения,
+которые не разрешают увеличивать даже за деньги (по крайней мере
+расценок не видно). В их число входят максимальное время обработки
+одного запроса (30 секунд, правда не ясно распространяется ли это на
+выполнение задач в Task Queue и местном аналоге Cron'а), 30 активных
+процессов, обрабатывающих запросы приложения (что влечет за собой
+достаточно жесткое ограничение на количество запросов в секунду в районе
+нескольких сотен), максимальный размер HTTP запроса/ответа в 10 мегабайт
+и некоторые другие. В итоге "тяжелые" вычисления на GAE не погоняешь
+(хотя есть варианты с применением AJAX и, соответственно, большого
+количества запросов к GAE), от Digg-эффекта или DDOS'а есть шанс не
+уберечься, хостинг файлов не соорудить, но... разве это ограничения?
+Есть масса более интересных типов веб-приложений, способных прекрасно
+существовать в такой среде. Да и в крайнем случае всегда можно связаться
+с представителями Google с просьбой в виде исключение для Вашего
+приложения, судя по их заявлениям все ограничения носят искусственный
+характер и служат лишь для защиты от потребления неоправданно большого
+количества вычислительных ресурсов плохо спроектированных приложениями.&lt;/p&gt;
+&lt;p&gt;Кстати в американской части Интернета о GAE ходят в основном негативные
+мнения, мол тормозит, большое время отклика, сплошные таймауты и ошибки.
+На практике пока не удалось столкнуться с чем-то подобным, но реально
+работающего приложения с активной пользовательской базой у меня пока нет
+для того, чтобы делать какие-то относительно объективные выводы. Может
+быть со временем что-нибудь изменится и более тонкие нюансы станут
+выползать на поверхность - время покажет. Как раз будет повод написать
+еще один пост на эту же тему :)&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Mon, 19 Oct 2009 23:53:00 +0400</pubDate><guid>tag:www.insight-it.ru,2009-10-19:python/2009/django-v-gostyakh-u-google/</guid><category>app engine patch</category><category>BigTable</category><category>django</category><category>gae</category><category>Google</category><category>google app engine</category><category>Python</category><category>Масштабируемость</category><category>платформа</category></item><item><title>Архитектура YouTube</title><link>https://www.insight-it.ru//highload/2008/arkhitektura-youtube/</link><description>&lt;p&gt;Рост &lt;a href="https://www.insight-it.ru/goto/628b8f6a/" rel="nofollow" target="_blank" title="http://www.youtube.com"&gt;YouTube&lt;/a&gt; был феноменально быстр,
+количество просмотров видео превысило 100 миллионов в сутки при том, что
+только около пяти человек работало над масштабированием проекта. Как им
+удается управлять предоставлением всех этих видеороликов своим
+посетителям? Как они развивались с тех пор, как были приобретены
+&lt;a href="/tag/google/"&gt;Google&lt;/a&gt;?
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;h3 id="platforma"&gt;Платформа&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/apache/"&gt;Apache&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/python/"&gt;Python&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/linux/"&gt;Linux&lt;/a&gt; (SuSe)&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/psyco/"&gt;psyco&lt;/a&gt;, динамический компилятор &lt;a href="/tag/python/"&gt;Python&lt;/a&gt; &amp;rarr;
+    &lt;a href="/tag/c/"&gt;C&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/lighttpd/"&gt;lighttpd&lt;/a&gt; для видео&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="chto-vnutri"&gt;Что внутри?&lt;/h3&gt;
+&lt;h4&gt;Статистика&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Поддержка обработки более 100 миллионов видеороликов в сутки&lt;/li&gt;
+&lt;li&gt;Сервис был запущен в феврале 2005 года&lt;/li&gt;
+&lt;li&gt;В марте 2006 года в среднем производилось около 30 миллионов
+    просмотров видео в день&lt;/li&gt;
+&lt;li&gt;К июлю 2006 года эта цифра достигла 100 миллионов просмотров в день&lt;/li&gt;
+&lt;li&gt;Над проектом работают: 2 системных администратора, 2 архитектора
+    масштабируемости программного обеспечения, 2 разработчика новых
+    возможностей, 2 инженера по сетям, 1 архитектор баз данных&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Рецепт управления огромными темпами роста&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;true&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+   &lt;span class="n"&gt;identify_and_fix_bottlenecks&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+   &lt;span class="n"&gt;drink&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+   &lt;span class="n"&gt;sleep&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+   &lt;span class="n"&gt;notice_new_bottleneck&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Этот цикл проходит далеко не одну итерацию ежедневно.&lt;/p&gt;
+&lt;h3 id="veb-servery"&gt;Веб-серверы&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/netscalar/"&gt;NetScalar&lt;/a&gt; используется для балансировки нагрузки и
+    кэширования статического контента.&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/apache/"&gt;Apache&lt;/a&gt; работает с включенным &lt;code&gt;mod_fast_cgi&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Запросы отправляются на обработку с помощью серверного приложения на
+    &lt;a href="/tag/python/"&gt;Python&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Приложение взаимодействует с различными базами данных и другими
+    источниками информации для формирования финальной
+    &lt;a href="/tag/html/"&gt;HTML&lt;/a&gt;-страницы.&lt;/li&gt;
+&lt;li&gt;Масштабирование обычно происходит просто добавлением дополнительных
+    компьютеров.&lt;/li&gt;
+&lt;li&gt;Код на &lt;a href="/tag/python/"&gt;Python&lt;/a&gt; обычно не является узким местом
+    системы, он проводит большую часть времени заблокированным RPC.&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/python/"&gt;Python&lt;/a&gt; предоставляет быстроту и гибкость в процессе
+    разработки и развертывания. Этот факт является очень актуальным,
+    если учесть кто является их конкурентами.&lt;/li&gt;
+&lt;li&gt;На формирование страницы обычно уходит не более 100 миллисекунд.&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/psyco/"&gt;psyco&lt;/a&gt;, динамический компилятор &lt;a href="/tag/python/"&gt;Python&lt;/a&gt; &amp;rarr;
+    &lt;a href="/tag/c/"&gt;C&lt;/a&gt;, использует JIT подход к компилированию для оптимизации
+    внутренних циклов&lt;/li&gt;
+&lt;li&gt;Для интенсивных вычислений, таких как шифрование, используются
+    расширения, написанные на &lt;a href="/tag/c/"&gt;C&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Какая-то часть заранее сгенерированного &lt;a href="/tag/html/"&gt;HTML&lt;/a&gt; хранится в
+    кэше.&lt;/li&gt;
+&lt;li&gt;Кэширование данных в &lt;a href="/tag/subd/"&gt;СУБД&lt;/a&gt; на уровне строк.&lt;/li&gt;
+&lt;li&gt;Кэшируются полностью сформированные объекты &lt;a href="/tag/python/"&gt;Python&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Некие данные вычисляются и отправляется каждому серверу для
+    кэширования в локальной оперативной памяти. Эта стратегия годится
+    далеко не всегда, чаще всего более эффективен другой метод: самым
+    быстрым кэшем является само серверное приложение, а отправка уже
+    готовых данных остальным серверам для дальнейшей обработки обычно не
+    занимает так много времени. Для организации такого подхода
+    необходимы агенты, осуществляющие отслеживание изменений,
+    предварительную обработку и отправку данных.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="upravlenie-video"&gt;Управление видео&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Издержки включают в себя затраты на пропускную способность каналов
+    связи, приобретение нового оборудования и оплату огромных счетов за
+    электроэнергию.&lt;/li&gt;
+&lt;li&gt;Каждый видеоролик расположен на мини-кластере, что означает
+    управление работой с ним группой из нескольких компьютеров.&lt;/li&gt;
+&lt;li&gt;Использование кластеров влечет за собой:
+    &amp;ndash; увеличение производительности пропорционально количеству дисков,
+    на которых расположен контент;
+    &amp;ndash; возможность поддержания функционирования всей системы даже в
+    случае прекращения работоспособности части компьютеров;
+    &amp;ndash; возможность организации создания резервных копий
+    &lt;a href="/tag/online/"&gt;online&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;В роли HTTP-сервера для работы с видео используется
+    &lt;a href="/tag/lighttpd/"&gt;lighttpd&lt;/a&gt;:
+    &amp;ndash; Он способен дать фору &lt;a href="/tag/apache/"&gt;Apache&lt;/a&gt; в плане
+    производительности предоставления статического контента;
+    &amp;ndash; Для работы с событиями ввода-вывода используется &lt;strong&gt;epoll&lt;/strong&gt;;
+    &amp;ndash; Многопоточная конфигурация способна обрабатывать большее
+    количество соединений одновременно;&lt;/li&gt;
+&lt;li&gt;Самая популярная часть контента размещается в &lt;abbr title="Content Delivery Network"&gt;CDN&lt;/abbr&gt;
+    &amp;ndash; &lt;abbr title="Content Delivery Network"&gt;CDN&lt;/abbr&gt; реплицирует весь контент в разных частях системы;
+    &amp;ndash; Компьютеры &lt;abbr title="Content Delivery Network"&gt;CDN&lt;/abbr&gt; в основном предоставляют данные напрямую из кэша в оперативной памяти, так как ассортимент популярного видео с течением времени
+    меняется достаточно медленно.&lt;/li&gt;
+&lt;li&gt;Менее популярный контент, количество просмотров в день которого
+    варьируется в диапазоне от одного до двадцати, обычно размещается на
+    серверах &lt;a href="/tag/youtube/"&gt;YouTube&lt;/a&gt;, расположенных в датацентрах на
+    &lt;em&gt;colocation&lt;/em&gt;:
+    &amp;ndash; Не смотря на тот факт, что такое видео может быть просмотрено
+    всего несколько раз за день, количество таких роликов велико, что
+    приводит к случайным блокировкам данных на жестких дисках;
+    &amp;ndash; В такой ситуации кэширование практически бесполезно, инвестиции в
+    кэширование контента с низкой вероятностью востребованности обычно
+    является пустой тратой средств;
+    &amp;ndash; Более детальная настройка низкоуровневых компонентов системы,
+    таких как, например, RAID-контроллеры, в этой ситуации может
+    достаточно положительно повлиять на производительность;
+    &amp;ndash; Выбор оптимального размера оперативной памяти на каждой машине
+    также очень важен: как недостаточное, так и излишнее ее количество
+    не являются эффективными решениями.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Ключевые моменты&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Чем &lt;strong&gt;проще&lt;/strong&gt; - тем &lt;strong&gt;лучше&lt;/strong&gt;;&lt;/li&gt;
+&lt;li&gt;Старайтесь минимизировать количество устройств (маршрутизаторов,
+    коммутаторов и тому подобных) между контентом и пользователями:
+    далеко не факт, что все они будут способны выдерживать интенсивную
+    нагрузку;&lt;/li&gt;
+&lt;li&gt;Старайтесь использовать самое обыкновенное оборудование. Hi-end
+    оборудование обычно влечет за собой рост издержек, связанных с
+    сопутствующими процессами, например технической поддержкой, а также
+    уменьшает вероятность нахождение решения той или иной проблемы с
+    оборудованием в Сети;&lt;/li&gt;
+&lt;li&gt;Используйте самые простые распространенные утилиты.
+    &lt;a href="/tag/youtube/"&gt;YouTube&lt;/a&gt; использует идущий в комплекте с
+    &lt;a href="/tag/linux/"&gt;Linux&lt;/a&gt; набор утилит для построения системы именно на их
+    основе;&lt;/li&gt;
+&lt;li&gt;Не забывайте о случайных доступах к жестким дискам, эту, казалось
+    бы, мелочь тоже стоит настроить.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="upravlenie-miniatiurami-video"&gt;Управление миниатюрами видео&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;На удивление сложно решаемая задача, особенно если необходима
+    эффективность;&lt;/li&gt;
+&lt;li&gt;Для каждого видео хранится 4 миниатюры, что приводит к существенному
+    преобладанию количества миниатюр над количеством видеороликов;&lt;/li&gt;
+&lt;li&gt;Миниатюры хранятся всего на нескольких компьютерах;&lt;/li&gt;
+&lt;li&gt;Некоторые проблемы наблюдаются в связи с работой с большим
+    количеством маленьких объектов:
+    &amp;ndash; Проблемы на уровне операционной системы, связанные с большим
+    количеством запросов на поиск данных, а также кэшем страниц и
+    &lt;em&gt;inode&lt;/em&gt;'ов файловой системы;
+    &amp;ndash; Ограничение на количество файлов в одной директории (особенно
+    актуально для &lt;strong&gt;ext3&lt;/strong&gt;), возможно частичное решение в виде перехода
+    к более иерархической структуре хранения данных, а также переходе к
+    ядру &lt;a href="/tag/linux/"&gt;Linux&lt;/a&gt; версии 2.6, что может привести к более чем
+    стократному росту производительности, но в любом случае хранение
+    такого огромного количества файлов в локальной файловой системе - не
+    самая лучшая идея;
+    &amp;ndash; Большое количество запросов в секунду, так как одна страница может
+    содержать до 60 миниатюр различных видеороликов;
+    &amp;ndash; В условиях таких нагрузок &lt;a href="/tag/apache/"&gt;Apache&lt;/a&gt; показывает плохую
+    производительность;
+    &amp;ndash; Проводились эксперименты с использованием &lt;a href="/tag/squid/"&gt;squid&lt;/a&gt;
+    (обратной proxy) между &lt;a href="/tag/apache/"&gt;Apache&lt;/a&gt; и посетителями.
+    Какое-то время такой вариант казался работоспособным, но с ростом
+    нагрузки производительность начала падать. С обработки 300 запросов
+    в секунду она упала до 20;
+    &amp;ndash; Попытки использовать &lt;a href="/tag/lighttpd/"&gt;lighttpd&lt;/a&gt; также не
+    завершились успехом: однопоточный режим не справлялся с задачей, а
+    многопоточный требовал отдельного кэша для каждого потока, что
+    сводило на нет его эффективность;
+    &amp;ndash; С таким количеством изображений добавление в систему нового
+    компьютера могло занимать более 24 часов;
+    &amp;ndash; Перезагрузка занимала 6-10 часов, так как кэш должен был
+    "разогреться" прежде чем перестать использовать данные с жестких
+    дисков.&lt;/li&gt;
+&lt;li&gt;Решением всех описанных выше проблем стала распределенная система
+    хранения данных &lt;a href="/tag/bigtable/"&gt;BigTable&lt;/a&gt; от &lt;a href="/tag/google/"&gt;Google&lt;/a&gt;:
+    &amp;ndash; Она позволяет избежать проблем, связанных с большим количеством
+    файлов, так как объединяет маленькие файлы вместе.
+    &amp;ndash; Она работает быстро и устойчива к сбоям, помимо этого она
+    прекрасно приспособлена для работы по ненадежной сети.
+    &amp;ndash; Уменьшает задержки, так как использует распределенный
+    многоуровневый кэш, который способен работать даже между удаленными
+    датацентрами.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="bazy-dannykh"&gt;Базы данных&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Раньше:
+    &amp;ndash; &lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt; использовалась для хранения данных:
+    пользователей, тэгов, описаний и так далее.
+    &amp;ndash; Данные хранились на монолитном RAID 10 массиве, состоящем из 10
+    жестких дисков;
+    &amp;ndash; Оборудование арендовалось, что негативно сказывалось на состоянии
+    их кредитных карточек. В случае необходимости нового оборудования,
+    на оформление заказа и доставку мог уходить далеко не один день.
+    &amp;ndash; Они прошли через весь путь эволюции: сначала был один сервер,
+    затем добавилось несколько дополнительных серверов, обслуживающих
+    операции чтения, после чего они решили разбить базу данных на части,
+    и, наконец, они пришли к полноценной распределенной архитектуре.
+    &amp;ndash; Поначалу их система страдала от задержек, связанных с
+    реплицированием. Основной сервер, обрабатывающий операции записи,
+    являлся мощным сервером, работающим в многопоточном режиме, это было
+    необходимо для своевременного выполнения большого объема работы.
+    Второстепенные сервера, которые обрабатывали только операции чтения,
+    асинхронно реплицировали данные в одном потоке, что влекло за собой
+    возможность серьезного отставания некоторых из них.
+    &amp;ndash; Обновления были причиной частого отсутствия необходимой информации
+    в кэше, что заставляло сервера читать данные с жестких дисков. Этот
+    факт сильно замедлял процесс чтения и репликации.
+    &amp;ndash; Реплицирующая архитектура требует немалых вложений в оборудование,
+    необходимого для поддержания постоянно растущих темпов записи
+    информации.
+    &amp;ndash; Основным из кардинальных решений, принятых в архитектуре системы
+    было отделение обеспечения процесса просмотра видео от основного
+    кластера. Основной целью посетителей является просмотр видео, а
+    второстепенные задачи можно возложить и на менее производительный
+    кластер.&lt;/li&gt;
+&lt;li&gt;Сейчас:
+    &amp;ndash; Используются распределенные базы данных;
+    &amp;ndash; Сегментированная система &lt;em&gt;(прим.: &lt;a href="https://www.insight-it.ru/highload/2008/arkhitektura-flickr/"&gt;по аналогии с Flickr&lt;/a&gt;)&lt;/em&gt;;
+    &amp;ndash; Распределенные чтение и запись;
+    &amp;ndash; Более эффективное расположение кэша, что ведет к уменьшению работы
+    с жесткими дисками;
+    &amp;ndash; Такая архитектура привела к 30%-й экономии на оборудовании;
+    &amp;ndash; Задержки в реплицировании сведены к нулю;
+    &amp;ndash; Размеры базы данных могут расти практически неограниченно&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="strategiia-razmeshcheniia-v-datatsentrakh"&gt;Стратегия размещения в датацентрах&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Поначалу использовались хостинг провайдеры, предоставляющие услуги
+    colocation. Не самый экономичный подход, но тогда не было другого
+    выхода.&lt;/li&gt;
+&lt;li&gt;Хостинг провайдеры не могут поспеть за темпами роста проекта. Не
+    всегда получается получить контроль над необходимым оборудованием
+    или сделать необходимые соглашения о предоставлению сетевых услуг.&lt;/li&gt;
+&lt;li&gt;Решением этой проблемы стало создание собственной базы для
+    размещения оборудования. Появилась возможность настраивать абсолютно
+    все и подписывать свои собственные контракты такого рода.&lt;/li&gt;
+&lt;li&gt;Было использовано 5 или 6 разных датацентров в дополнение к
+    &lt;abbr title="Content Delivery Network"&gt;CDN&lt;/abbr&gt;.&lt;/li&gt;
+&lt;li&gt;Видео поступает из случайного датацентра, никаких специальных
+    проверок не проводится. Если ролик становится достаточно
+    популярным - он перемещается в
+    &lt;abbr title="Content Delivery Network"&gt;CDN&lt;/abbr&gt;.&lt;/li&gt;
+&lt;li&gt;Основным фактором, влияющим на доступность того или иного ролика
+    является пропускная способность канала связи.&lt;/li&gt;
+&lt;li&gt;Для изображений же более актуальны задержки, особенно если на одной
+    страницы должно быть размещено под 60 изображений.&lt;/li&gt;
+&lt;li&gt;Репликация изображений производится средствами
+    &lt;a href="/tag/bigtable/"&gt;BigTable&lt;/a&gt;. В этом случае используются различные меры
+    для определения ближайшего места, откуда можно получить необходимые
+    данные.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="podvodim-itogi"&gt;Подводим итоги&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Остановитесь на секунду.&lt;/strong&gt; Креативные и рискованные трюки могут
+    помочь справиться с задачей в краткосрочном периоде, но со временем
+    понадобятся более продуманные решения.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Расставьте приоритеты.&lt;/strong&gt; Определите какие части Вашего сервиса
+    являются более важными и стройте систему обеспечения ресурсами и
+    усилиями именно в соответствии с поставленными приоритетами.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Выбирайте свои битвы.&lt;/strong&gt; Не бойтесь пользоваться аутсорсингом в
+    некоторых ключевых сервисах. &lt;a href="/tag/youtube/"&gt;YouTube&lt;/a&gt; использует
+    &lt;abbr title="Content Delivery Network"&gt;CDN&lt;/abbr&gt; для распределения
+    своего наиболее популярного контента. Создание своей собственной
+    подобной сети стоило бы им слишком много и потребовало бы слишком
+    много времени. Возможно у Вас появятся подобные возможности в
+    отношении Вашей системы.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Будьте проще!&lt;/strong&gt; Простота позволяет изменять архитектуру более
+    быстро, что позволяет своевременно реагировать на возникающие
+    проблемы. Никто на самом деле не знает что такое &lt;em&gt;простота&lt;/em&gt;, но если
+    Вы не боитесь делать изменения, то это неплохой знак что вашей
+    системе свойственна та самая &lt;em&gt;простота&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Сегментирование.&lt;/strong&gt; Сегментирование позволяет изолировать и
+    ограничить дисковое пространство, процессорное время, оперативную
+    память и ввод-вывод. Оно выполняется не только для повышения
+    производительности операций записи.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Постоянная работа над поиском и устранением узких мест в
+    системе:&lt;/strong&gt;
+    &amp;ndash; на программном уровне это чаще всего бывает кэширование и работа с
+    &lt;a href="/tag/subd/"&gt;СУБД&lt;/a&gt;;
+    &amp;ndash; на уровне операционной системы - операции ввода-вывода;
+    &amp;ndash; на уровне оборудования - оперативная память и RAID массивы.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Залог Вашего успеха - командная работа.&lt;/strong&gt; Хорошая команда разного
+    рода специалистов должна понимать принцип системы вцелом и того, что
+    лежит &lt;em&gt;под&lt;/em&gt; ней. Каждый должен знать свое дело: настраивать
+    принтеры, подключать к системе новые компьютеры, строить сети и так
+    далее. С отличной командой Вам по силам все что угодно.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="istochniki-informatsii"&gt;Источники информации&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;В отличии от &lt;a href="https://www.insight-it.ru/highload/"&gt;остальных&lt;/a&gt;, этот перевод
+&lt;a href="https://www.insight-it.ru/goto/ea16b832/" rel="nofollow" target="_blank" title="http://highscalability.com/youtube-architecture"&gt;статьи&lt;/a&gt; от &lt;a href="https://www.insight-it.ru/goto/f3f1b405/" rel="nofollow" target="_blank" title="http://highscalability.com/user/todd-hoff"&gt;Todd Hoff&lt;/a&gt;'а уже был выполнен до
+меня (при желании можно найти в любой поисковой системе), но я все равно
+решил опубликовать свою версию просто для собственного развития и
+полноты &lt;a href="https://www.insight-it.ru/highload/"&gt;коллекции&lt;/a&gt;, да и многим читателям, возможно,
+покажется интересным. Что ж, перейдем к источнику информации оригинала:&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/f5823d0b/" rel="nofollow" target="_blank" title="http://video.google.com/videoplay?docid=-6304964351441328559"&gt;Google Video&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sat, 01 Mar 2008 16:07:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-03-01:highload/2008/arkhitektura-youtube/</guid><category>Apache</category><category>BigTable</category><category>lighttpd</category><category>Linux</category><category>MySQL</category><category>NetScalar</category><category>psyco</category><category>Python</category><category>YouTube</category><category>архитектура</category><category>архитектура YouTube</category><category>интернет</category><category>Масштабируемость</category><category>производительность</category><category>хранение данных</category></item></channel></rss>

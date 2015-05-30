@@ -1,0 +1,1371 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/featured/feed/index.xml" rel="self"></atom:link><lastBuildDate>Sat, 05 Mar 2011 20:47:00 +0300</lastBuildDate><item><title>Архитектура Twitter. Два года спустя.</title><link>https://www.insight-it.ru//highload/2011/arkhitektura-twitter-dva-goda-spustya/</link><description>&lt;p&gt;В далеком 2008м я уже публиковал статью про &lt;a href="https://www.insight-it.ru/highload/2008/arkhitektura-twitter/"&gt;архитектуру Twitter&lt;/a&gt;, но время летит
+стремительно и она уже абсолютно устарела. За это время аудитория
+Twitter росла просто фантастическими темпами и многое поменялось и с
+технической точки зрения. Интересно что новенького у одного из самых
+популярных социальных интернет-проектов?&lt;!--more--&gt;&lt;/p&gt;
+&lt;h2 id="statistika"&gt;Статистика&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;3 год, 2 месяца и 1 день потребовалось Twitter, чтобы набрать 1
+    миллиард твитов&lt;/li&gt;
+&lt;li&gt;На сегодняшний день, чтобы отправить миллиард твитов пользователям
+    нужна всего одна неделя&lt;/li&gt;
+&lt;li&gt;752% рост аудитории за 2008 год&lt;/li&gt;
+&lt;li&gt;1358% рост аудитории за 2009 год&amp;nbsp;(без учета API, по данным comScore)&lt;/li&gt;
+&lt;li&gt;175 миллионов зарегистрированных пользователей на сентябрь 2010 года&lt;/li&gt;
+&lt;li&gt;460 тысяч регистраций пользователей в день&lt;/li&gt;
+&lt;li&gt;9й сайт в мире по популярности (по данным Alexa, год назад был на 12
+    месте)&lt;/li&gt;
+&lt;li&gt;50 миллионов твитов в день год назад, 140 миллионов твитов в день
+    месяц назад, 177 миллионов твитов в день на 11 марта 2011г.&lt;/li&gt;
+&lt;li&gt;Рекорд по количеству твитов за секунду 6939, установлен через минуту
+    после того, как Новый Год 2011 наступил в Японии&lt;/li&gt;
+&lt;li&gt;600 миллионов поисков в день&lt;/li&gt;
+&lt;li&gt;Лишь 25% трафика приходится на веб сайт, остальное идет через API&lt;/li&gt;
+&lt;li&gt;Росто числа мобильных пользователей за последний год 182%&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;6 миллиардов&lt;/strong&gt; запросов к API в день, около 70 тысяч в секунду&lt;/li&gt;
+&lt;li&gt;8, 29, 130, 350, 400 - это количество сотрудников Twitter на январь
+    2008, январь 2009, январь 2010, январь и март 2011, соответственно&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Самая свежая &lt;a href="https://www.insight-it.ru/goto/682783c0/" rel="nofollow" target="_blank" title="http://blog.twitter.com/2011/03/numbers.html"&gt;статистика про Twitter&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id="platforma"&gt;Платформа&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/apache/"&gt;Apache&lt;/a&gt; + &lt;code&gt;mod_proxy&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/unicorn/"&gt;Unicorn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/ruby/"&gt;Ruby&lt;/a&gt; +&amp;nbsp;&lt;a href="/tag/ror/"&gt;Ruby on Rails&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/scala/"&gt;Scala&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/flock/"&gt;Flock&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/memcached/"&gt;memcached&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/kestrel/"&gt;Kestrel&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/cassandra/"&gt;Cassandra&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/scribe/"&gt;Scribe&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/hadoop/"&gt;Hadoop&lt;/a&gt;, &lt;a href="/tag/hbase/"&gt;HBase&lt;/a&gt; и &lt;a href="/tag/pig/"&gt;Pig&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Сравните с аналогичным разделом предыдущей статьи о Twitter - увидите
+много новых лиц, подробнее ниже.&lt;/p&gt;
+&lt;h2 id="oborudovanie"&gt;Оборудование&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Сервера расположены в NTT America&lt;/li&gt;
+&lt;li&gt;Никаких облаков и виртуализации, существующие решения страдают
+    слишком высокими задержками&lt;/li&gt;
+&lt;li&gt;Более тысячи серверов&lt;/li&gt;
+&lt;li&gt;Планируется переезд в собственный датацентр&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="chto-takoe-tvit"&gt;Что такое твит?&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Сообщение длиной до 140 символов + метаданные&lt;/li&gt;
+&lt;li&gt;Типичные запросы:&lt;ul&gt;
+&lt;li&gt;по идентификатору&lt;/li&gt;
+&lt;li&gt;по автору&lt;/li&gt;
+&lt;li&gt;по @упоминаниям пользователей&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="arkhitektura"&gt;Архитектура&lt;/h2&gt;
+&lt;p&gt;&lt;img alt="Процесс обработки запроса в Twitter" class="responsive-img" src="https://www.insight-it.ru/images/twitter-request-flow.jpeg" title="Процесс обработки запроса в Twitter"/&gt;&lt;/p&gt;
+&lt;h3 id="unicorn"&gt;Unicorn&lt;/h3&gt;
+&lt;p&gt;Сервер приложений для Rails:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Развертывание новых версий кода &lt;strong&gt;без простоя&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;На 30% меньше расход вычислительных ресурсов и оперативной памяти,
+    по сравнению с другими решениями&lt;/li&gt;
+&lt;li&gt;Перешли с &lt;code&gt;mod_proxy_balancer&lt;/code&gt; на &lt;code&gt;mod_proxy_pass&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="rails"&gt;Rails&lt;/h3&gt;
+&lt;p&gt;Используется в основном для генерации страниц, работа за сценой
+реализована на чистом Ruby или Scala.&lt;/p&gt;
+&lt;p&gt;Столкнулись со следующими проблемами:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Проблемы с кэшированием, особенно по части инвалидации&lt;/li&gt;
+&lt;li&gt;ActiveRecord генерирует не самые удачные SQL-запросы, что замедляло
+    время отклика&lt;/li&gt;
+&lt;li&gt;Высокие задержки в очереди и при репликации&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="memcached"&gt;memcached&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;memcached не идеален. Twitter начал сталкиваться с Segmentation
+    Fault в нем очень рано.&lt;/li&gt;
+&lt;li&gt;Большинство стратегий кэширования основываются на длинных TTL
+    (более минуты).&lt;/li&gt;
+&lt;li&gt;Вытеснение данных делает его непригодным для важных конфигурационных
+    данных (например флагов "темного режима", о котором пойдет речь
+    ниже).&lt;/li&gt;
+&lt;li&gt;Разбивается на несколько пулов для улучшения производительности и
+    снижения риска вытеснения.&lt;/li&gt;
+&lt;li&gt;Оптимизированная библиотека для доступа к memcached из Ruby на
+    основе libmemcached + FNV hash, вместо чистого Ruby и md5.&lt;/li&gt;
+&lt;li&gt;Twitter является одним их наиболее активных проектов, участвующих в
+    разработке libmemcached.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="mysql"&gt;MySQL&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Разбиение больших объемов данных является тяжелой задачей.&lt;/li&gt;
+&lt;li&gt;Задержки в репликации и вытеснение данных из кэша является причиной
+    нарушения целостности данных с точки зрения конечного пользователя.&lt;/li&gt;
+&lt;li&gt;Блокировки создают борьбу за ресурсы для популярных данных.&lt;/li&gt;
+&lt;li&gt;Репликация однопоточна и происходит недостаточно быстро.&lt;/li&gt;
+&lt;li&gt;Данные социальных сетей плохо подходят для реляционных СУБД:&lt;ul&gt;
+&lt;li&gt;NxN отношения, социальный граф и обход деревьев - не самые
+    подходящие задачи для таких баз данных&lt;/li&gt;
+&lt;li&gt;Проблемы с дисковой подсистемой (выбор файловой системы,
+    noatime, алгоритм планирования)&lt;/li&gt;
+&lt;li&gt;ACID практически не требуется&lt;/li&gt;
+&lt;li&gt;Для очередей также практически непригодны&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Twitter сталкивался с большими проблемами касательно таблиц
+    пользователей и их статусов&lt;/li&gt;
+&lt;li&gt;Читать данные с мастера при Master/Slave репликации = медленная
+    смерть&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="flockdb"&gt;FlockDB&lt;/h3&gt;
+&lt;p&gt;Масштабируемое хранилище для данных социального графа:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Разбиение данных через Gizzard&lt;/li&gt;
+&lt;li&gt;Множество серверов MySQL в качестве низлежащей системы хранения&lt;/li&gt;
+&lt;li&gt;В Twitter содержит 13 миллиардов ребер графа и обеспечивает 20 тысяч
+    операций записи и 100 тысяч операций чтения в секунду&lt;/li&gt;
+&lt;li&gt;Грани хранятся и индексируются в обоих направлениях&lt;/li&gt;
+&lt;li&gt;Поддерживает распределенный подсчет количества строк&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/4fe0530b/" rel="nofollow" target="_blank" title="https://github.com/twitter/flockdb"&gt;Open source!&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Среднее время на выполнение операций:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Подсчет количества строк: 1мс&lt;/li&gt;
+&lt;li&gt;Временные запросы: 2мс&lt;/li&gt;
+&lt;li&gt;Запись: 1мс для журнала, 16мс для надежной записи&lt;/li&gt;
+&lt;li&gt;Обход дерева: 100 граней/мс&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Подробнее про эволюцию систем хранения данных в Twitter &lt;a href="https://www.insight-it.ru/goto/32077a90/" rel="nofollow" target="_blank" title="http://www.slideshare.net/nkallen/q-con-3770885"&gt;в презентации
+Nick Kallen&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id="cassandra"&gt;Cassandra&lt;/h3&gt;
+&lt;p&gt;Распределенная система хранения данных, ориентированная на работу в
+реальном времени:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Изначально разработана в &lt;a href="/tag/facebook/"&gt;Facebook&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Очень высокая производительность на запись&lt;/li&gt;
+&lt;li&gt;Из слабых сторон: высокая задержка при случайном доступе&lt;/li&gt;
+&lt;li&gt;Децентрализованная, способна переносить сбои оборудования&lt;/li&gt;
+&lt;li&gt;Гибкая схема данных&lt;/li&gt;
+&lt;li&gt;&lt;del&gt;Планируется полный переход на нее по
+    следующему алгоритму:&lt;/del&gt;&lt;ul&gt;
+&lt;li&gt;&lt;del&gt;Все твиты пишутся и в Cassandra
+    и в MySQL&lt;/del&gt;&lt;/li&gt;
+&lt;li&gt;&lt;del&gt;Динамически часть операций
+    чтения переводится на Cassandra&lt;/del&gt;&lt;/li&gt;
+&lt;li&gt;&lt;del&gt;Анализируется реакция системы,
+    что сломалось&lt;/del&gt;&lt;/li&gt;
+&lt;li&gt;&lt;del&gt;Полностью отключаем чтение из
+    Cassandra, чиним неисправности&lt;/del&gt;&lt;/li&gt;
+&lt;li&gt;&lt;del&gt;Начинаем сначала&lt;/del&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="https://www.insight-it.ru/goto/e83e4e8e/" rel="nofollow" target="_blank" title="http://engineering.twitter.com/2010/07/cassandra-at-twitter-today.html"&gt;Обновление:&lt;/a&gt;&lt;/strong&gt; стратегия по поводу использования Cassandra изменилась, попытки
+    использовать её в роли основного хранилища для твитов прекратились,
+    но она продолжает использоваться для аналитики и географической
+    информации.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Подробнее почему Twitter пришел к решению использовать Cassandra можно
+прочитать &lt;a href="https://www.insight-it.ru/goto/ffc31d1/" rel="nofollow" target="_blank" title="http://www.slideshare.net/ryansking/scaling-twitter-with-cassandra"&gt;в отдельной презентации&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Помимо всего прочего Cassandra&amp;nbsp;&lt;del&gt;планируется использовать&lt;/del&gt; используется для аналитики в реальном времени.&lt;/p&gt;
+&lt;h3 id="scribe"&gt;Scribe&lt;/h3&gt;
+&lt;p&gt;Пользователи Twitter генерируют огромное количество данных, около 15-25
+Гб в минуту, более 12 Тб в день, и эта цифра удваивается несколько раз
+в год.&lt;/p&gt;
+&lt;p&gt;Изначально для сбора логов использовали &lt;code&gt;syslog-ng&lt;/code&gt;, но он очень быстро
+перестал справляться с нагрузкой.&lt;/p&gt;
+&lt;p&gt;Решение нашлось очень просто: &lt;a href="/tag/facebook/"&gt;Facebook&lt;/a&gt; столкнулся с
+аналогичной проблемой и разработал проект Scribe, который был
+опубликован в opensource.&lt;/p&gt;
+&lt;p&gt;По сути это фреймворк для сбора и агрегации логов, основанный на
+&lt;a href="/tag/thrift/"&gt;Thrift&lt;/a&gt;. Вы пишете текст для логов и указываете
+категорию, остальное он берет на себя.&lt;/p&gt;
+&lt;p&gt;Работает локально, надежен даже в случае потери сетевого соединения,
+каждый узел знает только на какой сервер передавать логи, что позволяет
+создавать масштабируемую иерархию для сбора логов.&lt;/p&gt;
+&lt;p&gt;Поддерживаются различные системы для записи в данным, &amp;nbsp;в том числе
+обычные файлы и HDFS (о ней ниже).&lt;/p&gt;
+&lt;p&gt;Этот продукт полностью решил проблему Twitter со сбором логов,
+используется около 30 различных категорий. В процессе использования была
+создана и опубликована масса доработок. Активно сотрудничают с командой
+Facebook в развитии проекта.&lt;/p&gt;
+&lt;h3 id="hadoop"&gt;Hadoop&lt;/h3&gt;
+&lt;p&gt;Как Вы обычно сохраняете 12Тб новых данных, поступающих каждый день?&lt;/p&gt;
+&lt;p&gt;Если считать, что средняя скорость записи современного жесткого диска
+составляет 80Мбайт в секунду, запись 12Тб данных заняла бы почти 48
+часов.&lt;/p&gt;
+&lt;p&gt;На одном даже очень большом сервере данную задачу не решить, логичным
+решением задачи стало использование кластера для хранения и анализа
+таких объемов данных.&lt;/p&gt;
+&lt;p&gt;Использование кластерной файловой системы добавляет сложности, но
+позволяет меньше заботиться о деталях.&lt;/p&gt;
+&lt;p&gt;Hadoop Distributed File System (HDFS) предоставляет возможность
+автоматической репликации и помогает справляться со сбоями оборудования.&lt;/p&gt;
+&lt;p&gt;MapReduce framework позволяет обрабатывать огромные объемы данных,
+анализируя пары ключ-значение.&lt;/p&gt;
+&lt;p&gt;Типичные вычислительные задачи, которые решаются с помощью Hadoop в
+Twitter:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Вычисление связей дружбы в социальном графе (&lt;code&gt;grep&lt;/code&gt; и &lt;code&gt;awk&lt;/code&gt; не
+    справились бы, self join в MySQL на таблицах с миллиардами строк -
+    тоже)&lt;/li&gt;
+&lt;li&gt;Подсчет статистики (количество пользователей и твитов, например
+    подсчет количества твитов занимает 5 минут при 12 миллиардах
+    записей)&lt;/li&gt;
+&lt;li&gt;Подсчет PageRank между пользователями для вычисления репутации.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;В твиттер используется бесплатный дистрибутив от Cloudera, версия Hadoop
+0.20.1, данные храняться &lt;a href="https://www.insight-it.ru/goto/1ac5bba3/" rel="nofollow" target="_blank" title="https://github.com/kevinweil/hadoop-lzo"&gt;в сжатом по алгоритму LZO виде&lt;/a&gt;, библиотеки для работы с
+данными опубликованы под названием
+&lt;a href="https://www.insight-it.ru/goto/a1b5430e/" rel="nofollow" target="_blank" title="https://github.com/kevinweil/elephant-bird"&gt;elephant-bird&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id="pig"&gt;Pig&lt;/h3&gt;
+&lt;p&gt;Для того чтобы анализировать данные с помощью MapReduce обычно
+необходимо разрабатывать код на Java, что далеко не все умеют делать, да
+и трудоемко это.&lt;/p&gt;
+&lt;p&gt;Pig представляет собой высокоуровневый язык, позволяющий
+трансформировать огромные наборы данных шаг за шагом.&lt;/p&gt;
+&lt;p&gt;Немного напоминает SQL, но намного проще. Это позволяет писать в 20 раз
+меньше кода, чем при анализе данных с помощью обычных MapReduce работ.
+Большая часть работы по анализу данных в Twitter осуществляется с
+помощью Pig.&lt;/p&gt;
+&lt;h3 id="dannye"&gt;Данные&lt;/h3&gt;
+&lt;p&gt;Полу-структурированные данные:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;логи Apache, RoR, MySQL, A/B тестирования, процесса регистрации&lt;/li&gt;
+&lt;li&gt;поисковые запросы&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Структурированные данные:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Твиты&lt;/li&gt;
+&lt;li&gt;Пользователи&lt;/li&gt;
+&lt;li&gt;Блок-листы&lt;/li&gt;
+&lt;li&gt;Номера телефонов&lt;/li&gt;
+&lt;li&gt;Любимые твиты&lt;/li&gt;
+&lt;li&gt;Сохраненные поиски&lt;/li&gt;
+&lt;li&gt;Ретвиты&lt;/li&gt;
+&lt;li&gt;Авторизации&lt;/li&gt;
+&lt;li&gt;Подписки&lt;/li&gt;
+&lt;li&gt;Сторонние клиенты&lt;/li&gt;
+&lt;li&gt;География&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Запутанные данные:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Социальный граф&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Что же они делают с этим всем?&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Подсчет математического ожидания, минимума, максимума и дисперсии
+    следующих показателей:&lt;ul&gt;
+&lt;li&gt;Количество запросов за сутки&lt;/li&gt;
+&lt;li&gt;Средняя задержка, 95% задержка&lt;/li&gt;
+&lt;li&gt;Распределение кодов HTTP-ответов (по часам)&lt;/li&gt;
+&lt;li&gt;Количество поисков осуществляется каждый день&lt;/li&gt;
+&lt;li&gt;Количество уникальных запросов и пользователей&lt;/li&gt;
+&lt;li&gt;Географическое распределение запросов и пользователей&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Подсчет вероятности, ковариации, влияния:&lt;ul&gt;
+&lt;li&gt;Как отличается использование через мобильные устройства?&lt;/li&gt;
+&lt;li&gt;Как влияет использование клиентов сторонних разработчиков?&lt;/li&gt;
+&lt;li&gt;Когортный анализ&lt;/li&gt;
+&lt;li&gt;Проблемы с сайтом (киты и роботы, подробнее ниже)&lt;/li&gt;
+&lt;li&gt;Какие функциональные возможности цепляют пользователей?&lt;/li&gt;
+&lt;li&gt;Какие функциональные возможности чаще используются популярными
+    пользователями?&lt;/li&gt;
+&lt;li&gt;Корректировка и предложение поисковых запросов&lt;/li&gt;
+&lt;li&gt;A/B тестирование&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Предсказания, анализ графов, естественные языки:&lt;ul&gt;
+&lt;li&gt;Анализ пользователей по их твитам, твитов, на которые они
+    подписаны, твитам их фоловеров&lt;/li&gt;
+&lt;li&gt;Какая структура графа ведет к успешным популярным сетям&lt;/li&gt;
+&lt;li&gt;Пользовательская репутация&lt;/li&gt;
+&lt;li&gt;Анализ эмоциональной окраски&lt;/li&gt;
+&lt;li&gt;Какие особенности заставляют людей ретвитнуть твит?&lt;/li&gt;
+&lt;li&gt;Что влияет на глубину дерева ретвитов ?&lt;/li&gt;
+&lt;li&gt;Долгосрочное обнаружение дубликатов&lt;/li&gt;
+&lt;li&gt;Машинное обучение&lt;/li&gt;
+&lt;li&gt;Обнаружения языка&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Подробнее про обработку данных &lt;a href="https://www.insight-it.ru/goto/3d4649ef/" rel="nofollow" target="_blank" title="http://www.slideshare.net/kevinweil/nosql-at-twitter-nosql-eu-2010"&gt;в презентации Kevin Weil&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id="hbase"&gt;HBase&lt;/h3&gt;
+&lt;p&gt;Twitter начинают строить настоящие сервисы на основе Hadoop, например
+поиск людей:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;HBase используется как изменяемая прослойка над HDFS&lt;/li&gt;
+&lt;li&gt;Данные экспортируются из HBase c помощью периодической MapReduce
+    работы:&lt;ul&gt;
+&lt;li&gt;На этапе Map используются также данные из FlockDB и нескольких
+    внутренних сервисов&lt;/li&gt;
+&lt;li&gt;Собственная схема разбиения данных&lt;/li&gt;
+&lt;li&gt;Данные подтягиваются через высокопроизводительный, горизонтально
+    масштабируемый сервис на Scala (&lt;a href="https://www.insight-it.ru/goto/917f8c95/" rel="nofollow" target="_blank" title="http://www.slideshare.net/al3x/building-distributed-systems-in-scala"&gt;подробнее о построении распределенных сервисов на Scala&lt;/a&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;На основе HBase разрабатываются и другие продукты внутри Twitter.&lt;/p&gt;
+&lt;p&gt;Основными её достоинствами являются гибкость и легкая интеграция с
+Hadoop и Pig.&lt;/p&gt;
+&lt;p&gt;По сравнению с Cassandra:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;"Их происхождение объясняет их сильные и слабые стороны"&lt;/li&gt;
+&lt;li&gt;HBase построен на основе системы по пакетной обработке данных,
+    высокие задержки, работает далеко не в реальном времени&lt;/li&gt;
+&lt;li&gt;Cassandra построена с нуля для работы с низкими задержками&lt;/li&gt;
+&lt;li&gt;HBase легко использовать при анализе данных как источник или место
+    сохранения результатов, Cassandra для этого подходит меньше, но они
+    работают над этим&lt;/li&gt;
+&lt;li&gt;HBase на данный момент единственную точку отказа в виде мастер-узла&lt;/li&gt;
+&lt;li&gt;В твиттере HBase используется для аналитики, анализа и создания
+    наборов данных, а Cassandra - для онлайн систем&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="loony"&gt;Loony&lt;/h3&gt;
+&lt;p&gt;Централизованная система управления оборудованием.&lt;/p&gt;
+&lt;p&gt;Реализована с использованием:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/python/"&gt;Python&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/django/"&gt;Django&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/8927633f/" rel="nofollow" target="_blank" title="http://www.lag.net/paramiko"&gt;Paraminko&lt;/a&gt; (реализация протокола SSH
+    на Python, разработана и опубликована в opensource в Twitter)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Интегрирована с LDAP, анализирует входящую почту от датацентра и
+автоматически вносит изменения в базу.&lt;/p&gt;
+&lt;h3 id="murder"&gt;Murder&lt;/h3&gt;
+&lt;p&gt;Система развертывания кода и ПО, основанная на протоколе BitTorrent.&lt;/p&gt;
+&lt;p&gt;Благодаря своей P2P природе позволяет обновить более тысячи серверов за
+30-60 секунд.&lt;/p&gt;
+&lt;h3 id="kestrel"&gt;Kestrel&lt;/h3&gt;
+&lt;p&gt;Распределенная очередь, работающая по протоколу memcache:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;set&lt;/code&gt; - поставить в очередь&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;get&lt;/code&gt; - взять из очереди&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Особенности:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Отсутствие строгого порядка выполнения заданий&lt;/li&gt;
+&lt;li&gt;Отсутствие общего состояния между серверами&lt;/li&gt;
+&lt;li&gt;Разработана на &lt;a href="/tag/scala/"&gt;Scala&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="daemony"&gt;Daemon'ы&lt;/h3&gt;
+&lt;p&gt;Каждый твит обрабатывается с помощью daemon'ов.&lt;/p&gt;
+&lt;p&gt;В unicorn обрабатываются только HTTP запросы, вся работа за сценой
+реализована в виде отдельных daemon'ов.&lt;/p&gt;
+&lt;p&gt;Раньше использовалось много разных демонов, по одному на каждую задачу
+(Rails), но перешли к меньшему их количеству, способному решать
+несколько задач одновременно.&lt;/p&gt;
+&lt;h3 id="kak-oni-spravliaiutsia-s-takimi-tempami-rosta"&gt;Как они справляются с такими темпами роста?&lt;/h3&gt;
+&lt;p&gt;Рецепт прост, но эффективен, подходит практически для любого
+интернет-проекта:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;обнаружить самое слабое место в системе;&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;принять меры по его устранению;&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;перейти к следующему самому слабому месту.&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;На словах звучит и правда примитивно, но на практике нужно предпринять
+ряд мер, чтобы такой подход был бы реализуем:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Автоматический сбор метрик (причем в агрегированном виде)&lt;/li&gt;
+&lt;li&gt;Построение графиков (RRD, Ganglia)&lt;/li&gt;
+&lt;li&gt;Сбор и анализ&amp;nbsp;логов&lt;/li&gt;
+&lt;li&gt;Все данные должны получаться с минимальной задержкой, как можно
+    более близко к реальному времени&lt;/li&gt;
+&lt;li&gt;Анализ:&lt;ul&gt;
+&lt;li&gt;Из данных необходимо получать &lt;em&gt;информацию&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Следить за динамикой показателей: стало лучше или хуже?&lt;/li&gt;
+&lt;li&gt;Особенно при развертывании новых версий кода&lt;/li&gt;
+&lt;li&gt;Планирование использования ресурсов намного проще, чем решение
+    экстренных ситуаций, когда они на исходу&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Примерами агрегированных метрик в Twitter являются "киты" и "роботы",
+вернее их количество в единицу времени.&lt;/p&gt;
+&lt;h5&gt;Что такое "робот"?&lt;/h5&gt;
+&lt;p&gt;&lt;img alt="Twitter Робот" class="responsive-img" src="https://www.insight-it.ru/images/twitter-bot.jpg" title="Twitter Робот"/&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Ошибка внутри Rails (HTTP 500)&lt;/li&gt;
+&lt;li&gt;Непойманное исключение&lt;/li&gt;
+&lt;li&gt;Проблема в коде или нулевой результат&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5&gt;Что такое "кит"?&lt;/h5&gt;
+&lt;p&gt;&lt;img alt="Twitter Кит" class="responsive-img" src="https://www.insight-it.ru/images/twitter-whale.jpg" title="Twitter Кит"/&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;HTTP ошибка 502 или 503&lt;/li&gt;
+&lt;li&gt;В твиттер используется фиксированный таймаут в 5 секунд (лучше
+    кому-то показать ошибку, чем захлебнуться в запросах)&lt;/li&gt;
+&lt;li&gt;Убитый слишком длинный запрос к базе данных (mkill)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Значительное превышение нормального количества китов или роботов в
+минуту является поводом для беспокойством.&lt;/p&gt;
+&lt;p&gt;Реализован этот механизм простым bash-скриптом, который просматривает
+агрегированные логи за последние 60 секунд, подсчитывает количество
+китов/роботов и рассылает уведомления, если значение оказалось выше
+порогового значения. Подробнее про работу команды оперативного
+реагирования &lt;a href="https://www.insight-it.ru/goto/30562be/" rel="nofollow" target="_blank" title="http://www.slideshare.net/netik/billions-of-hits-scaling-twitter"&gt;в презентации John Adams&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id="temnyi-rezhim"&gt;"Темный режим"&lt;/h3&gt;
+&lt;p&gt;Для экстренных ситуаций в Twitter предусмотрен так называемый "темный
+режим", который представляет собой набор механизмов для отключения
+тяжелых по вычислительным ресурсам или вводу-выводу функциональных
+частей сайта. Что-то вроде стоп-крана для сайта.&lt;/p&gt;
+&lt;p&gt;Имеется около 60 выключателей, в том числе и полный режим "только для
+чтения".&lt;/p&gt;
+&lt;p&gt;Все изменения в настройках этого режима фиксируются в логах и сообщаются
+руководству, чтобы никто не баловался.&lt;/p&gt;
+&lt;h2 id="podvodim-itogi_1"&gt;Подводим итоги&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Не бросайте систему на самотек, начинайте собирать метрики и их
+    визуализировать как можно раньше&lt;/li&gt;
+&lt;li&gt;Заранее планируйте рост требуемых ресурсов и свои действия в случае
+    экстренных ситуаций&lt;/li&gt;
+&lt;li&gt;Кэшируйте по максимуму все, что возможно&lt;/li&gt;
+&lt;li&gt;Все инженерные решения не вечны, ни одно из решений не идеально, но
+    многие будут нормально работать в течение какого-то периода времени&lt;/li&gt;
+&lt;li&gt;Заранее начинайте задумываться о плане масштабирования&lt;/li&gt;
+&lt;li&gt;Не полагайтесь полностью на memcached и базу данных - они могут Вас
+    подвести в самый неподходящий момент&lt;/li&gt;
+&lt;li&gt;Все данные для запросов в реальном времени должны находиться в
+    памяти, диски в основном для записи&lt;/li&gt;
+&lt;li&gt;Убивайте медленные запросы (mkill) прежде, чем они убьют всю систему&lt;/li&gt;
+&lt;li&gt;Некоторые задачи могут решаться путем предварительного подсчета и
+    анализа, но далеко не все&lt;/li&gt;
+&lt;li&gt;Приближайте вычисления к данным по возможности&lt;/li&gt;
+&lt;li&gt;Используйте не mongrel, а unicorn для RoR&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Спасибо за внимание, &lt;a href="/feed/"&gt;жду Вас снова&lt;/a&gt;! Буду рад, если Вы
+&lt;a href="https://www.insight-it.ru/goto/26b8fa1/" rel="nofollow" target="_blank" title="http://twitter.com/blinkov"&gt;подпишитесь на меня в Twitter&lt;/a&gt;, с
+удовольствием пообщаюсь со всеми читателями :)&lt;/strong&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Sat, 05 Mar 2011 20:47:00 +0300</pubDate><guid>tag:www.insight-it.ru,2011-03-05:highload/2011/arkhitektura-twitter-dva-goda-spustya/</guid><category>Apache</category><category>Cassandra</category><category>featured</category><category>Flock</category><category>FlockDB</category><category>Hadoop</category><category>HBase</category><category>Kestrel</category><category>Memcached</category><category>MySQL</category><category>Pig</category><category>Ruby</category><category>Ruby on Rails</category><category>Scala</category><category>Scribe</category><category>Twitter</category><category>Unicorn</category><category>архитектура Twitter</category><category>интернет-проекты</category><category>Масштабируемость</category><category>социальная сеть</category></item><item><title>Архитектура Вконтакте</title><link>https://www.insight-it.ru//highload/2010/arkhitektura-vkontakte/</link><description>&lt;p&gt;&lt;img alt="Логотип Вконтакте" class="left" src="https://www.insight-it.ru/images/vkontakte-logo.png" title="Логотип Вконтакте"/&gt;
+Самая популярная социальная сеть в рунете пролила немного света на то,
+как же она работает. Представители проекта в лице Павла Дурова и Олега
+Илларионова на конференции &lt;a href="https://www.insight-it.ru/event/2010/highload-2010/"&gt;HighLoad++&lt;/a&gt; ответили на шквал вопросов по совершенно разным аспектам работы
+&lt;a href="https://www.insight-it.ru/goto/a14c17dd/" rel="nofollow" target="_blank" title="http://www.vkontakte.ru"&gt;Вконтакте&lt;/a&gt;, в том числе и техническим. Спешу
+поделиться своим взглядом на архитектуру проекта по результатам данного
+выступления.&lt;!--more--&gt;&lt;/p&gt;
+&lt;h2 id="platforma"&gt;Платформа&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/debian/"&gt;Debian&lt;/a&gt; &lt;a href="/tag/linux/"&gt;Linux&lt;/a&gt; - основная операционная
+    система&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/nginx/"&gt;nginx&lt;/a&gt; - балансировка нагрузки&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/php/"&gt;PHP&lt;/a&gt; + &lt;a href="/tag/xcache/"&gt;XCache&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/apache/"&gt;Apache&lt;/a&gt; + &lt;a href="/tag/mod_php/"&gt;mod_php&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/memcached/"&gt;memcached&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Собственная СУБД на &lt;a href="/tag/c/"&gt;C&lt;/a&gt;, созданная "лучшими умами" России&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/node-js/"&gt;node.js&lt;/a&gt; - прослойка для реализации XMPP, живет за
+    &lt;a href="/tag/haproxy/"&gt;HAProxy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Изображения отдаются просто с файловой системы &lt;a href="/tag/xfs/"&gt;xfs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/ffmpeg/"&gt;ffmpeg&lt;/a&gt; - конвертирование видео&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="statistika"&gt;Статистика&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;95 миллионов учетных записей&lt;/li&gt;
+&lt;li&gt;40 миллионов активных пользователей во всем мире (сопоставимо с
+    аудиторией интернета в России)&lt;/li&gt;
+&lt;li&gt;11 миллиардов запросов в день&lt;/li&gt;
+&lt;li&gt;200 миллионов личных сообщений в день&lt;/li&gt;
+&lt;li&gt;Видеопоток достигает 160Гбит/с&lt;/li&gt;
+&lt;li&gt;Более 10 тысяч серверов, из которых только 32 - фронтенды на
+    &lt;a href="/tag/nginx/"&gt;nginx&lt;/a&gt; (количество серверов с
+    &lt;a href="/tag/apache/"&gt;Apache&lt;/a&gt; неизвестно)&lt;/li&gt;
+&lt;li&gt;30-40 разработчиков, 2 дизайнера, 5 системных администраторов, много
+    людей в датацентрах&lt;/li&gt;
+&lt;li&gt;Каждый день выходит из строя около 10 жестких дисков&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="arkhitektura"&gt;Архитектура&lt;/h2&gt;
+&lt;h3 id="obshchie-printsipy"&gt;Общие принципы&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Cервера многофункциональны и используются одновременно в нескольких
+    ролях:&lt;ul&gt;
+&lt;li&gt;Перебрасывание полуавтоматическое&lt;/li&gt;
+&lt;li&gt;Требуется перезапускать daemon'ы&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Генерация страниц с новостями (микроблоги) происходит очень похожим
+    образом с &lt;a href="/tag/facebook/"&gt;Facebook&lt;/a&gt; (см. &lt;a href="https://www.insight-it.ru/highload/2010/arkhitektura-facebook/"&gt;Архитектура&amp;nbsp;Facebook&lt;/a&gt;), основное
+    отличие - использование собственной СУБД вместо MySQL&lt;/li&gt;
+&lt;li&gt;При балансировке нагрузки используются:&lt;ul&gt;
+&lt;li&gt;Взвешенный round robin внутри системы&lt;/li&gt;
+&lt;li&gt;Разные сервера для разных типов запросов&lt;/li&gt;
+&lt;li&gt;Балансировка на уровне ДНС на 32 IP-адреса&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Большая часть внутреннего софта написано самостоятельно, в том
+    числе:&lt;ul&gt;
+&lt;li&gt;Собственная СУБД (см. ниже)&lt;/li&gt;
+&lt;li&gt;Мониторинг с уведомлением по СМС (Павел сам помогал верстать
+    интерфейс :) )&lt;/li&gt;
+&lt;li&gt;Автоматическая система тестирования кода&lt;/li&gt;
+&lt;li&gt;Анализаторы статистики и логов&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Мощные сервера:&lt;ul&gt;
+&lt;li&gt;8-ядерные процессоры Intel (по два на сервер, видимо)&lt;/li&gt;
+&lt;li&gt;64Гб оперативной памяти&lt;/li&gt;
+&lt;li&gt;8 жестких дисков (соответственно скорее всего корпуса 2-3U)&lt;/li&gt;
+&lt;li&gt;RAID не используется&lt;/li&gt;
+&lt;li&gt;Не брендированные&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Вычислительные мощности серверов используются менее, чем на 20%&lt;/li&gt;
+&lt;li&gt;Сейчас проект расположен в 4 датацентрах в Санкт-Петербурге и
+    Москве, причем:&lt;ul&gt;
+&lt;li&gt;Вся основная база данных располагается в одном датацентре в
+    Санкт-Петербурге&lt;/li&gt;
+&lt;li&gt;В Московских датацентрах только аудио и видео&lt;/li&gt;
+&lt;li&gt;В планах сделать репликацию базы данных в другой датацентр в
+    ленинградской области&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/cdn/"&gt;CDN&lt;/a&gt; на данный момент не используется, но в планах есть&lt;/li&gt;
+&lt;li&gt;Резервное копирование данных происходит ежедневно и инкрементально&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="volshebnaia-baza-dannykh-na-c"&gt;Волшебная база данных на &lt;a href="/tag/c/"&gt;C&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Этому продукту, пожалуй, уделялось максимум внимания аудитории, но при
+этом почти никаких подробностей о том, что он собственно говоря собой
+представляет, так и не было обнародовано. Известно, что:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Разработана "лучшими умами" России, победителями олимпиад и
+    конкурсов топкодер; озвучили даже имена этих "героев" Вконтакте
+    (писал на слух и возможно не всех успел, так что извиняйте):&lt;ul&gt;
+&lt;li&gt;Андрей Лопатин&lt;/li&gt;
+&lt;li&gt;Николай Дуров&lt;/li&gt;
+&lt;li&gt;Арсений Смирнов&lt;/li&gt;
+&lt;li&gt;Алексей Левин&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Используется в огромном количестве сервисов:&lt;ul&gt;
+&lt;li&gt;Личные сообщения&lt;/li&gt;
+&lt;li&gt;Сообщения на стенах&lt;/li&gt;
+&lt;li&gt;Статусы&lt;/li&gt;
+&lt;li&gt;Поиск&lt;/li&gt;
+&lt;li&gt;Приватность&lt;/li&gt;
+&lt;li&gt;Списки друзей&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Нереляционная модель данных&lt;/li&gt;
+&lt;li&gt;Большинство операций осуществляется в оперативной памяти&lt;/li&gt;
+&lt;li&gt;Интерфейс доступа представляет собой расширенный протокол
+    &lt;a href="/tag/memcached/"&gt;memcached&lt;/a&gt;, специальным образом составленные ключи
+    возвращают результаты сложных запросов (чаще всего специфичных для
+    конкретного сервиса)&lt;/li&gt;
+&lt;li&gt;Хотели бы сделать из данной системы универсальную СУБД и
+    опубликовать под GPL, но пока не получается из-за высокой степени
+    интеграции с остальными сервисами&lt;/li&gt;
+&lt;li&gt;Кластеризация осуществляется легко&lt;/li&gt;
+&lt;li&gt;Есть репликация&lt;/li&gt;
+&lt;li&gt;Если честно, я так и не понял зачем им &lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt; с такой
+    штукой - возможно просто как legacy живет со старых времен&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="audio-i-video"&gt;Аудио и видео&lt;/h3&gt;
+&lt;p&gt;Эти подпроекты являются побочными для социальной сети, на них особо не
+фокусируются. В основном это связанно с тем, что они редко коррелируют с
+основной целью использования социальной сети - &lt;em&gt;общением&lt;/em&gt;, а также
+создают большое количество проблем: видео траффик - основная статья
+расходов проекта, плюс всем известные проблемы с нелегальным контентом и
+претензиями правообладателей. Медиа-файлы банятся по хэшу при удалении
+по просьбе правообладателей, но это неэффективно и планируется
+усовершенствовать этот механизм.&lt;/p&gt;
+&lt;p&gt;1000-1500 серверов используется для перекодирования видео, на них же оно
+и хранится.&lt;/p&gt;
+&lt;h3 id="xmpp"&gt;XMPP&lt;/h3&gt;
+&lt;p&gt;Как известно, некоторое время назад появилась возможность общаться на
+Вконтакте через протокол Jabber (он же XMPP). Протокол совершенно
+открытый и существует масса opensource реализаций.&lt;/p&gt;
+&lt;p&gt;По ряду причин, среди которых проблемы с интеграцией с остальными
+сервисами, было решено за месяц создать собственный сервер,
+представляющий собой прослойку между внутренними сервисами Вконтакте и
+реализацией XMPP протокола. Основные особенности этого сервиса:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Реализован на &lt;a href="/tag/node-js/"&gt;node.js&lt;/a&gt; (выбор обусловлен тем, что
+    JavaScript знают практически все разработчики проекта, а также
+    хороший набор инструментов для реализации задачи)&lt;/li&gt;
+&lt;li&gt;Работа с большими контакт-листами - у многих пользователей
+    количество друзей на Вконтакте измеряется сотнями и тысячами&lt;/li&gt;
+&lt;li&gt;Высокая активность смены статусов - люди появляются и исчезают из
+    онлайна чаще, чем в других аналогичных ситуациях&lt;/li&gt;
+&lt;li&gt;Аватарки передаются в &lt;code&gt;base64&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Тесная интеграция с внутренней системой обмена личными сообщениями
+    Вконтакте&lt;/li&gt;
+&lt;li&gt;60-80 тысяч человек онлайн, в пике - 150 тысяч&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/haproxy/"&gt;HAProxy&lt;/a&gt; обрабатывает входящие соединения и
+    используется для балансировки нагрузки и развертывания новых версий&lt;/li&gt;
+&lt;li&gt;Данные хранятся в &lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt; (думали о MongoDB, но
+    передумали)&lt;/li&gt;
+&lt;li&gt;Сервис работает на 5 серверах разной конфигурации, на каждом из них
+    работает код на&lt;a href="/tag/node-js/"&gt;node.js&lt;/a&gt; (по 4 процесса на сервер), а
+    на трех самых мощных - еще и &lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;В &lt;a href="/tag/node-js/"&gt;node.js&lt;/a&gt; большие проблемы с использованием
+    &lt;a href="/tag/openssl/"&gt;OpenSSL&lt;/a&gt;, а также течет память&lt;/li&gt;
+&lt;li&gt;Группы друзей в XMPP не связаны с группами друзей на сайте - сделано
+    по просьбе пользователей, которые не хотели чтобы их друзья из-за
+    плеча видели в какой группе они находятся&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="integratsiia-so-vneshnimi-resursami"&gt;Интеграция со внешними ресурсами&lt;/h3&gt;
+&lt;p&gt;Во Вконтакте считают данное направление очень перспективным и
+осуществляют массу связанной с этим работы. Основные предпринятые шаги:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Максимальная кроссбраузерность для виджетов на основе библиотек
+    easyXDM и fastXDM&lt;/li&gt;
+&lt;li&gt;Кросс-постинг статусов в &lt;a href="/tag/twitter/"&gt;Twitter&lt;/a&gt;, реализованный с
+    помощью очередей запросов&lt;/li&gt;
+&lt;li&gt;Кнопка "поделиться с друзьями", поддерживающая openGraph теги и
+    автоматически подбирающая подходящую иллюстрацию (путем сравнивание
+    содержимых тега &lt;code&gt;&amp;lt;title&amp;gt;&lt;/code&gt; и атрибутов alt у изображений, чуть ли не
+    побуквенно)&lt;/li&gt;
+&lt;li&gt;Возможность загрузки видео через сторонние видео-хостинги (YouTube,
+    RuTube, Vimeo, и.т.д.), открыты к интеграции с другими&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="interesnye-fakty-ne-po-teme_1"&gt;Интересные факты не по теме&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Процесс разработки близок к Agile, с недельными итерациями&lt;/li&gt;
+&lt;li&gt;Ядро операционной системы модифицированно (на предмет работы с
+    памятью), есть своя пакетная база для &lt;a href="/tag/debian/"&gt;Debian&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Фотографии загружаются на два жестких диска одного сервера
+    одновременно, после чего создается резервная копия на другом сервере&lt;/li&gt;
+&lt;li&gt;Есть много доработок над &lt;a href="/tag/memcached/"&gt;memcached&lt;/a&gt;, в.т.ч. для
+    более стабильного и длительного размещения объектов в памяти; есть
+    даже persistent версия&lt;/li&gt;
+&lt;li&gt;Фотографии не удаляются для минимизации фрагментации&lt;/li&gt;
+&lt;li&gt;Решения о развитии проекта принимают Павел Дуров и Андрей Рогозов,
+    ответственность за сервисы - на них и на реализовавшем его
+    разработчике&lt;/li&gt;
+&lt;li&gt;Павел Дуров откладывал деньги на хостинг с 1 курса :)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="podvodim-itogi"&gt;Подводим итоги&lt;/h2&gt;
+&lt;p&gt;В целом Вконтакте развивается в сторону увеличения скорости
+распространения информацию внутри сети. Приоритеты поменялись в этом
+направлении достаточно недавно, этим обусловлено, например, перенос
+выхода почтового сервиса Вконтакте, о котором очень активно говорили
+когда появилась возможность забивать себе текстовые URL вроде
+&lt;code&gt;vkontakte.ru/ivan.blinkov&lt;/code&gt;. Сейчас этот подпроект имеет низкий приоритет
+и ждет своего часа, когда они смогут предложить что-то более удобное и
+быстрое, чем Gmail.&lt;/p&gt;
+&lt;p&gt;Завеса тайны насчет технической реализации Вконтакте была немного
+развеяна, но много моментов все же остались секретом. Возможно в будущем
+появится более детальная информация о собственной СУБД Вконтакте,
+которая как оказалось является ключом к решению всех самых сложных
+моментов в масштабируемости системы.&lt;/p&gt;
+&lt;p&gt;Как я уже упоминал этот пост написан почти на память, на основе
+небольшого конспекта "круглого стола Вконтакте", так что хочется сразу
+извиниться за возможные неточности и недопонимания. Я лишь
+структурировал хаотичную кучу ответов на вопросы. Буду рад уточнениям и
+дополнениям.&lt;/p&gt;
+&lt;p&gt;Если хотите быть в курсе новых веяний в сфере масштабируемости
+высоконагруженных интернет-проектов - по традиции рекомендую
+&lt;a href="/feed/"&gt;подписаться на RSS&lt;/a&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Thu, 28 Oct 2010 21:12:00 +0400</pubDate><guid>tag:www.insight-it.ru,2010-10-28:highload/2010/arkhitektura-vkontakte/</guid><category>Apache</category><category>C++</category><category>Debian</category><category>featured</category><category>ffmpeg</category><category>HAProxy</category><category>highload</category><category>Linux</category><category>Memcached</category><category>mod_php</category><category>MySQL</category><category>nginx</category><category>node.js</category><category>openssl</category><category>PHP</category><category>XCache</category><category>xfs</category><category>Архитектура Вконтакте</category><category>Вконтакте</category></item><item><title>Архитектура Facebook</title><link>https://www.insight-it.ru//highload/2010/arkhitektura-facebook/</link><description>&lt;p&gt;&lt;img alt="Facebook Logo" class="left" src="https://www.insight-it.ru/images/facebook_logo.jpg" title="Facebook Logo"/&gt;
+На сегодняшний день &lt;a href="https://www.insight-it.ru/goto/fbae133c/" rel="nofollow" target="_blank" title="https://www.facebook.com"&gt;Facebook&lt;/a&gt; является пожалуй
+самым обсуждаемым интернет-проектом во всем мире. Не смотря на довольно
+низкий уровень проникновения Facebook в России, темпы захвата аудитории
+этим проектом мягко говоря поражают. Как же им удается управляться с
+таким огромным социальным графом и удовлетворять потребности в общении
+невероятно большого количества людей по всему миру?&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h2 id="platforma"&gt;Платформа&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/linux/"&gt;Linux&lt;/a&gt; - операционная система&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/php/"&gt;PHP&lt;/a&gt; с &lt;a href="/tag/hiphop/"&gt;HipHop&lt;/a&gt; - код на PHP компилируется в
+    C++&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/memcached/"&gt;memcached&lt;/a&gt; - агрессивное кэширование объектов&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/mysql/"&gt;MySQL&lt;/a&gt; - используется как хранилище пар ключ-значение,
+    никаких join'ов&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/thrift/"&gt;Thrift&lt;/a&gt; - интерфейс взаимодействия между сервисами,
+    написанными на разных языках программирования&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/scribe/"&gt;Scribe&lt;/a&gt; - универсальная система сбора и агрегации
+    данных с рабочих серверов&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="statistika"&gt;Статистика&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Более 500 миллионов активных пользователей (месячная аудитория)&lt;/li&gt;
+&lt;li&gt;Более миллиарда социальных связей&lt;/li&gt;
+&lt;li&gt;Более 200 миллиардов просмотров страниц в месяц&lt;/li&gt;
+&lt;li&gt;Более 4 триллионов действий попадает в новостные ленты каждый день&lt;/li&gt;
+&lt;li&gt;Более 150 миллионов обращений к кэшу в секунду; 2 триллиона объектов
+    в кэше&lt;/li&gt;
+&lt;li&gt;Более 8 миллиардов минут провели пользователи на Facebook'е
+    ежедневно&lt;/li&gt;
+&lt;li&gt;Более 3 миллиардов фотографий загружается каждый месяц, до 1.2
+    миллиона фотографий в секунду&lt;/li&gt;
+&lt;li&gt;20 миллиардов фотографий в 4 разрешениях = 80 миллиардов фотографий,
+    их бы хватило чтобы покрыть поверхность земли в 10 слоев; это
+    больше, чем на всех других фото-ресурсах в месте взятых&lt;/li&gt;
+&lt;li&gt;О более чем 5 миллиардах единиц контента рассказывается друзьям
+    еженедельно&lt;/li&gt;
+&lt;li&gt;Более миллиарда сообщений в чате каждый день&lt;/li&gt;
+&lt;li&gt;Более ста миллионов поисковых запросов в день&lt;/li&gt;
+&lt;li&gt;Более 250 приложений и 80 тысяч сторонних ресурсов на платформе
+    Facebook Connect&lt;/li&gt;
+&lt;li&gt;Более 400 тысяч разработчиков сторонних приложений&lt;/li&gt;
+&lt;li&gt;Менее 500 разработчиков и системных администраторов в штате&lt;/li&gt;
+&lt;li&gt;Более миллиона активных пользователей на одного инженера&lt;/li&gt;
+&lt;li&gt;Десятки тысяч серверов, десятки гигабит трафика&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="arkhitektura"&gt;Архитектура&lt;/h2&gt;
+&lt;h3 id="obshchie-printsipy"&gt;Общие принципы&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Балансировщик нагрузки выбирает веб-сервер для обработки запроса&lt;/li&gt;
+&lt;li&gt;PHP-код в веб-сервере подготавливает HTML, пользуясь данными из
+    различных источников:&lt;ul&gt;
+&lt;li&gt;MySQL&lt;/li&gt;
+&lt;li&gt;memcached&lt;/li&gt;
+&lt;li&gt;Специализированные сервисы&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Если взглянуть с другой стороны, то получим трехуровневую
+    архитектуру:&lt;ul&gt;
+&lt;li&gt;Вер-приложение&lt;/li&gt;
+&lt;li&gt;Распределенный индекс&lt;/li&gt;
+&lt;li&gt;Постоянное хранилище&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Использование открытых технологий там, где это возможно&lt;/li&gt;
+&lt;li&gt;Поиск возможностей оптимизации используемых продуктов&lt;/li&gt;
+&lt;li&gt;Философия Unix:&lt;ul&gt;
+&lt;li&gt;Старайтесь делать каждый компонент системы простым и
+    производительным&lt;/li&gt;
+&lt;li&gt;Комбинируйте компоненты для решения задач&lt;/li&gt;
+&lt;li&gt;Концентрируйте внимание на хорошо обозначенных точках
+    взаимодействия&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Все усилия направлены на масштабируемость&lt;/li&gt;
+&lt;li&gt;Попытки минимизации количества точек отказа&lt;/li&gt;
+&lt;li&gt;Простота, простота, простота!&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="php"&gt;PHP&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Почему PHP?&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Во многом "так исторически сложилось"&lt;/li&gt;
+&lt;li&gt;Хорошо подходит для веб-разработки&lt;/li&gt;
+&lt;li&gt;Легок в изучении: небольшой набор выражений и языковых конструкций&lt;/li&gt;
+&lt;li&gt;Легок в написании: нестрогая типизация и универсальный "массив"&lt;/li&gt;
+&lt;li&gt;Легок в чтении: синтаксис похож на C++ и Java&lt;/li&gt;
+&lt;li&gt;Прост в дебаггинге: нет необходимости в перекомпиляции&lt;/li&gt;
+&lt;li&gt;Большой ассортимент библиотек, актуальных для веб-проектов&lt;/li&gt;
+&lt;li&gt;Подходит для процесса разработки с короткими итерациями&lt;/li&gt;
+&lt;li&gt;Активное сообщество разработчиков по всему миру&lt;/li&gt;
+&lt;li&gt;Динамическая типизация, интерпретируемый язык для скриптов&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Как оказалось на самом деле?&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Высокий расход оперативной памяти и вычислительных ресурсов&lt;/li&gt;
+&lt;li&gt;Сложно работать, когда объем исходного кода очень велик: слабая
+    типизация и ограниченные возможности для статичного анализа и
+    оптимизации кода&lt;/li&gt;
+&lt;li&gt;Не особо оптимизирован для использования в крупных проектах&lt;/li&gt;
+&lt;li&gt;Линейный рост издержек при подключении файлов с исходным кодом&lt;/li&gt;
+&lt;li&gt;Механизм разработки расширений не очень удобен&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Доработки:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Оптимизация байт-кода&lt;/li&gt;
+&lt;li&gt;Улучшения в APC (ленивая загрузка, оптимизация блокировок,
+    "подогрев" кэша)&lt;/li&gt;
+&lt;li&gt;Свои расширения (клиент memcache, формат сериализации, логи,
+    статистика, мониторинг, механизм асинхронной обработки событий)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="https://www.insight-it.ru/goto/169aa287/" rel="nofollow" target="_blank" title="http://github.com/facebook/hiphop-php"&gt;HipHop&lt;/a&gt;&lt;/strong&gt; - трансформатор
+    исходных кодов:&lt;ul&gt;
+&lt;li&gt;Разработчики пишут на PHP, который конвертируется в
+    оптимизированный C++&lt;/li&gt;
+&lt;li&gt;Статический анализ, определение типов данных, генерация кода,
+    и.т.д.&lt;/li&gt;
+&lt;li&gt;Облегчает разработку расширений&lt;/li&gt;
+&lt;li&gt;Существенно сокращает расходы оперативной памяти и
+    вычислительных ресурсов&lt;/li&gt;
+&lt;li&gt;У команды из трех программистов ушло полтора года на разработку,
+    переписаны большая часть интерпретатора и многие расширения
+    языка&lt;/li&gt;
+&lt;li&gt;Опубликован под opensource лицензией в начале года, нет
+    необходимости проходить этот же путь с нуля&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="mysql"&gt;MySQL&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Как используется MySQL?&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Используется как хранилище пар ключ-значение&lt;/li&gt;
+&lt;li&gt;Большое количество логических узлов распределено между физическими
+    машинами&lt;/li&gt;
+&lt;li&gt;Балансировка нагрузке на уровне физических серверов&lt;/li&gt;
+&lt;li&gt;Репликация для распределения операций чтения &lt;strong&gt;не&lt;/strong&gt; используется&lt;/li&gt;
+&lt;li&gt;Большинство запросов касаются самой свежей информации: оптимизация
+    таблиц для доступа к новым данным, архивация старых записей&lt;/li&gt;
+&lt;li&gt;В целом быстро и надежно&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Как оказалось на самом деле?&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Логическая миграция данных &lt;em&gt;очень&lt;/em&gt; сложна&lt;/li&gt;
+&lt;li&gt;Создавать большое количество логических баз данных и
+    перераспределять их между физическими узлами, балансируя таким
+    образом нагрузку, намного удобнее&lt;/li&gt;
+&lt;li&gt;Никаких join'ов на рабочих серверах баз данных&lt;/li&gt;
+&lt;li&gt;Намного проще наращивать вычислительные мощности на веб-серверах,
+    чем на серверах баз данных&lt;/li&gt;
+&lt;li&gt;Схемы, основанные на структуре данных, делают программистов
+    счастливыми и создают большую головную боль администраторам&lt;/li&gt;
+&lt;li&gt;Никогда не храните не-статичные данные в централизованное базе
+    данных&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Доработки:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Практически никаких модификаций исходного кода MySQL&lt;/li&gt;
+&lt;li&gt;Своя схема партиционирования с глобально-уникальными
+    идентификаторами&lt;/li&gt;
+&lt;li&gt;Своя схема архивирования, основанная на частоте доступа к данным
+    относительно каждого пользователя&lt;/li&gt;
+&lt;li&gt;Расширенный движок запросов для репликации между датацентрами и
+    поддержания консистенции кеша&lt;/li&gt;
+&lt;li&gt;Библиотеки для доступа к данным на основе графа:&lt;ul&gt;
+&lt;li&gt;Объекты (вершины графа) с ограниченными типами данных (целое
+    число, строка ограниченно длины, текст)&lt;/li&gt;
+&lt;li&gt;Реплицированные связи (ребра графа)&lt;/li&gt;
+&lt;li&gt;Аналоги распределенных внешних ключей (foreign keys)&lt;/li&gt;
+&lt;li&gt;Большинство данных распределено случайно&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="memcache"&gt;Memcache&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Как используется memcached?&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Высокопроизводительная распределенная хэш-таблица&lt;/li&gt;
+&lt;li&gt;Содержит "горячие" данные из MySQL&lt;/li&gt;
+&lt;li&gt;Снижает нагрузку на уровень баз данных&lt;/li&gt;
+&lt;li&gt;Основная форма кэширования&lt;/li&gt;
+&lt;li&gt;Используется более 25TB памяти на нескольких тысячах серверов&lt;/li&gt;
+&lt;li&gt;Среднее время отклика менее 250 микро-секунд&lt;/li&gt;
+&lt;li&gt;Кэшируются сериализованные структуры данных PHP&lt;/li&gt;
+&lt;li&gt;Отсутствие автоматического механизма проверки консистенции данных
+    между memcached и MySQL - приходится делать это на уровне
+    программного кода&lt;/li&gt;
+&lt;li&gt;Множество multi-get запросов для получения данных на другом конце
+    ребер графа&lt;/li&gt;
+&lt;li&gt;Ограниченная модель данных, неэффективен для маленьких объектов&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Доработки:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Порт на 64-битную архитектуру&lt;/li&gt;
+&lt;li&gt;Более эффективная сериализация&lt;/li&gt;
+&lt;li&gt;Многопоточность&lt;/li&gt;
+&lt;li&gt;Улучшенный протокол&lt;/li&gt;
+&lt;li&gt;Компрессия&lt;/li&gt;
+&lt;li&gt;Проксирование запросов&lt;/li&gt;
+&lt;li&gt;Доступ к memcache через UDP:&lt;ul&gt;
+&lt;li&gt;уменьшает расход памяти благодаря отсутствию тысяч буферов TCP
+    соединений&lt;/li&gt;
+&lt;li&gt;управление ходом исполнения приложение (оптимизация для
+    multi-get)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Статистика о работе потоков по запросу - уменьшает блокировки&lt;/li&gt;
+&lt;li&gt;Ряд изменений в ядре Linux для оптимизации работы memcache:&lt;ul&gt;
+&lt;li&gt;распределение управления сетевыми прерывания по всем ядрам&lt;/li&gt;
+&lt;li&gt;оппортунистический опрос сетевых интерфейсов&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;После вышеперечисленных модификаций memcached способен выполнять до
+    250 тысяч операций в секунду, по сравнению со стандартными 30-40
+    тысячами без данных изменений&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="thrift"&gt;Thrift&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Что это?&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Легкий механизм построения приложений с использованием нескольких
+    языков программирования&lt;/li&gt;
+&lt;li&gt;Высокая цель: предоставить механизм прозрачного взаимодействия между
+    языками программирования.&lt;/li&gt;
+&lt;li&gt;Предоставляет язык описания интерфейсов, статический генератор кода&lt;/li&gt;
+&lt;li&gt;Поддерживаемые языки: &lt;a href="/tag/c/"&gt;C++&lt;/a&gt;, &lt;a href="/tag/php/"&gt;PHP&lt;/a&gt;,
+    &lt;a href="/tag/python/"&gt;Python&lt;/a&gt;, &lt;a href="/tag/java/"&gt;Java&lt;/a&gt;, &lt;a href="/tag/ruby/"&gt;Ruby&lt;/a&gt;,
+    &lt;a href="/tag/erlang/"&gt;Erlang&lt;/a&gt;, &lt;a href="/tag/perl/"&gt;Perl&lt;/a&gt;, &lt;a href="/tag/haskell/"&gt;Haskell&lt;/a&gt; и
+    многие другие&lt;/li&gt;
+&lt;li&gt;Транспорты: простой интерфейс для ввода-вывода (сокеты, файлы,
+    буферы в памяти)&lt;/li&gt;
+&lt;li&gt;Протоколы: стандарты сериализации (бинарный, JSON)&lt;/li&gt;
+&lt;li&gt;Серверы: неблокирующие, асинхронные, как однопоточные, так и
+    многопоточные&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Почему именно Thrift?&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Альтернативные технологии: SOAP, CORBA, COM, Pillar, Protocol
+    Buffers - но у всех есть свои существенные недостатки, что вынудило
+    Facebook создать свою технологию&lt;/li&gt;
+&lt;li&gt;Он быстрый, очень быстрый&lt;/li&gt;
+&lt;li&gt;Меньше рабочего времени тратится каждым разработчиком на сетевые
+    интерфейсы и протоколы&lt;/li&gt;
+&lt;li&gt;Разделение труда: работа над высокопроизводительными серверами
+    ведется отдельно от работы над приложениями&lt;/li&gt;
+&lt;li&gt;Общий инструментарий, знакомый всем разработчикам&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="scribe"&gt;Scribe&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Что это?&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Масштабированный распределенный механизм ведения логов&lt;/li&gt;
+&lt;li&gt;Перемещает данные с серверов в центральный репозиторий&lt;/li&gt;
+&lt;li&gt;Широкая сфера применения:&lt;ul&gt;
+&lt;li&gt;Логи поисковых запросов&lt;/li&gt;
+&lt;li&gt;Публикации в новостных лентах&lt;/li&gt;
+&lt;li&gt;Данные по A/B тестированиям&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Более надежен, чем традиционные системы логгирования, но
+    недостаточно надежен для транзакций баз данных&lt;/li&gt;
+&lt;li&gt;Простая модель данных&lt;/li&gt;
+&lt;li&gt;Построен на основе Thrift&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="khranenie-fotografii"&gt;Хранение фотографий&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Сначала сделали это просто:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Загрузка на сервер: приложение принимает изображение, создает
+    миниатюры в нужных разрешениях, сохраняет в NFS&lt;/li&gt;
+&lt;li&gt;Загрузка с сервера: изображения отдаются из NFS через HTTP&lt;/li&gt;
+&lt;li&gt;NFS построена на коммерческих продуктах&lt;/li&gt;
+&lt;li&gt;Это было необходимо, чтобы сначала проверить, что продукт
+    востребован пользователями и они правда будут активно загружать
+    фотографии&lt;/li&gt;
+&lt;li&gt;На самом деле оказалось, что:&lt;ul&gt;
+&lt;li&gt;Файловые системы непригодны для работы с большим количеством
+    небольших файлов&lt;/li&gt;
+&lt;li&gt;Метаданные не помещаются в оперативную память, что приводит к
+    дополнительным обращениям к дисковой подсистеме&lt;/li&gt;
+&lt;li&gt;Ограничивающим фактором является ввод-вывод, а не плотность
+    хранения&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Потом начали оптимизировать:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Кэширование более часто используемых миниатюр изображений в памяти
+    на оригинальных серверах для масштабируемости, надежности и
+    производительности&lt;/li&gt;
+&lt;li&gt;Распределение их по &lt;a href="/tag/cdn/"&gt;CDN&lt;/a&gt; для уменьшения сетевых задержек&lt;/li&gt;
+&lt;li&gt;Возможно сделать еще лучше:&lt;ul&gt;
+&lt;li&gt;Хранение изображений в больших бинарных файлах (blob)&lt;/li&gt;
+&lt;li&gt;Сервис, отвечающий за фотографии имеет информацию о том, в каком
+    файле и с каким отступом от начала расположена каждая фотография
+    (по ее идентификатору)&lt;/li&gt;
+&lt;li&gt;Этот сервис в Facebook называется Haystack и он оказался в 10
+    раз эффективнее "простого" подхода и в 3 раза эффективнее
+    "оптимизированного"&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="drugie-servisy"&gt;Другие сервисы&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;SMC&lt;/strong&gt;: консоль управления сервисами - централизованная
+    конфигурация, определение на какой физической машине работает
+    логический сервис&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ODS&lt;/strong&gt;:&amp;nbsp;инструмент для визуализации изменений любых статистических
+    данных, имеющихся в системе; удобен для мониторинга и оповещений&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Gatekeeper:&lt;/strong&gt; разделение развертывания и запуска, A/B
+    тестирования, таргетированный запуск, постепенный запуск&lt;/li&gt;
+&lt;li&gt;И еще около 50 других сервисов...&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="kak-eto-rabotaet-vse-vmeste_1"&gt;Как это работает все вместе?&lt;/h2&gt;
+&lt;h3 id="novye-albomy-druzei"&gt;Новые альбомы друзей&lt;/h3&gt;
+&lt;p&gt;&lt;img alt="Facebook Screenshot" class="responsive-img" src="https://www.insight-it.ru/images/facebook_screenshot.jpg" title="Facebook"/&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Получаем профиль по идентификатору пользователя (скорее всего из
+    кэша, но потенциально возможно обращение к базе данных)&lt;/li&gt;
+&lt;li&gt;Получаем список друзей (опять же на основе идентификатора
+    пользователя из кэша или из базы данных в случае промаха)&lt;/li&gt;
+&lt;li&gt;Параллельно запрашиваем идентификаторы последних 10 альбомов для
+    каждого из друзей (multi-get, каждый промах мимо кэша индивидуально
+    вытаскивается из MySQL)&lt;/li&gt;
+&lt;li&gt;Параллельно получаем данные о всех альбомах (на основе
+    идентификаторов альбомов из предыдущего шага)&lt;/li&gt;
+&lt;li&gt;Все данные получены, выполняем логику отрисовки конкретной страницы
+    на PHP&lt;/li&gt;
+&lt;li&gt;Отправляем HTML в браузер, пользователь счастлив :)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="novostnaia-lenta"&gt;Новостная лента&lt;/h3&gt;
+&lt;p&gt;&lt;img alt="News Feed Screenshot" class="responsive-img" src="https://www.insight-it.ru/images/facebook_screenshot_2.jpg" title="News Feed"/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="News Feed Scheme" class="responsive-img" src="https://www.insight-it.ru/images/facebook_screenshot_3.jpg" title="News Feed"/&gt;&lt;/p&gt;
+&lt;h3 id="poisk"&gt;Поиск&lt;/h3&gt;
+&lt;p&gt;&lt;img alt="Search Screenshot" class="responsive-img" src="https://www.insight-it.ru/images/facebook_screenshot_4.jpg" title="Search"/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Search Scheme" class="responsive-img" src="https://www.insight-it.ru/images/facebook_screenshot_5.jpg" title="Search"/&gt;&lt;/p&gt;
+&lt;h2 id="podvodim-itogi_1"&gt;Подводим итоги&lt;/h2&gt;
+&lt;p&gt;LAMP не идеален&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;PHP+MySQL+Memcache решает большинство задач, но не может решить
+    совсем все:&lt;ul&gt;
+&lt;li&gt;PHP не может хранить состояния&lt;/li&gt;
+&lt;li&gt;PHP не самый производительный язык&lt;/li&gt;
+&lt;li&gt;Все данные находятся удаленно&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Facebook разрабатывает собственные внутренние сервисы, чтобы:&lt;ul&gt;
+&lt;li&gt;Располагать исполняемый код ближе к данным&lt;/li&gt;
+&lt;li&gt;Скомпилированное окружение более эффективно&lt;/li&gt;
+&lt;li&gt;Некоторая функциональность присутствует только в других языках
+    программирования&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Философия сервисов:&lt;ul&gt;
+&lt;li&gt;Создание сервисов только при необходимости (минимизация издержек
+    по развертке, поддержке и ведению отдельной кодовой базы;
+    потенциальная дополнительная точка сбоя)&lt;/li&gt;
+&lt;li&gt;Создание общего набора инструментов для создания сервисов
+    (Thrift, Scribe, ODS, средства мониторинга и уведомлений)&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Использование правильных языка программирования, библиотек и
+    инструментов для решения задачи&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Возвращение инноваций общественности - важный аспект разработки в
+    Facebook:&lt;ul&gt;
+&lt;li&gt;Опубликованные свои проекты:&lt;ul&gt;
+&lt;li&gt;Thrift&lt;/li&gt;
+&lt;li&gt;Scribe&lt;/li&gt;
+&lt;li&gt;Tornado&lt;/li&gt;
+&lt;li&gt;Cassandra&lt;/li&gt;
+&lt;li&gt;Varnish&lt;/li&gt;
+&lt;li&gt;Hive&lt;/li&gt;
+&lt;li&gt;xhprof&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Доработки популярных решений:&lt;ul&gt;
+&lt;li&gt;PHP&lt;/li&gt;
+&lt;li&gt;MySQL&lt;/li&gt;
+&lt;li&gt;memcached&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Информация о взаимодействии Facebook с opensource-сообществом,
+    этих и других проектах расположена на &lt;a href="https://www.insight-it.ru/goto/535d8e6b/" rel="nofollow" target="_blank" title="http://developers.facebook.com/opensource/"&gt;странице, посвященной
+    opensource&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Ключевые моменты культуры разработки в Facebook:&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Двигайся быстро&lt;/strong&gt; и не бойся ломать некоторые вещи&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Большое влияние&lt;/strong&gt; маленьких команд&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Будь откровенным&lt;/strong&gt; и инновационным&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="istochniki-informatsii"&gt;Источники информации&lt;/h2&gt;
+&lt;p&gt;Данная статья не является переводом готовой статьи, в качестве
+источников информации послужили записи выступлений сотрудников Facebook
+на конференциях:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/4c672c94/" rel="nofollow" target="_blank" title="http://www.infoq.com/presentations/Facebook-Software-Stack"&gt;Facebook Architecture: Science and the Social Graph&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/2ccd1899/" rel="nofollow" target="_blank" title="http://www.infoq.com/presentations/Facebook-Moving-Fast-at-Scale"&gt;Facebook: Moving Fast at Scale&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/3867625a/" rel="nofollow" target="_blank" title="http://www.infoq.com/presentations/Scale-at-Facebook"&gt;Scale at Facebook&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Очень рекомендую посмотреть материалы в оригинале, так как естественно я
+осветил в статье далеко не все, да и неточности какие-либо неисключены.
+Помимо этого возможно многим будет интересно мероприятие &lt;a href="https://www.insight-it.ru/goto/ff11ad2b/" rel="nofollow" target="_blank" title="http://styleru.timepad.ru/event/3571"&gt;"Facebook: how we scaled to 500 000 000 users "&lt;/a&gt;,
+где Robert Johnson выступает 22 октября в Москве. Еще он числится в
+списке докладчиков &lt;a href="https://www.insight-it.ru/goto/727c9436/" rel="nofollow" target="_blank" title="http://www.highload.ru"&gt;Highload++&lt;/a&gt; с аналогичным
+выступлением. Дополнительную информацию можно почерпнуть в &lt;a href="https://www.insight-it.ru/goto/f38bc794/" rel="nofollow" target="_blank" title="http://facebook.com/eblog"&gt;блоге инженеров Facebook&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;UPD:&lt;/strong&gt; Обновил некоторые моменты после посещения вышеупомянутого
+выступления Роберта.&lt;/p&gt;
+&lt;p&gt;И по традиции напоминаю, что так как я пишу довольно редко - читать мой
+блог намного удобнее по &lt;a href="/feed/"&gt;RSS&lt;/a&gt;. Спасибо за внимание :)&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Wed, 20 Oct 2010 13:02:00 +0400</pubDate><guid>tag:www.insight-it.ru,2010-10-20:highload/2010/arkhitektura-facebook/</guid><category>CDN</category><category>Facebook</category><category>featured</category><category>HipHop</category><category>Linux</category><category>Memcached</category><category>MySQL</category><category>ODS</category><category>PHP</category><category>Scribe</category><category>Thrift</category><category>Архитектура Facebook</category></item><item><title>Архитектура Google</title><link>https://www.insight-it.ru//highload/2008/arkhitektura-google/</link><description>&lt;p&gt;&lt;em&gt;Эта статья датируется 2008 годом, новая версия: &lt;a href="https://www.insight-it.ru/highload/2011/arkhitektura-google-2011/"&gt;Архитектура Google 2011&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href="/tag/google/"&gt;Google&lt;/a&gt;&lt;/strong&gt; - Король масштабируемости.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Каждый хоть раз слышал о &lt;a href="/tag/google/"&gt;Google&lt;/a&gt; благодаря их
+всеобъемлющему, "умному" и быстрому поисковому сервису, но ни для кого
+не секрет, что они не ограничиваются только им. Их платформа для
+построения масштабируемых приложений позволяет выпускать множество
+удивительно конкурентноспособных интернет-приложений, работающих на
+уровне всего Интернета вцелом. Они ставят перед собой цель постоянно
+строить все более и более производительную и масштабируемую архитектуру
+для поддержки своих продуктов. Как же им это удается?
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;h3 id="istochniki-informatsii"&gt;Источники информации&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;Сразу хочу сказать, что эта запись является переводом с английского,
+автор &lt;a href="https://www.insight-it.ru/goto/31bfd110/" rel="nofollow" target="_blank" title="http://highscalability.com/google-architecture"&gt;оригинальной версии&lt;/a&gt; - &lt;a href="https://www.insight-it.ru/goto/f3f1b405/" rel="nofollow" target="_blank" title="http://highscalability.com/user/todd-hoff"&gt;Todd Hoff&lt;/a&gt;. Оригинал написан приблизительно в середине 2007 года, но по-моему до сих пор очень даже актуально.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Далее следует перечисление источников информации из оригинала:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/741bec4c/" rel="nofollow" target="_blank" title="http://video.google.com/videoplay?docid=-5699448884004201579"&gt;Video: Построение больших систем в Google&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/fae0d413/" rel="nofollow" target="_blank" title="http://labs.google.com/papers/gfs.html"&gt;Google Lab: Файловая система Google (GFS)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/39138d08/" rel="nofollow" target="_blank" title="http://labs.google.com/papers/mapreduce.html"&gt;Google Lab: MapReduce: упрощенная обработка данных на больших кластерах&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/8667b351/" rel="nofollow" target="_blank" title="http://labs.google.com/papers/bigtable.html"&gt;Google Lab: BigTable.&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/dab5470e/" rel="nofollow" target="_blank" title="http://video.google.com/videoplay?docid=7278544055668715642"&gt;Video: BigTable: система распределенного хранения данных.&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/87fff9b2/" rel="nofollow" target="_blank" title="http://www.baselinemag.com/article2/0,1540,1985514,00.asp"&gt;Как работает Google&lt;/a&gt;
+    от David Carr в Baseline Magazine.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/a426f3de/" rel="nofollow" target="_blank" title="http://labs.google.com/papers/sawzall.html"&gt;Google Lab: интерпретирование данных. Параллельный анализ с помощью Sawzall.&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/ed8bca67/" rel="nofollow" target="_blank" title="http://www.25hoursaday.com/weblog/2007/06/25/GoogleScalabilityConferenceTripReportMapReduceBigTableAndOtherDistributedSystemAbstractionsForHandlingLargeDatasets.aspx"&gt;Записи с конференции по масштабированию от Dare Obasonjo.&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="platforma"&gt;Платформа&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/tag/linux/"&gt;Linux&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Большое разнообразие языков программирования: &lt;a href="/tag/python/"&gt;Python&lt;/a&gt;,
+    &lt;a href="/tag/java/"&gt;Java&lt;/a&gt;, &lt;a href="/tag/c/"&gt;C++&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="chto-vnutri"&gt;Что внутри?&lt;/h3&gt;
+&lt;h4&gt;Статистика&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;На 2006 год система включала в себя 450000 недорогих серверов&lt;/li&gt;
+&lt;li&gt;За 2005 год было проиндексировано 8 миллиардов страниц. На данный
+    момент&amp;hellip; кто знает?&lt;/li&gt;
+&lt;li&gt;На момент написания оригинала Google включает в себя более 200
+    &lt;a href="/tag/gfs/"&gt;GFS&lt;/a&gt; кластеров. Один кластер может состоять из 1000 или
+    даже 5000 компьютеров&lt;/li&gt;
+&lt;li&gt;Десятки и сотни тысяч компьютеров получают данные из &lt;a href="/tag/gfs/"&gt;GFS&lt;/a&gt;
+    кластеров, которые насчитывают более 5 петабайт дискового
+    пространства. Суммарные пропускная способность операций записи и
+    чтения между дата центрами может достигать 40 гигабайт в секунду&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/bigtable/"&gt;BigTable&lt;/a&gt; позволяет хранить миллиарды ссылок (URL),
+    сотни терабайт снимков со спутников, а также настройки миллионов
+    пользователей&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;em&gt;// Цифры не первой свежести конечно, но тоже неплохо.&lt;/em&gt;&lt;/p&gt;
+&lt;h4&gt;Стек&lt;/h4&gt;
+&lt;p&gt;&lt;a href="/tag/google/"&gt;Google&lt;/a&gt; визуализирует свою инфраструктуру в виде
+трехслойного стека:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Продукты:&lt;/em&gt; поиск, реклама, электронная почта, карты, видео, чат,
+    блоги&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Распределенная инфраструктура системы:&lt;/em&gt; &lt;a href="/tag/gfs/"&gt;GFS&lt;/a&gt;,
+    &lt;a href="/tag/mapreduce/"&gt;MapReduce&lt;/a&gt; и &lt;a href="/tag/bigtable/"&gt;BigTable&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Вычислительные платформы:&lt;/em&gt; множество компьютеров во множестве
+    датацентров&lt;/li&gt;
+&lt;li&gt;Легкое развертывание для компании при низком уровне издержек&lt;/li&gt;
+&lt;li&gt;Больше денег вкладывается в оборудование для исключения возможности
+    потерь данных&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Надежное хранение данных с помощью &lt;a href="/tag/gfs/"&gt;GFS&lt;/a&gt;&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Надежное масштабируемое хранение данных крайне необходимо для любого
+    приложения. &lt;strong&gt;GFS&lt;/strong&gt; является основой их платформы хранения
+    информации&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/gfs/"&gt;GFS&lt;/a&gt;&lt;/strong&gt; - большая распределенная файловая система, способная хранить и обрабатывать огромные объемы информации&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;Зачем строить что-либо самим вместо того, чтобы просто взять это с полки?&lt;/em&gt; Они контролируют абсолютно всю систему и именно эта платформа отличает их от всех остальных.&lt;/p&gt;
+&lt;p&gt;Она предоставляет:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;высокую надежность дата центров&lt;/li&gt;
+&lt;li&gt;масштабируемость до тысяч сетевых узлов
+&amp;ndash; высокую пропускную способность операций чтения и записи&lt;/li&gt;
+&lt;li&gt;поддержку больших блоков данных, размер которых может измеряться в
+гигабайтах&lt;/li&gt;
+&lt;li&gt;эффективное распределение операций между датацентрами для
+избежания возникновения "узких мест" в системе&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;В системе существуют мастер-сервера и сервера, собственно хранящие
+    информацию:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Мастер-сервера хранят метаданные для всех файлов. Сами данные
+    хранятся блоками по 64 мегабайта на остальных серверах. Клиенты
+    могут выполнять операции с метаданными на мастер-серверах, чтобы
+    узнать на каком именно сервере расположены необходимые данные.&lt;/li&gt;
+&lt;li&gt;Для обеспечения надежности один и тот же блок данных хранится
+    в трех экземплярах на разных серверах, что обеспечивает
+    избыточность на случай сбоев в работе какого-либо сервера.&lt;/li&gt;
+&lt;li&gt;Новые приложения могут пользоваться как существующими
+    кластерами, так и новыми, созданными специально для них.&lt;/li&gt;
+&lt;li&gt;Ключ успеха заключается в том, чтобы быть уверенными в том,
+    что у людей есть достаточно вариантов выбора для реализации их
+    приложений. &lt;strong&gt;&lt;a href="/tag/gfs/"&gt;GFS&lt;/a&gt;&lt;/strong&gt; может быть настроена для
+    удовлетворения нужд любого конкретного приложения.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Работаем с данными при помощи MapReduce&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Теперь, когда у нас есть отличная система хранения, что же делать с
+    такими объемами данных? Допустим, у нас есть много терабайт данных,
+    равномерно распределенных между 1000 компьютерами. Коммерческие базы
+    данных не могут эффективно масштабироваться до такого уровня, именно
+    в такой ситуации в дело вступает технология
+    &lt;strong&gt;&lt;a href="/tag/mapreduce/"&gt;MapReduce&lt;/a&gt;&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/mapreduce/"&gt;MapReduce&lt;/a&gt;&lt;/strong&gt; является программной моделью и
+    соответствующей реализацией обработки и генерации больших наборов
+    данных. Пользователи могут задавать функцию, обрабатывающую пары
+    ключ/значение для генерации промежуточных аналогичных пар, и
+    сокращающую функцию, которая объединяет все промежуточные значения,
+    соответствующие одному и тому же ключу. Многие реальные задачи могут
+    быть выражены с помощью этой модели. Программы, написанные в таком
+    функциональном стиле автоматически распараллеливаются и адаптируются
+    для выполнения на обширных кластерах. Система берет на себя детали
+    разбиения входных данных на части, составления расписания выполнения
+    программ на различных компьютерах, управления ошибками, и
+    организации необходимой коммуникации между компьютерами. Это
+    позволяет программистам, не обладающим опытом работы с параллельными
+    и распределенными системами, легко использовать все ресурсы больших
+    распределенных систем.&lt;/li&gt;
+&lt;li&gt;Зачем использовать &lt;strong&gt;&lt;a href="/tag/mapreduce/"&gt;MapReduce&lt;/a&gt;&lt;/strong&gt;?
+    &amp;ndash; Отличный способ распределения задач между множеством компьютеров
+    &amp;ndash; Обработка сбоев в работе
+    &amp;ndash; Работа с различными типами смежных приложений, таких как поиск или
+    реклама. Возможно предварительное вычисление и обработка данных,
+    подсчет количества слов, сортировка терабайт данных и так далее
+    &amp;ndash; Вычисления автоматически приближаются к источнику ввода-вывода&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="/tag/mapreduce/"&gt;MapReduce&lt;/a&gt;&lt;/strong&gt; использует три типа серверов:&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Master:&lt;/em&gt; назначают задания остальным типам серверов, а также
+следят за процессом их выполнения&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Map:&lt;/em&gt; принимают входные данные от пользователей и обрабатывают
+их, результаты записываются в промежуточные файлы&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Reduce:&lt;/em&gt; принимают промежуточные файлы от Map-серверов и
+сокращают их указанным выше способом&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Например, мы хотим посчитать количество слов на всех страницах. Для
+    этого нам необходимо передать все страницы, хранимые в &lt;strong&gt;GFS&lt;/strong&gt;, на
+    обработку в &lt;strong&gt;MapReduce&lt;/strong&gt;. Этот процесс будет происходить на тысячах
+    машин одновременно с полной координацией действий, в соответствии с
+    автоматически составленным расписанием выполняемых работ, обработкой
+    потенциальных ошибок, и передачей данных выполняемыми автоматически.&lt;ul&gt;
+&lt;li&gt;Последовательность выполняемых действий выглядела бы следующим
+образом: &lt;code&gt;GFS &amp;rarr; Map &amp;rarr; перемешивание &amp;rarr; Reduce &amp;rarr; запись результатов обратно в GFS&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Технология &lt;strong&gt;MapReduce&lt;/strong&gt; состоит из двух компонентов:
+соответственно &lt;em&gt;map&lt;/em&gt; и &lt;em&gt;reduce&lt;/em&gt;. Map отображает один набор данных в
+другой, создавая тем самым пары ключ/значение, которпыми в нашем
+случае являются слова и их количества.&lt;/li&gt;
+&lt;li&gt;В процессе перемешивания происходит агрегирование типов ключей.&lt;/li&gt;
+&lt;li&gt;Reduction в нашем случае просто суммирует все результаты и
+возвращает финальный результат.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;В процессе индексирования &lt;a href="/tag/google/"&gt;Google&lt;/a&gt; подвергает поток
+    данных обработке около 20 разных механизмов сокращения. Сначала идет
+    работа над всеми записями и агрегированными ключами, после чего
+    результат передается следующему механизму и второй механизм уже
+    работает с результатами работы первого, и так далее.&lt;/li&gt;
+&lt;li&gt;Программы могут быть очень маленькими, всего лишь от 20 до 50 строк
+    кода.&lt;/li&gt;
+&lt;li&gt;Единственной проблемой могут быть "отстающие компьютеры". Если один
+    компьютер работает существенно медленнее, чем все остальные, это
+    будет задерживать работу всей системы в целом.&lt;/li&gt;
+&lt;li&gt;Транспортировка данных между серверами происходит в сжатом виде.
+    Идея заключается в том, что ограничивающим фактором является
+    пропускная способность канала и ввода-вывода, что делает резонным
+    потратить часть процессорного времени на компрессию и декомпрессию
+    данных.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Хранение структурированных данных в BigTable&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;BigTable&lt;/strong&gt; является крупномасштабной, устойчивой к потенциальным
+    ошибкам, самоуправляемой системой, которая может включать в себя
+    терабайты памяти и петабайты данных, а также управлять миллионами
+    операций чтения и записи в секунду.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;BigTable&lt;/strong&gt; представляет собой распределенный механизм хэширования,
+    построенный поверх &lt;strong&gt;&lt;a href="/tag/gfs/"&gt;GFS&lt;/a&gt;&lt;/strong&gt;, а вовсе не реляционную базу
+    данных и, как следствие, не поддерживает &lt;a href="/tag/sql/"&gt;SQL&lt;/a&gt;-запросы и
+    операции типа Join.&lt;/li&gt;
+&lt;li&gt;Она предоставляет механизм просмотра данных для получения доступа к
+    структурированным данным по имеющемуся ключу. &lt;strong&gt;&lt;a href="/tag/gfs/"&gt;GFS&lt;/a&gt;&lt;/strong&gt;
+    хранит данные не поддающиеся пониманию, хотя многим приложениям
+    необходимы структурированные данные.&lt;/li&gt;
+&lt;li&gt;Коммерческие базы данных попросту не могут масштабироваться до
+    такого уровня и, соответственно, не могут работать с тысячами машин
+    одновременно.&lt;/li&gt;
+&lt;li&gt;С помощью контролирования своих низкоуровневых систем хранения
+    данных, &lt;a href="/tag/google/"&gt;Google&lt;/a&gt; получает больше возможностей по
+    управлению и модификации их системой. Например, если им понадобится
+    функция, упрощающая координацию работы между датацентрами, они
+    просто могут написать ее и внедрить в систему.&lt;/li&gt;
+&lt;li&gt;Подключение и отключение компьютеров к функционирующей системе никак
+    не мешает ей просто работать.&lt;/li&gt;
+&lt;li&gt;Каждый блок данных хранится в ячейке, доступ к которой может быть
+    предоставлен как по ключу строки или столбца, так и по временной
+    метке.&lt;/li&gt;
+&lt;li&gt;Каждая строка может храниться в одной или нескольких таблицах.
+    Таблицы реализуются в виде последовательности блоков по 64
+    килобайта, организованных в формате данных под названием
+    &lt;strong&gt;SSTable&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;В &lt;strong&gt;&lt;a href="/tag/bigtable/"&gt;BigTable&lt;/a&gt;&lt;/strong&gt; тоже используется три типа серверов:&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Master:&lt;/em&gt; распределяют таблицы по Tablet-серверам, а также следят
+за расположением таблиц и перераспределяют задания в случае
+необходимости.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Tablet:&lt;/em&gt; обрабатывают запросы чтения/записи для таблиц. Они
+разделяют таблицы, когда те превышают лимит размера (обычно 100-200
+мегабайт). Когда такой сервер прекращает функционирование по
+каким-либо причинам, 100 других серверов берут на себя по одной
+таблице и система продолжает работать как-будто ничего не произошло.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Lock:&lt;/em&gt; формируют распределенный сервис ограничения одновременного
+доступа. Операции открытия таблицы для записи, анализа
+Master-сервером или проверки доступа должны быть
+взаимоисключающими.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Локальная группировка может быть использована для физического
+    хранения связанных данных вместе, чтобы обеспечить лучшую
+    локализацию ссылок на данные.&lt;/li&gt;
+&lt;li&gt;Таблицы по возможности кэшируются в оперативной памяти серверов.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="oborudovanie"&gt;Оборудование&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Как эффективно организовать большую группу компьютеров с точки
+    зрения издержек и производительности?&lt;/li&gt;
+&lt;li&gt;Используется самое обыкновенное ультра-дешевое оборудование и поверх
+    него строится программное обеспечение, способное спокойно пережить
+    смерть любой части оборудования.&lt;/li&gt;
+&lt;li&gt;Тысячекратный рост вычислительной мощности может быть достигнут с
+    издержками в 33 раза меньшими, если воспользоваться толерантной к
+    сбоям инфраструктурой, по сравнению с инфраструктурой, построенной
+    на высоконадежных компонентах. Надежность строится поверх ненадежных
+    компонентов.&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/linux/"&gt;Linux&lt;/a&gt;, домашнее размещение серверов, материнские платы
+    предназначенные для персональных компьютеров, дешевые средства
+    хранения данных.&lt;/li&gt;
+&lt;li&gt;Цена за каждый ватт энергии в расчете на производительность не
+    становится меньше, что ведет к большим проблемам связанным с
+    энергообеспечением и охлаждением.&lt;/li&gt;
+&lt;li&gt;Использование совместного размещения в своих и арендуемых
+    датацентрах.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="raznoe"&gt;Разное&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Быстрый выпуск изменений более предпочтителен, чем ожидание.&lt;/li&gt;
+&lt;li&gt;Библиотеки - превалирующий метод построения программ.&lt;/li&gt;
+&lt;li&gt;Некоторые приложения предоставляются в виде сервисов.&lt;/li&gt;
+&lt;li&gt;Инфраструктура управляет определением версий приложений таким
+    образом, что они могут выпускать новые продукты, не боясь сломать
+    работу какого-либо компонента системы.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="puti-razvitiia"&gt;Пути развития&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Поддержка географически распределенных кластеров.&lt;/li&gt;
+&lt;li&gt;Создание единого глобального пространства имен для всех данных. На
+    данный момент данные распределены по кластерам.&lt;/li&gt;
+&lt;li&gt;Более автоматизированные передача и обработка данных&lt;/li&gt;
+&lt;li&gt;Решение вопросов, связанных с поддержанием работоспособности
+    сервисов даже в тех случаях, когда целый кластер отключается от
+    системы в связи с техническими работами или каким-либо сбоем в
+    работе.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="podvodim-itogi"&gt;Подводим итоги&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Инфраструктура может быть конкурентным преимуществом.&lt;/strong&gt; Это
+    определенно так для Google. Они могут выпускать новые интернет
+    сервисы быстрее, с меньшими издержками, на таком уровне, что мало
+    кто сможет составить им конкуренцию. Подход многих компаний сильно
+    отличается от подхода &lt;a href="/tag/google/"&gt;Google&lt;/a&gt;, эти компании
+    рассматривают инфраструктуру как статью расходов, они обычно
+    используют совсем другие технологии и совсем не задумываются о
+    планировании и организации своей системы. Google позиционирует себя
+    как компанию по построению систем, что является очень современным
+    подходом к разработке программного обеспечения.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Охватывание нескольких дата центров до сих пор является нерешенной проблемой.&lt;/strong&gt; Большинство сайтов базируется в одном или двух дата
+    центрах. Полное распределение сайта между несколькими датацентрами
+    является хитрой задачей.&lt;/li&gt;
+&lt;li&gt;Взгляните на &lt;em&gt;&lt;a href="https://www.insight-it.ru/goto/30a7481/" rel="nofollow" target="_blank" title="http://hadoop.apache.org/core/"&gt;Hadoop&lt;/a&gt;&lt;/em&gt;, если у Вас
+    нет времени на собственноручное построение всей архитектуры с нуля.
+    &lt;em&gt;Hadoop&lt;/em&gt; является opensource воплощением в жизнь многих идей здесь
+    представленных.&lt;/li&gt;
+&lt;li&gt;Часто недооцениваемым преимуществом платформенного подхода является
+    тот факт, что даже неопытные разработчики могут быстро и качественно
+    реализовывать трудоемкие приложения на базе платформы. Но если бы
+    каждый проект требовал одинаково распределенной архитектуры, то это
+    создало бы много проблем, так как люди, которые понимают как это
+    делается, являются достаточно большой редкостью.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Совместная деятельность не всегда является таким уж плохим занятием.&lt;/strong&gt; Если все части системы работают взаимосвязанно, то
+    улучшение в одной из них сразу и абсолютно прозрачно отразится
+    положительным образом и на остальных компонентах системы. В
+    противном случае такой эффект наблюдаться не будет.&lt;/li&gt;
+&lt;li&gt;Построение самоуправляемых систем позволяет более легко
+    перераспределять ресурсы между серверами, расширять систему,
+    отключать некоторые компьютеры и элегантно проводить обновления.&lt;/li&gt;
+&lt;li&gt;Производить длительные операции стоит параллельно.&lt;/li&gt;
+&lt;li&gt;Всему, что было сделано Google, предшествовало искусство, а не
+    только крупномасштабное развертывание системы.&lt;/li&gt;
+&lt;li&gt;Учитывайте возможность &lt;strong&gt;компрессии данных&lt;/strong&gt;, она является очень
+    неплохим решением, если остается лишнее процессорное время, но
+    присутствует нехватка пропускной способности.&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Thu, 31 Jan 2008 18:05:00 +0300</pubDate><guid>tag:www.insight-it.ru,2008-01-31:highload/2008/arkhitektura-google/</guid><category>BigTable</category><category>featured</category><category>GFS</category><category>Google</category><category>MapReduce</category><category>online</category><category>Sawzall</category><category>архитектура</category><category>архитектура Google</category><category>интернет</category><category>кластер</category><category>Масштабируемость</category><category>поиск</category><category>сервер</category><category>хранение данных</category></item></channel></rss>

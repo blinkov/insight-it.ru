@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/xslt/feed/index.xml" rel="self"></atom:link><lastBuildDate>Mon, 14 Mar 2011 15:32:00 +0300</lastBuildDate><item><title>Добро пожаловать в Сказку! (вакансия закрыта)</title><link>https://www.insight-it.ru//vacancy/2011/dobro-pozhalovat-v-skazku-vakansiya/</link><description>&lt;div class="card orange darken-3"&gt;
+&lt;p&gt;&lt;div class="card-content white-text center"&gt;
+&lt;strong&gt;Вакансия более не актуальна&lt;/strong&gt;
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Компания SKAZKA, российский разработчик и издатель
+онлайн-игр, ищет опытного веб-разработчика на Python. Предлагается
+работа в команде MMO-проекта "Королевство", а также
+участие в разработке ряда новых игр (одна в активной разработке, а
+другая проектируется).&lt;/p&gt;
+&lt;h2 id="o-proekte"&gt;О проекте&lt;/h2&gt;
+&lt;p&gt;Проект "Королевство" состоит из 2-х частей:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;непосредственно игра (сервер &amp;ndash; C+Python, клиент &amp;ndash; Flash)&lt;/li&gt;
+&lt;li&gt;социальная сеть &amp;ndash; веб-часть проекта, содержащая все полагающиеся
+    атрибуты соцсетей в реалиях игры (nginx, Python, Twisted, XSLT,
+    memcached, PostgreSQL)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="obiazannosti"&gt;Обязанности&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Полная самостоятельная поддержка и разработка всех проектов компании
+    со стороны веба&lt;/li&gt;
+&lt;li&gt;Оптимизация существующего кода для увеличения производительности и
+    уменьшения нагрузок&lt;/li&gt;
+&lt;li&gt;Разработка модулей для существующего проекта&lt;/li&gt;
+&lt;li&gt;Доработка функционала, фикс багов&lt;/li&gt;
+&lt;li&gt;Интергация проектов с российскими и зарубежными соцсетями&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="trebovaniia-k-kandidatu"&gt;Требования к кандидату&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Уверенное знание Python&lt;/li&gt;
+&lt;li&gt;Уверенное знание JavaScript&lt;/li&gt;
+&lt;li&gt;Знание XSLT&lt;/li&gt;
+&lt;li&gt;Умение разбираться в чужом коде&lt;/li&gt;
+&lt;li&gt;Умение объективно оценивать собственные трудозатраты по той или иной
+    задаче и укладываться в поставленные сроки&lt;/li&gt;
+&lt;li&gt;Английский язык на уровне чтения технической документации&lt;/li&gt;
+&lt;li&gt;Коммуникабельность, дисциплинированность и ответственность&lt;/li&gt;
+&lt;li&gt;Приветствуется опыт работы над сложными/высоконагруженными
+    web-проектами&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="usloviia-raboty"&gt;Условия работы&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Полный рабочий день в офисе в Москве (пять минут пешком от метро
+    Третьяковская)&lt;/li&gt;
+&lt;li&gt;Работа над интересными, перспективными проектами&lt;/li&gt;
+&lt;li&gt;Отличная команда единомышленников, каждый из которых является
+    профессионалом в своей области&lt;/li&gt;
+&lt;li&gt;Начало рабочего дня: с 10.00 до 12.00 (по желанию)&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Зарплата: 50-100 тыс. руб. в месяц&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="kuda-pisat"&gt;Куда писать?&lt;/h2&gt;
+&lt;div class="card orange darken-3"&gt;
+&lt;p&gt;&lt;div class="card-content white-text center"&gt;
+&lt;strong&gt;Вакансия более не актуальна&lt;/strong&gt;
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;P.S.: Если Вы не дотягиваете до требований, но в Сказку хочется - все
+равно пишите, еще есть вакансия джуниора.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Mon, 14 Mar 2011 15:32:00 +0300</pubDate><guid>tag:www.insight-it.ru,2011-03-14:vacancy/2011/dobro-pozhalovat-v-skazku-vakansiya/</guid><category>nginx</category><category>Python</category><category>Twisted</category><category>XSLT</category><category>memcached</category><category>PostgreSQL</category><category>JavaScript</category></item></channel></rss>
