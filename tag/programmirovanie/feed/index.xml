@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/programmirovanie/feed/index.xml" rel="self"></atom:link><lastBuildDate>Fri, 22 Jun 2012 01:27:00 +0400</lastBuildDate><item><title>Основы Erlang: синтаксис и пунктуация</title><link>https://www.insight-it.ru//erlang/2012/osnovy-erlang-sintaksis-i-punktuaciya/</link><description>&lt;p&gt;Мои теоретичесие рассуждения о &lt;a href="https://www.insight-it.ru/erlang/2012/erlang-v-internet-proektakh/"&gt;месте Erlang в &lt;del&gt;современном мире&lt;/del&gt;
-Интернете&lt;/a&gt;&amp;nbsp;Вы
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/programmirovanie/feed/index.xml" rel="self"></atom:link><lastBuildDate>Fri, 22 Jun 2012 01:27:00 +0400</lastBuildDate><item><title>Основы Erlang: синтаксис и пунктуация</title><link>https://www.insight-it.ru//erlang/2012/osnovy-erlang-sintaksis-i-punktuaciya/</link><description>&lt;p&gt;Мои теоретичесие рассуждения о &lt;a href="https://www.insight-it.ru/erlang/2012/erlang-v-internet-proektakh/"&gt;месте Erlang в &lt;del&gt;современном мире&lt;/del&gt; Интернете&lt;/a&gt;&amp;nbsp;Вы
 можете почитать в отдельной статье. Если сомневаетесь интересно Вам это
 все или нет - то прочтите сначала её. Сегодня я постараюсь вернуться с
 небес на землю и пройтись по азам этого пугающего многих языка
 программирования. Коротко и по делу.&lt;/p&gt;
 &lt;!--more--&gt;
 &lt;p&gt;Установка ничем особым не выделяется, дистрибутив рекомендую брать
-&lt;a href="https://www.insight-it.ru/goto/d3cd3653/" rel="nofollow" target="_blank" title="http://www.erlang-solutions.com/section/98/download-erlang-packages"&gt;отсюда&lt;/a&gt;,
+&lt;a href="https://www.insight-it.ru/goto/767abd85/" rel="nofollow" target="_blank" title="https://www.erlang-solutions.com/downloads/download-erlang-otp"&gt;отсюда&lt;/a&gt;,
 если до сих пор пользуетесь отсутствующей в списке ОС - лучше сначала
 исправить этот факт.&lt;/p&gt;
 &lt;p&gt;После установки в &lt;code&gt;$PATH&lt;/code&gt; окажутся исполняемые файлы:&lt;/p&gt;
@@ -1374,7 +1373,7 @@ pipes" - &lt;a href="https://www.insight-it.ru/goto/7c67426e/" rel="nofollow" ta
 записи? - об этом я и собираюсь Вам поведать.&lt;/p&gt;
 &lt;!--more--&gt;
 &lt;div class="card blue lighten-4"&gt;
-&lt;p&gt;&lt;div class="card-content"&gt;Перед тем как продолжить чтение этой записи, очень рекомендую сначала ознакомиться с &lt;a href="https://www.insight-it.ru/goto/e52e6866/" rel="nofollow" target="_blank" title="{theory}/obektno-orientirovannoe-programmirovanie-a-chto-zhe-eto.md"&gt;введением в объектно-ориентированное програмирование&lt;/a&gt;, если Вы еще не успели этого сделать.
+&lt;p&gt;&lt;div class="card-content"&gt;Перед тем как продолжить чтение этой записи, очень рекомендую сначала ознакомиться с &lt;a href="https://www.insight-it.ru/theory/2008/obektno-orientirovannoe-programmirovanie-a-chto-zhe-eto/"&gt;введением в объектно-ориентированное програмирование&lt;/a&gt;, если Вы еще не успели этого сделать.
 &lt;/div&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;p&gt;&lt;img alt="Три основных компонента" class="right" src="https://www.insight-it.ru/images/cubes.png"/&gt;&lt;/p&gt;

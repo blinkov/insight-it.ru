@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/basho/feed/index.xml" rel="self"></atom:link><lastBuildDate>Tue, 13 Nov 2012 02:09:00 +0400</lastBuildDate><item><title>Обзор Riak</title><link>https://www.insight-it.ru//storage/2012/obzor-riak/</link><description>&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/187746b6/" rel="nofollow" target="_blank" title="http://basho.com/products/riak-overview/"&gt;Riak&lt;/a&gt; - распределенная
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/tag/basho/feed/index.xml" rel="self"></atom:link><lastBuildDate>Tue, 13 Nov 2012 02:09:00 +0400</lastBuildDate><item><title>Обзор Riak</title><link>https://www.insight-it.ru//storage/2012/obzor-riak/</link><description>&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/243e6801/" rel="nofollow" target="_blank" title="http://basho.com/products/riak-kv/"&gt;Riak&lt;/a&gt; - распределенная
 &lt;em&gt;opensource&lt;/em&gt;&amp;nbsp;база данных, разработанная на &lt;a href="/tag/erlang/"&gt;Erlang&lt;/a&gt; и
 спроектированная в расчете на:&lt;/p&gt;
 &lt;ul&gt;
@@ -7,7 +7,7 @@
 &lt;li&gt;&lt;strong&gt;Масштабируемость и простоту обслуживания;&lt;/strong&gt;&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Универсальность.&lt;/strong&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;У проекта отличная&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/5083ec33/" rel="nofollow" target="_blank" title="http://docs.basho.com/riak/latest"&gt;официальная документация&lt;/a&gt;&amp;nbsp;на английском, далее же в этой статье я расскажу об основных её особенностях чуть подробнее, а также хитростях и подводных камнях, выявленных в процессе применения на практике (с перспективы веб-разработки).&lt;/p&gt;
+&lt;p&gt;У проекта отличная&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/e20af489/" rel="nofollow" target="_blank" title="https://docs.basho.com/riak/latest/"&gt;официальная документация&lt;/a&gt;&amp;nbsp;на английском, далее же в этой статье я расскажу об основных её особенностях чуть подробнее, а также хитростях и подводных камнях, выявленных в процессе применения на практике (с перспективы веб-разработки).&lt;/p&gt;
 &lt;!--more--&gt;
 &lt;h2 id="vysokaia-dostupnost-i-ustoichivost-k-sboiam"&gt;Высокая доступность и устойчивость к сбоям&lt;/h2&gt;
 &lt;ul&gt;
@@ -129,7 +129,7 @@
     всех "страниц" и уже на клиенте её придется отсортировать и выкинуть
     лишнее. Вообще в большинстве случаев результаты запросов к Riak
     приходят в произвольном порядке из-за его распределенной природы.&lt;/li&gt;
-&lt;li&gt;В продолжение к предыдущему: в &lt;a href="https://www.insight-it.ru/goto/cb1ee41b/" rel="nofollow" target="_blank" title="http://docs.basho.com/riak/latest/cookbooks/Riak-Search---Querying/#Querying-via%20the%20Solr%20Interface"&gt;REST Solr интерфейсе&lt;/a&gt;&amp;nbsp;есть
+&lt;li&gt;В продолжение к предыдущему: в &lt;a href="https://www.insight-it.ru/goto/1093e454/" rel="nofollow" target="_blank" title="https://docs.basho.com/riak/latest/dev/using/search/"&gt;REST Solr интерфейсе&lt;/a&gt;&amp;nbsp;есть
     аргументы (в ProtoBuf это тоже добавили в одной из последних
     версий), которые, казалось бы, достаточны для реализации
     постраничного просмотра: &lt;strong&gt;sort&lt;/strong&gt;, &lt;strong&gt;start&lt;/strong&gt;, &lt;strong&gt;rows&lt;/strong&gt; - что еще
@@ -189,15 +189,4 @@
 из Riak. К слову, проекты по этой части уже появляются, например
 &lt;a href="https://www.insight-it.ru/goto/1232aa05/" rel="nofollow" target="_blank" title="https://github.com/rzezeski/yokozuna"&gt;Yokozuna&lt;/a&gt; - интеграция
 полноценного Solr с Riak &lt;em&gt;(Riak Search - лишь частичный порт Solr+Lucene
-на Erlang)&lt;/em&gt;.&lt;/p&gt;
-&lt;h2 id="dopolnitelnaia-informatsiia-po-teme"&gt;Дополнительная информация по теме&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/432a7a72/" rel="nofollow" target="_blank" title="http://basho.com/community/ricon2012"&gt;Riakcon 2012&lt;/a&gt; - свежая
-    конференция от Basho, рассказывают о различных сферах применения
-    Riak в реальных проектах&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/a6b96b20/" rel="nofollow" target="_blank" title="http://basho.com/company/production-users"&gt;Список компаний, использующих Riak&lt;/a&gt;&amp;nbsp;- можно увидеть очень солидные известные имена&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/b011dd8d/" rel="nofollow" target="_blank" title="http://docs.basho.com/riak/latest/references/appendices/comparisons"&gt;Сравнение Riak с другими NoSQL СУБД&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/c29f125e/" rel="nofollow" target="_blank" title="http://docs.basho.com/riak/latest/references/apis"&gt;Документация по API&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/5f671db1/" rel="nofollow" target="_blank" title="https://github.com/basho"&gt;Официальный GitHub&lt;/a&gt; и &lt;a href="https://www.insight-it.ru/goto/b59384fb/" rel="nofollow" target="_blank" title="http://docs.basho.com/riak/latest/references/Community-Developed-Libraries-and-Projects"&gt;список сторонних opensource проектов&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/4ec186ad/" rel="nofollow" target="_blank" title="http://docs.basho.com/riak/latest/tutorials/querying"&gt;Сравнительная таблица MapReduce, Secondary Indices и Link Walking&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Tue, 13 Nov 2012 02:09:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-11-13:storage/2012/obzor-riak/</guid><category>Basho</category><category>Erlang</category><category>LevelDB</category><category>Protocol Buffers</category><category>REST</category><category>Riak</category><category>БД</category><category>обзор</category><category>СУБД</category></item></channel></rss>
+на Erlang)&lt;/em&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Tue, 13 Nov 2012 02:09:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-11-13:storage/2012/obzor-riak/</guid><category>Basho</category><category>Erlang</category><category>LevelDB</category><category>Protocol Buffers</category><category>REST</category><category>Riak</category><category>БД</category><category>обзор</category><category>СУБД</category></item></channel></rss>

@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/category/erlang/feed/index.xml" rel="self"></atom:link><lastBuildDate>Fri, 22 Jun 2012 01:27:00 +0400</lastBuildDate><item><title>Основы Erlang: синтаксис и пунктуация</title><link>https://www.insight-it.ru//erlang/2012/osnovy-erlang-sintaksis-i-punktuaciya/</link><description>&lt;p&gt;Мои теоретичесие рассуждения о &lt;a href="https://www.insight-it.ru/erlang/2012/erlang-v-internet-proektakh/"&gt;месте Erlang в &lt;del&gt;современном мире&lt;/del&gt;
-Интернете&lt;/a&gt;&amp;nbsp;Вы
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Insight IT</title><link>https://www.insight-it.ru/</link><description></description><atom:link href="https://www.insight-it.ru/category/erlang/feed/index.xml" rel="self"></atom:link><lastBuildDate>Fri, 22 Jun 2012 01:27:00 +0400</lastBuildDate><item><title>Основы Erlang: синтаксис и пунктуация</title><link>https://www.insight-it.ru//erlang/2012/osnovy-erlang-sintaksis-i-punktuaciya/</link><description>&lt;p&gt;Мои теоретичесие рассуждения о &lt;a href="https://www.insight-it.ru/erlang/2012/erlang-v-internet-proektakh/"&gt;месте Erlang в &lt;del&gt;современном мире&lt;/del&gt; Интернете&lt;/a&gt;&amp;nbsp;Вы
 можете почитать в отдельной статье. Если сомневаетесь интересно Вам это
 все или нет - то прочтите сначала её. Сегодня я постараюсь вернуться с
 небес на землю и пройтись по азам этого пугающего многих языка
 программирования. Коротко и по делу.&lt;/p&gt;
 &lt;!--more--&gt;
 &lt;p&gt;Установка ничем особым не выделяется, дистрибутив рекомендую брать
-&lt;a href="https://www.insight-it.ru/goto/d3cd3653/" rel="nofollow" target="_blank" title="http://www.erlang-solutions.com/section/98/download-erlang-packages"&gt;отсюда&lt;/a&gt;,
+&lt;a href="https://www.insight-it.ru/goto/767abd85/" rel="nofollow" target="_blank" title="https://www.erlang-solutions.com/downloads/download-erlang-otp"&gt;отсюда&lt;/a&gt;,
 если до сих пор пользуетесь отсутствующей в списке ОС - лучше сначала
 исправить этот факт.&lt;/p&gt;
 &lt;p&gt;После установки в &lt;code&gt;$PATH&lt;/code&gt; окажутся исполняемые файлы:&lt;/p&gt;
@@ -453,8 +452,8 @@ Unicode-текст. Как прореагирует на Unicode тот или �
 &lt;p&gt;Здесь все довольно просто: обычно &lt;strong&gt;Erlang&lt;/strong&gt; используется как
 распределенная надстройка над встраиваемыми &lt;a href="/tag/subd/"&gt;СУБД&lt;/a&gt;&amp;nbsp;или
 особыми форматами файлов. Основные
-представители:&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/2a0c794c/" rel="nofollow" target="_blank" title="http://basho.com/products/riak-overview"&gt;Riak&lt;/a&gt;&amp;nbsp;&lt;em&gt;(Google LevelDB)&lt;/em&gt;,&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/4cab48f4/" rel="nofollow" target="_blank" title="http://couchdb.apache.org"&gt;CouchDB&lt;/a&gt;&amp;nbsp;&lt;em&gt;(свой
-формат)&lt;/em&gt;,&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/5d81862f/" rel="nofollow" target="_blank" title="http://www.erlang.org/doc/man/mnesia.html"&gt;Mnesia&lt;/a&gt;&amp;nbsp;&lt;em&gt;(DETS)&lt;/em&gt;,&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/2d0bf326/" rel="nofollow" target="_blank" title="http://www.couchbase.com"&gt;Couchbase&lt;/a&gt;&amp;nbsp;&lt;em&gt;(memcached
+представители:&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/243e6801/" rel="nofollow" target="_blank" title="http://basho.com/products/riak-kv/"&gt;Riak&lt;/a&gt;&amp;ensp;&lt;em&gt;(Google LevelDB)&lt;/em&gt;,&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/4cab48f4/" rel="nofollow" target="_blank" title="http://couchdb.apache.org"&gt;CouchDB&lt;/a&gt;&amp;ensp;&lt;em&gt;(свой
+формат)&lt;/em&gt;,&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/5d81862f/" rel="nofollow" target="_blank" title="http://www.erlang.org/doc/man/mnesia.html"&gt;Mnesia&lt;/a&gt;&amp;ensp;&lt;em&gt;(DETS)&lt;/em&gt;,&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/2d0bf326/" rel="nofollow" target="_blank" title="http://www.couchbase.com"&gt;Couchbase&lt;/a&gt;&amp;ensp;&lt;em&gt;(memcached
 и SQLite)&lt;/em&gt; - все совершенно разные, обсуждать и сравнивать можно до
 бесконечности, так что оставим это на другой раз.&lt;/p&gt;
 &lt;p&gt;Из общих особенностей вышеперечисленных решений можно выделить:&lt;/p&gt;

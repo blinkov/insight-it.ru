@@ -939,12 +939,12 @@ Amazon, Flickr, Twitter, Baidu, QQ и.т.д.) и людей, решающих р
 Самая популярная социальная сеть в рунете пролила немного света на то,
 как же она работает. Представители проекта в лице Павла Дурова и Олега
 Илларионова на конференции &lt;a href="https://www.insight-it.ru/event/2010/highload-2010/"&gt;HighLoad++&lt;/a&gt; ответили на шквал вопросов по совершенно разным аспектам работы
-&lt;a href="https://www.insight-it.ru/goto/a14c17dd/" rel="nofollow" target="_blank" title="http://www.vkontakte.ru"&gt;Вконтакте&lt;/a&gt;, в том числе и техническим. Спешу
+&lt;a href="https://www.insight-it.ru/goto/1a5d3494/" rel="nofollow" target="_blank" title="https://vk.com"&gt;Вконтакте&lt;/a&gt;, в том числе и техническим. Спешу
 поделиться своим взглядом на архитектуру проекта по результатам данного
 выступления.&lt;!--more--&gt;&lt;/p&gt;
 &lt;h2 id="platforma"&gt;Платформа&lt;/h2&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="/tag/debian/"&gt;Debian&lt;/a&gt; &lt;a href="/tag/linux/"&gt;Linux&lt;/a&gt; - основная операционная
+&lt;li&gt;&lt;a href="/tag/debian/"&gt;Debian&lt;/a&gt;&amp;ensp;&lt;a href="/tag/linux/"&gt;Linux&lt;/a&gt; - основная операционная
     система&lt;/li&gt;
 &lt;li&gt;&lt;a href="/tag/nginx/"&gt;nginx&lt;/a&gt; - балансировка нагрузки&lt;/li&gt;
 &lt;li&gt;&lt;a href="/tag/php/"&gt;PHP&lt;/a&gt; + &lt;a href="/tag/xcache/"&gt;XCache&lt;/a&gt;&lt;/li&gt;
