@@ -6,7 +6,7 @@
 &lt;h2 id="zachem"&gt;Зачем?&lt;/h2&gt;
 &lt;p&gt;Резонный вопрос - зачем вкладывать столько сил, чтобы всё переделать на в заброшенном сайте? Началось всё со спортивного интереса: я начал замечать, что постепенно теряю хватку в мирах opensource и веб-разработки. В Яндексе вокруг меня по большей части разный backend внутренней разработки. Кандидат для экспериментов в лице &lt;strong class="trebuchet"&gt;Insight IT&lt;/strong&gt; нашелся быстро, что из этого получилось - в следующем разделе.&lt;/p&gt;
 &lt;h2 id="chto-pomenialos"&gt;Что поменялось?&lt;/h2&gt;
-&lt;h3 id="r-i-p-wordpress"&gt;R.I.P. WordPress&lt;/h3&gt;
+&lt;h3 id="rip-wordpress"&gt;R.I.P. WordPress&lt;/h3&gt;
 &lt;p&gt;Первые 6 c половиной лет своего существования &lt;strong class="trebuchet"&gt;Insight IT&lt;/strong&gt; проработал на &lt;a href="/tag/wordpress/"&gt;WordPress&lt;/a&gt; в качестве &lt;abbr title="Content Management System"&gt;CMS&lt;/abbr&gt;. С пьедестала самой популярной &lt;abbr title="Content Management System"&gt;CMS&lt;/abbr&gt; в мире, насколько я знаю, за всё это время WordPress так никто и не сместил. Думаю, в первую очередь благодаря крайне простому в использовании интерфейсу для управления сайтом, а во вторую - выдающемуся ассортименту плагинов и тем. Плюс имевший место в 2008-м акцент на блоги отходит в сторону, сейчас на нем какие только сайты не делают.&lt;/p&gt;
 &lt;p&gt;Но за &lt;del&gt;красоту&lt;/del&gt; простоту приходится платить:&lt;/p&gt;
 &lt;ul&gt;
@@ -89,7 +89,7 @@ Highload++. В общем в итоге я решил написать этот 
 спустя большое количество времени - возможны неточности и провалы в
 памяти.&lt;/p&gt;
 &lt;!--more--&gt;
-&lt;h3 id="mail-ru-technology-forum"&gt;&lt;a href="https://www.insight-it.ru/goto/24f5cd74/" rel="nofollow" target="_blank" title="http://techforum.mail.ru/"&gt;Mail.ru Technology Forum&lt;/a&gt;&lt;/h3&gt;
+&lt;h3 id="mailru-technology-forum"&gt;&lt;a href="https://www.insight-it.ru/goto/24f5cd74/" rel="nofollow" target="_blank" title="http://techforum.mail.ru/"&gt;Mail.ru Technology Forum&lt;/a&gt;&lt;/h3&gt;
 &lt;div class="right"&gt;
 &lt;div class="card light-blue"&gt;
 &lt;div class="card-content white-text"&gt;

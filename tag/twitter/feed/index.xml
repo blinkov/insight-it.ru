@@ -338,8 +338,8 @@ Ruby-программистов на Java-программистов... Поня
 проблемой.&lt;/p&gt;
 &lt;h2 id="istochnik-informatsii"&gt;Источник информации&lt;/h2&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/681764e5/" rel="nofollow" target="_blank" title="http://engineering.twitter.com/2011/04/twitter-search-is-now-3x-faster_1656.html"&gt;Twitter Search 3x Faster&lt;/a&gt; (cпасибо Сергею Гуляеву за предоставленную ссылку)&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/1abfdd46/" rel="nofollow" target="_blank" title="http://engineering.twitter.com/2010/10/twitters-new-search-architecture.html"&gt;Twitter's New Search Architecture&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/ecede8b6/" rel="nofollow" target="_blank" title="https://blog.twitter.com/2011/twitter-search-now-3x-faster"&gt;Twitter Search 3x Faster&lt;/a&gt; (cпасибо Сергею Гуляеву за предоставленную ссылку)&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/ddafc7f8/" rel="nofollow" target="_blank" title="https://blog.twitter.com/2010/twitters-new-search-architecture"&gt;Twitter's New Search Architecture&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Fri, 15 Apr 2011 23:03:00 +0400</pubDate><guid>tag:www.insight-it.ru,2011-04-15:highload/2011/kardinalnyjj-perevorot-v-arkhitekture-poiska-twitter/</guid><category>Blender</category><category>Lucene</category><category>netty</category><category>Twitter</category></item><item><title>Архитектура Twitter. Два года спустя.</title><link>https://www.insight-it.ru//highload/2011/arkhitektura-twitter-dva-goda-spustya/</link><description>&lt;p&gt;В далеком 2008м я уже публиковал статью про &lt;a href="https://www.insight-it.ru/highload/2008/arkhitektura-twitter/"&gt;архитектуру Twitter&lt;/a&gt;, но время летит
 стремительно и она уже абсолютно устарела. За это время аудитория
 Twitter росла просто фантастическими темпами и многое поменялось и с

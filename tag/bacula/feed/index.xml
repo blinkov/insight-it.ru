@@ -48,9 +48,7 @@
     автоматическая система развертывания кода&lt;/li&gt;
 &lt;li&gt;&lt;a href="/tag/lucene/"&gt;Lucene.NET&lt;/a&gt; - полнотекстовый поиск&lt;/li&gt;
 &lt;li&gt;&lt;a href="/tag/bacula/"&gt;Bacula&lt;/a&gt; - резервное копирование&lt;/li&gt;
-&lt;li&gt;&lt;a href="/tag/nagios/"&gt;Nagios&lt;/a&gt; (с
-    плагинами&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/d576a9fc/" rel="nofollow" target="_blank" title="http://n2rrd.diglinks.com/cgi-bin/trac.fcgi"&gt;n2rrd&lt;/a&gt; и
-    &lt;a href="https://www.insight-it.ru/goto/9b00fbb3/" rel="nofollow" target="_blank" title="http://web.taranis.org/drraw/"&gt;drraw&lt;/a&gt;) для мониторинга&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/nagios/"&gt;Nagios&lt;/a&gt; (с плагинами&amp;nbsp;&lt;code&gt;n2rrd&lt;/code&gt; и &lt;code&gt;drraw&lt;/code&gt;) для мониторинга&lt;/li&gt;
 &lt;li&gt;&lt;a href="/tag/splunk/"&gt;Splunk&lt;/a&gt; - сбор и агрегация логов&lt;/li&gt;
 &lt;li&gt;&lt;a href="/tag/sql-monitor/"&gt;SQL Monitor&lt;/a&gt; от&amp;nbsp;Red Gate - мониторинг SQL Server&lt;/li&gt;
 &lt;li&gt;&lt;a href="/tag/bind/"&gt;Bind&lt;/a&gt; -&amp;nbsp;DNS&lt;/li&gt;
@@ -222,9 +220,9 @@
 &lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/8a78f426/" rel="nofollow" target="_blank" title="http://highscalability.com/blog/2011/3/3/stack-overflow-architecture-update-now-at-95-million-page-vi.html"&gt;Stack Overflow Architecture Update - Now At 95 Million Page Views
     A&amp;nbsp;Month&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/ac2efccd/" rel="nofollow" target="_blank" title="http://blog.stackoverflow.com/"&gt;Stack Overflow Blog&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/83742213/" rel="nofollow" target="_blank" title="http://blog.serverfault.com/post/1432571770/"&gt;Stack Overflow&amp;rsquo;s New York Data
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/a1b71243/" rel="nofollow" target="_blank" title="http://blog.serverfault.com/2010/10/29/1432571770/"&gt;Stack Overflow&amp;rsquo;s New York Data
     Center&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/7241f829/" rel="nofollow" target="_blank" title="http://blog.serverfault.com/post/1097492931/"&gt;Designing For Scalability of Management and Fault
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/f1ab22d7/" rel="nofollow" target="_blank" title="http://blog.serverfault.com/2010/09/10/1097492931/"&gt;Designing For Scalability of Management and Fault
     Tolerance&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/955af379/" rel="nofollow" target="_blank" title="http://blog.stackoverflow.com/2011/01/stack-overflow-search-now-81-less-crappy/"&gt;Stack Overflow Search &amp;mdash; Now 81% Less
     Crappy&lt;/a&gt;&lt;/li&gt;

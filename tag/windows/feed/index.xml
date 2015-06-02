@@ -109,7 +109,7 @@ Java был выбран так как он является удобным яз
 обрабатывает различные события. Есть механизм маршрутизации событий, то
 есть любое событие или группу событий можно выделить и направить на
 обработку на определенную группу серверов.&amp;nbsp;При общении серверов между
-собой используется свое решение, основанное на&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/5e85a755/" rel="nofollow" target="_blank" title="http://www.jboss.org/jbossremoting"&gt;JBoss
+собой используется свое решение, основанное на&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/cba3bf92/" rel="nofollow" target="_blank" title="http://jbossremoting.jboss.org/"&gt;JBoss
 Remoting&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id="uroven-keshirovaniia"&gt;Уровень кэширования&lt;/h2&gt;
 &lt;p&gt;Для кэширования данных используется самописный модуль

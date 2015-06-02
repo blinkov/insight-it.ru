@@ -111,8 +111,8 @@ Ruby-программистов на Java-программистов... Поня
 проблемой.&lt;/p&gt;
 &lt;h2 id="istochnik-informatsii"&gt;Источник информации&lt;/h2&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/681764e5/" rel="nofollow" target="_blank" title="http://engineering.twitter.com/2011/04/twitter-search-is-now-3x-faster_1656.html"&gt;Twitter Search 3x Faster&lt;/a&gt; (cпасибо Сергею Гуляеву за предоставленную ссылку)&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/1abfdd46/" rel="nofollow" target="_blank" title="http://engineering.twitter.com/2010/10/twitters-new-search-architecture.html"&gt;Twitter's New Search Architecture&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/ecede8b6/" rel="nofollow" target="_blank" title="https://blog.twitter.com/2011/twitter-search-now-3x-faster"&gt;Twitter Search 3x Faster&lt;/a&gt; (cпасибо Сергею Гуляеву за предоставленную ссылку)&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/ddafc7f8/" rel="nofollow" target="_blank" title="https://blog.twitter.com/2010/twitters-new-search-architecture"&gt;Twitter's New Search Architecture&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Fri, 15 Apr 2011 23:03:00 +0400</pubDate><guid>tag:www.insight-it.ru,2011-04-15:highload/2011/kardinalnyjj-perevorot-v-arkhitekture-poiska-twitter/</guid><category>Blender</category><category>Lucene</category><category>netty</category><category>Twitter</category></item><item><title>Архитектура Stack Exchange Network</title><link>https://www.insight-it.ru//highload/2011/arkhitektura-stack-exchange-network/</link><description>&lt;p&gt;&lt;a href="https://www.insight-it.ru/goto/8d9e30a4/" rel="nofollow" target="_blank" title="http://stackexchange.com/"&gt;Stack Exchange Network&lt;/a&gt; представляет собой
 сеть из 46 сайтов вопросов-ответов на совершенно разные темы от
 программирования до кулинарии. Проект вырос из известной в узких кругах
@@ -162,9 +162,7 @@ Ruby-программистов на Java-программистов... Поня
     автоматическая система развертывания кода&lt;/li&gt;
 &lt;li&gt;&lt;a href="/tag/lucene/"&gt;Lucene.NET&lt;/a&gt; - полнотекстовый поиск&lt;/li&gt;
 &lt;li&gt;&lt;a href="/tag/bacula/"&gt;Bacula&lt;/a&gt; - резервное копирование&lt;/li&gt;
-&lt;li&gt;&lt;a href="/tag/nagios/"&gt;Nagios&lt;/a&gt; (с
-    плагинами&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/d576a9fc/" rel="nofollow" target="_blank" title="http://n2rrd.diglinks.com/cgi-bin/trac.fcgi"&gt;n2rrd&lt;/a&gt; и
-    &lt;a href="https://www.insight-it.ru/goto/9b00fbb3/" rel="nofollow" target="_blank" title="http://web.taranis.org/drraw/"&gt;drraw&lt;/a&gt;) для мониторинга&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/nagios/"&gt;Nagios&lt;/a&gt; (с плагинами&amp;nbsp;&lt;code&gt;n2rrd&lt;/code&gt; и &lt;code&gt;drraw&lt;/code&gt;) для мониторинга&lt;/li&gt;
 &lt;li&gt;&lt;a href="/tag/splunk/"&gt;Splunk&lt;/a&gt; - сбор и агрегация логов&lt;/li&gt;
 &lt;li&gt;&lt;a href="/tag/sql-monitor/"&gt;SQL Monitor&lt;/a&gt; от&amp;nbsp;Red Gate - мониторинг SQL Server&lt;/li&gt;
 &lt;li&gt;&lt;a href="/tag/bind/"&gt;Bind&lt;/a&gt; -&amp;nbsp;DNS&lt;/li&gt;
@@ -336,9 +334,9 @@ Ruby-программистов на Java-программистов... Поня
 &lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/8a78f426/" rel="nofollow" target="_blank" title="http://highscalability.com/blog/2011/3/3/stack-overflow-architecture-update-now-at-95-million-page-vi.html"&gt;Stack Overflow Architecture Update - Now At 95 Million Page Views
     A&amp;nbsp;Month&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/ac2efccd/" rel="nofollow" target="_blank" title="http://blog.stackoverflow.com/"&gt;Stack Overflow Blog&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/83742213/" rel="nofollow" target="_blank" title="http://blog.serverfault.com/post/1432571770/"&gt;Stack Overflow&amp;rsquo;s New York Data
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/a1b71243/" rel="nofollow" target="_blank" title="http://blog.serverfault.com/2010/10/29/1432571770/"&gt;Stack Overflow&amp;rsquo;s New York Data
     Center&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/7241f829/" rel="nofollow" target="_blank" title="http://blog.serverfault.com/post/1097492931/"&gt;Designing For Scalability of Management and Fault
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/f1ab22d7/" rel="nofollow" target="_blank" title="http://blog.serverfault.com/2010/09/10/1097492931/"&gt;Designing For Scalability of Management and Fault
     Tolerance&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/955af379/" rel="nofollow" target="_blank" title="http://blog.stackoverflow.com/2011/01/stack-overflow-search-now-81-less-crappy/"&gt;Stack Overflow Search &amp;mdash; Now 81% Less
     Crappy&lt;/a&gt;&lt;/li&gt;
@@ -474,7 +472,7 @@ Java был выбран так как он является удобным яз
 обрабатывает различные события. Есть механизм маршрутизации событий, то
 есть любое событие или группу событий можно выделить и направить на
 обработку на определенную группу серверов.&amp;nbsp;При общении серверов между
-собой используется свое решение, основанное на&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/5e85a755/" rel="nofollow" target="_blank" title="http://www.jboss.org/jbossremoting"&gt;JBoss
+собой используется свое решение, основанное на&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/cba3bf92/" rel="nofollow" target="_blank" title="http://jbossremoting.jboss.org/"&gt;JBoss
 Remoting&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id="uroven-keshirovaniia"&gt;Уровень кэширования&lt;/h2&gt;
 &lt;p&gt;Для кэширования данных используется самописный модуль
@@ -867,7 +865,7 @@ Overn Hurvitz пронеслось по русскоязычным новост�
 &lt;li&gt;имейте всегда ввиду, что Ваша система может упасть в любой момент;&lt;/li&gt;
 &lt;li&gt;не стоит недооценивать траекторию своего роста.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id="p-s"&gt;P.S.&lt;/h3&gt;
+&lt;h3 id="ps"&gt;P.S.&lt;/h3&gt;
 &lt;p&gt;Когда уже закончил переводить в голову пришла мысль, что если читателям
 будет интересно взглянуть на оригинальные презентации (хотябы ради
 иллюстрационного материала, который там вполне нагляден), то было бы

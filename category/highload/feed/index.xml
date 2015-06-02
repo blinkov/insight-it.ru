@@ -1092,8 +1092,7 @@ LinkedIn на Scala.&lt;/li&gt;
 пользователей, обрабатываются отдельно - страницы с их постами
 генерируются не заранее (как описывалось выше), а при поступлении
 запроса - это позволяет не тратить впустую много ресурсов (этот подход
-называется выборочная материализация,
-&lt;a href="https://www.insight-it.ru/goto/ab0d48a1/" rel="nofollow" target="_blank" title="http://research.yahoo.com/pub/3203"&gt;подробнее&lt;/a&gt;).&lt;/li&gt;
+называется выборочная материализация).&lt;/li&gt;
 &lt;li&gt;Количество пользователей в одной ячейке позволяет управлять балансом
 между уровнем надежности и стоимостью содержания этой подсистемы.&lt;/li&gt;
 &lt;li&gt;Параллельное чтение их шины сообщений оказывает серьезную нагрузку на
@@ -1196,7 +1195,7 @@ Jenkins.&lt;/li&gt;
     если нет прямого доступа, всегда можно получить нужную информацию
     через одно-два "рукопожатия".&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Статья написана на основе &lt;a href="https://www.insight-it.ru/goto/1444dc9b/" rel="nofollow" target="_blank" title="http://highscalability.com/blog/2012/2/13/tumblr-architecture-15-billion-page-views-a-month-and-harder.html"&gt;интервью&lt;/a&gt;&amp;ensp;&lt;a href="https://www.insight-it.ru/goto/511d685/" rel="nofollow" target="_blank" title="http://www.linkedin.com/bmatheny"&gt;Blake Matheny&lt;/a&gt;, директора по разработке платформы Tumblr.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Tue, 21 Feb 2012 16:29:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-02-21:highload/2012/arkhitektura-tumblr/</guid><category>Apache</category><category>Capistrano</category><category>CentOS</category><category>Finagle</category><category>Func</category><category>gearman</category><category>Git</category><category>Hadoop</category><category>HAProxy</category><category>HBase</category><category>jenkins</category><category>kafka</category><category>Kestrel</category><category>LAMP</category><category>Mac OS X</category><category>Memcached</category><category>MySQL</category><category>nginx</category><category>PHP</category><category>puppet</category><category>Redis</category><category>Ruby</category><category>Scala</category><category>Thrift</category><category>Tumblr</category><category>Varnish</category><category>ZooKeeper</category></item><item><title>Как дела у Plenty of Fish</title><link>https://www.insight-it.ru//highload/2012/kak-dela-u-plenty-of-fish/</link><description>&lt;p&gt;Напомню, что &lt;a href="https://www.insight-it.ru/goto/2f6c1d33/" rel="nofollow" target="_blank" title="http://www.pof.com/"&gt;Plenty of Fish&lt;/a&gt; - один из самых
+&lt;p&gt;Статья написана на основе &lt;a href="https://www.insight-it.ru/goto/1444dc9b/" rel="nofollow" target="_blank" title="http://highscalability.com/blog/2012/2/13/tumblr-architecture-15-billion-page-views-a-month-and-harder.html"&gt;интервью&lt;/a&gt;&amp;ensp;&lt;a href="https://www.insight-it.ru/goto/f1d04e95/" rel="nofollow" target="_blank" title="https://www.linkedin.com/in/bmatheny"&gt;Blake Matheny&lt;/a&gt;, директора по разработке платформы Tumblr.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Tue, 21 Feb 2012 16:29:00 +0400</pubDate><guid>tag:www.insight-it.ru,2012-02-21:highload/2012/arkhitektura-tumblr/</guid><category>Apache</category><category>Capistrano</category><category>CentOS</category><category>Finagle</category><category>Func</category><category>gearman</category><category>Git</category><category>Hadoop</category><category>HAProxy</category><category>HBase</category><category>jenkins</category><category>kafka</category><category>Kestrel</category><category>LAMP</category><category>Mac OS X</category><category>Memcached</category><category>MySQL</category><category>nginx</category><category>PHP</category><category>puppet</category><category>Redis</category><category>Ruby</category><category>Scala</category><category>Thrift</category><category>Tumblr</category><category>Varnish</category><category>ZooKeeper</category></item><item><title>Как дела у Plenty of Fish</title><link>https://www.insight-it.ru//highload/2012/kak-dela-u-plenty-of-fish/</link><description>&lt;p&gt;Напомню, что &lt;a href="https://www.insight-it.ru/goto/2f6c1d33/" rel="nofollow" target="_blank" title="http://www.pof.com/"&gt;Plenty of Fish&lt;/a&gt; - один из самых
 популярных в мире сайтов знакомств, созданный одним человеком и
 работающий на всего нескольких серверах и коммерческих технологиях. На
 &lt;strong class="trebuchet"&gt;Insight IT&lt;/strong&gt; два года назад уже была &lt;a href="https://www.insight-it.ru/highload/2010/arkhitektura-plenty-of-fish/"&gt;подробная статья о технической реализации проекта&lt;/a&gt;, сегодня же я хочу поделиться свежей информацией о том, как проект развивается.
@@ -1643,7 +1642,7 @@ MapReduce:&lt;/p&gt;
 &lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/7437fe8a/" rel="nofollow" target="_blank" title="http://research.google.com/people/jeff/WSDM09-keynote.pdf"&gt;Challenges in Building Large-Scale Information Retrieval
     Systems&lt;/a&gt;
     (Jeff Dean, WCDMA '09)&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/7f1ddbff/" rel="nofollow" target="_blank" title="http://www.odbms.org/download/dean-keynote-ladis2009.pdf"&gt;Designs, Lessons and Advice from Building Large Distributed
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/557e7b3d/" rel="nofollow" target="_blank" title="https://www.cs.cornell.edu/projects/ladis2009/talks/dean-keynote-ladis2009.pdf"&gt;Designs, Lessons and Advice from Building Large Distributed
     Systems&lt;/a&gt;
     (Jeff Dean, Ladis '09)&lt;/li&gt;
 &lt;li&gt;&lt;em&gt;&lt;a href="https://www.insight-it.ru/goto/6ec4bc06/" rel="nofollow" target="_blank" title="http://research.google.com/pubs/pub36726.html"&gt;Google Percolator official
@@ -1660,8 +1659,7 @@ MapReduce:&lt;/p&gt;
     ex-Employee&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;em&gt;&lt;a href="https://www.insight-it.ru/goto/49879386/" rel="nofollow" target="_blank" title="http://www.theregister.co.uk/2011/06/23/google_moves_off_the_google_file_system/"&gt;Google Moves Off the Google File
     System&lt;/a&gt;&lt;/em&gt;&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;&lt;a href="https://www.insight-it.ru/goto/745a779b/" rel="nofollow" target="_blank" title="http://www.google.co.uk/intl/en/landing/internetstats/"&gt;Google Internet
-    Stats&lt;/a&gt;&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Google Internet Stats&lt;/em&gt;&lt;/li&gt;
 &lt;li&gt;&lt;em&gt;&lt;a href="https://www.insight-it.ru/goto/d11024ba/" rel="nofollow" target="_blank" title="http://www.businessblogshub.com/2010/10/google-statistics-yes-they-are-very-big/"&gt;Google
     Statistics&lt;/a&gt;&lt;/em&gt;&lt;/li&gt;
 &lt;li&gt;&lt;em&gt;&lt;a href="https://www.insight-it.ru/goto/bb33b2dd/" rel="nofollow" target="_blank" title="http://www.splashnology.com/article/google-plus-killer-facts-and-statistics-inforgaphics/2689/"&gt;Google Plus - Killer Facts and
@@ -1723,8 +1721,7 @@ MySpace же полностью использует стек от &lt;a href="/
 &lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/cdb68f2/" rel="nofollow" target="_blank" title="http://highscalability.com/blog/2011/3/25/did-the-microsoft-stack-kill-myspace.html"&gt;Did The Microsoft Stack Kill&amp;nbsp;MySpace?&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/a2ceedc5/" rel="nofollow" target="_blank" title="http://highscalability.com/blog/2011/3/31/8-lessons-we-can-learn-from-the-myspace-incident-balance-vis.html"&gt;8 Lessons We Can Learn From The MySpace Incident - Balance, Vision,&amp;nbsp;Fearlessness&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/48dba052/" rel="nofollow" target="_blank" title="http://www.intelligentspeculator.net/investment-talking/why-facebook-is-succeeding-where-myspace-has-failed"&gt;Why Facebook is succeeding where Myspace has failed&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;HackerNews: &lt;a href="https://www.insight-it.ru/goto/36159b1d/" rel="nofollow" target="_blank" title="http://news.ycombinator.com/item?id=2369271"&gt;раз&lt;/a&gt; и
-    &lt;a href="https://www.insight-it.ru/goto/2995e621/" rel="nofollow" target="_blank" title="http://apps.ycombinator.com/item?id=2369343"&gt;два&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/36159b1d/" rel="nofollow" target="_blank" title="http://news.ycombinator.com/item?id=2369271"&gt;HackerNews&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Некоторые ключевые точки зрения:&lt;/p&gt;
 &lt;ul&gt;
@@ -1900,8 +1897,8 @@ Ruby-программистов на Java-программистов... Поня
 проблемой.&lt;/p&gt;
 &lt;h2 id="istochnik-informatsii"&gt;Источник информации&lt;/h2&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/681764e5/" rel="nofollow" target="_blank" title="http://engineering.twitter.com/2011/04/twitter-search-is-now-3x-faster_1656.html"&gt;Twitter Search 3x Faster&lt;/a&gt; (cпасибо Сергею Гуляеву за предоставленную ссылку)&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/1abfdd46/" rel="nofollow" target="_blank" title="http://engineering.twitter.com/2010/10/twitters-new-search-architecture.html"&gt;Twitter's New Search Architecture&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/ecede8b6/" rel="nofollow" target="_blank" title="https://blog.twitter.com/2011/twitter-search-now-3x-faster"&gt;Twitter Search 3x Faster&lt;/a&gt; (cпасибо Сергею Гуляеву за предоставленную ссылку)&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/ddafc7f8/" rel="nofollow" target="_blank" title="https://blog.twitter.com/2010/twitters-new-search-architecture"&gt;Twitter's New Search Architecture&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Иван Блинков</dc:creator><pubDate>Fri, 15 Apr 2011 23:03:00 +0400</pubDate><guid>tag:www.insight-it.ru,2011-04-15:highload/2011/kardinalnyjj-perevorot-v-arkhitekture-poiska-twitter/</guid><category>Blender</category><category>Lucene</category><category>netty</category><category>Twitter</category></item><item><title>Google в цифрах</title><link>https://www.insight-it.ru//highload/2011/google-v-cifrakh/</link><description>&lt;p&gt;Я уже давно ищу информацию для новой версии &lt;a href="https://www.insight-it.ru/highload/2008/arkhitektura-google/"&gt;статьи про Google&lt;/a&gt;, которая была первым
 успешным постом на &lt;strong class="trebuchet"&gt;Insight IT&lt;/strong&gt; - скачок в посещаемости был примерно в 50 раз. Не смотря на устаревшую статистику она по-прежнему представляет собой большую практическую пользу, рекомендую прочитать или перечитать.&lt;/p&gt;
 &lt;p&gt;В процессе перерывания зарубежной части интернета в поисках более свежей
@@ -1959,9 +1956,7 @@ Ruby-программистов на Java-программистов... Поня
     автоматическая система развертывания кода&lt;/li&gt;
 &lt;li&gt;&lt;a href="/tag/lucene/"&gt;Lucene.NET&lt;/a&gt; - полнотекстовый поиск&lt;/li&gt;
 &lt;li&gt;&lt;a href="/tag/bacula/"&gt;Bacula&lt;/a&gt; - резервное копирование&lt;/li&gt;
-&lt;li&gt;&lt;a href="/tag/nagios/"&gt;Nagios&lt;/a&gt; (с
-    плагинами&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/d576a9fc/" rel="nofollow" target="_blank" title="http://n2rrd.diglinks.com/cgi-bin/trac.fcgi"&gt;n2rrd&lt;/a&gt; и
-    &lt;a href="https://www.insight-it.ru/goto/9b00fbb3/" rel="nofollow" target="_blank" title="http://web.taranis.org/drraw/"&gt;drraw&lt;/a&gt;) для мониторинга&lt;/li&gt;
+&lt;li&gt;&lt;a href="/tag/nagios/"&gt;Nagios&lt;/a&gt; (с плагинами&amp;nbsp;&lt;code&gt;n2rrd&lt;/code&gt; и &lt;code&gt;drraw&lt;/code&gt;) для мониторинга&lt;/li&gt;
 &lt;li&gt;&lt;a href="/tag/splunk/"&gt;Splunk&lt;/a&gt; - сбор и агрегация логов&lt;/li&gt;
 &lt;li&gt;&lt;a href="/tag/sql-monitor/"&gt;SQL Monitor&lt;/a&gt; от&amp;nbsp;Red Gate - мониторинг SQL Server&lt;/li&gt;
 &lt;li&gt;&lt;a href="/tag/bind/"&gt;Bind&lt;/a&gt; -&amp;nbsp;DNS&lt;/li&gt;
@@ -2133,9 +2128,9 @@ Ruby-программистов на Java-программистов... Поня
 &lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/8a78f426/" rel="nofollow" target="_blank" title="http://highscalability.com/blog/2011/3/3/stack-overflow-architecture-update-now-at-95-million-page-vi.html"&gt;Stack Overflow Architecture Update - Now At 95 Million Page Views
     A&amp;nbsp;Month&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/ac2efccd/" rel="nofollow" target="_blank" title="http://blog.stackoverflow.com/"&gt;Stack Overflow Blog&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/83742213/" rel="nofollow" target="_blank" title="http://blog.serverfault.com/post/1432571770/"&gt;Stack Overflow&amp;rsquo;s New York Data
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/a1b71243/" rel="nofollow" target="_blank" title="http://blog.serverfault.com/2010/10/29/1432571770/"&gt;Stack Overflow&amp;rsquo;s New York Data
     Center&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/7241f829/" rel="nofollow" target="_blank" title="http://blog.serverfault.com/post/1097492931/"&gt;Designing For Scalability of Management and Fault
+&lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/f1ab22d7/" rel="nofollow" target="_blank" title="http://blog.serverfault.com/2010/09/10/1097492931/"&gt;Designing For Scalability of Management and Fault
     Tolerance&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://www.insight-it.ru/goto/955af379/" rel="nofollow" target="_blank" title="http://blog.stackoverflow.com/2011/01/stack-overflow-search-now-81-less-crappy/"&gt;Stack Overflow Search &amp;mdash; Now 81% Less
     Crappy&lt;/a&gt;&lt;/li&gt;
@@ -2435,7 +2430,7 @@ Java был выбран так как он является удобным яз
 обрабатывает различные события. Есть механизм маршрутизации событий, то
 есть любое событие или группу событий можно выделить и направить на
 обработку на определенную группу серверов.&amp;nbsp;При общении серверов между
-собой используется свое решение, основанное на&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/5e85a755/" rel="nofollow" target="_blank" title="http://www.jboss.org/jbossremoting"&gt;JBoss
+собой используется свое решение, основанное на&amp;nbsp;&lt;a href="https://www.insight-it.ru/goto/cba3bf92/" rel="nofollow" target="_blank" title="http://jbossremoting.jboss.org/"&gt;JBoss
 Remoting&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id="uroven-keshirovaniia"&gt;Уровень кэширования&lt;/h2&gt;
 &lt;p&gt;Для кэширования данных используется самописный модуль
